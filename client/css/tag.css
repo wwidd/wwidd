@@ -1,0 +1,48 @@
+/* common styles for tag display and editor */
+span.tag,
+input.tag {
+	margin: 0 5px 0 0;
+	padding: 0 3px;
+}
+
+/* tag display */
+span.tag {
+	color: darkblue;
+	background: lightblue;
+}
+
+/* delete button in tag */
+span.tag > a {
+	margin: 0 3px 0 0;
+	color: red;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+/* delete button hovered */
+span.tag > a:hover {
+	text-decoration: underline;
+}
+
+/* tag editor */
+input.tag {
+	padding: 0;
+	border: 1px solid blue;
+}
+
+/* tag adder */
+span.add.tag {
+	background: lightgreen;
+}
+
+/* add button in add tag */
+span.add.tag > a {
+	margin: 0;
+	color: green;
+}
+
+/* add tag editor */
+input.add.tag {
+	border: 1px solid green;
+}
+
