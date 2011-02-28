@@ -1,0 +1,3 @@
+Yalp is a lightweight video library management tool, built on top of Node.js, SQLite, libextract, and ffmpeg.
+Yalp lets you scan, organize, and search your video collection, as well as augment it with metadata, so you can find and play exactly what you want.
+
