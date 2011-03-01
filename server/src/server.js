@@ -109,7 +109,7 @@ $http.createServer(function (req, res) {
 	case '/deltag':
 		// deleting tag
 		ok = envelope(res, true, function () {
-			if (!query.mediaid || !query.tag) {
+			if (!query.tag) {
 				throw "Missing parameters";
 			}
 			tag.remove(query, function () {

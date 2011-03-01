@@ -44,10 +44,11 @@ var services = function ($) {
 		
 		// deletes tag on a file
 		deltag: function (mediaid, tag, handler) {
-			$.getJSON(url + 'deltag', {
-				mediaid: mediaid,
-				tag: tag
-			}, handler);
+			var data = {tag: tag};
+			if (mediaid) {
+				data.mediaid = mediaid;
+			}
+			$.getJSON(url + 'deltag', data, handler);
 		}
 	};
 }(jQuery);
