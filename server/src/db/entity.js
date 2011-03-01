@@ -121,4 +121,5 @@ entity = {
 exports.entity = entity;
 exports.quotes = quotes;
 exports.split = split;
+exports.clause = clause;
 
