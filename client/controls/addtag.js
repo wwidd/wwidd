@@ -3,31 +3,15 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-var addtag = function ($, services, editable) {
+var addtag = function ($, services, tagbase) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
 	return function (data) {
-		var	base = editable(),
-				self = Object.create(base),
-				lookup = {}, i;
+		var	base = tagbase(data),
+				self = Object.create(base);
 
-		// initializing tag lookup
-		(function (siblings) {
-			for (i = 0; i < siblings.length; i++) {
-				lookup[siblings[i]] = true;
-			}
-		}(data.tags.split(',')));
-		
-		// re-builds siblings array from lookup
-		function serialize() {
-			var siblings = [],
-					name;
-			for (name in lookup) {
-				siblings.push(name);
-			}
-			return siblings.join(',');
-		}
+		self.init();
 				
 		// tag addition handler: do nothing
 		function onAdd(event) {
@@ -44,8 +28,8 @@ var addtag = function ($, services, editable) {
 				return;
 			}
 			services.addtag(data.mediaid, name, function () {
-				lookup[name] = true;
-				data.tags = serialize();
+				self.lookup[name] = true;
+				data.tags = self.serialize();
 				self.parent.redraw();
 			});
 		}
@@ -67,5 +51,5 @@ var addtag = function ($, services, editable) {
 	};
 }(jQuery,
 	services,
-	editable);
+	tagbase);
 

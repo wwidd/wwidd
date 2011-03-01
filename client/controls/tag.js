@@ -3,32 +3,16 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-var tag = function ($, services, editable) {
+var tag = function ($, services, tagbase) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
 	return function (data, name) {
-		var	base = editable(),
-				self = Object.create(base),
-				lookup = {}, i;
+		var	base = tagbase(data),
+				self = Object.create(base);
 
-		// initializing tag lookup
-		(function (siblings) {
-			for (i = 0; i < siblings.length; i++) {
-				lookup[siblings[i]] = true;
-			}
-		}(data.tags.split(',')));
-		
-		// re-builds siblings array from lookup
-		function serialize() {
-			var siblings = [],
-					name;
-			for (name in lookup) {
-				siblings.push(name);
-			}
-			return siblings.join(',');
-		}
-				
+		self.init();
+
 		// refreshes entire page (data & UI)
 		function refreshPage() {
 			self
@@ -44,8 +28,8 @@ var tag = function ($, services, editable) {
 				services.deltag(null, name, refreshPage);
 			} else {			
 				services.deltag(data.mediaid, name, function () {
-					delete lookup[name];
-					data.tags = serialize();
+					delete self.lookup[name];
+					data.tags = self.serialize();
 					self.parent.redraw();
 				});
 			}
@@ -66,10 +50,10 @@ var tag = function ($, services, editable) {
 				services.changetag(null, name, newName, refreshPage);
 			} else {
 				services.changetag(data.mediaid, name, newName, function () {
-					delete lookup[name];
+					delete self.lookup[name];
 					name = newName;
-					lookup[name] = true;
-					data.tags = serialize();
+					self.lookup[name] = true;
+					data.tags = self.serialize();
 					self.parent.redraw();
 				});
 			}
@@ -96,5 +80,5 @@ var tag = function ($, services, editable) {
 	};
 }(jQuery,
 	services,
-	editable);
+	tagbase);
 
