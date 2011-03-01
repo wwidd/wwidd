@@ -3,7 +3,7 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-var tag = function ($, services, tagbase) {
+var tagedit = function ($, services, tagbase) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent

@@ -3,7 +3,7 @@
 //
 // Displays and edits tags.
 ////////////////////////////////////////////////////////////////////////////////
-var tagger = function ($, services, control, tag, addtag) {
+var tagger = function ($, services, control, tagedit, tagadd) {
 	return function (data) {
 		var	base = control(),
 				self = Object.create(base);
@@ -14,9 +14,9 @@ var tagger = function ($, services, control, tag, addtag) {
 					i;
 			// constructing tag controls
 			for (i = 0; i < tags.length; i++) {
-				tag(data, tags[i]).appendTo(result, self);
+				tagedit(data, tags[i]).appendTo(result, self);
 			}
-			addtag(data).appendTo(result, self);
+			tagadd(data).appendTo(result, self);
 			return result;
 		};
 
@@ -25,6 +25,6 @@ var tagger = function ($, services, control, tag, addtag) {
 }(jQuery,
 	services,
 	editable,
-	tag,
-	addtag);
+	tagedit,
+	tagadd);
 
