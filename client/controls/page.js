@@ -1,41 +1,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Video Library - Page
 ////////////////////////////////////////////////////////////////////////////////
-var controls = (function (controls, $, services, control, media) {
+var controls = (function (controls, $, services, data, control, media) {
 	controls.page = function () {
-		var self = Object.create(control);
-		
-		// extracts filename from path
-		function splitPath(path) {
-			var bits = path.split('/');
+		var self = Object.create(control),
+				provider = null,
+				entries = [],
+				page = 0,
+				items = 25;
 
-			return {
-				file: bits.pop()
-			};
-		}
-		
-		// preprocesses metadata returned by service
-		function preprocess(data) {
-			var i;
-			for (i = 0; i < data.length; i++) {
-				var row = data[i],
-						fileInfo = splitPath(row.path);
-				row.file = fileInfo.file;
-				row.ext = fileInfo.ext;
-			}
-		}
-		
-		// buffers
-		self.data = null;
-		self.entries = [];
-		
 		// applies static event handlers
-		self.events = function () {
+		function events() {
 			$('#selectall')
 				.click(function () {
 					var i;
-					for (i = 0; i < self.entries.length; i++) {
-						self.entries[i].select();
+					for (i = 0; i < entries.length; i++) {
+						entries[i].select();
 					}
 					return false;
 				});
@@ -43,21 +23,20 @@ var controls = (function (controls, $, services, control, media) {
 			$('#selectnone')
 				.click(function () {
 					var i;
-					for (i = 0; i < self.entries.length; i++) {
-						self.entries[i].deselect();
+					for (i = 0; i < entries.length; i++) {
+						entries[i].deselect();
 					}
 					return false;
 				});
-		};
+		}
 		
 		// initializes page
 		self.init = function () {
 			services.get(function (json) {
-				// preprocessing json
-				preprocess(json.data);
-				self.data = json.data;
+				// initializing jOrder table
+				provider = data.media(json.data);
 				// applying static events
-				self.events();
+				events();
 				// calling handler
 				self.appendTo($('#library').empty());
 			});
@@ -67,10 +46,12 @@ var controls = (function (controls, $, services, control, media) {
 		// draws contents
 		self.getUI = function () {
 			var $table = $('<table />'),
-					data = self.data,
+					data = provider.getPage(page, items),
 					i;
 			for (i = 0; i < data.length; i++) {
-				media(data[i]).appendTo($table, self);
+				entry = media(data[i]);
+				entry.appendTo($table, self);
+				entries.push(entry);
 			}
 			return $table;
 		};
@@ -82,6 +63,7 @@ var controls = (function (controls, $, services, control, media) {
 })(controls || {},
 	jQuery,
 	services,
+	data,
 	controls.control,
 	controls.media);
 
