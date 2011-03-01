@@ -18,7 +18,10 @@ var addtag = function ($, services, editable) {
 		}
 				
 		// tag change event handler
-		function onChange() {
+		function onChange(event) {
+			if (event.which !== 13) {
+				return;
+			}
 			var newTag = $(this).val();
 			if (!newTag.length) {
 				return;
@@ -40,7 +43,7 @@ var addtag = function ($, services, editable) {
 
 		self.edit = function () {
 			return $('<input />', {'type': 'text', 'class': 'add tag'})
-				.blur(onChange);
+				.keyup(onChange);
 		};
 		
 		return self;
