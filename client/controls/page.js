@@ -3,6 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 var page = (function ($, services, control, media) {
 	return function () {
+		var self = Object.create(control);
+		
 		// extracts filename from path
 		function splitPath(path) {
 			var bits = path.split('/');
@@ -22,8 +24,6 @@ var page = (function ($, services, control, media) {
 				row.ext = fileInfo.ext;
 			}
 		}
-		
-		var self = Object.create(control);
 		
 		// buffers
 		self.data = null;
@@ -51,7 +51,7 @@ var page = (function ($, services, control, media) {
 		};
 		
 		// initializes page
-		self.init = function (handler) {
+		self.init = function () {
 			services.get(function (json) {
 				// preprocessing json
 				preprocess(json.data);
@@ -59,34 +59,20 @@ var page = (function ($, services, control, media) {
 				// applying static events
 				self.events();
 				// calling handler
-				if (handler) {
-					handler();
-				}
+				self.appendTo($('#library').empty());
 			});
 			return self;
 		};
 		
 		// draws contents
 		self.getUI = function () {
-			return $('<table />')
-				.append($(function () {
-					var rows = [],
-							data = self.data,
-							i, entry;
-					for (i = 0; i < data.length; i++) {
-						entry = media(data[i]);
-						self.entries.push(entry);
-						rows.push(entry.getUI()[0]);
-					}
-					return rows;
-				}()));
-		};
-		
-		// appends contents to dom 
-		self.appendTo = function ($parent) {
-			self.getUI()
-				.appendTo($parent
-						.empty());
+			var $table = $('<table />'),
+					data = self.data,
+					i;
+			for (i = 0; i < data.length; i++) {
+				media(data[i]).appendTo($table, self);
+			}
+			return $table;
 		};
 
 		return self;

@@ -8,21 +8,16 @@ var tagger = function ($, services, control, tag, addtag) {
 		var	base = control(),
 				self = Object.create(base);
 
-		// event hadler for 
-		function onRemove() {
-			self.redraw();
-		}
-
 		self.getUI = function () {
 			var tags = data.tags.split(','),
 					result = $('<div />'),
 					i;
 			// constructing tag controls
 			for (i = 0; i < tags.length; i++) {
-				tag(data, i, onRemove).appendTo(result);
+				tag(data, i).appendTo(result, self);
 			}
-			addtag(data, onRemove).appendTo(result);
-			return $(result);
+			addtag(data).appendTo(result, self);
+			return result;
 		};
 
 		return self;

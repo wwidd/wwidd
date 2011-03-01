@@ -7,7 +7,7 @@ var addtag = function ($, services, editable) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
-	return function (data, handler) {
+	return function (data) {
 		var	base = editable(),
 				self = Object.create(base),
 				siblings = data.tags.split(',');
@@ -26,9 +26,7 @@ var addtag = function ($, services, editable) {
 			services.addtag(data.mediaid, newTag, function () {
 				siblings.push(newTag);
 				data.tags = siblings.join(',');
-				if (handler) {
-					handler();
-				}
+				self.parent.redraw();
 			});
 		}
 

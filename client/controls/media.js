@@ -49,9 +49,9 @@ var media = function ($, services, control, rater, tagger) {
 							.text(data.file)
 							.click(onClick))[0],
 					// rating
-					rater(data).appendTo($('<td />'))[0],
+					rater(data).appendTo($('<td />'), self)[0],
 					// tags
-					tagger(data).appendTo($('<td />'))[0]
+					tagger(data).appendTo($('<td />'), self)[0]
 				]));
 		};
 
