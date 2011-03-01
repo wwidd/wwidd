@@ -14,7 +14,7 @@ var tagger = function ($, services, control, tag, addtag) {
 					i;
 			// constructing tag controls
 			for (i = 0; i < tags.length; i++) {
-				tag(data, i).appendTo(result, self);
+				tag(data, tags[i]).appendTo(result, self);
 			}
 			addtag(data).appendTo(result, self);
 			return result;

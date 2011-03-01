@@ -7,12 +7,28 @@ var tag = function ($, services, editable) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
-	return function (data, idx) {
+	return function (data, name) {
 		var	base = editable(),
 				self = Object.create(base),
-				siblings = data.tags.split(','),
-				text = siblings[idx];
+				lookup = {}, i;
 
+		// initializing tag lookup
+		(function (siblings) {
+			for (i = 0; i < siblings.length; i++) {
+				lookup[siblings[i]] = true;
+			}
+		}(data.tags.split(',')));
+		
+		// re-builds siblings array from lookup
+		function serialize() {
+			var siblings = [],
+					name;
+			for (name in lookup) {
+				siblings.push(name);
+			}
+			return siblings.join(',');
+		}
+				
 		// refreshes entire page (data & UI)
 		function refreshPage() {
 			self
@@ -25,11 +41,11 @@ var tag = function ($, services, editable) {
 		// tag remove event handler
 		function onRemove(event) {
 			if (event.ctrlKey && confirm("Are you sure you want to delete all tags of this kind?")) {
-				services.deltag(null, text, refreshPage);
+				services.deltag(null, name, refreshPage);
 			} else {			
-				services.deltag(data.mediaid, text, function () {
-					siblings.splice(idx, 1);
-					data.tags = siblings.join(',');
+				services.deltag(data.mediaid, name, function () {
+					delete lookup[name];
+					data.tags = serialize();
 					self.parent.redraw();
 				});
 			}
@@ -42,16 +58,18 @@ var tag = function ($, services, editable) {
 				return;
 			}
 			
-			var newTag = $(this).val();
-			if (newTag === text || !newTag.length) {
+			var newName = $(this).val();
+			if (newName === name || !newName.length) {
 				return;
 			}
 			if (event.ctrlKey && confirm("Are you sure you want to change all tags of this kind?")) {
-				services.changetag(null, text, newTag, refreshPage);
+				services.changetag(null, name, newName, refreshPage);
 			} else {
-				services.changetag(data.mediaid, text, newTag, function () {
-					siblings[idx] = newTag;
-					data.tags = siblings.join(',');
+				services.changetag(data.mediaid, name, newName, function () {
+					delete lookup[name];
+					name = newName;
+					lookup[name] = true;
+					data.tags = serialize();
 					self.parent.redraw();
 				});
 			}
@@ -65,12 +83,12 @@ var tag = function ($, services, editable) {
 					.click(onRemove))
 				// adding tag text
 				.append($('<span />')
-					.text(text)));
+					.text(name)));
 		};
 
 		self.edit = function () {
 			return $('<input />', {'type': 'text', 'class': 'tag'})
-				.val(text)
+				.val(name)
 				.keyup(onChange);
 		};
 		
