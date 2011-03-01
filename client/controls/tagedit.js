@@ -11,8 +11,6 @@ var tagedit = function ($, services, tagbase) {
 		var	base = tagbase(data),
 				self = Object.create(base);
 
-		self.init();
-
 		// refreshes entire page (data & UI)
 		function refreshPage() {
 			self
@@ -25,8 +23,10 @@ var tagedit = function ($, services, tagbase) {
 		// tag remove event handler
 		function onRemove(event) {
 			if (event.ctrlKey && confirm("Are you sure you want to delete all tags of this kind?")) {
+				// deleting all tags bearing this name
 				services.deltag(null, name, refreshPage);
-			} else {			
+			} else {
+				// deleting tag from one specific video
 				services.deltag(data.mediaid, name, function () {
 					delete self.lookup[name];
 					data.tags = self.serialize();
@@ -41,7 +41,6 @@ var tagedit = function ($, services, tagbase) {
 			if (event.which !== 13) {
 				return;
 			}
-			
 			var newName = $(this).val();
 			if (newName === name || !newName.length) {
 				return;

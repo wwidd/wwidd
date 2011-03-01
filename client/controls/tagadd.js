@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Tag Control
+// Tag Adder Control
 //
-// Displays and edits one tag.
+// Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
 var tagadd = function ($, services, tagbase) {
 	// - data: media data record
@@ -11,8 +11,6 @@ var tagadd = function ($, services, tagbase) {
 		var	base = tagbase(data),
 				self = Object.create(base);
 
-		self.init();
-				
 		// tag addition handler: do nothing
 		function onAdd(event) {
 			event.preventDefault();

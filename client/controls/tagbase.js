@@ -10,15 +10,13 @@ var tagbase = function ($, services, editable) {
 				i;
 
 		// initializing tag lookup
-		self.init = function () {
-			var self = this;
+		(function () {
+			var siblings = data.tags.split(',');
 			self.lookup = {};
-			(function (siblings) {
-				for (i = 0; i < siblings.length; i++) {
-					self.lookup[siblings[i]] = true;
-				}
-			}(data.tags.split(',')));
-		};
+			for (i = 0; i < siblings.length; i++) {
+				self.lookup[siblings[i]] = true;
+			}
+		}());
 		
 		// re-builds siblings array from lookup
 		self.serialize = function () {
