@@ -28,15 +28,15 @@ var rater = function ($, services, editable) {
 		self.edit = function () {
 			return $('<select />')
 				// adding contents
-				.append($(function () {
+				.append(function () {
 					var result = [],
 							state;
 					for (state in states) {
 						result.push($('<option />', {'value': state, 'selected': state === data.rating ? 'selected': null})
 							.text(states[state])[0]);
 					}
-					return result;
-				}()))
+					return $(result);
+				}())
 				// saving rating 
 				.change(function () {
 					var $this = $(this),
