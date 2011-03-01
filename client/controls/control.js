@@ -5,6 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 var control = function ($) {
 	return {
+		// properties
+		parent: null,
 		UI: null,
 		
 		// constructs control's jQuery object
@@ -13,8 +15,9 @@ var control = function ($) {
 		},
 		
 		// appends control to dom
-		// returns parent control
-		appendTo: function ($parent) {
+		// returns the jQuery object it was appended to
+		appendTo: function ($parent, parent) {
+			this.parent = parent;
 			this.UI = this.getUI();
 			$parent.append(this.UI);
 			return $parent;
