@@ -3,8 +3,8 @@
 //
 // 'Abstract' base class for UI controls.
 ////////////////////////////////////////////////////////////////////////////////
-var control = function ($) {
-	return {
+var controls = function (controls, $) {
+	controls.control = {
 		// properties
 		parent: null,
 		UI: null,
@@ -37,5 +37,7 @@ var control = function ($) {
 			return this;
 		}
 	};
-}(jQuery);
-
+	
+	return controls;
+}(controls || {},
+	jQuery);

@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Video Library - Page
 ////////////////////////////////////////////////////////////////////////////////
-var page = (function ($, services, control, media) {
-	return function () {
+var controls = (function (controls, $, services, control, media) {
+	controls.page = function () {
 		var self = Object.create(control);
 		
 		// extracts filename from path
@@ -77,8 +77,11 @@ var page = (function ($, services, control, media) {
 
 		return self;
 	};
-})(jQuery,
+	
+	return controls;
+})(controls || {},
+	jQuery,
 	services,
-	control,
-	media);
+	controls.control,
+	controls.media);
 

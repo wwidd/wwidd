@@ -4,8 +4,8 @@
 // This is a temporary rater control, with textual stars that turn into
 // a dropdown.
 ////////////////////////////////////////////////////////////////////////////////
-var rater = function ($, services, editable) {
-	return function (data) {
+var controls = function (controls, $, services, editable) {
+	controls.rater = function (data) {
 		var base = editable(),
 				self = Object.create(base),
 
@@ -51,7 +51,10 @@ var rater = function ($, services, editable) {
 
 		return self;
 	};
-}(jQuery,
+	
+	return controls;
+}(controls || {},
+	jQuery,
 	services,
-	editable);
+	controls.editable);
 

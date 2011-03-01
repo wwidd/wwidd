@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
-var tagbase = function ($, services, editable) {
+var controls = function (controls, $, services, editable) {
 	// - data: media data record
 	// - handler: callback redrawing parent
-	return function (data) {
+	controls.tagbase = function (data) {
 		var	base = editable(),
 				self = Object.create(base),
 				i;
@@ -30,7 +30,10 @@ var tagbase = function ($, services, editable) {
 		
 		return self;
 	};
-}(jQuery,
+	
+	return controls;
+}(controls || {},
+	jQuery,
 	services,
-	editable);
+	controls.editable);
 

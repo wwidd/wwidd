@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Entry
 ////////////////////////////////////////////////////////////////////////////////
-var media = function ($, services, control, rater, tagger) {
-	return function (data) {
+var controls = function (controls, $, services, control, rater, tagger) {
+	controls.media = function (data) {
 		var self = Object.create(control);
 
 		// data associated with media file
@@ -57,9 +57,12 @@ var media = function ($, services, control, rater, tagger) {
 
 		return self;
 	};
-}(jQuery,
+	
+	return controls;
+}(controls || {},
+	jQuery,
 	services,
-	control,
-	rater,
-	tagger);
+	controls.control,
+	controls.rater,
+	controls.tagger);
 

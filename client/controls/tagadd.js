@@ -3,11 +3,11 @@
 //
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
-var tagadd = function ($, services, tagbase) {
+var controls = function (controls, $, services, tagbase) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
-	return function (data) {
+	controls.tagadd = function (data) {
 		var	base = tagbase(data),
 				self = Object.create(base);
 
@@ -47,7 +47,10 @@ var tagadd = function ($, services, tagbase) {
 		
 		return self;
 	};
-}(jQuery,
+	
+	return controls;
+}(controls || {},
+	jQuery,
 	services,
-	tagbase);
+	controls.tagbase);
 

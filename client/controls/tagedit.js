@@ -3,11 +3,11 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-var tagedit = function ($, services, tagbase) {
+var controls = function (controls, $, services, tagbase) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
-	return function (data, name) {
+	controls.tagedit = function (data, name) {
 		var	base = tagbase(data),
 				self = Object.create(base);
 
@@ -77,7 +77,10 @@ var tagedit = function ($, services, tagbase) {
 		
 		return self;
 	};
-}(jQuery,
+	
+	return controls;
+}(controls || {},
+	jQuery,
 	services,
-	tagbase);
+	controls.tagbase);
 
