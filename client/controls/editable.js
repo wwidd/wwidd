@@ -16,6 +16,9 @@ var editable = function ($, control) {
 		self.toggle = function (mode) {
 			this.mode = mode || {'display': 'edit', 'edit': 'display'}[this.mode];
 			this.redraw();
+			if (mode === 'edit') {
+				this.UI.focus();
+			}
 		};
 		
 		// constructs display representation
