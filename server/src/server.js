@@ -97,10 +97,14 @@ $http.createServer(function (req, res) {
 	case '/changetag':
 		// updating tag
 		ok = envelope(res, true, function () {
-			if (!query.mediaid || !query.before || !query.after) {
+			if (!query.before || !query.after) {
 				throw "Missing parameters";
 			}
-			tag.set({mediaid: query.mediaid, tag: query.before}, {tag: query.after}, function () {
+			tag.set(
+				query.mediaid ?
+					{mediaid: query.mediaid, tag: query.before} :
+					{tag: query.before},
+				{tag: query.after}, function () {
 				ok(query);
 			});
 		});

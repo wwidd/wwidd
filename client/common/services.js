@@ -35,16 +35,21 @@ var services = function ($) {
 
 		// changes tag on a file
 		changetag: function (mediaid, before, after, handler) {
-			$.getJSON(url + 'changetag', {
-				mediaid: mediaid,
+			var data = {
 				before: before,
 				after: after
-			}, handler);
+			};
+			if (mediaid) {
+				data.mediaid = mediaid;
+			}
+			$.getJSON(url + 'changetag', data, handler);
 		},
 		
 		// deletes tag on a file
 		deltag: function (mediaid, tag, handler) {
-			var data = {tag: tag};
+			var data = {
+				tag: tag
+			};
 			if (mediaid) {
 				data.mediaid = mediaid;
 			}
