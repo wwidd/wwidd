@@ -8,7 +8,7 @@ var controls = function (controls, $, services) {
 		var	self = Object.create(controls.control);
 
 		self.getUI = function () {
-			var tags = data.tags.split(','),
+			var tags = controls.tags.split(data.tags),
 					result = $('<div />'),
 					i;
 			// constructing tag controls

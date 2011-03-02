@@ -8,6 +8,45 @@ var	sqlite = require('../tools/sqlite').sqlite,
 tag = function () {
 	var self = Object.create(entity, {kind: {value: 'tags'}});
 
+	// adds one or more tags to a file
+	self.add = function (after, handler) {
+		var 
+		
+		// splitting along non-tag characters w/ optional padding
+		tags = after.tag.split(/\s*[^A-Za-z0-9\s]+\s*/),
+		
+		// generates sql for a single tag
+		single = function (name) {
+			return [
+				"INSERT OR IGNORE INTO",
+				self.kind,
+				"(mediaid, tag) VALUES",
+				"(" + after.mediaid + ",'" + name + "')"
+			].join(" ");
+		},
+		
+		statement = (tags.length === 1 ? [
+			// single tag
+			single(tags[0])
+		] : [
+			// multiple tags
+			"BEGIN TRANSACTION",
+			(function () {
+				var result = [],
+						i;
+				for (i = 0; i < tags.length; i++) {
+					result.push(single(tags[i]));
+				}
+				return result.join(";\n"); 
+			}()),
+			"COMMIT"
+		]).join(";\n");
+		
+		console.log(statement);
+		
+		sqlite.exec(statement, handler);		
+	};
+	
 	// updates a batch of tags
 	self.set = function (before, after, handler) {
 		var	where =  clause(before).join(" AND "),
