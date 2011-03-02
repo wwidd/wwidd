@@ -14,6 +14,9 @@ var controls = function (controls, $, services) {
 
 		// calls playback service			
 		self.play = function () {
+			self.UI
+				.siblings().removeClass('playing').end()
+				.addClass('playing');
 			services.play(self.data.path);
 			return self;
 		};
@@ -39,7 +42,7 @@ var controls = function (controls, $, services) {
 			}
 			
 			// constructing UI
-			return $('<tr />')
+			return $('<tr />', {'class': 'media'})
 				.append($([
 					// checkbox
 					$('<td />').append(self.checkbox)[0],

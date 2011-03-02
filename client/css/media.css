@@ -1,0 +1,5 @@
+/* media entry that is played back */
+tr.media.playing {
+	background: yellow; 
+}
+
