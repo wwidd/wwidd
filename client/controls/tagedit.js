@@ -17,7 +17,7 @@ var controls = function (controls, $, services, tagbase) {
 				.parent	// tagger
 				.parent	// media
 				.parent	// page
-				.init();
+				.load();
 		}
 				
 		// tag remove event handler
