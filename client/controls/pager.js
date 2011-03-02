@@ -3,9 +3,9 @@
 //
 // For switching between pages
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, control) {
+var controls = function (controls, $) {
 	controls.pager = function (handler) {
-		var self = Object.create(control);
+		var self = Object.create(controls.control);
 
 		// members
 		self.provider = null;
@@ -24,7 +24,7 @@ var controls = function (controls, $, control) {
 						result.push($('<option />', {
 							value: j,
 							selected: j === parseInt(self.page, 10) ? 'selected' : null
-						}).text(j + " - " + row.file.substr(0, 5))[0]);
+						}).text((j + 1) + " - " + row.file.substr(0, 5))[0]);
 					}
 					return $(result);
 				}())
@@ -41,6 +41,5 @@ var controls = function (controls, $, control) {
 	
 	return controls;
 }(controls || {},
-	jQuery,
-	controls.control);
+	jQuery);
 

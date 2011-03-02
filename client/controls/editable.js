@@ -5,9 +5,9 @@
 // displaying (default) and one for editing its value. The latter becomes
 // available when clicking on the display state.
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, control) {
+var controls = function (controls, $) {
 	controls.editable = function () {
-		var self = Object.create(control);
+		var self = Object.create(controls.control);
 		
 		// mode can be either 'display' or 'edit'
 		self.mode = 'display';
@@ -67,5 +67,4 @@ var controls = function (controls, $, control) {
 	
 	return controls;
 }(controls || {},
-	jQuery,
-	controls.control);
+	jQuery);

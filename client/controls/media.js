@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Entry
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services, control, rater, tagger) {
+var controls = function (controls, $, services) {
 	controls.media = function (data) {
-		var self = Object.create(control);
+		var self = Object.create(controls.control);
 
 		// data associated with media file
 		self.data = data;
@@ -49,9 +49,9 @@ var controls = function (controls, $, services, control, rater, tagger) {
 							.text(data.file)
 							.click(onClick))[0],
 					// rating
-					rater(data).appendTo($('<td />'), self)[0],
+					controls.rater(data).appendTo($('<td />'), self)[0],
 					// tags
-					tagger(data).appendTo($('<td />'), self)[0]
+					controls.tagger(data).appendTo($('<td />'), self)[0]
 				]));
 		};
 
@@ -61,8 +61,5 @@ var controls = function (controls, $, services, control, rater, tagger) {
 	return controls;
 }(controls || {},
 	jQuery,
-	services,
-	controls.control,
-	controls.rater,
-	controls.tagger);
+	services);
 

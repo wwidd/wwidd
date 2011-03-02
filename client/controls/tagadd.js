@@ -3,12 +3,12 @@
 //
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services, tagbase) {
+var controls = function (controls, $, services) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
 	controls.tagadd = function (data) {
-		var	base = tagbase(data),
+		var	base = controls.tagbase(data),
 				self = Object.create(base);
 
 		// tag addition handler: do nothing
@@ -51,6 +51,5 @@ var controls = function (controls, $, services, tagbase) {
 	return controls;
 }(controls || {},
 	jQuery,
-	services,
-	controls.tagbase);
+	services);
 

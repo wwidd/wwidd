@@ -3,12 +3,12 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services, tagbase) {
+var controls = function (controls, $, services) {
 	// - data: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
 	controls.tagedit = function (data, name) {
-		var	base = tagbase(data),
+		var	base = controls.tagbase(data),
 				self = Object.create(base);
 
 		// refreshes entire page (data & UI)
@@ -81,6 +81,5 @@ var controls = function (controls, $, services, tagbase) {
 	return controls;
 }(controls || {},
 	jQuery,
-	services,
-	controls.tagbase);
+	services);
 
