@@ -59,7 +59,12 @@ library = function () {
 				}
 				
 				// inserting statement for auto tags
-				tags = $path.basename(path, $path.extname(path)).split(/[^A-Za-z0-9]+/);
+				tags = []
+					// filename broken down into its word-like components
+					.concat($path.basename(path, $path.extname(path)).split(/[^A-Za-z0-9]+/))
+					// path stripped of non-word characters and broken down by directory levels
+					.concat($path.dirname(path).replace(/[^A-Za-z0-9\/\\\s]/, '').split('/'));
+
 				for (i = 0; i < tags.length; i++) {
 					if (!tags[i].length) {
 						continue;
