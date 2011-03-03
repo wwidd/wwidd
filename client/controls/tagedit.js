@@ -28,9 +28,7 @@ var controls = function (controls, $, services) {
 			} else {
 				// deleting tag from one specific video
 				services.deltag(data.mediaid, name, function () {
-					delete self.lookup[name];
-					data.tags = self.serialize();
-					self.parent.redraw();
+					self.changetag(name, null, data);
 				});
 			}
 			return false;
@@ -38,22 +36,24 @@ var controls = function (controls, $, services) {
 		
 		// tag change event handler
 		function onChange(event) {
+			// react to Enter only
 			if (event.which !== 13) {
 				return;
 			}
-			var newName = $(this).val();
-			if (newName === name || !newName.length) {
+			// values before and after the change
+			var before = name,
+					after = controls.tags($(this).val()).sanitize();
+			// discarding changes when there was no change or tag deleted
+			if (after === before || !after.length) {
 				return;
 			}
 			if (event.ctrlKey && confirm("Are you sure you want to change all tags of this kind?")) {
-				services.changetag(null, name, newName, refreshPage);
+				// running batch tag change
+				services.changetag(null, before, after, refreshPage);
 			} else {
-				services.changetag(data.mediaid, name, newName, function () {
-					delete self.lookup[name];
-					name = newName;
-					self.lookup[name] = true;
-					data.tags = self.serialize();
-					self.parent.redraw();
+				// running single tag change
+				services.changetag(data.mediaid, before, after, function () {
+					self.changetag(before, after, data);
 				});
 			}
 		}

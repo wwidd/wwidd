@@ -7,10 +7,21 @@ var	root = require('../logic/root').root,
 		entity = require('../db/library').library,
 
 library = function () {
+	// splits tags along commas
+	function splitTags(data) {
+		var i;
+		for (i = 0; i < data.length; i++) {
+			data[i].tags = data[i].tags.split(',');
+		}	
+	}
+	
 	self = {
 		// queries the entire database
 		getAll: function (handler) {
-			entity.getAll(handler);
+			entity.getAll(function (data) {
+				splitTags(data);
+				handler(data);
+			});
 			return self;
 		},
 		

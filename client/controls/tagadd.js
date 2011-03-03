@@ -26,9 +26,7 @@ var controls = function (controls, $, services) {
 				return;
 			}
 			services.addtag(data.mediaid, name, function () {
-				self.lookup[name] = true;
-				data.tags = self.serialize();
-				self.parent.redraw();
+				self.changetag(null, name, data);
 			});
 		}
 
