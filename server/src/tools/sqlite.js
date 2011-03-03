@@ -41,9 +41,7 @@ sqlite = function (dbPath) {
 		}
 
 		// running sql statement
-		console.log("Running SQL statement...");
 		tool.exec(args, function (data) {
-			console.log("SQL statement completed.");
 			if (handler) {
 				handler(data);
 			}

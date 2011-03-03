@@ -72,6 +72,8 @@ entity = {
 			["(", pair.values.join(","), ")"].join("")
 		].join(" ");
 		
+		console.log(statement);
+		
 		sqlite.exec(statement, handler);
 		
 		return this;
