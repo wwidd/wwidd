@@ -33,10 +33,18 @@ var controls = (function (controls, $, data) {
 		self.init = function () {
 			// applying static events
 			events();
+			
+			// initializing pager control
 			pager = controls.pager(function () {
 				self.redraw();
 			});
+
+			// initializing root adder
+			controls.rootadd.appendTo($('#rootadd').empty(), self);
+			
+			// loading data
 			self.load();
+
 			return self;
 		};
 

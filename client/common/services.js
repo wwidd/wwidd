@@ -6,6 +6,14 @@ var services = function ($) {
 		
 	return {
 		// retrieves the entire library
+		addroot: function (path, handler) {
+			$.getJSON(url + 'add', {
+				to: 'roots',
+				path: path
+			}, handler);
+		},
+		
+		// retrieves the entire library
 		get: function (handler) {
 			$.getJSON(url + 'get', handler);
 		},
