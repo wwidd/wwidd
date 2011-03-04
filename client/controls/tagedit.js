@@ -59,14 +59,16 @@ var controls = function (controls, $, services) {
 		}
 		
 		self.display = function () {
+			var tag = name.split(':');
 			return base.display(self, $('<span />', {'class': 'tag'})
+				.addClass(tag[1])
 				// adding removal button
 				.append($('<a />', {'href': '#'})
 					.text('x')
 					.click(onRemove))
 				// adding tag text
 				.append($('<span />')
-					.text(name)));
+					.text(tag[0])));
 		};
 
 		self.edit = function () {

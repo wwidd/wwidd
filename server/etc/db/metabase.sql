@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS keywords (
 CREATE TABLE IF NOT EXISTS tags (
 	mediaid INTEGER,
 	tag TEXT,
+	kind TEXT,
 	FOREIGN KEY(mediaid) REFERENCES media(mediaid)
 );
 CREATE UNIQUE INDEX IF NOT EXISTS roots_id ON roots(path ASC);

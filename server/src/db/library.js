@@ -9,7 +9,7 @@ library = function () {
 	var self = {
 		// queries the entire library
 		getAll: function (handler) {
-			var statement = "SELECT mediaid, path, rating, group_concat(tag) AS tags FROM media NATURAL JOIN tags GROUP BY mediaid;";
+			var statement = "SELECT mediaid, path, rating, group_concat(tag || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags FROM media NATURAL JOIN tags GROUP BY mediaid;";
 			sqlite.exec(statement, handler, ['-header', '-line']);
 		},
 		

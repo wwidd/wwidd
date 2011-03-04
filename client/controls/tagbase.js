@@ -4,7 +4,7 @@
 var controls = function (controls, $, services) {
 	// tag collection
 	controls.tags = function (names) {
-		var separator = /\s*[^A-Za-z0-9\s]+\s*/;
+		var separator = /\s*[^A-Za-z0-9:\s]+\s*/;
 		
 		return {
 			// splits string along non-word parts
