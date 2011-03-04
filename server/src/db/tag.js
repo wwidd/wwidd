@@ -23,7 +23,7 @@ tag = function () {
 			return [
 				"INSERT OR IGNORE INTO",
 				self.kind,
-				"(mediaid, tag, kind) VALUES",
+				"(mediaid, name, kind) VALUES",
 				"(" + after.mediaid + ",'" + tmp[0] + "','" + tmp[1] + "')"
 			].join(" ");
 		},
@@ -53,11 +53,13 @@ tag = function () {
 	// updates a batch of tags
 	self.set = function (before, after, handler) {
 		// separating tag name and kind
-		before.tag = before.tag.split(':')[0];
-		after.kind = after.tag.split(':')[1];
-		after.tag = after.tag.split(':')[0];
+		before.name = before.tag.split(':')[0];
+		delete before.tag;
 		
 		var	where =  clause(before).join(" AND "),
+				tmp = after.tag.split(':'),
+				name = "'" + tmp[0] + "'",
+				kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL",
 		
 		statement = (before.mediaid ? [
 			// updaing a single tag
@@ -66,9 +68,9 @@ tag = function () {
 			["DELETE FROM", self.kind, "WHERE", where].join(" "),
 			// inserting new name
 			["INSERT OR IGNORE INTO",
-				self.kind, "(mediaid, tag, kind)",
+				self.kind, "(mediaid, name, kind)",
 				"VALUES",
-				"(" + [before.mediaid, "'" + after.tag + "'", after.kind ? "'" + after.kind + "'" : "NULL"].join(",") + ")"
+				"(" + [before.mediaid, name, kind].join(",") + ")"
 			].join(" "),
 			"COMMIT"
 		] : [
@@ -81,10 +83,10 @@ tag = function () {
 			["DELETE FROM", self.kind, "WHERE mediaid IN focus AND", where].join(" "),
 			// inserting new tag names
 			["INSERT OR IGNORE INTO",
-				self.kind, "(mediaid, tag, kind)",
+				self.kind, "(mediaid, name, kind)",
 				"SELECT mediaid,",
-				"'" + after.tag + "' AS tag,",
-				"'" + after.kind + "' AS kind",                         
+				name + " AS name,",
+				kind + " AS kind",                         
 				"FROM focus"
 			].join(" "),
 			"DROP TABLE focus",
@@ -99,7 +101,8 @@ tag = function () {
 	// removes tag from file(s)
 	self.remove = function (before, handler) {
 		// discarding tag kind information
-		before.tag = before.tag.split(':')[0];
+		before.name = before.tag.split(':')[0];
+		delete before.tag;
 		base.remove(before, handler, self);
 	};
 	

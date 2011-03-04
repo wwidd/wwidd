@@ -29,7 +29,7 @@ var data = function (data, jOrder, services) {
 			// initializes data object: calls service, populates table
 			init: function (handler) {
 				services.get(function (json) {
-					self.table = jOrder(preprocess(json.data))
+					self.table = jOrder(preprocess(json.data.media))
 						.index('mediaid', ['mediaid'], {ordered: true, type: jOrder.number})
 						.index('file', ['file'], {ordered: true, grouped: true, type: jOrder.string});
 						

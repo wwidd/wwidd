@@ -9,7 +9,18 @@ library = function () {
 	var self = {
 		// queries the entire library
 		getAll: function (handler) {
-			var statement = "SELECT mediaid, path, rating, group_concat(tag || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags FROM media NATURAL JOIN tags GROUP BY mediaid;";
+			var statement = "SELECT mediaid, path, rating, group_concat(name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags FROM media NATURAL JOIN tags GROUP BY mediaid;";
+			
+			console.log(statement);
+			
+			sqlite.exec(statement, handler, ['-header', '-line']);
+		},
+		
+		getKinds: function (handler) {
+			var statement = "SELECT DISTINCT kind FROM tags;";
+
+			console.log(statement);
+			
 			sqlite.exec(statement, handler, ['-header', '-line']);
 		},
 		
@@ -70,7 +81,7 @@ library = function () {
 						continue;
 					}
 					statement.push([
-						"INSERT OR REPLACE INTO tags (mediaid, tag) VALUES (",
+						"INSERT OR REPLACE INTO tags (mediaid, name) VALUES (",
 						lastid, ",'",
 						quotes(tags[i]),
 						"');"				

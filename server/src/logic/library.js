@@ -7,6 +7,8 @@ var	root = require('../logic/root').root,
 		entity = require('../db/library').library,
 
 library = function () {
+	var json;
+	
 	// splits tags along commas
 	function splitTags(data) {
 		var i;
@@ -15,12 +17,23 @@ library = function () {
 		}	
 	}
 	
+	function checkAll(data, kind, handler) {
+		json[kind] = data;
+		if (json.media && json.kinds) {
+			handler(json);
+		}
+	}
+	
 	self = {
 		// queries the entire database
 		getAll: function (handler) {
+			json = {};
 			entity.getAll(function (data) {
 				splitTags(data);
-				handler(data);
+				checkAll(data, 'media', handler);
+			});
+			entity.getKinds(function (data) {
+				checkAll(data, 'kinds', handler);
 			});
 			return self;
 		},
