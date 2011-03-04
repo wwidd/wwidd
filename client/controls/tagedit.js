@@ -62,6 +62,7 @@ var controls = function (controls, $, services, data) {
 			var tag = name.split(':');
 			return base.display(self, $('<span />', {'class': 'tag'})
 				.addClass(data.kinds.getNumber(tag[1]))
+				.attr('title', tag[1])
 				// adding removal button
 				.append($('<a />', {'href': '#'})
 					.text('x')
