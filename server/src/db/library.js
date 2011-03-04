@@ -8,19 +8,10 @@ var	$path = require('path'),
 library = function () {
 	var self = {
 		// queries the entire library
-		getAll: function (handler) {
+		getMedia: function (handler) {
 			var statement = "SELECT mediaid, path, rating, group_concat(name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags FROM media NATURAL JOIN tags GROUP BY mediaid;";
 			
 			console.log(statement);
-			
-			sqlite.exec(statement, handler, ['-header', '-line']);
-		},
-		
-		getKinds: function (handler) {
-			var statement = "SELECT DISTINCT kind FROM tags;";
-
-			console.log(statement);
-			
 			sqlite.exec(statement, handler, ['-header', '-line']);
 		},
 		

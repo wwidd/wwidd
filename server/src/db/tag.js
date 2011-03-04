@@ -9,6 +9,14 @@ tag = function () {
 	var base = Object.create(entity, {kind: {value: 'tags'}}),
 			self = Object.create(base);
 
+	// retrieves a list of all tag kinds
+	self.getKinds = function (handler) {
+		var statement = "SELECT DISTINCT kind FROM tags;";
+
+		console.log(statement);
+		sqlite.exec(statement, handler, ['-header', '-line']);
+	};
+			
 	// adds one or more tags to a file
 	self.add = function (after, handler) {
 		var 
@@ -46,7 +54,6 @@ tag = function () {
 		]).join(";\n");
 		
 		console.log(statement);
-		
 		sqlite.exec(statement, handler);		
 	};
 	
@@ -94,7 +101,6 @@ tag = function () {
 		]).join(";\n");
 		
 		console.log(statement);
-		
 		sqlite.exec(statement, handler);
 	};
 	

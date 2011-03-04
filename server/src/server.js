@@ -21,41 +21,31 @@ $http.createServer(function (req, res) {
 
   // executing command
 	switch (endpoint) {
-	case '/get':
+	case '/getmedia':
 		ok = envelope(res, true, function () {
-			library.getAll(function (data) {
+			library.getMedia(function (data) {
 				ok(data);
 			});
 		});
 		break;
 		
-	case '/add':
-		// adding path to root collection or library
+	case '/getkinds':
 		ok = envelope(res, true, function () {
-			if (!query.to || !query.path) {
-				throw "Missing parameters";
-			}
-			if (query.to.toLowerCase() === 'roots') {
-				// adding root path
-				library.addRoot(query.path, function () {
-					ok(query);
-				});
-			} else {
-				// adding a media file by path
-				throw "Feature unimplemented";
-			}
+			library.getKinds(function (data) {
+				ok(data);
+			});
 		});
 		break;
-	
-	case '/scan':
+		
+	case '/addroot':
 		// adding path to root collection or library
 		ok = envelope(res, true, function () {
 			if (!query.path) {
 				throw "Missing parameters";
 			}
-			// scanning
-			root(query.path).scan(function (metadata) {
-				ok(metadata);
+			// adding root path
+			library.addRoot(query.path, function () {
+				ok(query);
 			});
 		});
 		break;

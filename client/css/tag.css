@@ -7,9 +7,72 @@ input.tag {
 
 /* tag display */
 span.tag {
+	color: black;
+	background: lightgrey;
+}
+
+/* tag with kind */
+span.tag.kind1 {
+	color: darkred;
+	background: pink;
+}
+span.tag.kind2 {
+	color: darkgreen;
+	background: lightgreen;
+}
+span.tag.kind3 {
 	color: darkblue;
 	background: lightblue;
 }
+span.tag.kind4 {
+	color: brown;
+	background: orange;
+}
+span.tag.kind5 {
+	color: darkcyan;
+	background: cyan;
+}
+span.tag.kind6 {
+	color: chocolate;
+	background: yellow;
+}
+span.tag.kind7 {
+	color: brown;
+	background: khaki;
+}
+span.tag.kind8 {
+	color: white;
+	background: grey;
+}
+span.tag.kind9 {
+	color: pink;
+	background: darkred;
+}
+span.tag.kind10 {
+	color: lightgreen;
+	background: darkgreen;
+}
+span.tag.kind11 {
+	color: lightblue;
+	background: darkblue;
+}
+span.tag.kind12 {
+	color: orange;
+	background: brown;
+}
+span.tag.kind13 {
+	color: cyan;
+	background: darkcyan;
+}
+span.tag.kind14 {
+	color: yellow;
+	background: chocolate;
+}
+span.tag.kind15 {
+	color: lightgrey;
+	background: black;
+}
+
 
 /* delete button in tag */
 span.tag > a {

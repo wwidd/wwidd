@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var	root = require('../logic/root').root,
 		entity = require('../db/library').library,
+		tag = require('../db/tag').tag,
 
 library = function () {
 	var json;
@@ -14,27 +15,22 @@ library = function () {
 		var i;
 		for (i = 0; i < data.length; i++) {
 			data[i].tags = data[i].tags.split(',');
-		}	
-	}
-	
-	function checkAll(data, kind, handler) {
-		json[kind] = data;
-		if (json.media && json.kinds) {
-			handler(json);
 		}
 	}
 	
 	self = {
-		// queries the entire database
-		getAll: function (handler) {
-			json = {};
-			entity.getAll(function (data) {
+		// queries all media entries
+		getMedia: function (handler) {
+			entity.getMedia(function (data) {
 				splitTags(data);
-				checkAll(data, 'media', handler);
+				handler(data);
 			});
-			entity.getKinds(function (data) {
-				checkAll(data, 'kinds', handler);
-			});
+			return self;
+		},
+		
+		// queries tag kinds in database
+		getKinds: function (handler) {
+			tag.getKinds(handler);
 			return self;
 		},
 		

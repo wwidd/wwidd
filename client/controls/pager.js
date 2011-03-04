@@ -3,12 +3,11 @@
 //
 // For switching between pages
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $) {
+var controls = function (controls, $, data) {
 	controls.pager = function (handler) {
 		var self = Object.create(controls.control);
 
 		// members
-		self.provider = null;
 		self.page = 0;
 		self.items = 25;
 		
@@ -17,10 +16,11 @@ var controls = function (controls, $) {
 			return $('<select />')
 				.append(function () {
 					var result = [],
-							flat = self.provider.table.flat(),
+							table = data.media.table,
+							flat = table.flat(),
 							i, j, row;
 					for (i = 0, j = 0; i < flat.length; i += self.items, j++) {
-						row = self.provider.table.orderby(['file'], jOrder.asc, {offset: i, limit: 1, renumber: true})[0];
+						row = table.orderby(['file'], jOrder.asc, {offset: i, limit: 1, renumber: true})[0];
 						result.push($('<option />', {
 							value: j,
 							selected: j === parseInt(self.page, 10) ? 'selected' : null
@@ -41,5 +41,6 @@ var controls = function (controls, $) {
 	
 	return controls;
 }(controls || {},
-	jQuery);
+	jQuery,
+	data);
 

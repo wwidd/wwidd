@@ -5,17 +5,21 @@ var services = function ($) {
 	var url = 'http://127.0.0.1:8124/';
 		
 	return {
-		// retrieves the entire library
+		// adds a root path to library (w/ import)
 		addroot: function (path, handler) {
-			$.getJSON(url + 'add', {
-				to: 'roots',
+			$.getJSON(url + 'addroot', {
 				path: path
 			}, handler);
 		},
 		
-		// retrieves the entire library
-		get: function (handler) {
-			$.getJSON(url + 'get', handler);
+		// retrieves all media from library
+		getmedia: function (handler) {
+			$.getJSON(url + 'getmedia', handler);
+		},
+		
+		// retrieves all tag kinds from library
+		getkinds: function (handler) {
+			$.getJSON(url + 'getkinds', handler);
 		},
 		
 		// starts playback of a file

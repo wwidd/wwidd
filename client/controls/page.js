@@ -4,7 +4,6 @@
 var controls = (function (controls, $, data) {
 	controls.page = function () {
 		var self = Object.create(controls.control),
-				provider = null,
 				entries = [],
 				pager;
 
@@ -50,25 +49,33 @@ var controls = (function (controls, $, data) {
 
 		// (re-)loads page contents
 		self.load = function () {
-			// initializing jOrder table
-			(provider = data.media()).init(function () {
+			// initializing media table
+			data.media.init(function () {
 				// adding pager control
-				pager.provider = provider;
+				pager.provider = data.media;
 				pager.appendTo($('#pager').empty());
 
 				// adding page to dom
 				self.appendTo($('#library').empty());
 			});
+			
+			// initializing kinds table
+			data.kinds.init(function () {
+				if (self.UI) {
+					self.redraw();
+				}
+			});
+			
 			return self;
 		};
 		
 		// draws contents
 		self.getUI = function () {
 			var $table = $('<table />'),
-					data = provider.getPage(pager.page, pager.items),
+					page = data.media.getPage(pager.page, pager.items),
 					i;
-			for (i = 0; i < data.length; i++) {
-				entry = controls.media(data[i]);
+			for (i = 0; i < page.length; i++) {
+				entry = controls.media(page[i]);
 				entry.appendTo($table, self);
 				entries.push(entry);
 			}

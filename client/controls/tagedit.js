@@ -3,12 +3,12 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services) {
-	// - data: media data record
+var controls = function (controls, $, services, data) {
+	// - row: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
-	controls.tagedit = function (data, name) {
-		var	base = controls.tagbase(data),
+	controls.tagedit = function (row, name) {
+		var	base = controls.tagbase(row),
 				self = Object.create(base);
 
 		// refreshes entire page (data & UI)
@@ -27,8 +27,8 @@ var controls = function (controls, $, services) {
 				services.deltag(null, name, refreshPage);
 			} else {
 				// deleting tag from one specific video
-				services.deltag(data.mediaid, name, function () {
-					self.changetag(name, null, data);
+				services.deltag(row.mediaid, name, function () {
+					self.changetag(name, null, row);
 				});
 			}
 			return false;
@@ -52,8 +52,8 @@ var controls = function (controls, $, services) {
 				services.changetag(null, before, after, refreshPage);
 			} else {
 				// running single tag change
-				services.changetag(data.mediaid, before, after, function () {
-					self.changetag(before, after, data);
+				services.changetag(row.mediaid, before, after, function () {
+					self.changetag(before, after, row);
 				});
 			}
 		}
@@ -61,7 +61,7 @@ var controls = function (controls, $, services) {
 		self.display = function () {
 			var tag = name.split(':');
 			return base.display(self, $('<span />', {'class': 'tag'})
-				.addClass(tag[1])
+				.addClass(data.kinds.getNumber(tag[1]))
 				// adding removal button
 				.append($('<a />', {'href': '#'})
 					.text('x')
@@ -83,5 +83,6 @@ var controls = function (controls, $, services) {
 	return controls;
 }(controls || {},
 	jQuery,
-	services);
+	services,
+	data);
 

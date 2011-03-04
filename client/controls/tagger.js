@@ -4,18 +4,18 @@
 // Displays and edits tags.
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
-	controls.tagger = function (data) {
+	controls.tagger = function (row) {
 		var	self = Object.create(controls.control);
 
 		self.getUI = function () {
-			var tags = data.tags,
+			var tags = row.tags,
 					result = $('<div />'),
 					i;
 			// constructing tag controls
 			for (i = 0; i < tags.length; i++) {
-				controls.tagedit(data, tags[i]).appendTo(result, self);
+				controls.tagedit(row, tags[i]).appendTo(result, self);
 			}
-			controls.tagadd(data).appendTo(result, self);
+			controls.tagadd(row).appendTo(result, self);
 			return result;
 		};
 

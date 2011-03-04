@@ -28,11 +28,11 @@ var data = function (data, jOrder, services) {
 
 			// initializes data object: calls service, populates table
 			init: function (handler) {
-				services.get(function (json) {
-					self.table = jOrder(preprocess(json.data.media))
+				services.getmedia(function (json) {
+					self.table = jOrder(preprocess(json.data))
 						.index('mediaid', ['mediaid'], {ordered: true, type: jOrder.number})
 						.index('file', ['file'], {ordered: true, grouped: true, type: jOrder.string});
-						
+
 					if (handler) {
 						handler();
 					}
@@ -46,7 +46,7 @@ var data = function (data, jOrder, services) {
 		};
 
 		return self;
-	};
+	}();
 	
 	return data;
 }(data || {},

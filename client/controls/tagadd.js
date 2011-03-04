@@ -4,11 +4,11 @@
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
-	// - data: media data record
+	// - row: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
-	controls.tagadd = function (data) {
-		var	base = controls.tagbase(data),
+	controls.tagadd = function (row) {
+		var	base = controls.tagbase(row),
 				self = Object.create(base);
 
 		// tag addition handler: do nothing
@@ -25,8 +25,8 @@ var controls = function (controls, $, services) {
 			if (!name.length) {
 				return;
 			}
-			services.addtag(data.mediaid, name, function () {
-				self.changetag(null, name, data);
+			services.addtag(row.mediaid, name, function () {
+				self.changetag(null, name, row);
 			});
 		}
 

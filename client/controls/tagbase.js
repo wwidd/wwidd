@@ -18,16 +18,16 @@ var controls = function (controls, $, services) {
 		};
 	};
 	
-	// - data: media data record
+	// - row: media data record
 	// - handler: callback redrawing parent
-	controls.tagbase = function (data) {
+	controls.tagbase = function (row) {
 		var	base = controls.editable(),
 				self = Object.create(base),
 				i;
 
 		// initializing tag lookup
 		(function () {
-			var siblings = data.tags;
+			var siblings = row.tags;
 			self.lookup = {};
 			for (i = 0; i < siblings.length; i++) {
 				self.lookup[siblings[i]] = true;
@@ -47,7 +47,7 @@ var controls = function (controls, $, services) {
 		// changes tag to one or more tags
 		// - before: value before change, either a string or null (insertion)
 		// - after: value after change, comma separated string or null (deletion)
-		self.changetag = function (before, after, data) {
+		self.changetag = function (before, after, row) {
 			// deleting old tag if there was one
 			if (before) {
 				delete this.lookup[before];
@@ -61,7 +61,7 @@ var controls = function (controls, $, services) {
 				}
 			}
 			// finalizing changes
-			data.tags = keys(this.lookup);
+			row.tags = keys(this.lookup);
 			this.parent.redraw();
 		};
 		
