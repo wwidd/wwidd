@@ -5,12 +5,22 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, data) {
 	controls.kind = function (row, handler) {
+		handler = handler || function () {};
+		
 		var self = Object.create(controls.control);
 		
 		// checkbox event handler
+		// when checkbox or label is clicked
 		function onChecked() {
 			var checked = $(this).attr('checked');
-			if (handler) {
+			handler(row.kind, checked);
+		}
+		// when tag background is clicked
+		function onClick(event) {
+			if (event.target === this) {
+				var $checkbox = $(this).find(':checkbox'),
+						checked = !$checkbox.attr('checked');
+				$checkbox.attr('checked', checked);
 				handler(row.kind, checked);
 			}
 		}
@@ -18,8 +28,9 @@ var controls = function (controls, $, data) {
 		// dropdown representation
 		self.getUI = function () {
 			var id = 'kind' + row.kind;
-			
+
 			return $('<span />', {'class': 'tag'})
+				.click(onClick)
 				.addClass(data.kinds.getNumber(row.kind))
 				.append($('<input type="checkbox">')
 					.attr('id', id)
