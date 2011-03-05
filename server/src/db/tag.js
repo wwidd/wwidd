@@ -25,14 +25,16 @@ tag = function () {
 		tags = after.tag.split(/\s*[^A-Za-z0-9:\s]+\s*/),
 		
 		// generates sql for a single tag
-		// - name: "name:kind"
-		single = function (name) {
-			var tmp = name.split(':');
+		// - tag: "name:kind"
+		single = function (tag) {
+			var tmp = tag.split(':'),
+					name = "'" + tmp[0] + "'",
+					kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL";
 			return [
 				"INSERT OR IGNORE INTO",
 				self.kind,
 				"(mediaid, name, kind) VALUES",
-				"(" + after.mediaid + ",'" + tmp[0] + "','" + tmp[1] + "')"
+				"(" + [after.mediaid, name, kind].join(',') + ")"
 			].join(" ");
 		},
 		

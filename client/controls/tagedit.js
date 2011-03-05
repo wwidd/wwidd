@@ -5,30 +5,25 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services, data) {
 	// - row: media data record
-	// - idx: index of tag in collection
-	// - handler: callback redrawing parent
-	controls.tagedit = function (row, name) {
+	// - tag: tag string "name:kind"
+	controls.tagedit = function (row, tag) {
 		var	base = controls.tagbase(row),
 				self = Object.create(base);
 
 		// refreshes entire page (data & UI)
 		function refreshPage() {
-			self
-				.parent	// tagger
-				.parent	// media
-				.parent	// page
-				.load();
+			controls.page.load();
 		}
 				
 		// tag remove event handler
 		function onRemove(event) {
 			if (event.ctrlKey && confirm("Are you sure you want to delete all tags of this kind?")) {
-				// deleting all tags bearing this name
-				services.deltag(null, name, refreshPage);
+				// deleting all tags like this one
+				services.deltag(null, tag, refreshPage);
 			} else {
 				// deleting tag from one specific video
-				services.deltag(row.mediaid, name, function () {
-					self.changetag(name, null, row);
+				services.deltag(row.mediaid, tag, function () {
+					self.changetag(tag, null, row);
 				});
 			}
 			return false;
@@ -41,7 +36,7 @@ var controls = function (controls, $, services, data) {
 				return;
 			}
 			// values before and after the change
-			var before = name,
+			var before = tag,
 					after = controls.tags($(this).val()).sanitize();
 			// discarding changes when there was no change or tag deleted
 			if (after === before || !after.length) {
@@ -58,23 +53,27 @@ var controls = function (controls, $, services, data) {
 			}
 		}
 		
+		// constructs display state of the control
 		self.display = function () {
-			var tag = name.split(':');
+			var tmp = tag.split(':'),
+					name = tmp[0] || '',
+					kind = tmp[1] || '';
 			return base.display(self, $('<span />', {'class': 'tag'})
-				.addClass(data.kinds.getNumber(tag[1]))
-				.attr('title', tag[1])
+				.addClass(data.kinds.getNumber(kind))
+				.attr('title', kind)
 				// adding removal button
 				.append($('<a />', {'href': '#'})
 					.text('x')
 					.click(onRemove))
 				// adding tag text
 				.append($('<span />')
-					.text(tag[0])));
+					.text(name)));
 		};
 
+		// constructs edit state of the control
 		self.edit = function () {
 			return $('<input />', {'type': 'text', 'class': 'tag'})
-				.val(name)
+				.val(tag)
 				.keyup(onChange);
 		};
 		

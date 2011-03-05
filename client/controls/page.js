@@ -88,7 +88,7 @@ var controls = (function (controls, $, data) {
 		};
 
 		return self;
-	};
+	}();
 	
 	return controls;
 })(controls || {},
