@@ -1,0 +1,27 @@
+/******************************
+GENERAL
+******************************/
+
+span.pager {
+	display: inline-block; *zoom: 1;
+	margin: 0 5px;
+}
+
+/* alignment */
+span.pager > a,
+span.pager > select {
+	vertical-align: middle;
+}
+
+/******************************
+BUTTONS
+******************************/
+
+span.pager > a {
+	margin: 0 3px;
+	color: grey;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
