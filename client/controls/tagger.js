@@ -10,10 +10,14 @@ var controls = function (controls, $, services) {
 		self.getUI = function () {
 			var tags = row.tags,
 					result = $('<div />'),
-					i;
+					i, kind;
+
 			// constructing tag controls
 			for (i = 0; i < tags.length; i++) {
-				controls.tagedit(row, tags[i]).appendTo(result, self);
+				kind = tags[i].split(':')[1];
+				if (!controls.kinds.hidden(kind)) {
+					controls.tagedit(row, tags[i]).appendTo(result, self);
+				}
 			}
 			controls.tagadd(row).appendTo(result, self);
 			return result;

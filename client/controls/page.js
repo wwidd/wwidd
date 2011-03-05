@@ -5,7 +5,8 @@ var controls = (function (controls, $, data) {
 	controls.page = function () {
 		var self = Object.create(controls.control),
 				entries = [],
-				pager;
+				pager,
+				kinds;
 
 		// applies static event handlers
 		function events() {
@@ -37,7 +38,11 @@ var controls = (function (controls, $, data) {
 			pager = controls.pager(function () {
 				self.redraw();
 			});
-
+			kinds = controls.kinds
+				.onChecked(function () {
+					self.redraw();
+				});
+			
 			// initializing root adder
 			controls.rootadd.appendTo($('#rootadd').empty(), self);
 			
@@ -51,9 +56,9 @@ var controls = (function (controls, $, data) {
 		self.load = function () {
 			// initializing media table
 			data.media.init(function () {
-				// adding pager control
-				pager.provider = data.media;
-				pager.appendTo($('#pager').empty());
+				// adding page-level controls
+				pager.appendTo($('#pager').empty(), self);
+				kinds.appendTo($('#kinds').empty(), self);
 
 				// adding page to dom
 				self.appendTo($('#library').empty());
