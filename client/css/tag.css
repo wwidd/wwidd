@@ -1,13 +1,17 @@
 /* common styles for tag display and editor */
 span.tag,
 input.tag {
+	display: inline-block; *zoom: 1;
+	line-height: 16px;
+	vertical-align: top;
 	margin: 0 5px 0 0;
-	padding: 0 3px;
+	padding: 1px 3px 1px;
+	border-radius: 3px; -moz-border-radius: 3px;
 }
 
 /* tag display */
 span.tag {
-	color: black;
+	color: grey;
 	background: lightgrey;
 }
 
@@ -73,6 +77,15 @@ span.tag.kind15 {
 	background: black;
 }
 
+/* content alignment */
+span.tag > span,
+span.tag > a,
+span.tag > input,
+span.tag > label {
+	margin: 0;
+	padding: 0;
+	vertical-align: middle;
+}
 
 /* delete button in tag */
 span.tag > a {
@@ -87,10 +100,15 @@ span.tag > a:hover {
 	text-decoration: underline;
 }
 
+/* checkbox */
+span.tag > input {
+	margin: 0 3px 0 0;
+}
+
 /* tag editor */
 input.tag {
 	padding: 0;
-	border: 1px solid blue;
+	border: 1px solid red;
 }
 
 /* tag adder */

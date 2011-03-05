@@ -27,7 +27,7 @@ var controls = function (controls, $, data) {
 					.click(onChecked))
 				.append($('<label />')
 					.attr('for', id)
-					.text(row.kind));
+					.text(row.kind ? row.kind : "[default]"));
 		};
 
 		return self;
