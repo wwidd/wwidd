@@ -4,5 +4,6 @@ tr.media.playing {
 }
 
 tr.media > td {
+	padding: 0 3px;
 	vertical-align: top;
 }

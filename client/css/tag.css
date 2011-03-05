@@ -6,7 +6,7 @@ span.tag,
 input.tag {
 	display: inline-block; *zoom: 1;
 	vertical-align: top;
-	margin: 0 5px 3px 0;
+	margin: 2px 5px 2px 0;
 	padding: 1px 3px 1px;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
