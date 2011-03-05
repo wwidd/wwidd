@@ -15,6 +15,7 @@ h1 {
 }
 
 #pager {
-	float: right;
+	position: absolute;
+	right: 0;
 }
 
