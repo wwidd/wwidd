@@ -3,3 +3,6 @@ tr.media.playing {
 	background: yellow; 
 }
 
+tr.media > td {
+	vertical-align: top;
+}
