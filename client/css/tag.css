@@ -1,16 +1,22 @@
-/* common styles for tag display and editor */
+/******************************
+GENERAL
+******************************/
+
 span.tag,
 input.tag {
 	display: inline-block; *zoom: 1;
-	line-height: 16px;
 	vertical-align: top;
 	margin: 0 5px 0 0;
 	padding: 1px 3px 1px;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
 
-/* tag display */
+/******************************
+EDIT - DISPLAY STATE
+******************************/
+
 span.tag {
+	line-height: 16px;
 	color: grey;
 	background: lightgrey;
 }
@@ -85,6 +91,7 @@ span.tag > label {
 	margin: 0;
 	padding: 0;
 	vertical-align: middle;
+	font-size: 10px;
 }
 
 /* delete button in tag */
@@ -105,11 +112,21 @@ span.tag > input {
 	margin: 0 3px 0 0;
 }
 
+/******************************
+EDIT - EDIT STATE
+******************************/
+
 /* tag editor */
 input.tag {
+	height: 13px;
 	padding: 0;
 	border: 1px solid red;
+	font-size: 10px;
 }
+
+/******************************
+ADD - DISPLAY STATE
+******************************/
 
 /* tag adder */
 span.add.tag {
@@ -121,6 +138,10 @@ span.add.tag > a {
 	margin: 0;
 	color: green;
 }
+
+/******************************
+ADD - EDIT STATE
+******************************/
 
 /* add tag editor */
 input.add.tag {
