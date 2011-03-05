@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services) {
+var controls = function (controls, $, services, data) {
 	// tag collection
 	controls.tags = function (names) {
 		var separator = /\s*[^A-Za-z0-9:\s]+\s*/;
@@ -48,21 +48,28 @@ var controls = function (controls, $, services) {
 		// - before: value before change, either a string or null (insertion)
 		// - after: value after change, comma separated string or null (deletion)
 		self.changetag = function (before, after, row) {
+			var self = this,
+					names, i;
+
 			// deleting old tag if there was one
 			if (before) {
-				delete this.lookup[before];
+				delete self.lookup[before];
 			}
 			// adding new value(s) to buffer
-			var names, i;
 			if (after) {
 				names = controls.tags(after).split();
 				for (i = 0; i < names.length; i++) {
-					this.lookup[names[i]] = true;
+					self.lookup[names[i]] = true;
 				}
 			}
 			// finalizing changes
 			row.tags = keys(this.lookup);
-			this.parent.redraw();
+			
+			// refreshing kinds
+			data.kinds.init(function () {
+				self.parent.redraw();
+				controls.kinds.redraw();
+			});
 		};
 		
 		return self;
@@ -71,5 +78,6 @@ var controls = function (controls, $, services) {
 	return controls;
 }(controls || {},
 	jQuery,
-	services);
+	services,
+	data);
 
