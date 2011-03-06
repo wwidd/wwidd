@@ -132,7 +132,21 @@ $http.createServer(function (req, res) {
 					res.end(err + "\n");
 					return;
 				}
-				res.writeHead(200);
+				switch ($path.extname(filePath))
+				{
+				case '.html':
+					res.writeHead(200, {"Content-Type": "text/html"});
+					break;
+				case '.js':
+					res.writeHead(200, {"Content-Type": "text/javascript"});
+					break;
+				case '.css':
+					res.writeHead(200, {"Content-Type": "text/css"});
+					break;
+				default:
+					res.writeHead(200, {"Content-Type": "text/plain"});
+					break;
+				}
 				res.end(file, "binary");
 			});
 		});
