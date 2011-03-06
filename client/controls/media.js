@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Entry
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services) {
-	controls.media = function (data) {
+var controls = function (controls, $, services, data) {
+	controls.media = function (row) {
 		var self = Object.create(controls.control);
 
 		// data associated with media file
-		self.data = data;
+		self.data = row;
 			
 		// mandatory control references
 		self.checkbox = $('<input type="checkbox"/>');
@@ -18,6 +18,7 @@ var controls = function (controls, $, services) {
 				.siblings().removeClass('playing').end()
 				.addClass('playing');
 			services.play(self.data.path);
+			data.pagestate.lastPlayed = self.data.mediaid;
 			return self;
 		};
 		
@@ -49,13 +50,14 @@ var controls = function (controls, $, services) {
 					// filename
 					$('<td />').append(
 						$('<a />', {'href': '#'})
-							.text(data.file)
+							.text(row.file)
 							.click(onClick))[0],
 					// rating
-					controls.rater(data).appendTo($('<td />'), self)[0],
+					controls.rater(row).appendTo($('<td />'), self)[0],
 					// tags
-					controls.tagger(data).appendTo($('<td />'), self)[0]
-				]));
+					controls.tagger(row).appendTo($('<td />'), self)[0]
+				]))
+				.addClass(data.pagestate.lastPlayed === self.data.mediaid ? 'playing' : null);
 		};
 
 		return self;
@@ -64,5 +66,6 @@ var controls = function (controls, $, services) {
 	return controls;
 }(controls || {},
 	jQuery,
-	services);
+	services,
+	data);
 

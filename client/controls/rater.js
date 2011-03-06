@@ -5,7 +5,7 @@
 // a dropdown.
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
-	controls.rater = function (data) {
+	controls.rater = function (row) {
 		var base = controls.editable(),
 				self = Object.create(base),
 
@@ -21,7 +21,7 @@ var controls = function (controls, $, services) {
 		// textual representation
 		self.display = function () {
 			return base.display(self, $('<span />')
-				.text(states[data.rating || 0]));
+				.text(states[row.rating || 0]));
 		};
 
 		// dropdown representation
@@ -32,7 +32,7 @@ var controls = function (controls, $, services) {
 					var result = [],
 							state;
 					for (state in states) {
-						result.push($('<option />', {'value': state, 'selected': state === data.rating ? 'selected': null})
+						result.push($('<option />', {'value': state, 'selected': state === row.rating ? 'selected': null})
 							.text(states[state])[0]);
 					}
 					return $(result);
@@ -42,8 +42,8 @@ var controls = function (controls, $, services) {
 					var $this = $(this),
 							rating = $this.val();
 					// calling rater service
-					services.rate(data.mediaid, rating, function () {
-						data.rating = rating;
+					services.rate(row.mediaid, rating, function () {
+						row.rating = rating;
 						self.toggle('display');
 					});
 				});
