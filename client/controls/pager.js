@@ -40,17 +40,17 @@ var controls = function (controls, $, data) {
 			return refresh();
 		}		
 		function onNext() {
-			if (self.page >= self.max) {
+			if (self.page >= self.max - 1) {
 				return false;
 			}
 			self.page++;
 			return refresh();
 		}
 		function onLast() {
-			if (self.page >= self.max) {
+			if (self.page >= self.max - 1) {
 				return false;
 			}
-			self.page = self.max;
+			self.page = self.max - 1;
 			return refresh();
 		}
 		
@@ -65,7 +65,7 @@ var controls = function (controls, $, data) {
 			}
 			
 			// constructing option collection
-			for (j = 0; j <= self.max; j++) {
+			for (j = 0; j < self.max; j++) {
 				row = data.media.getFirst(j, self.items)[0];
 				options.push($('<option />', {
 					value: j,

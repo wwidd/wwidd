@@ -50,7 +50,7 @@ var data = function (data, jOrder, services) {
 			
 			// returns total number of pages in dataset
 			getPages: function (items) {
-				return Math.floor(self.table.flat().length / items);
+				return Math.ceil(self.table.flat().length / items);
 			}
 		};
 
