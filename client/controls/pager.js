@@ -57,18 +57,16 @@ var controls = function (controls, $, data) {
 		// dropdown representation
 		self.getUI = function () {
 			var options = [],
-					table = data.media.table,
-					flat = table.flat(),
-					i, j, row;
+					j, row;
 
-			self.max = Math.floor(flat.length / self.items);
+			self.max = data.media.getPages(self.items);
 			if (self.page > self.max) {
 				self.page = 0;
 			}
 			
 			// constructing option collection
-			for (i = 0, j = 0; i < flat.length; i += self.items, j++) {
-				row = table.orderby(['file'], jOrder.asc, {offset: i, limit: 1, renumber: true})[0];
+			for (j = 0; j <= self.max; j++) {
+				row = data.media.getFirst(j, self.items)[0];
 				options.push($('<option />', {
 					value: j,
 					selected: j === parseInt(self.page, 10) ? 'selected' : null
