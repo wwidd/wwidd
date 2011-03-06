@@ -60,7 +60,6 @@ var controls = (function (controls, $, data) {
 			// initializing media table
 			data.media.init(controls.search.filter, function () {
 				// adding page-level controls
-				pager.page = 0;
 				pager.appendTo($('#pager').empty(), self);
 				kinds.appendTo($('#kinds').empty(), self);
 

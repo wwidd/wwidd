@@ -62,6 +62,9 @@ var controls = function (controls, $, data) {
 					i, j, row;
 
 			self.max = Math.floor(flat.length / self.items);
+			if (self.page > self.max) {
+				self.page = 0;
+			}
 			
 			// constructing option collection
 			for (i = 0, j = 0; i < flat.length; i += self.items, j++) {
