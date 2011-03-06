@@ -20,8 +20,8 @@ library = function () {
 	
 	self = {
 		// queries all media entries
-		getMedia: function (handler) {
-			entity.getMedia(function (data) {
+		getMedia: function (filter, handler) {
+			entity.getMedia(filter, function (data) {
 				splitTags(data);
 				handler(data);
 			});

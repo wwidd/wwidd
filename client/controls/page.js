@@ -43,6 +43,9 @@ var controls = (function (controls, $, data) {
 					self.redraw();
 				});
 			
+			// initializing search box
+			controls.search.appendTo($('#search').empty(), self);
+				
 			// initializing root adder
 			controls.rootadd.appendTo($('#rootadd').empty(), self);
 			
@@ -55,8 +58,9 @@ var controls = (function (controls, $, data) {
 		// (re-)loads page contents
 		self.load = function () {
 			// initializing media table
-			data.media.init(function () {
+			data.media.init(controls.search.filter, function () {
 				// adding page-level controls
+				pager.page = 0;
 				pager.appendTo($('#pager').empty(), self);
 				kinds.appendTo($('#kinds').empty(), self);
 

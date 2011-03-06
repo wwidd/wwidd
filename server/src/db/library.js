@@ -6,10 +6,32 @@ var	$path = require('path'),
 		sqlite = require('../tools/sqlite').sqlite, 
 
 library = function () {
+	// constructs a where clause out of a tag filter
+	function where(filter) {
+		var names = filter.split(/\s*[^A-Za-z0-9:\s]+\s*/),
+				clause = [],
+				i;
+		for (i = 0; i < names.length; i++) {
+			clause.push("name LIKE '" + names[i] + "%'");
+		}
+		return [
+			"WHERE mediaid IN",
+			"(SELECT mediaid FROM tags WHERE",
+			clause.join(" OR "),
+			"GROUP BY mediaid HAVING count(name) =",
+			names.length,
+			")"
+		].join(" ");
+	}
+	
 	var self = {
 		// queries the entire library
-		getMedia: function (handler) {
-			var statement = "SELECT mediaid, path, rating, group_concat(name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags FROM media NATURAL JOIN tags GROUP BY mediaid;";
+		getMedia: function (filter, handler) {
+			var statement = [
+				"SELECT mediaid, path, rating, group_concat(name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags FROM media NATURAL JOIN tags",
+				filter ? where(filter) : "",
+				"GROUP BY mediaid;"
+			].join(" ");
 			
 			console.log(statement);
 			sqlite.exec(statement, handler, ['-header', '-line']);

@@ -12,9 +12,11 @@ var services = function ($) {
 			}, handler);
 		},
 		
-		// retrieves all media from library
-		getmedia: function (handler) {
-			$.getJSON(url + 'getmedia', handler);
+		// retrieves all media (matching the filter) from library
+		getmedia: function (filter, handler) {
+			$.getJSON(url + 'getmedia', {
+				filter: filter
+			}, handler);
 		},
 		
 		// retrieves all tag kinds from library

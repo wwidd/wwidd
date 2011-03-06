@@ -23,7 +23,7 @@ $http.createServer(function (req, res) {
 	switch (endpoint) {
 	case '/getmedia':
 		ok = envelope(res, true, function () {
-			library.getMedia(function (data) {
+			library.getMedia(query.filter, function (data) {
 				ok(data);
 			});
 		});
