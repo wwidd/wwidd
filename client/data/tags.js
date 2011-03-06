@@ -35,7 +35,5 @@ var data = function (data) {
 	};
 	
 	return data;
-}(data || {},
-	jOrder,
-	services);
+}(data || {});
 
