@@ -21,6 +21,12 @@ span.tag {
 	background: lightgrey;
 }
 
+/* highéighted tag (search hit) */
+span.tag.hit {
+	margin: 0px 5px 0px 0;
+	border: 2px solid red;
+}
+
 /* tag with kind */
 span.tag.kind1 {
 	color: darkred;

@@ -60,6 +60,7 @@ var controls = function (controls, $, services, data) {
 					kind = tmp[1] || '';
 			return base.display(self, $('<span />', {'class': 'tag'})
 				.addClass(data.kinds.getNumber(kind))
+				.addClass(controls.search.filter.length && controls.tags(controls.search.filter).match(name) ? 'hit' : null)
 				.attr('title', kind)
 				// adding removal button
 				.append($('<a />', {'href': '#'})
