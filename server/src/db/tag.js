@@ -1,7 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Entity
 ////////////////////////////////////////////////////////////////////////////////
-var	sqlite = require('../tools/sqlite').sqlite,
+var	$media = require('../db/media'),
+		sqlite = require('../tools/sqlite').sqlite,
 		entity = require('../db/entity').entity,
 		clause = require('../db/entity').clause,
 
@@ -18,7 +19,7 @@ tag = function () {
 	};
 			
 	// adds one or more tags to a file
-	self.add = function (after, handler) {
+	self.add = function (after, filter, handler) {
 		var 
 		
 		// splitting along non-tag characters w/ optional padding
@@ -30,12 +31,19 @@ tag = function () {
 			var tmp = tag.split(':'),
 					name = "'" + tmp[0] + "'",
 					kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL";
-			return [
+			return (filter ? [
+				"INSERT OR IGNORE INTO",
+				self.kind,
+				"(mediaid, name, kind)",
+				["SELECT mediaid", name, kind].join(","),
+				"FROM tags",
+				$media.filter(filter)
+			] : [
 				"INSERT OR IGNORE INTO",
 				self.kind,
 				"(mediaid, name, kind) VALUES",
 				"(" + [after.mediaid, name, kind].join(',') + ")"
-			].join(" ");
+			]).join(" ");
 		},
 		
 		statement = (tags.length === 1 ? [

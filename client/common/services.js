@@ -40,10 +40,11 @@ var services = function ($) {
 		},
 		
 		// deletes tag on a file
-		addtag: function (mediaid, tag, handler) {
+		addtag: function (mediaid, tag, filter, handler) {
 			$.getJSON(url + 'addtag', {
 				mediaid: mediaid,
-				tag: tag
+				tag: tag,
+				filter: filter || ""
 			}, handler);
 		},
 

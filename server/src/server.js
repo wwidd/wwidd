@@ -75,10 +75,10 @@ $http.createServer(function (req, res) {
 	case '/addtag':
 		// deleting tag
 		ok = envelope(res, true, function () {
-			if (!query.mediaid || !query.tag) {
+			if (!(query.mediaid || query.filter) || !query.tag) {
 				throw "Missing parameters";
 			}
-			tag.add(query, function () {
+			tag.add(query, query.filter, function () {
 				ok(query);
 			});
 		});

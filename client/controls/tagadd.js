@@ -21,13 +21,20 @@ var controls = function (controls, $, services) {
 			if (event.which !== 13) {
 				return;
 			}
-			var name = $(this).val();
+			var name = $(this).val(),
+					filter = controls.search.filter;
 			if (!name.length) {
 				return;
 			}
-			services.addtag(row.mediaid, name, function () {
-				self.changetag(null, name, row);
-			});
+			if (event.ctrlKey && filter.length && confirm("Are you sure you want to add this to all search results?")) {
+				// adding tag(s) to multiple media
+				services.addtag(null, name, filter, controls.page.load);
+			} else {
+				// adding tag(s) to simgle media file
+				services.addtag(row.mediaid, name, null, function () {
+					self.changetag(null, name, row);
+				});
+			}
 		}
 
 		self.display = function () {

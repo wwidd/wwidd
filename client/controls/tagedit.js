@@ -10,16 +10,11 @@ var controls = function (controls, $, services, data) {
 		var	base = controls.tagbase(row),
 				self = Object.create(base);
 
-		// refreshes entire page (data & UI)
-		function refreshPage() {
-			controls.page.load();
-		}
-				
 		// tag remove event handler
 		function onRemove(event) {
 			if (event.ctrlKey && confirm("Are you sure you want to delete all tags of this kind?")) {
 				// deleting all tags like this one
-				services.deltag(null, tag, refreshPage);
+				services.deltag(null, tag, controls.page.load);
 			} else {
 				// deleting tag from one specific video
 				services.deltag(row.mediaid, tag, function () {
@@ -44,7 +39,7 @@ var controls = function (controls, $, services, data) {
 			}
 			if (event.ctrlKey && confirm("Are you sure you want to change all tags of this kind?")) {
 				// running batch tag change
-				services.changetag(null, before, after, refreshPage);
+				services.changetag(null, before, after, controls.page.load);
 			} else {
 				// running single tag change
 				services.changetag(row.mediaid, before, after, function () {
