@@ -1,4 +1,16 @@
-/* media entry that is played back */
+/******************************
+MEDIA LIST (table)
+******************************/
+
+table.library {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+/******************************
+MEDIA ENTRY
+******************************/
+
 tr.media.playing {
 	background: yellow; 
 }
@@ -7,3 +19,4 @@ tr.media > td {
 	padding: 0 3px;
 	vertical-align: top;
 }
+

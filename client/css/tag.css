@@ -6,7 +6,7 @@ span.tag,
 input.tag {
 	display: inline-block; *zoom: 1;
 	vertical-align: top;
-	margin: 2px 5px 2px 0;
+	margin: 3px 5px 3px 0;
 	padding: 1px 3px 1px;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
@@ -23,7 +23,7 @@ span.tag {
 
 /* highlighted tag (search hit) */
 span.tag.hit {
-	margin: 0px 5px 0px 0;
+	margin: 1px 5px 1px 0;
 	border: 2px solid red;
 }
 

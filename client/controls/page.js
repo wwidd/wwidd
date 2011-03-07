@@ -79,7 +79,7 @@ var controls = (function (controls, $, data) {
 		
 		// draws contents
 		self.getUI = function () {
-			var $table = $('<table />'),
+			var $table = $('<table />', {'class': 'library'}),
 					page = data.media.getPage(pager.page, pager.items),
 					i;
 			for (i = 0; i < page.length; i++) {
