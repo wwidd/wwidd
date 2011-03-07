@@ -16,7 +16,7 @@ filter = function (tags, inclusive) {
 		"WHERE mediaid IN (",		
 		"SELECT mediaid FROM tags WHERE",
 		clause.join(" OR "),
-		"GROUP BY mediaid HAVING count(name) =",
+		"GROUP BY mediaid HAVING count(name) >=",
 		inclusive ? 1 : names.length,
 		")"
 	].join(" ");
