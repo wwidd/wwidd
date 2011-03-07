@@ -35,9 +35,7 @@ var controls = (function (controls, $, data) {
 			events();
 			
 			// initializing pager control
-			pager = controls.pager(function () {
-				self.redraw();
-			});
+			pager = controls.pager;
 			kinds = controls.kinds
 				.onChecked(function () {
 					self.redraw();

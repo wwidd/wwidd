@@ -4,9 +4,7 @@
 // For switching between pages
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, data) {
-	controls.pager = function (handler) {
-		handler = handler || function () {};
-		
+	controls.pager = function () {
 		var self = Object.create(controls.control);
 
 		// members
@@ -14,8 +12,13 @@ var controls = function (controls, $, data) {
 		self.items = 25;
 		self.max = 0;
 		
+		// resets pager to first page
+		self.reset = function () {
+			self.page = 0;
+		};
+		
 		function refresh() {
-			handler();
+			controls.page.redraw();
 			self.redraw();
 			return false;
 		}
@@ -23,7 +26,7 @@ var controls = function (controls, $, data) {
 		// event handlers
 		function onChange() {
 			self.page = $(this).val();
-			handler();
+			controls.page.redraw();
 		}
 		function onFirst() {
 			if (self.page === 0) {
@@ -92,7 +95,7 @@ var controls = function (controls, $, data) {
 		};
 
 		return self;
-	};
+	}();
 	
 	return controls;
 }(controls || {},

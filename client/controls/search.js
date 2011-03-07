@@ -13,6 +13,7 @@ var controls = function (controls, $, services) {
 		// runs search
 		function search() {
 			self.filter = self.UI.val();
+			controls.pager.reset();
 			controls.page.load();
 		}
 
