@@ -41,11 +41,14 @@ var services = function ($) {
 		
 		// deletes tag on a file
 		addtag: function (mediaid, tag, filter, handler) {
-			$.getJSON(url + 'addtag', {
+			var data = {
 				mediaid: mediaid,
-				tag: tag,
-				filter: filter || ""
-			}, handler);
+				tag: tag
+			};
+			if (filter) {
+				data.filter = filter;
+			}
+			$.getJSON(url + 'addtag', data, handler);
 		},
 
 		// changes tag on a file
@@ -61,10 +64,13 @@ var services = function ($) {
 		},
 		
 		// deletes tag on a file
-		deltag: function (mediaid, tag, handler) {
+		deltag: function (mediaid, tag, filter, handler) {
 			var data = {
 				tag: tag
 			};
+			if (filter) {
+				data.filter = filter;
+			}
 			if (mediaid) {
 				data.mediaid = mediaid;
 			}

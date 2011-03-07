@@ -115,11 +115,20 @@ tag = function () {
 	};
 	
 	// removes tag from file(s)
-	self.remove = function (before, handler) {
-		// discarding tag kind information
-		before.name = before.tag.split(':')[0];
-		delete before.tag;
-		base.remove(before, handler, self);
+	self.remove = function (before, filter, handler) {
+		var mediaid = before.mediaid,
+				name = "'" + before.tag.split(':')[0] + "'",
+
+		statement = [
+			"DELETE FROM",
+			self.kind,
+			filter ? $media.filter(filter) + " AND" : "WHERE",
+			"name = " + name,
+			mediaid ? "AND mediaid = " + mediaid : ""
+		].join(" ");
+
+		console.log(statement);
+		sqlite.exec(statement, handler);
 	};
 	
 	return self;

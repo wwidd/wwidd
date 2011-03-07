@@ -26,7 +26,7 @@ var controls = function (controls, $, services) {
 			if (!name.length) {
 				return;
 			}
-			if (event.ctrlKey && filter.length && confirm("Are you sure you want to add this to all search results?")) {
+			if (event.ctrlKey && filter.length && confirm("Add this to SEARCH results?")) {
 				// adding tag(s) to multiple media
 				services.addtag(null, name, filter, controls.page.load);
 			} else {

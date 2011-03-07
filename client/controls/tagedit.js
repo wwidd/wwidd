@@ -12,12 +12,17 @@ var controls = function (controls, $, services, data) {
 
 		// tag remove event handler
 		function onRemove(event) {
-			if (event.ctrlKey && confirm("Are you sure you want to delete all tags of this kind?")) {
+			var filter = controls.search.filter;
+			
+			if (event.shiftKey && confirm("Delete ALL tags of this kind?")) {
 				// deleting all tags like this one
-				services.deltag(null, tag, controls.page.load);
+				services.deltag(null, tag, null, controls.page.load);
+			} else if (event.ctrlKey && filter.length && confirm("Delete this tag from SEARCH results?")) {
+				// deleting tags from search results
+				services.deltag(null, tag, controls.search.filter, controls.page.load);
 			} else {
 				// deleting tag from one specific video
-				services.deltag(row.mediaid, tag, function () {
+				services.deltag(row.mediaid, tag, null, function () {
 					self.changetag(tag, null, row);
 				});
 			}
@@ -37,7 +42,7 @@ var controls = function (controls, $, services, data) {
 			if (after === before || !after.length) {
 				return;
 			}
-			if (event.ctrlKey && confirm("Are you sure you want to change all tags of this kind?")) {
+			if (event.shiftKey && confirm("Change ALL tags of this kind?")) {
 				// running batch tag change
 				services.changetag(null, before, after, controls.page.load);
 			} else {

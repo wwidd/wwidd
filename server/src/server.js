@@ -106,7 +106,7 @@ $http.createServer(function (req, res) {
 			if (!query.tag) {
 				throw "Missing parameters";
 			}
-			tag.remove(query, function () {
+			tag.remove(query, query.filter, function () {
 				ok(query);
 			});
 		});
