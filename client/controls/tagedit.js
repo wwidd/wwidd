@@ -14,12 +14,16 @@ var controls = function (controls, $, services, data) {
 		function onRemove(event) {
 			var filter = controls.search.filter;
 			
-			if (event.shiftKey && confirm("Delete ALL tags of this kind?")) {
+			if (event.shiftKey) {
 				// deleting all tags like this one
-				services.deltag(null, tag, null, controls.page.load);
-			} else if (event.ctrlKey && filter.length && confirm("Delete this tag from SEARCH results?")) {
+				if (confirm("Delete ALL tags of this kind?")) {
+					services.deltag(null, tag, null, controls.page.load);
+				}
+			} else if (event.ctrlKey) {
 				// deleting tags from search results
-				services.deltag(null, tag, controls.search.filter, controls.page.load);
+				if (filter.length && confirm("Delete this tag from SEARCH results?")) {
+					services.deltag(null, tag, controls.search.filter, controls.page.load);
+				}
 			} else {
 				// deleting tag from one specific video
 				services.deltag(row.mediaid, tag, null, function () {
@@ -42,9 +46,13 @@ var controls = function (controls, $, services, data) {
 			if (after === before || !after.length) {
 				return;
 			}
-			if (event.shiftKey && confirm("Change ALL tags of this kind?")) {
+			if (event.shiftKey) {
 				// running batch tag change
-				services.changetag(null, before, after, controls.page.load);
+				if (confirm("Change ALL tags of this kind?")) {
+					services.changetag(null, before, after, controls.page.load);
+				}
+			} else if (event.ctrlKey) {
+				// ctrl + enter is not defined for editing
 			} else {
 				// running single tag change
 				services.changetag(row.mediaid, before, after, function () {

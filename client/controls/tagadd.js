@@ -26,9 +26,13 @@ var controls = function (controls, $, services) {
 			if (!name.length) {
 				return;
 			}
-			if (event.ctrlKey && filter.length && confirm("Add this to SEARCH results?")) {
+			if (event.shiftKey) {
+				// shift + enter is not defined for addition
+			} else if (event.ctrlKey) {
 				// adding tag(s) to multiple media
-				services.addtag(null, name, filter, controls.page.load);
+				if (filter.length && confirm("Add this to SEARCH results?")) {
+					services.addtag(null, name, filter, controls.page.load);
+				}
 			} else {
 				// adding tag(s) to simgle media file
 				services.addtag(row.mediaid, name, null, function () {
