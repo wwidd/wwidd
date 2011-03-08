@@ -18,6 +18,12 @@ var controls = function (controls, $, services) {
 
 		// tag change event handler
 		function onChange(event) {
+			var $this = $(this);
+			
+			// filling backdrop
+			$this.siblings('.backdrop').val($this.val());
+			
+			// enter
 			if (event.which !== 13) {
 				return;
 			}
@@ -42,7 +48,7 @@ var controls = function (controls, $, services) {
 		}
 
 		self.display = function () {
-			return base.display(self, $('<span />', {'class': 'add tag'})
+			return base.display(self, $('<span />', {'class': 'tag display add'})
 				// adding removal button
 				.append($('<a />', {'href': '#'})
 					.text('+')
@@ -50,8 +56,10 @@ var controls = function (controls, $, services) {
 		};
 
 		self.edit = function () {
-			return $('<input />', {'type': 'text', 'class': 'add tag'})
-				.keyup(onChange);
+			return $('<span />', {'class': 'tag edit add'})
+				.append($('<input />', {'type': 'text', 'class': 'focus'})
+					.keyup(onChange))
+				.append($('<input />', {'type': 'text', 'class': 'backdrop'}));
 		};
 		
 		return self;

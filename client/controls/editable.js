@@ -17,7 +17,7 @@ var controls = function (controls, $) {
 			this.mode = mode || {'display': 'edit', 'edit': 'display'}[this.mode];
 			this.redraw();
 			if (mode === 'edit') {
-				this.UI.focus();
+				this.UI.find('.focus').focus();
 			}
 		};
 		
@@ -31,7 +31,7 @@ var controls = function (controls, $) {
 
 					// 'click outside' handler
 					function handler(event) {
-						if (event.target !== self.UI[0]) {
+						if (event.target !== self.UI.find('input,select')[0]) {
 							// handling actual click outside event
 							self.toggle('display');
 						} else {

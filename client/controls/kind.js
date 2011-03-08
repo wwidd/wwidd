@@ -29,7 +29,7 @@ var controls = function (controls, $, data) {
 		self.getUI = function () {
 			var id = 'kind' + row.kind;
 
-			return $('<span />', {'class': 'tag'})
+			return $('<span />', {'class': 'tag display'})
 				.click(onClick)
 				.addClass(data.kinds.getNumber(row.kind))
 				.append($('<input type="checkbox">')

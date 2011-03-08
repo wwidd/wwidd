@@ -2,11 +2,15 @@
 GENERAL
 ******************************/
 
-span.tag,
-input.tag {
+span.tag {
 	display: inline-block; *zoom: 1;
-	vertical-align: top;
+	line-height: 16px;
 	margin: 3px 5px 3px 0;
+	vertical-align: top;
+}
+
+span.tag.display,
+span.tag > input {
 	padding: 1px 3px 1px;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
@@ -15,14 +19,13 @@ input.tag {
 EDIT - DISPLAY STATE
 ******************************/
 
-span.tag {
-	line-height: 16px;
+span.tag.display {
 	color: grey;
 	background: lightgrey;
 }
 
 /* highlighted tag (search hit) */
-span.tag.hit {
+span.tag.display.hit {
 	margin: 1px 5px 1px 0;
 	border: 2px solid red;
 }
@@ -123,11 +126,28 @@ EDIT - EDIT STATE
 ******************************/
 
 /* tag editor */
-input.tag {
+span.tag.edit {
+	position: relative;
+	width: 122px;
+}
+
+span.tag.edit > input {
+	position: absolute;
+	width: 120px;
 	height: 13px;
 	padding: 0;
 	border: 1px solid red;
 	font-size: 10px;
+}
+
+span.tag.edit > input.focus {
+	z-index: 2;
+	background: transparent;
+}
+
+span.tag.edit > input.backdrop {
+	z-index: 1;
+	color: silver;
 }
 
 /******************************
@@ -150,7 +170,7 @@ ADD - EDIT STATE
 ******************************/
 
 /* add tag editor */
-input.add.tag {
+span.tag.edit > input.add {
 	border: 1px solid green;
 }
 

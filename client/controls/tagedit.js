@@ -66,7 +66,7 @@ var controls = function (controls, $, services, data) {
 			var tmp = tag.split(':'),
 					name = tmp[0] || '',
 					kind = tmp[1] || '';
-			return base.display(self, $('<span />', {'class': 'tag'})
+			return base.display(self, $('<span />', {'class': 'tag display'})
 				.addClass(data.kinds.getNumber(kind))
 				.addClass(controls.search.filter.length && data.tags(controls.search.filter).match(name) ? 'hit' : null)
 				.attr('title', kind)
@@ -81,9 +81,10 @@ var controls = function (controls, $, services, data) {
 
 		// constructs edit state of the control
 		self.edit = function () {
-			return $('<input />', {'type': 'text', 'class': 'tag'})
-				.val(tag)
-				.keyup(onChange);
+			return $('<span />', {'class': 'tag edit'})
+				.append($('<input />', {'type': 'text', 'class': 'focus'})
+					.val(tag)
+					.keyup(onChange));
 		};
 		
 		return self;
