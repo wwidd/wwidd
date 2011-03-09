@@ -41,7 +41,7 @@ var controls = function (controls, $, services, data) {
 			}
 			// values before and after the change
 			var before = tag,
-					after = data.tags($(this).val()).sanitize();
+					after = data.taglist($(this).val()).sanitize();
 			// discarding changes when there was no change or tag deleted
 			if (after === before || !after.length) {
 				return;
@@ -68,7 +68,7 @@ var controls = function (controls, $, services, data) {
 					kind = tmp[1] || '';
 			return base.display(self, $('<span />', {'class': 'tag display'})
 				.addClass(data.kinds.getNumber(kind))
-				.addClass(controls.search.filter.length && data.tags(controls.search.filter).match(name) ? 'hit' : null)
+				.addClass(controls.search.filter.length && data.taglist(controls.search.filter).match(name) ? 'hit' : null)
 				.attr('title', kind)
 				// adding removal button
 				.append($('<a />', {'href': '#'})

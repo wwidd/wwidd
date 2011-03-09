@@ -41,7 +41,7 @@ var controls = function (controls, $, services, data) {
 			}
 			// adding new value(s) to buffer
 			if (after) {
-				names = data.tags(after).split();
+				names = data.taglist(after).split();
 				for (i = 0; i < names.length; i++) {
 					self.lookup[names[i]] = true;
 				}

@@ -1,39 +1,35 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Tag Collection
+// Tags Data
 ////////////////////////////////////////////////////////////////////////////////
-var data = function (data) {
-	// tag collection
-	data.tags = function (names) {
-		var separator = /\s*[^A-Za-z0-9:\s]+\s*/,
-				tags = names.split(separator);
-		
-		return {
-			// splits string along non-word parts
-			split: function () {
-				return tags;
-			},
-			// removes separators from string
-			sanitize: function () {
-				return tags.join('');
-			},
-			// tells if any of the tags match the submitted name
-			match: function (name) {
-				// no match when tags is empty
-				if (!tags.length || tags.length === 1 && !tags[0].length) {
-					return false;
-				}
-				var re, i;
+var data = function (data, jOrder) {
+	data.tags = function () {
+		var self = {
+			table: null,
+
+			// initializes data object: calls service, populates table
+			init: function () {
+				var media = data.media.table,
+						tags = jOrder.keys(media.index('tags').flat()),
+						json = [], i;
+						
 				for (i = 0; i < tags.length; i++) {
-					re = new RegExp('^' + tags[i] + '.*$', 'i');
-					if (name.match(re)) {
-						return true;
-					}
+					json.push({tag: tags[i]});
 				}
-				return false;
+				
+				self.table = jOrder(json)
+						.index('tag', ['tag'], {ordered: true, type: jOrder.string});
+			},
+
+			// retrieves the first matching tag to a search term
+			search: function (term) {
+				return (self.table.where([{tag: term}], {mode: jOrder.startof, renumber: true})[0] || {tag: ""}).tag;
 			}
 		};
-	};
+
+		return self;
+	}();
 	
 	return data;
-}(data || {});
+}(data,
+	jOrder);
 
