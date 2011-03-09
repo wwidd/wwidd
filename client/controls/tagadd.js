@@ -3,7 +3,7 @@
 //
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services) {
+var controls = function (controls, $, services, data) {
 	// - row: media data record
 	// - idx: index of tag in collection
 	// - handler: callback redrawing parent
@@ -18,16 +18,18 @@ var controls = function (controls, $, services) {
 
 		// tag change event handler
 		function onChange(event) {
-			var $this = $(this);
+			var $this = $(this),
+					term = $this.val(),
+					match = term.length ? data.tags.search(term) : "";
 			
 			// filling backdrop
-			$this.siblings('.backdrop').val($this.val());
+			$this.siblings('.backdrop').val(match);
 			
 			// enter
 			if (event.which !== 13) {
 				return;
 			}
-			var name = $(this).val(),
+			var name = match.length ? match : term,
 					filter = controls.search.filter;
 			if (!name.length) {
 				return;
@@ -68,5 +70,6 @@ var controls = function (controls, $, services) {
 	return controls;
 }(controls || {},
 	jQuery,
-	services);
+	services,
+	data);
 

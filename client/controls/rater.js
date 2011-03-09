@@ -26,7 +26,7 @@ var controls = function (controls, $, services) {
 
 		// dropdown representation
 		self.edit = function () {
-			return $('<select />')
+			return $('<select />', {'class': 'focus'})
 				// adding contents
 				.append(function () {
 					var result = [],

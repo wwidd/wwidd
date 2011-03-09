@@ -140,16 +140,6 @@ span.tag.edit > input {
 	font-size: 10px;
 }
 
-span.tag.edit > input.focus {
-	z-index: 2;
-	background: transparent;
-}
-
-span.tag.edit > input.backdrop {
-	z-index: 1;
-	color: silver;
-}
-
 /******************************
 ADD - DISPLAY STATE
 ******************************/
@@ -170,7 +160,16 @@ ADD - EDIT STATE
 ******************************/
 
 /* add tag editor */
-span.tag.edit > input.add {
+span.tag.edit.add > input.focus {
+	z-index: 2;
 	border: 1px solid green;
+	background: transparent;
+}
+
+/* add tag backdrop displaying best match */
+span.tag.edit.add > input.backdrop {
+	z-index: 1;
+	color: silver;
+	background: white;
 }
 

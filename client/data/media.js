@@ -33,7 +33,8 @@ var data = function (data, jOrder, services) {
 				services.getmedia(filter, function (json) {
 					self.table = jOrder(preprocess(json.data))
 						.index('mediaid', ['mediaid'], {ordered: true, type: jOrder.number})
-						.index('file', ['file_'], {ordered: true, grouped: true, type: jOrder.string});
+						.index('file', ['file_'], {ordered: true, grouped: true, type: jOrder.string})
+						.index('tags', ['tags'], {grouped: true, type: jOrder.array});
 					handler();
 				});
 			},

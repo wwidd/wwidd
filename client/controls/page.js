@@ -57,6 +57,9 @@ var controls = (function (controls, $, data) {
 		self.load = function () {
 			// initializing media table
 			data.media.init(controls.search.filter, function () {
+				// initializing tags table
+				data.tags.init();
+					
 				// adding page-level controls
 				pager.appendTo($('#pager').empty(), self);
 				kinds.appendTo($('#kinds').empty(), self);
