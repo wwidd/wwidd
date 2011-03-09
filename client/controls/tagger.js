@@ -5,8 +5,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
 	controls.tagger = function (row) {
-		var	self = Object.create(controls.control);
+		var	self = Object.create(controls.control),
+				adder;
 
+		self.add = function () {
+			adder.UI.click();
+			//adder.toggle('edit');
+		};
+		
 		self.getUI = function () {
 			var tags = row.tags,
 					result = $('<div />'),
@@ -19,7 +25,7 @@ var controls = function (controls, $, services) {
 					controls.tagedit(row, tags[i]).appendTo(result, self);
 				}
 			}
-			controls.tagadd(row).appendTo(result, self);
+			(adder = controls.tagadd(row)).appendTo(result, self);
 			return result;
 		};
 

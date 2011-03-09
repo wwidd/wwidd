@@ -13,7 +13,8 @@ var controls = function (controls, $, services, data) {
 
 		// tag addition handler: do nothing
 		function onAdd(event) {
-			event.preventDefault();
+			self.parent.add();
+			return false;
 		}
 
 		// tag change event handler
@@ -27,6 +28,7 @@ var controls = function (controls, $, services, data) {
 			switch (event.which) {
 			case 13:
 				// enter - saving values
+				name = data.tag(name).sanitize();
 				if (!name.length) {
 					return;
 				}
@@ -41,6 +43,7 @@ var controls = function (controls, $, services, data) {
 					// adding tag(s) to simgle media file
 					services.addtag(row.mediaid, name, null, function () {
 						self.changetag(null, name, row);
+						self.parent.add();
 					});
 				}
 				break;

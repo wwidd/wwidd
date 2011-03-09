@@ -41,7 +41,7 @@ var controls = function (controls, $, services, data) {
 			}
 			// adding new value(s) to buffer
 			if (after) {
-				names = data.taglist(after).split();
+				names = data.tag(after).split();
 				for (i = 0; i < names.length; i++) {
 					self.lookup[names[i]] = true;
 				}
@@ -49,11 +49,8 @@ var controls = function (controls, $, services, data) {
 			// finalizing changes
 			row.tags = keys(this.lookup);
 			
-			// refreshing kinds
-			data.kinds.init(function () {
-				self.parent.redraw();
-				controls.kinds.redraw();
-			});
+			// redrawing tags for media entry
+			self.parent.redraw();
 		};
 		
 		return self;

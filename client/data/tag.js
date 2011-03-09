@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var data = function (data) {
 	// tag collection
-	data.taglist = function (names) {
+	data.tag = function (names) {
 		var separator = /\s*[^A-Za-z0-9:\s]+\s*/,
 				tags = names.split(separator);
 		
