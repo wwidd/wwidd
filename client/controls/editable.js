@@ -31,7 +31,7 @@ var controls = function (controls, $) {
 
 					// 'click outside' handler
 					function handler(event) {
-						if (event.target !== self.UI.find('input,select')[0]) {
+						if (event.target !== self.UI.find('input,select').andSelf()[0]) {
 							// handling actual click outside event
 							self.toggle('display');
 						} else {
