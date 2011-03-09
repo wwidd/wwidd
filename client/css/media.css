@@ -11,12 +11,25 @@ table.library {
 MEDIA ENTRY
 ******************************/
 
-tr.media.playing {
-	background: yellow; 
+tr.media {
+ background: #F8F8F8;
+ border-bottom: 1px solid #D6D6D6;
 }
 
 tr.media > td {
 	padding: 0 3px;
-	vertical-align: top;
+	line-height: 16px;
+	vertical-align: middle;
+}
+
+tr.media > td > a {
+	display: inline-block; *zoom: 1;
+	color: #444;
+	text-decoration: none;
+}
+
+tr.media.playing > td > a {
+	color: black;
+	font-weight: bold;	
 }
 

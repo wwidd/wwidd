@@ -20,76 +20,77 @@ EDIT - DISPLAY STATE
 ******************************/
 
 span.tag.display {
-	color: grey;
-	background: lightgrey;
+	color: #888;
+	background: #EEE;
 }
 
 /* highlighted tag (search hit) */
 span.tag.display.hit {
 	margin: 1px 5px 1px 0;
-	border: 2px solid red;
+	border-width: 2px;
+	border-style: solid;
 }
 
 /* tag with kind */
 span.tag.kind1 {
-	color: darkred;
-	background: pink;
+	color: #5A6986;
+	border-color: #5A6986;
+	background: #DEE5F2;
 }
 span.tag.kind2 {
-	color: darkgreen;
-	background: lightgreen;
+	color: #206CFF;
+	border-color: #206CFF;
+	background: #E0ECFF;
 }
 span.tag.kind3 {
-	color: darkblue;
-	background: lightblue;
+	color: #00C;
+	border-color: #00C;
+	background: #DFE2FF;
 }
 span.tag.kind4 {
-	color: brown;
-	background: orange;
+	color: #5229A3;
+	border-color: #5229A3;
+	background: #E0D5F9;
 }
 span.tag.kind5 {
-	color: darkcyan;
-	background: cyan;
+	color: #854F61;
+	border-color: #854F61;
+	background: #FDE9F4;
 }
 span.tag.kind6 {
-	color: chocolate;
-	background: yellow;
+	color: #C00;
+	border-color: #C00;
+	background: #FFE3E3;
 }
 span.tag.kind7 {
-	color: brown;
-	background: khaki;
+	color: #EC7000;
+	border-color: #EC7000;
+	background: #FFF0E1;
 }
 span.tag.kind8 {
-	color: white;
-	background: grey;
+	color: #B36D00;
+	border-color: #B36D00;
+	background: #FADCB3;
 }
 span.tag.kind9 {
-	color: pink;
-	background: darkred;
+	color: #AB8B00;
+	border-color: #AB8B00;
+	background: #F3E7B3;
 }
 span.tag.kind10 {
-	color: lightgreen;
-	background: darkgreen;
+	color: #636330;
+	border-color: #636330;
+	background: #FFFFD4;
 }
 span.tag.kind11 {
-	color: lightblue;
-	background: darkblue;
+	color: #64992C;
+	border-color: #64992C;
+	background: #F9FFEF;
 }
 span.tag.kind12 {
-	color: orange;
-	background: brown;
-}
-span.tag.kind13 {
-	color: cyan;
-	background: darkcyan;
-}
-span.tag.kind14 {
-	color: yellow;
-	background: chocolate;
-}
-span.tag.kind15 {
-	color: lightgrey;
-	background: black;
+	color: #063;
+	border-color: #063;
+	background: #F1F5EC;
 }
 
 /* content alignment */
@@ -136,7 +137,7 @@ span.tag.edit > input {
 	width: 120px;
 	height: 13px;
 	padding: 0;
-	border: 1px solid red;
+	border: 1px solid #64992C;
 	font-size: 10px;
 }
 
@@ -146,13 +147,14 @@ ADD - DISPLAY STATE
 
 /* tag adder */
 span.add.tag {
-	background: lightgreen;
+	background: #64992C;
 }
 
 /* add button in add tag */
 span.add.tag > a {
 	margin: 0;
-	color: green;
+	color: #F9FFEF;
+	text-decoration: none;
 }
 
 /******************************
@@ -162,7 +164,7 @@ ADD - EDIT STATE
 /* add tag editor */
 span.tag.edit.add > input.focus {
 	z-index: 2;
-	border: 1px solid green;
+	border: 1px solid #64992C;
 	background: transparent;
 }
 
