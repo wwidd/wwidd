@@ -20,32 +20,39 @@ var controls = function (controls, $, services, data) {
 		function onChange(event) {
 			var $this = $(this),
 					term = $this.val(),
-					match = term.length ? data.tags.search(term) : "";
-			
-			// filling backdrop
-			$this.siblings('.backdrop').val(match);
-			
-			// enter
-			if (event.which !== 13) {
-				return;
-			}
-			var name = match.length ? match : term,
+					match = term.length ? data.tags.searchTag(term) : "",
+					name = match.length ? match : term,
 					filter = controls.search.filter;
-			if (!name.length) {
-				return;
-			}
-			if (event.shiftKey) {
-				// shift + enter is not defined for addition
-			} else if (event.ctrlKey) {
-				// adding tag(s) to multiple media
-				if (filter.length && confirm("Add this to SEARCH results?")) {
-					services.addtag(null, name, filter, controls.page.load);
+			
+			switch (event.which) {
+			case 13:
+				// enter - saving values
+				if (!name.length) {
+					return;
 				}
-			} else {
-				// adding tag(s) to simgle media file
-				services.addtag(row.mediaid, name, null, function () {
-					self.changetag(null, name, row);
-				});
+				if (event.shiftKey) {
+					// shift + enter is not defined for addition
+				} else if (event.ctrlKey) {
+					// adding tag(s) to multiple media
+					if (filter.length && confirm("Add this to SEARCH results?")) {
+						services.addtag(null, name, filter, controls.page.load);
+					}
+				} else {
+					// adding tag(s) to simgle media file
+					services.addtag(row.mediaid, name, null, function () {
+						self.changetag(null, name, row);
+					});
+				}
+				break;
+			case 27:
+				// escape - cancel
+				self.toggle('display');
+				break;
+			default:
+				// any other key - filling backdrop
+				$this.siblings('.backdrop')
+					.val(name);
+				break;
 			}
 		}
 
