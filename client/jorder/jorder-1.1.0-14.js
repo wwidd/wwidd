@@ -4,6 +4,8 @@
 // jOrder blog:
 // http://jorder.net
 
+/*jslint nomen:false, onevar:false*/
+
 var jOrder = (function () {
 	// local jOrder variable
 	var jOrder = function (json, options) {
@@ -399,12 +401,12 @@ var jOrder = (function () {
 			var upper = bounds.upper && jOrder.text === _options.type ? bounds.upper.toLowerCase() : bounds.upper;
 
 			// obtaining start of range
-			var start = (lower !== null ? this.bsearch(lower, jOrder.start) : 0) + options.offset;
+			var start = (lower !== null ? this.bsearch(escape(lower), jOrder.start) : 0) + options.offset;
 
 			// obtaining end of range
 			// smallest of [range end, page end (limit), table length]
 			var end = Math.min(upper ?
-				this.bsearch(upper, jOrder.end) :
+				this.bsearch(escape(upper), jOrder.end) :
 				_order.length - 1,
 			start + options.limit - 1);
 
