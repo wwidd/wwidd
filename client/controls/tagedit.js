@@ -65,13 +65,15 @@ var controls = function (controls, $, services, data) {
 		self.display = function () {
 			var tmp = tag.split(':'),
 					name = tmp[0] || '',
-					kind = tmp[1] || '';
+					kind = tmp[1] || '',
+					hit = controls.search.filter.length && data.tag(controls.search.filter).match(name) ? 'hit' : null;
+					
 			return base.display(self, $('<span />', {'class': 'tag display'})
 				.addClass(data.kinds.getNumber(kind))
-				.addClass(controls.search.filter.length && data.tag(controls.search.filter).match(name) ? 'hit' : null)
+				.addClass(hit)
 				.attr('title', kind)
 				// adding removal button
-				.append($('<a />', {'href': '#'})
+				.append(hit ? null : $('<a />', {'href': '#'})
 					.text('x')
 					.click(onRemove))
 				// adding tag text
