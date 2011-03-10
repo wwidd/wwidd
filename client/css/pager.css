@@ -27,18 +27,18 @@ span.pager > a {
 }
 
 span.pager > a.first {
-	background: url('/image/resultset_first.png');
+	background: url('/image/resultset_first.png') no-repeat;
 }
 
 span.pager > a.prev {
-	background: url('/image/resultset_previous.png');
+	background: url('/image/resultset_previous.png') no-repeat;
 }
 
 span.pager > a.next {
-	background: url('/image/resultset_next.png');
+	background: url('/image/resultset_next.png') no-repeat;
 }
 
 span.pager > a.last {
-	background: url('/image/resultset_last.png');
+	background: url('/image/resultset_last.png') no-repeat;
 }
 
