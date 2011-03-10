@@ -3,9 +3,12 @@
 //
 // Interface for adding library root paths and ingesting their content
 ////////////////////////////////////////////////////////////////////////////////
-var	root = require('../logic/root').root,
+var	$path = require('path'),
+		root = require('../logic/root').root,
 		entity = require('../db/library').library,
 		tag = require('../db/tag').tag,
+		sqlite = require('../tools/sqlite').sqlite,
+		walker = require('../utils/walker').walker,
 
 library = function () {
 	var json;
@@ -19,6 +22,26 @@ library = function () {
 	}
 	
 	self = {
+		// creates a new library
+		// (doesn't check whether it already exists)
+		create: function (name, handler) {
+			sqlite
+				.db(name)
+				.exec('create.sql', handler);
+			return self;
+		},
+		
+		// lists available library names
+		list: function () {
+			var names = [];
+			walker(null, function (path, stats) {
+				names.push($path.basename(path, '.sqlite'));
+			}, {
+				filter: new RegExp('^.+\\.sqlite$', 'ig')
+			}).walkSync(sqlite.path());
+			return names;
+		},
+		
 		// queries all media entries
 		getMedia: function (filter, handler) {
 			entity.getMedia(filter, function (data) {

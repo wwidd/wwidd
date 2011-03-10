@@ -4,14 +4,15 @@
 // Data Access Layer
 ////////////////////////////////////////////////////////////////////////////////
 var	$fs = require('fs'),
+		$path = require('path'),
 		tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
 		tempFile = './temp.sql',
 
-// - dbPath: path to SQLite database file
-sqlite = function (dbPath) {
+sqlite = function () {
 	// inheriting from tool
-	var
+	var db = 'default',
+			path = '../etc/db/',
 	
 	outputParser = Object.create(parser, {
 		rowSeparator: {value: /\n\n\s*/},
@@ -23,10 +24,26 @@ sqlite = function (dbPath) {
 		executable: {value: 'sqlite3'},
 		parser: {value: outputParser}
 	});
-			
+	
+	// getter for path property
+	self.path = function () {
+		return path;
+	};
+	
+	// getter / setter for 
+	self.db = function (value) {
+		if (typeof value === 'undefined') {
+			return db;
+		} else {
+			db = value;
+			return self;
+		}
+	};
+	
 	// executes an SQL command through the sqlite command line tool
 	self.exec = function (statement, handler, options, useTemp) {
-		var	args = options || [];
+		var	fileName = path + db + '.sqlite',
+				args = options || [];
 		
 		// writing statement to temp file
 		if (useTemp) {
@@ -34,10 +51,15 @@ sqlite = function (dbPath) {
 			console.log("Writing SQL statement to temp file...");
 			$fs.writeFileSync(tempFile, statement);
 			console.log("SQL temp file written.");
-			args = args.concat([dbPath, '<', tempFile]);
+			args = args.concat([fileName, '<', tempFile]);
 		} else {
-			// passing the command directly
-			args = args.concat([dbPath, '"' + statement + '"']);
+			if ($path.extname(statement) === '.sql') {
+				// reading sql from file
+				args = args.concat([fileName, '<', path + statement]);
+			} else {
+				// passing the command directly
+				args = args.concat([fileName, '"' + statement + '"']);
+			}
 		}
 
 		// running sql statement
@@ -49,7 +71,7 @@ sqlite = function (dbPath) {
 	};
 	
 	return self;
-};
+}();
 
-exports.sqlite = sqlite('../etc/db/metabase');
+exports.sqlite = sqlite;
 
