@@ -4,7 +4,6 @@
 // Data Access Layer
 ////////////////////////////////////////////////////////////////////////////////
 var	$fs = require('fs'),
-		$path = require('path'),
 		tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
 		tempFile = './temp.sql',
@@ -53,7 +52,7 @@ sqlite = function () {
 			console.log("SQL temp file written.");
 			args = args.concat([fileName, '<', tempFile]);
 		} else {
-			if ($path.extname(statement) === '.sql') {
+			if (statement.match(/^.+\\.sql$/ig)) {
 				// reading sql from file
 				args = args.concat([fileName, '<', path + statement]);
 			} else {
