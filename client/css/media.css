@@ -54,16 +54,18 @@ div.rater {
 	height: 16px;
 }
 
-div.rater > span {
+div.rater > a {
 	display: inline-block; *zoom: 1;
 	width: 16px;
 	height: 16px;
 	margin: 0;
 	padding: 0;
+	color: transparent;
+	text-decoration: none;
 	background: url('/image/bullet_white.png') no-repeat;
 }
 
-div.rater > span.star {
+div.rater > a.star {
 	background: url('/image/star.png') no-repeat;
 }
 
