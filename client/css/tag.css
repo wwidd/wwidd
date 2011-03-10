@@ -105,16 +105,14 @@ span.tag > label {
 }
 
 /* delete button in tag */
-span.tag > a {
-	margin: 0 3px 0 0;
-	color: red;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-/* delete button hovered */
-span.tag > a:hover {
-	text-decoration: underline;
+span.tag > a.remove {
+	display: inline-block; *zoom: 1;
+	width: 13px;
+	height: 13px;
+	margin: 0;
+	padding: 0;
+	color: transparent;
+	background: url('/image/bullet_delete.png') no-repeat -2px -2px;
 }
 
 /* checkbox */
