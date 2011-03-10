@@ -9,7 +9,7 @@ var controls = function (controls, $, data) {
 
 		// members
 		self.page = 0;
-		self.items = 25;
+		self.items = 20;
 		self.max = 0;
 		
 		// resets pager to first page
