@@ -27,10 +27,13 @@ tr.media > td {
 }
 
 tr.media > td.file a {
-	padding: 0 20px 0 0;
 	display: inline-block; *zoom: 1;
+	width: 300px;
+	padding: 0 20px 0 0;
+	overflow: hidden;
 	color: #444;
 	text-decoration: none;
+	white-space: nowrap;
 }
 
 tr.media > td.file a:hover {
@@ -50,22 +53,19 @@ COLUMNS
 ******************************/
 
 tr.media > td.check {
-	width: 0%;
-	min-width: 16px;
+	width: 16px;
 }
 
 tr.media > td.file {
-	width: 30%;
-	min-width: 100px;
+	width: 300px;
 }
 
 tr.media > td.rater {
-	width: 0%;
-	min-width: 85px;
+	width: 85px;
 }
 
 tr.media > td.tagger {
-	width: 70%;
+	width: 100%;
 	min-width: 200px;
 }
 

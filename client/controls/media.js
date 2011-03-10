@@ -49,7 +49,7 @@ var controls = function (controls, $, services, data) {
 					$('<td />', {'class': 'check'}).append(self.checkbox)[0],
 					// filename
 					$('<td />', {'class': 'file'})
-						.append($('<a />', {'href': '#'})
+						.append($('<a />', {'href': '#', 'title': row.file})
 							.text(row.file)
 							.click(onClick))[0],
 					// rating
