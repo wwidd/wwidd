@@ -44,3 +44,26 @@ tr.media.playing > td > a {
 	background: url('/image/control_play_blue.png') no-repeat top left;
 }
 
+/******************************
+RATER
+******************************/
+
+div.rater {
+	display: inline-block; *zoom: 1;
+	width: 80px;
+	height: 16px;
+}
+
+div.rater > span {
+	display: inline-block; *zoom: 1;
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	padding: 0;
+	background: url('/image/bullet_white.png') no-repeat;
+}
+
+div.rater > span.star {
+	background: url('/image/star.png') no-repeat;
+}
+

@@ -1,52 +1,66 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Rater Control
 //
-// This is a temporary rater control, with textual stars that turn into
-// a dropdown.
+// The number of stars represent the rating. Up to five stars can be given.
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
 	controls.rater = function (row) {
-		var base = controls.editable(),
+		var base = controls.control,
 				self = Object.create(base),
+				UI;
 
-		states = {
-			0: "unrated",
-			1: "*",
-			2: "**",
-			3: "***",
-			4: "****",
-			5: "*****"
-		};
+		// generates a rater UI with no. of stars equal to rating
+		function getUI(rating) {
+			// constructing jQuery object
+			var $result = $('<div />', {'class': 'rater'})
+				.append('<span />')
+				.append('<span />')
+				.append('<span />')
+				.append('<span />')
+				.append('<span />');
+
+			// filling stars
+			if (row.rating > 0) {
+				$result.find('span')
+					.eq(row.rating - 1)
+						.prevAll()
+						.andSelf()
+							.addClass('star');
+			}
+			
+			return $result;
+		}
 		
-		// textual representation
-		self.display = function () {
-			return base.display(self, $('<span />')
-				.text(states[row.rating || 0]));
-		};
+		self.getUI = function () {
+			var 
+			
+			// creates a UI with mouse handler
+			$result = getUI(row.rating)
+				.mouseleave(function () {
+					self.redraw();	
+				}),
 
-		// dropdown representation
-		self.edit = function () {
-			return $('<select />', {'class': 'focus'})
-				// adding contents
-				.append(function () {
-					var result = [],
-							state;
-					for (state in states) {
-						result.push($('<option />', {'value': state, 'selected': state === row.rating ? 'selected': null})
-							.text(states[state])[0]);
-					}
-					return $(result);
-				}())
-				// saving rating 
-				.change(function () {
-					var $this = $(this),
-							rating = $this.val();
+			// adding event handlers to stars (filled or otherwise)
+			$spans = $result.children('span')
+				.mouseover(function () {
+					// fills as many stars as the user points at
+					$spans
+						.removeClass('star')
+						.eq($spans.index(this))
+							.prevAll()
+							.andSelf()
+								.addClass('star');
+				})
+				.click(function () {
+					var rating = $spans.index(this) + 1;
 					// calling rater service
 					services.rate(row.mediaid, rating, function () {
 						row.rating = rating;
-						self.toggle('display');
+						self.redraw();
 					});
 				});
+
+			return $result;
 		};
 
 		return self;
