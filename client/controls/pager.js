@@ -73,7 +73,7 @@ var controls = function (controls, $, data) {
 				options.push($('<option />', {
 					value: j,
 					selected: j === parseInt(self.page, 10) ? 'selected' : null
-				}).text((j + 1) + " - " + row.file.substr(0, 5))[0]);
+				}).text((j + 1) + " - " + row.file.substr(0, 5) + "...")[0]);
 			}
 			
 			return $('<span />', {'class': 'pager'})
