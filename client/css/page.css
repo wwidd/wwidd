@@ -1,22 +1,86 @@
 /******************************
-PAGE LAYOUT
+HEADER
 ******************************/
+
+h1, h1 > span {
+	font-family: tahoma, sans;
+	font-size: 28px;
+	font-weight: bold;
+}
 
 h1 {
 	margin: 0;
-	font-family: tahoma, sans;
-	font-size: 24px;
-	font-weight: bold;
+	color: #888;
 }
+
+h1 > span {
+	color: #DEE5F2;
+}
+
+/******************************
+LIBRARY
+******************************/
+
+#library {
+	margin: 20px 0 0 0;
+	border: 5px solid #6694E3;
+	border-radius: 3px; -moz-border-radius: 3px;
+}
+
+/******************************
+CONTROLS
+******************************/
 
 #kinds,
 #controls,
 #rootadd {
-	margin: 10px 0 0 0;
+	margin: 0;
+	padding: 2px 5px;
+	background: #E0ECFF;
 }
+
+#controls {
+	height: 24px;
+	line-height: 24px;
+	vertical-align: bottom;
+	border-bottom: 1px solid #D6D6D6;
+}
+
+#controls > a {
+	margin: 0 10px 0 0;
+	color: #0065CC;
+	text-decoration: none;
+}
+
+/******************************
+PAGER
+******************************/
 
 #pager {
 	position: absolute;
-	right: 0;
+	margin: 0 5px 0 0;
+	right: 5px;
 }
+
+/******************************
+ROOT ADD
+******************************/
+
+#rootadd {
+	padding: 5px;
+	vertical-align: middle;
+}
+
+#rootadd input,
+#rootadd span,
+#rootadd button {
+	margin: 0 5px 0 0;
+	vertical-align: middle;
+}
+
+#rootadd input {
+	border: 1px solid black;
+	border-radius: 3px; -moz-border-radius: 3px;	
+}
+
 

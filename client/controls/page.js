@@ -65,7 +65,7 @@ var controls = (function (controls, $, data) {
 				kinds.appendTo($('#kinds').empty(), self);
 
 				// adding page to dom
-				self.appendTo($('#library').empty());
+				self.appendTo($('#media').empty());
 			});
 			
 			// initializing kinds table
@@ -80,7 +80,7 @@ var controls = (function (controls, $, data) {
 		
 		// draws contents
 		self.getUI = function () {
-			var $table = $('<table />', {'class': 'library'}),
+			var $table = $('<table />', {'class': 'media'}),
 					page = data.media.getPage(pager.page, pager.items),
 					i;
 			for (i = 0; i < page.length; i++) {
