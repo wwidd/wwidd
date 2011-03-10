@@ -28,8 +28,15 @@ tr.media > td > a {
 	text-decoration: none;
 }
 
+tr.media > td > a:hover {
+	padding: 0 0 0 20px;
+	background: url('/image/control_play.png') no-repeat top left;
+}
+
 tr.media.playing > td > a {
+	padding: 0 0 0 20px;
 	color: black;
 	font-weight: bold;	
+	background: url('/image/control_play_blue.png') no-repeat top left;
 }
 
