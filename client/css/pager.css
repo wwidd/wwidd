@@ -18,10 +18,27 @@ BUTTONS
 ******************************/
 
 span.pager > a {
-	margin: 0 3px;
-	color: grey;
-	font-size: 13px;
-	font-weight: bold;
-	text-decoration: none;
+	display: inline-block; *zoom: 1;
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	padding: 0;
+	color: transparent;
+}
+
+span.pager > a.first {
+	background: url('/image/resultset_first.png');
+}
+
+span.pager > a.prev {
+	background: url('/image/resultset_previous.png');
+}
+
+span.pager > a.next {
+	background: url('/image/resultset_next.png');
+}
+
+span.pager > a.last {
+	background: url('/image/resultset_last.png');
 }
 
