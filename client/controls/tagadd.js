@@ -37,7 +37,7 @@ var controls = function (controls, $, services, data) {
 				} else if (event.ctrlKey) {
 					// adding tag(s) to multiple media
 					if (filter.length && confirm("Add this to SEARCH results?")) {
-						services.addtag(null, name, filter, controls.page.load);
+						services.addtag(null, name, filter, controls.library.init);
 					}
 				} else {
 					// adding tag(s) to simgle media file

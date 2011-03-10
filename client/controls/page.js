@@ -4,7 +4,6 @@
 var controls = (function (controls, $, data) {
 	controls.page = function () {
 		var self = Object.create(controls.control),
-				entries = [],
 				pager,
 				kinds;
 
@@ -35,49 +34,46 @@ var controls = (function (controls, $, data) {
 			events();
 			
 			// initializing pager control
-			pager = controls.pager;
-			kinds = controls.kinds
-				.onChecked(function () {
-					self.redraw();
-				});
-			
-			// initializing search box
-			controls.search.appendTo($('#search').empty(), self);
+			controls.pager
+				.appendTo($('#pager').empty(), self);
 				
-			// initializing root adder
-			controls.rootadd.appendTo($('#rootadd').empty(), self);
+			// initializing and adding kinds control
+			controls.kinds
+				.onChecked(function () {
+					controls.library.redraw();
+				})
+				.appendTo($('#kinds').empty(), self);
+			
+			// adding search box to page
+			controls.search
+				.appendTo($('#search').empty(), self);
+				
+			// adding root adder to page
+			controls.rootadd
+				.appendTo($('#rootadd').empty(), self);
+			
+			// adding library to page
+			controls.library
+				.appendTo($('#media').empty(), self);
 			
 			// loading data
-			self.load();
+			controls.library
+				.onInit(function () {
+					// redrawing controls
+					controls.pager.redraw();
+
+					// initializing kinds table
+					data.kinds
+						.init(function () {
+							controls.library.redraw();
+							controls.kinds.redraw();
+						});
+				})
+				.init();
 
 			return self;
 		};
 
-		// (re-)loads page contents
-		self.load = function () {
-			// initializing media table
-			data.media.init(controls.search.filter, function () {
-				// initializing tags table
-				data.tags.init();
-					
-				// adding page-level controls
-				pager.appendTo($('#pager').empty(), self);
-				kinds.appendTo($('#kinds').empty(), self);
-
-				// adding page to dom
-				self.appendTo($('#media').empty());
-			});
-			
-			// initializing kinds table
-			data.kinds.init(function () {
-				if (self.UI) {
-					self.redraw();
-				}
-			});
-			
-			return self;
-		};
-		
 		// draws contents
 		self.getUI = function () {
 			var $table = $('<table />', {'class': 'media'}),

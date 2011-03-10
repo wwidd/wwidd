@@ -14,7 +14,7 @@ var controls = function (controls, $, services) {
 		function search() {
 			self.filter = self.UI.val();
 			controls.pager.reset();
-			controls.page.load();
+			controls.library.init();
 		}
 
 		// starts keyup timer and starts search after 300ms

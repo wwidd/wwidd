@@ -34,7 +34,7 @@ var controls = function (controls, $, data) {
 		// dropdown representation
 		self.getUI = function () {
 			var $kinds = $('<span />'),
-					flat = data.kinds.table.flat(),
+					flat = data.kinds.table ? data.kinds.table.flat() : [],
 					i;
 			for (i = 0; i < flat.length; i++) {
 				controls.kind(flat[i], handler).appendTo($kinds, self);

@@ -18,7 +18,7 @@ var controls = function (controls, $, data) {
 		};
 		
 		function refresh() {
-			controls.page.redraw();
+			controls.library.redraw();
 			self.redraw();
 			return false;
 		}
@@ -26,7 +26,7 @@ var controls = function (controls, $, data) {
 		// event handlers
 		function onChange() {
 			self.page = $(this).val();
-			controls.page.redraw();
+			controls.library.redraw();
 		}
 		function onFirst() {
 			if (self.page === 0) {

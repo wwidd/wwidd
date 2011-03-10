@@ -13,10 +13,10 @@ var data = function (data, jOrder, services) {
 		
 		// preprocesses video metadata
 		function preprocess(json) {
-			var i;
+			var i, row, fileInfo;
 			for (i = 0; i < json.length; i++) {
-				var row = json[i],
-						fileInfo = splitPath(row.path);
+				row = json[i];
+				fileInfo = splitPath(row.path);
 				row.file = fileInfo.file;
 				row.file_ = fileInfo.file.toLowerCase();
 				row.ext = fileInfo.ext;
@@ -41,17 +41,23 @@ var data = function (data, jOrder, services) {
 
 			// retrieves one page from the table
 			getPage: function (page, items) {
-				return self.table.orderby(['file_'], jOrder.asc, {offset: page * items, limit: items, renumber: true});
+				return self.table ? 
+					self.table.orderby(['file_'], jOrder.asc, {offset: page * items, limit: items, renumber: true}) :
+					[];
 			},
 			
 			// returns first row of page
 			getFirst: function (page, items) {
-				return self.table.orderby(['file_'], jOrder.asc, {offset: page * items, limit: 1, renumber: true});
+				return self.table ?
+					self.table.orderby(['file_'], jOrder.asc, {offset: page * items, limit: 1, renumber: true}) :
+					[{}];
 			},
 			
 			// returns total number of pages in dataset
 			getPages: function (items) {
-				return Math.ceil(self.table.flat().length / items);
+				return self.table ? 
+					Math.ceil(self.table.flat().length / items) :
+					0;
 			}
 		};
 
