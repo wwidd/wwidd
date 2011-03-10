@@ -82,7 +82,8 @@ var controls = (function (controls, $, data) {
 		self.getUI = function () {
 			var $table = $('<table />', {'class': 'media'}),
 					page = data.media.getPage(pager.page, pager.items),
-					i;
+					i, entry;
+
 			for (i = 0; i < page.length; i++) {
 				entry = controls.media(page[i]);
 				entry.appendTo($table, self);

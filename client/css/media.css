@@ -26,22 +26,47 @@ tr.media > td {
 	vertical-align: middle;
 }
 
-tr.media > td > a {
+tr.media > td.file a {
+	padding: 0 20px 0 0;
 	display: inline-block; *zoom: 1;
 	color: #444;
 	text-decoration: none;
 }
 
-tr.media > td > a:hover {
+tr.media > td.file a:hover {
 	padding: 0 0 0 20px;
-	background: url('/image/control_play.png') no-repeat top left;
+	background: url('/image/control_play.png') no-repeat center left;
 }
 
-tr.media.playing > td > a {
+tr.media.playing > td.file a {
 	padding: 0 0 0 20px;
 	color: black;
 	font-weight: bold;	
-	background: url('/image/control_play_blue.png') no-repeat top left;
+	background: url('/image/control_play_blue.png') no-repeat center left;
+}
+
+/******************************
+COLUMNS
+******************************/
+
+tr.media > td.check {
+	width: 0%;
+	min-width: 16px;
+}
+
+tr.media > td.file {
+	width: 30%;
+	min-width: 100px;
+}
+
+tr.media > td.rater {
+	width: 0%;
+	min-width: 85px;
+}
+
+tr.media > td.tagger {
+	width: 70%;
+	min-width: 200px;
 }
 
 /******************************

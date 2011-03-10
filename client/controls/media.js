@@ -46,16 +46,16 @@ var controls = function (controls, $, services, data) {
 			return $('<tr />', {'class': 'media'})
 				.append($([
 					// checkbox
-					$('<td />').append(self.checkbox)[0],
+					$('<td />', {'class': 'check'}).append(self.checkbox)[0],
 					// filename
-					$('<td />').append(
-						$('<a />', {'href': '#'})
+					$('<td />', {'class': 'file'})
+						.append($('<a />', {'href': '#'})
 							.text(row.file)
 							.click(onClick))[0],
 					// rating
-					controls.rater(row).appendTo($('<td />'), self)[0],
+					controls.rater(row).appendTo($('<td />', {'class': 'rater'}), self)[0],
 					// tags
-					controls.tagger(row).appendTo($('<td />'), self)[0]
+					controls.tagger(row).appendTo($('<td />', {'class': 'tagger'}), self)[0]
 				]))
 				.addClass(data.pagestate.lastPlayed === self.data.mediaid ? 'playing' : null);
 		};
