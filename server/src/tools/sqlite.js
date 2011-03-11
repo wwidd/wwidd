@@ -11,7 +11,7 @@ var	$fs = require('fs'),
 sqlite = function () {
 	// inheriting from tool
 	var db = 'default',
-			path = '../etc/db/',
+			path = '../db/',
 	
 	outputParser = Object.create(parser, {
 		rowSeparator: {value: /\n\n\s*/},
