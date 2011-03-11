@@ -21,6 +21,21 @@ $http.createServer(function (req, res) {
 
   // executing command
 	switch (endpoint) {
+	case '/getlibs':
+		envelope(res, false, function () {
+			return library.list();
+		});
+		break;
+		
+	case '/setlib':
+		envelope(res, false, function () {
+			if (!query.name) {
+				throw "Missing parameters";
+			}
+			library.set(query.name);
+		});
+		break;
+		
 	case '/getmedia':
 		ok = envelope(res, true, function () {
 			library.getMedia(query.filter, function (data) {

@@ -11,19 +11,13 @@ var controls = (function (controls, $, data) {
 		function events() {
 			$('#selectall')
 				.click(function () {
-					var i;
-					for (i = 0; i < entries.length; i++) {
-						entries[i].select();
-					}
+					controls.library.selectAll();
 					return false;
 				});
 
 			$('#selectnone')
 				.click(function () {
-					var i;
-					for (i = 0; i < entries.length; i++) {
-						entries[i].deselect();
-					}
+					controls.library.selectNone();
 					return false;
 				});
 		}
@@ -47,16 +41,17 @@ var controls = (function (controls, $, data) {
 			// adding search box to page
 			controls.search
 				.appendTo($('#search').empty(), self);
+			
+			// adding library switcher
+			controls.switcher
+				.init()
+				.appendTo($('#switcher').empty(), self);
 				
 			// adding root adder to page
 			controls.rootadd
 				.appendTo($('#rootadd').empty(), self);
 			
-			// adding library to page
-			controls.library
-				.appendTo($('#media').empty(), self);
-			
-			// loading data
+			// initializing and adding library to page
 			controls.library
 				.onInit(function () {
 					// redrawing controls
@@ -69,7 +64,8 @@ var controls = (function (controls, $, data) {
 							controls.kinds.redraw();
 						});
 				})
-				.init();
+				.init()
+				.appendTo($('#media').empty(), self);
 
 			return self;
 		};

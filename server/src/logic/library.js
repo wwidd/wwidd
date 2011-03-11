@@ -39,7 +39,16 @@ library = function () {
 			}, {
 				filter: new RegExp('^.+\\.sqlite$', 'ig')
 			}).walkSync(sqlite.path());
-			return names;
+			return {
+				names: names,
+				selected: sqlite.db()
+			};
+		},
+		
+		// sets library (sqlite db file) to use
+		set: function (name) {
+			sqlite.db(name);
+			return self;
 		},
 		
 		// queries all media entries

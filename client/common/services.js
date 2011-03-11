@@ -12,6 +12,18 @@ var services = function ($) {
 			}, handler);
 		},
 		
+		// retrieves a list of available libraries
+		getlibs: function (handler) {
+			$.getJSON(url + 'getlibs', handler);
+		},
+		
+		// retrieves a list of available libraries
+		setlib: function (name, handler) {
+			$.getJSON(url + 'setlib', {
+				name: name
+			}, handler);
+		},
+		
 		// retrieves all media (matching the filter) from library
 		getmedia: function (filter, handler) {
 			$.getJSON(url + 'getmedia', {

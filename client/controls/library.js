@@ -7,6 +7,24 @@ var controls = (function (controls, $, data) {
 				entries = [],
 				onInit = function () {};
 		
+		// selects all elements in visible library
+		self.selectAll = function () {
+			var i;
+			for (i = 0; i < entries.length; i++) {
+				entries[i].select();
+			}
+			return self;
+		};
+		
+		// deselects all elements in visible library
+		self.selectNone = function () {
+			var i;
+			for (i = 0; i < entries.length; i++) {
+				entries[i].deselect();
+			}
+			return self;
+		};
+				
 		// setter for external init handler
 		self.onInit = function (handler) {
 			onInit = handler;
