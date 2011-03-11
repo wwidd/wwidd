@@ -11,6 +11,8 @@ var controls = function (controls, $, services) {
 
 		function onChange() {
 			services.setlib($(this).val(), function () {
+				controls.pager.reset();
+				controls.search.reset();
 				controls.library.init();
 			});
 		}

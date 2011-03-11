@@ -33,6 +33,11 @@ var controls = function (controls, $, services) {
 			search();
 		}
 		
+		self.reset = function () {
+			self.filter = "";
+			self.redraw();
+		};
+		
 		// sets or gets the 'live' state of the control
 		// if live, search starts 300ms after last keyup,
 		// if not live, search starts on hitting enter
