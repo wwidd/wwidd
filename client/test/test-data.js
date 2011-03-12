@@ -5,11 +5,31 @@ var test = function (test, data) {
 	test.data = function () {
 		var tag1 = 'test, abc,de:fg',
 				tag2 = 'whatever/it /, is',
-				media_bak = services.media;
+				kinds_bak = services.getkinds,
+				media_bak = services.getmedia;
 				
 		module("Data");
 		
-		/* Testing 'data.media' */
+		////////////////////////////////////////////////////////////////////////////////
+
+		// mock method
+		services.getkinds = function (handler) {
+			handler({
+				status: 'OK',
+				data: [{kind: ""}, {kind: "abc"}, {kind: "test"}, {kind: "whatever"}, {kind: "this"}, {kind: "alpha"}, {kind: "bravo"}]
+			});
+		};
+		
+		data.kinds.init();
+
+		test("[kinds] Reverse kind lookup (kind -> number)", function () {
+			equal(data.kinds.getNumber('abc'), 'kind1', "abc");
+			equal(data.kinds.getNumber('this'), 'kind4', "this");
+		});
+		
+		services.getkinds = kinds_bak;
+		
+		////////////////////////////////////////////////////////////////////////////////
 
 		// mock method
 		services.getmedia = function (filter, handler) {
@@ -48,7 +68,7 @@ var test = function (test, data) {
 
 		services.getmedia = media_bak;
 
-		/* Testing 'data.tag' */
+		////////////////////////////////////////////////////////////////////////////////
 		
 		test("[tag] Tag splitting (spliting multiple tags along non-tag characters)", function () {
 			deepEqual(data.tag(tag1).split(), ['test', 'abc', 'de:fg'], "Space and semicolon");
@@ -64,7 +84,6 @@ var test = function (test, data) {
 			ok(data.tag(tag1).match('abc'), "Space and semicolon");
 			ok(data.tag(tag2).match('is'), "Irregular separators");
 		});
-		
 	};
 	
 	return test;
