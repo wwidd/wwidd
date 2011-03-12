@@ -84,6 +84,21 @@ var test = function (test, data) {
 			ok(data.tag(tag1).match('abc'), "Space and semicolon");
 			ok(data.tag(tag2).match('is'), "Irregular separators");
 		});
+
+		////////////////////////////////////////////////////////////////////////////////
+		
+		data.tags.init();
+		
+		test("[tags] Searching for tag (name and kind)", function () {
+			equal(data.tags.searchTag('lo'), 'lots:', "First tag starting with 'lo'");
+			equal(data.tags.searchTag('sur'), 'sure:actor', "First tag starting with 'sur'");
+		});
+
+		test("[tags] Searching for tag name", function () {
+			equal(data.tags.searchName('lo'), 'lots', "First tag name starting with 'lo'");
+			equal(data.tags.searchName('sur'), 'sure', "First tag name starting with 'sur'");
+			equal(data.tags.searchName('te'), 'test', "First tag name starting with 'te'");
+		});
 	};
 	
 	return test;
