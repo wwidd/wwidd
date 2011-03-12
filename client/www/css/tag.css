@@ -128,6 +128,7 @@ EDIT - EDIT STATE
 span.tag.edit {
 	position: relative;
 	width: 122px;
+	height: 15px;
 }
 
 span.tag.edit > input {
