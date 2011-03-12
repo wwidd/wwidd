@@ -71,18 +71,18 @@ var test = function (test, data) {
 		////////////////////////////////////////////////////////////////////////////////
 		
 		test("[tag] Tag splitting (spliting multiple tags along non-tag characters)", function () {
-			deepEqual(data.tag(tag1).split(), ['test', 'abc', 'de:fg'], "Space and semicolon");
-			deepEqual(data.tag(tag2).split(), ['whatever', 'it', 'is'], "Irregular separators");
+			deepEqual(data.tag(tag1).split(), ['test', 'abc', 'de:fg'], "Splitting '" + tag1 + "'");
+			deepEqual(data.tag(tag2).split(), ['whatever', 'it', 'is'], "Splitting '" + tag2 + "'");
 		});
 
 		test("[tag] Tag sanitation (removing non-tag characters)", function () {
-			equals(data.tag(tag1).sanitize(), 'testabcde:fg', "Space and semicolon");
-			equals(data.tag(tag2).sanitize(), 'whateveritis', "Irregular separators");
+			equals(data.tag(tag1).sanitize(), 'testabcde:fg', "Sanitizing '" + tag1 + "'");
+			equals(data.tag(tag2).sanitize(), 'whateveritis', "Sanitizing '" + tag2 + "'");
 		});
 		
 		test("[tag] Tag matching (if tag macthes any in the user input)", function () {
-			ok(data.tag(tag1).match('abc'), "Space and semicolon");
-			ok(data.tag(tag2).match('is'), "Irregular separators");
+			ok(data.tag(tag1).match('abc'), "Searching 'abc' in " + tag1);
+			ok(data.tag(tag2).match('is'), "Searching 'is' in " + tag2);
 		});
 
 		////////////////////////////////////////////////////////////////////////////////
