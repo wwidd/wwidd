@@ -63,7 +63,7 @@ var controls = function (controls, $) {
 		};
 		
 		return self;
-	};
+	}();
 	
 	return controls;
 }(controls || {},

@@ -5,7 +5,7 @@ var controls = function (controls, $, services, data) {
 	// - row: media data record
 	// - handler: callback redrawing parent
 	controls.tagbase = function (row) {
-		var	base = controls.editable(),
+		var	base = controls.editable,
 				self = Object.create(base),
 				i;
 
