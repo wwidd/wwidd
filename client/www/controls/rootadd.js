@@ -16,9 +16,7 @@ var controls = function (controls, $, services) {
 		// called on clicking the add button
 		function onAdd() {
 			services.addroot($dirInput.val(), function () {
-				self
-					.parent	// page
-					.load();
+				controls.library.init();
 				alert("Folder successfully added to library.");
 			});
 		}
