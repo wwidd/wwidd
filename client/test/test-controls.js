@@ -85,7 +85,7 @@ var test = function (test, $, controls) {
 		test("[kind] Checked state", function () {
 			var test_kind = controls.kind({kind: "test"}),
 					before_checked,
-					after_clicked;
+					after_checked;
 			
 			test_kind.appendTo($('<div />'));
 			before_checked = test_kind.UI.find(':checkbox').is(':checked');
