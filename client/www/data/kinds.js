@@ -18,6 +18,7 @@ var data = function (data, jOrder, services) {
 						handler();
 					}
 				});
+				return self;
 			},
 
 			// retrieves the number assigned to the kind

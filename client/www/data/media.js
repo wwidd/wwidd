@@ -37,6 +37,7 @@ var data = function (data, jOrder, services) {
 						.index('tags', ['tags'], {grouped: true, type: jOrder.array});
 					handler();
 				});
+				return self;
 			},
 
 			// retrieves one page from the table
