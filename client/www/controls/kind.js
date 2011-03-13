@@ -34,7 +34,7 @@ var controls = function (controls, $, data) {
 				.addClass(data.kinds.getNumber(row.kind))
 				.append($('<input type="checkbox">')
 					.attr('id', id)
-					.attr('checked', !self.parent.hidden(row.kind))
+					.attr('checked', !self.parent || !self.parent.hidden(row.kind))
 					.click(onChecked))
 				.append($('<label />')
 					.attr('for', id)
