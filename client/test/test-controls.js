@@ -65,6 +65,40 @@ var test = function (test, $, controls) {
 			$('body').click();
 			equals(test_editable.mode, mode_before, "Clicking outside of edit changes mode back to display");			
 		});
+
+		////////////////////////////////////////////////////////////////////////////////
+		// controls.kind is tricky, because we need to test if clicking on the:
+		// checkbox, label and anywhere else on the control triggers the same event
+		
+		test("[kind] Clicking paprts of the control", function () {
+			var test_kind = controls.kind({kind: "test"}, function () {
+				ok(true, "Click handler triggered");
+			});
+			
+			test_kind.appendTo($('<div />'));
+			
+			expect(2);
+			test_kind.UI.click();
+			test_kind.UI.find(':checkbox').click();
+		});
+
+		test("[kind] Checked state", function () {
+			var test_kind = controls.kind({kind: "test"}),
+					before_checked,
+					after_clicked;
+			
+			test_kind.appendTo($('<div />'));
+			before_checked = test_kind.UI.find(':checkbox').is(':checked');
+			test_kind.UI.click();
+			after_checked = test_kind.UI.find(':checkbox').is(':checked');
+			
+			notEqual(after_checked, before_checked, "Checked state changes after clicking the control");
+			before_checked = after_checked;
+			test_kind.UI.click();
+			after_checked = test_kind.UI.find(':checkbox').is(':checked');
+
+			notEqual(after_checked, before_checked, "Checked state changes back after clicking again");			
+		});
 	};
 	
 	return test;
