@@ -4,6 +4,7 @@
 // Data Access Layer
 ////////////////////////////////////////////////////////////////////////////////
 var	$fs = require('fs'),
+		$os = require('os'),
 		tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
 		tempFile = './temp.sql',
@@ -12,10 +13,11 @@ sqlite = function () {
 	// inheriting from tool
 	var db = 'default',
 			path = '../db/',
+			isLinux = $os.type() === 'Linux',
 	
 	outputParser = Object.create(parser, {
-		rowSeparator: {value: /\n\n\s*/},
-		fieldSeparator: {value: /\n\s*/},
+		rowSeparator: {value: isLinux ? /\n\n\s*/ : /\r\n\r\n\s*/},
+		fieldSeparator: {value: isLinux ? /\n\s*/ : /\r\n\s*/},
 		keySeparator: {value: ' = '}
 	}),
 

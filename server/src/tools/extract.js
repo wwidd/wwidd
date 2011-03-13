@@ -1,15 +1,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 // File Metadata Extraction Tool
 ////////////////////////////////////////////////////////////////////////////////
-var	tool = require('../tools/tool').tool,
+var	$os = require('os'),
+		tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
 
 extract = function () {
-	var
+	var isLinux = $os.type() === 'Linux',
 	
 	outputParser = Object.create(parser, {
-		rowSeparator: {value: '\n\n'},
-		fieldSeparator: {value: '\n'},
+		rowSeparator: {value: isLinux ? '\n\n' : '\r\n\r\n'},
+		fieldSeparator: {value: isLinux ? '\n' : '\r\n'},
 		keySeparator: {value: ' - '},
 		rowSkip: {value: 0},
 		fieldSkip: {value: 1},
