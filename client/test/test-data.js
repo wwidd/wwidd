@@ -82,8 +82,8 @@ var test = function (test, data) {
 		});
 		
 		test("[tag] Tag matching (if tag macthes any in the user input)", function () {
-			ok(data.tag(tag1).match('abc'), "Searching 'abc' in " + tag1);
-			ok(data.tag(tag2).match('is'), "Searching 'is' in " + tag2);
+			ok(data.tag(tag1).match('abc'), "Searching 'abc' in '" + tag1 + "'");
+			ok(data.tag(tag2).match('is'), "Searching 'is' in '" + tag2 + "'");
 		});
 
 		////////////////////////////////////////////////////////////////////////////////
