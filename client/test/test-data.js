@@ -6,7 +6,8 @@ var test = function (test, data) {
 		var tag1 = 'test, abc,de:fg',
 				tag2 = 'whatever/it /, is',
 				kinds_bak = services.getkinds,
-				media_bak = services.getmedia;
+				media_bak = services.getmedia,
+				tags_bak = services.gettags;
 				
 		module("Data");
 		
@@ -87,6 +88,19 @@ var test = function (test, data) {
 
 		////////////////////////////////////////////////////////////////////////////////
 		
+		services.gettags = function (handler) {
+			handler({
+				status: 'OK',
+				data: [
+					{name: "lots", tag: "lots:"},
+					{name: "sure", tag: "sure:actor"},
+					{name: "test", tag: "test:"},
+					{name: "abc", tag: "abc:"},
+					{name: "what", tag: "what:"}
+				]
+			});
+		};
+		
 		data.tags.init();
 		
 		test("[tags] Searching for tag (name and kind)", function () {
@@ -99,6 +113,8 @@ var test = function (test, data) {
 			equal(data.tags.searchName('sur'), 'sure', "First tag name starting with 'sur'");
 			equal(data.tags.searchName('te'), 'test', "First tag name starting with 'te'");
 		});
+		
+		services.gettags = tags_bak;
 	};
 	
 	return test;

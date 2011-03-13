@@ -17,7 +17,15 @@ tag = function () {
 		console.log(statement);
 		sqlite.exec(statement, handler, ['-header', '-line']);
 	};
-			
+
+	// retrieves all tags
+	self.getTags = function (handler) {
+		var statement = "SELECT DISTINCT name, name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS tag FROM tags";
+		
+		console.log(statement);
+		sqlite.exec(statement, handler, ['-header', '-line']);
+	};
+	
 	// adds one or more tags to a file
 	self.add = function (after, filter, handler) {
 		var 

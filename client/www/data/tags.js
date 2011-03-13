@@ -1,28 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tags Data
 ////////////////////////////////////////////////////////////////////////////////
-var data = function (data, jOrder) {
+var data = function (data, jOrder, services) {
 	data.tags = function () {
 		var self = {
 			table: null,
 
 			// initializes data object: calls service, populates table
 			init: function () {
-				var media = data.media.table,
-						tags = jOrder.keys(media.index('tags').flat()),
-						json = [], i, tag;
-						
-				for (i = 0; i < tags.length; i++) {
-					tag = tags[i];
-					json.push({
-						tag: tag,
-						name: tag.split(':')[0]
-					});
-				}
-				
-				self.table = jOrder(json)
+				services.gettags(function (json) {
+					self.table = jOrder(json.data)
 						.index('tag', ['tag'], {ordered: true, type: jOrder.string})
 						.index('name', ['name'], {ordered: true, grouped: true, type: jOrder.string});
+				});
+				return self;
 			},
 
 			// retrieves the first matching tag to a search term
@@ -40,5 +31,6 @@ var data = function (data, jOrder) {
 	
 	return data;
 }(data,
-	jOrder);
+	jOrder,
+	services);
 

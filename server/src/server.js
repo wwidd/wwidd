@@ -52,6 +52,14 @@ $http.createServer(function (req, res) {
 		});
 		break;
 		
+	case '/gettags':
+		ok = envelope(res, true, function () {
+			library.getTags(function (data) {
+				ok(data);
+			});
+		});
+		break;
+		
 	case '/addroot':
 		// adding path to root collection or library
 		ok = envelope(res, true, function () {

@@ -36,6 +36,11 @@ var services = function ($) {
 			$.getJSON(url + 'getkinds', handler);
 		},
 		
+		// retrieves all tag kinds from library
+		gettags: function (handler) {
+			$.getJSON(url + 'gettags', handler);
+		},
+		
 		// starts playback of a file
 		play: function (path, handler) {
 			$.getJSON(url + 'play', {
