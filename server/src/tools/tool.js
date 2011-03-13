@@ -12,50 +12,54 @@ tool = {
 	// parser interpreting the tool's output
 	parser: null,
 	
+	// child process
+	child: null,
+	
+	// pipes data to the child process' input
+	pipe: function (data, self) {
+		self = self || this;
+		if (self.child) {
+			self.child.stdin.end(data);
+		}
+		return self;
+	},
+	
 	// executes tool in specified mode
-	run: function (mode, args, handler, self) {
-		var executable = (self || this).executable,
-				parser = (self || this).parser,
-				child;
-				
-		if (!executable) {
+	exec: function (args, handler, self) {
+		var stdout = [];
+		
+		self = self || this;		
+
+		if (!self.executable) {
 			throw "No executable defined for tool.";
 		}
 
-		// comprehensive return handler w/ output parsing
-		function fullHandler(error, stdout, stderr) {
-			if (error !== null) {
-				throw ["Tool", "'" + executable + "'", "exited with code:", error].join(" ") + ".";
+		// starting tool
+		self.child = $child_process.spawn(self.executable, args);
+
+		// data buffering
+		self.child.stdout.on('data', function (data) {
+			stdout.push(data);
+		});
+
+		// handling tool exit
+		self.child.on('exit', function (code) {
+			if (code !== 0) {
+				throw ["Tool", "'" + self.executable + "'", "exited with code:", code].join(" ") + ".";
 			}
 			if (!handler) {
 				return;
 			}
-			if (!parser) {
-				handler(stdout);
+			if (!self.parser) {
+				handler(stdout.join(''));
 				return;
 			}
-			handler(parser.parse(stdout));
-		}
-		
-		// choosing between exec and spawn
-		if (mode === 'exec') {
-			$child_process.exec([executable].concat(args).join(' '), {maxBuffer: 1024 * 1024}, fullHandler);
-		} else {
-			child = $child_process.spawn(executable, args);		
-			child.on('exit', fullHandler);				
-		}
+			self.child = null;
+			
+			handler(self.parser.parse(stdout.join('')));
+		});
 		
 		return self;
-	},
-	
-	// executes tool
-	exec: function (args, handler, self) {
-		return self.run('exec', args, handler, self);
-	},
-	
-	// spawns a new process for the tool
-	spawn: function (args, handler, self) {
-		return self.run('spawn', args, handler, self);
 	}
 };
 

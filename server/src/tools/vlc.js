@@ -7,8 +7,8 @@ vlc = function () {
 	// inheriting from tool
 	var self = Object.create(tool, {executable: {value: 'vlc'}});
 	
-	self.spawn = function (path, args, handler) {
-		tool.spawn(args.concat(['"' + path + '"']), handler, self);
+	self.exec = function (path, args, handler) {
+		tool.exec(args.concat([path]), handler, self);
 	};
 	
 	return self;

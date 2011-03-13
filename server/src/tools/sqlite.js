@@ -40,25 +40,18 @@ sqlite = function () {
 	};
 	
 	// executes an SQL command through the sqlite command line tool
-	self.exec = function (statement, handler, options, useTemp) {
+	self.exec = function (statement, handler, options, pipe) {
 		var	fileName = path + db + '.sqlite',
-				args = options || [];
+				args = (options || []).concat([fileName]);
+
+		if (statement.match(/^.+\\.sql$/ig)) {
+			// reading statement from file
+			statement = $fs.readFileSync(statement);
+		}
 		
-		// writing statement to temp file
-		if (useTemp) {
-			// using a temp file
-			console.log("Writing SQL statement to temp file...");
-			$fs.writeFileSync(tempFile, statement);
-			console.log("SQL temp file written.");
-			args = args.concat([fileName, '<', tempFile]);
-		} else {
-			if (statement.match(/^.+\\.sql$/ig)) {
-				// reading sql from file
-				args = args.concat([fileName, '<', path + statement]);
-			} else {
-				// passing the command directly
-				args = args.concat([fileName, '"' + statement + '"']);
-			}
+		if (!pipe) {
+			// passing the command directly
+			args = args.concat([statement]);
 		}
 
 		// running sql statement
@@ -67,6 +60,11 @@ sqlite = function () {
 				handler(data);
 			}
 		}, self);
+
+		// piping statement to sqlite process
+		if (pipe) {
+			self.pipe(statement);
+		}
 	};
 	
 	return self;

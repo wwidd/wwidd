@@ -16,7 +16,7 @@ media = function (path) {
 		// plays back a video
 		play: function (handler) {
 			console.log("Starting playback of file " + path);
-			vlc.spawn('vlc', ['-vvv', path], function (path) {
+			vlc.exec('vlc', ['-vvv', path], function (path) {
 				console.log("Playback finished or interrupted");
 			});
 			// not waiting for playback to finish

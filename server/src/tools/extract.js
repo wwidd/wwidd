@@ -25,7 +25,7 @@ extract = function () {
 	});
 	
 	self.exec = function (path, args, handler) {
-		tool.exec(args.concat(['"' + path + '"']), handler, self);
+		tool.exec(args.concat([path]), handler, self);
 	};
 	
 	return self;
