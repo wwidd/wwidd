@@ -78,19 +78,15 @@ var controls = function (controls, $, data) {
 			
 			return $('<span />', {'class': 'pager'})
 				.append($('<a />', {'class': 'first', 'href': '#', 'title': "First"})
-					.text("<<")
 					.click(onFirst))
 				.append($('<a />', {'class': 'prev', 'href': '#', 'title': "Previous"})
-					.text("<")
 					.click(onPrev))
 				.append($('<select />')
 					.append($(options))
 					.change(onChange))
 				.append($('<a />', {'class': 'next', 'href': '#', 'title': "Next"})
-					.text(">")
 					.click(onNext))
 				.append($('<a />', {'class': 'last', 'href': '#', 'title': "Last"})
-					.text(">>")
 					.click(onLast));
 		};
 

@@ -14,7 +14,7 @@ var controls = function (controls, $, services) {
 			var $result = $('<div />', {'class': 'rater'}),
 					i;
 			for (i = 0; i < 5; i++) {
-				$result.append($('<a />', {'href': '#'}).text("*"));
+				$result.append('<a href="#" />');
 			}
 
 			// filling stars

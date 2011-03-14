@@ -74,11 +74,9 @@ var controls = function (controls, $, services, data) {
 				.attr('title', kind)
 				// adding removal button
 				.append(hit ? null : $('<a />', {'href': '#', 'class': 'remove'})
-					.text('x')
 					.click(onRemove))
 				// adding tag text
-				.append($('<span />')
-					.text(name)));
+				.append('<span>' + name + '</span>'));
 		};
 
 		// constructs edit state of the control
