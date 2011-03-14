@@ -10,7 +10,6 @@ var controls = function (controls, $, services) {
 
 		self.add = function () {
 			adder.UI.click();
-			//adder.toggle('edit');
 		};
 		
 		self.getUI = function () {

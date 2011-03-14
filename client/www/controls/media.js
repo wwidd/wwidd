@@ -44,19 +44,17 @@ var controls = function (controls, $, services, data) {
 			
 			// constructing UI
 			return $('<tr />', {'class': 'media'})
-				.append($([
-					// checkbox
-					$('<td />', {'class': 'check'}).append(self.checkbox)[0],
-					// filename
-					$('<td />', {'class': 'file'})
-						.append($('<a />', {'href': '#', 'title': row.file})
-							.text(row.file)
-							.click(onClick))[0],
-					// rating
-					controls.rater(row).appendTo($('<td />', {'class': 'rater'}), self)[0],
-					// tags
-					controls.tagger(row).appendTo($('<td />', {'class': 'tagger'}), self)[0]
-				]))
+				// checkbox
+				.append($('<td />', {'class': 'check'}).append(self.checkbox))
+				// filename
+				.append($('<td />', {'class': 'file'})
+					.append($('<a />', {'href': '#', 'title': row.file})
+						.text(row.file)
+						.click(onClick)))
+				// rating
+				.append(controls.rater(row).appendTo($('<td />', {'class': 'rater'}), self))
+				// tags
+				.append(controls.tagger(row).appendTo($('<td />', {'class': 'tagger'}), self))
 				.addClass(data.pagestate.lastPlayed === self.data.mediaid ? 'playing' : null);
 		};
 
