@@ -7,16 +7,14 @@ var controls = function (controls, $, services, data) {
 	controls.tagbase = function (row) {
 		var	base = controls.editable,
 				self = Object.create(base),
+				siblings = row.tags,
 				i;
 
 		// initializing tag lookup
-		(function () {
-			var siblings = row.tags;
-			self.lookup = {};
-			for (i = 0; i < siblings.length; i++) {
-				self.lookup[siblings[i]] = true;
-			}
-		}());
+		self.lookup = {};
+		for (i = 0; i < siblings.length; i++) {
+			self.lookup[siblings[i]] = true;
+		}
 		
 		// gets key from a lookup table
 		function keys(lookup) {
