@@ -39,7 +39,7 @@ tool = {
 
 		// data buffering
 		self.child.stdout.on('data', function (data) {
-			stdout.push(data);
+			stdout.push(Buffer.isBuffer(data) ? data.toString('binary') : data);
 		});
 
 		// handling tool exit

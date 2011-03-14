@@ -4,7 +4,7 @@
 // Takes care of exception handling and constructing JSON response.
 ////////////////////////////////////////////////////////////////////////////////
 
-var
+var	gzip = require('../tools/gzip').gzip,
 
 // envelopes a request
 // - res: response object
@@ -15,8 +15,14 @@ var
 envelope = function (res, async, handler) {
 	// final ok handler
 	function ok(data) {
-		res.writeHead(200, {'Content-Type': 'application/json'});
-		res.end(JSON.stringify({
+		res.writeHead(200, {
+			'Content-Type': 'application/json',
+			'Content-Encoding': 'gzip'
+		});
+		gzip.exec(function (data) {
+			res.end(data, 'binary');
+		});
+		gzip.pipe(JSON.stringify({
 			'status': 'OK',
 			'data': data
 		}));
@@ -28,7 +34,7 @@ envelope = function (res, async, handler) {
 		res.end(JSON.stringify({
 			'status': 'ERROR',
 			'message': err
-		}));
+		}), 'binary');
 	}
 	
 	// handling async exceptions
