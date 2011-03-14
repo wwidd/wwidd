@@ -26,51 +26,26 @@ tag = function () {
 		sqlite.exec(statement, handler, ['-header', '-line']);
 	};
 	
-	// adds one or more tags to a file
+	// adds one tag to the file
 	self.add = function (after, filter, handler) {
-		var 
-		
-		// splitting along non-tag characters w/ optional padding
-		tags = after.tag.split(/\s*[^A-Za-z0-9:\s]+\s*/),
-		
-		// generates sql for a single tag
-		// - tag: "name:kind"
-		single = function (tag) {
-			var tmp = tag.split(':'),
-					name = "'" + tmp[0] + "'",
-					kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL";
-			return (filter ? [
-				"INSERT OR IGNORE INTO",
-				self.kind,
-				"(mediaid, name, kind)",
-				["SELECT mediaid", name, kind].join(","),
-				"FROM tags",
-				$media.filter(filter)
-			] : [
-				"INSERT OR IGNORE INTO",
-				self.kind,
-				"(mediaid, name, kind) VALUES",
-				"(" + [after.mediaid, name, kind].join(',') + ")"
-			]).join(" ");
-		},
-		
-		statement = (tags.length === 1 ? [
-			// single tag
-			single(tags[0])
+		var tmp = after.tag.split(':'),
+				name = "'" + tmp[0] + "'",
+				kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL",
+
+		statement = (filter ? [
+			"INSERT OR IGNORE INTO",
+			self.kind,
+			"(mediaid, name, kind)",
+			["SELECT mediaid", name, kind].join(","),
+			"FROM tags",
+			$media.filter(filter)
 		] : [
-			// multiple tags
-			"BEGIN TRANSACTION",
-			(function () {
-				var result = [],
-						i;
-				for (i = 0; i < tags.length; i++) {
-					result.push(single(tags[i]));
-				}
-				return result.join(";\n"); 
-			}()),
-			"COMMIT"
-		]).join(";\n");
-		
+			"INSERT OR IGNORE INTO",
+			self.kind,
+			"(mediaid, name, kind) VALUES",
+			"(" + [after.mediaid, name, kind].join(',') + ")"
+		]).join(" ");
+				
 		console.log(statement);
 		sqlite.exec(statement, handler);		
 	};
