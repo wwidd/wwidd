@@ -73,7 +73,7 @@ var controls = function (controls, $, services, data) {
 				'title': kind
 			})
 				// adding removal button
-				.append(hit ? null : $('<a />', {'href': '#', 'class': 'remove'})
+				.append($('<a />', {'href': '#', 'class': 'remove'})
 					.click(onRemove))
 				// adding tag text
 				.append('<span>' + name + '</span>'));
