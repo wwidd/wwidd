@@ -68,10 +68,10 @@ var controls = function (controls, $, services, data) {
 					kind = tmp[1] || '',
 					hit = controls.search.filter.length && data.tag(controls.search.filter).match(name) ? 'hit' : null;
 					
-			return base.display(self, $('<span />', {'class': 'tag display'})
-				.addClass(data.kinds.getNumber(kind))
-				.addClass(hit)
-				.attr('title', kind)
+			return base.display(self, $('<span />', {
+				'class': ['tag', 'display', data.kinds.getNumber(kind), hit].join(' '),
+				'title': kind
+			})
 				// adding removal button
 				.append(hit ? null : $('<a />', {'href': '#', 'class': 'remove'})
 					.click(onRemove))
