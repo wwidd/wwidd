@@ -166,6 +166,9 @@ $http.createServer(function (req, res) {
 				case '.css':
 					res.writeHead(200, {"Content-Type": "text/css"});
 					break;
+				case '.png':
+					res.writeHead(200, {"Content-Type": "image/png"});
+					break;
 				default:
 					res.writeHead(200, {"Content-Type": "text/plain"});
 					break;
