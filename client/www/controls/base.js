@@ -13,10 +13,9 @@ var controls = function (controls, $) {
 	controls.base = function () {
 		var self =  {
 			// properties
-			id: controls.id(),
-			selector: null,
-			parent: null,
-			children: [],
+			id: controls.id(),	// id is automatically assigned
+			parent: null,				// parent control
+			children: [],				// child controls
 	
 			// adds a child to the control
 			append: function (child) {
@@ -26,9 +25,7 @@ var controls = function (controls, $) {
 			
 			// initializes the control
 			// e.g. adding data, events, etc.
-			init: function (target, selector) {
-				throw "Abstract";
-			},
+			init: null,
 			
 			// produces the control's html
 			html: function () {
@@ -49,9 +46,7 @@ var controls = function (controls, $) {
 				(function inner(control) {
 					var i, child,
 					// initializing current control
-					result = control.selector ? 
-						control.init(elem, this.selector) :
-						true;
+					result = control.init ? control.init(elem) : true;
 					// initializing children
 					if (control.children.lengh) {
 						for (i = 0; i < control.children; i++) {

@@ -28,8 +28,8 @@ var controls = function (controls, $, services) {
 		self.selector = '.switcher';
 		
 		// initializes switcher control
-		self.init = function (target, selector) {
-			target.find('select').change(onChange);
+		self.init = function (elem, selector) {
+			elem.find('select').change(onChange);
 			return false;
 		};
 
