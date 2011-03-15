@@ -9,13 +9,17 @@ var controls = function (controls, $, services) {
 				self = Object.create(base),
 				data = {names: []};
 
-		// loading data
+		//////////////////////////////
+		// Initialization
+
 		services.getlibs(function (json) {
 			data = json.data;
 			self.render();
 		});
 
-		// dropdown item selection handler
+		//////////////////////////////
+		// Event handlers
+
 		function onChange() {
 			services.setlib($(this).val(), function () {
 				controls.pager.reset();
@@ -24,16 +28,14 @@ var controls = function (controls, $, services) {
 			});
 		}
 
-		// selector identifying control type
-		self.selector = '.switcher';
-		
-		// initializes switcher control
+		//////////////////////////////
+		// Overrides
+
 		self.init = function (elem, selector) {
 			elem.find('select').change(onChange);
 			return false;
 		};
 
-		// generates control markup
 		self.html = function () {
 			var names = data.names,
 					selected = data.selected,

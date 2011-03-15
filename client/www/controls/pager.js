@@ -12,7 +12,9 @@ var controls = function (controls, $, data) {
 		self.items = 20;
 		self.max = 0;
 		
-		// resets pager to first page
+		//////////////////////////////
+		// Utility functions
+
 		self.reset = function () {
 			self.page = 0;
 		};
@@ -23,7 +25,9 @@ var controls = function (controls, $, data) {
 			return false;
 		}
 		
-		// event handlers
+		//////////////////////////////
+		// Event handlers
+
 		function onChange() {
 			self.page = $(this).val();
 			controls.library.redraw();
@@ -57,7 +61,9 @@ var controls = function (controls, $, data) {
 			return refresh();
 		}
 		
-		// adds event handlers
+		//////////////////////////////
+		// Overrides
+
 		self.init = function (elem, selector) {
 			elem
 				.find('a.first').click(onFirst).end()
@@ -68,7 +74,6 @@ var controls = function (controls, $, data) {
 			return false;
 		};
 		
-		// constructs the pager's markup
 		self.html = function () {
 			// re-setting page in case pager is out of bounds
 			self.max = data.media.getPages(self.items);
