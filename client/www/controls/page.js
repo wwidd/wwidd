@@ -29,25 +29,22 @@ var controls = (function (controls, $, data) {
 			
 			// initializing pager control
 			controls.pager
-				.render()
-				.appendTo($('#pager').empty());
+				.render($('#pager').empty());
 				
 			// initializing and adding kinds control
 			controls.kinds
 				.onChecked(function () {
 					controls.library.redraw();
 				})
-				.render()
-				.appendTo($('#kinds').empty());
+				.render($('#kinds').empty());
 			
 			// adding search box to page
 			controls.search
-				.appendTo($('#search').empty(), self);
+				.render($('#search').empty());
 			
 			// adding library switcher
 			controls.switcher
-				.render()
-				.appendTo($('#switcher').empty());
+				.render($('#switcher').empty());
 				
 			// adding root adder to page
 			controls.rootadd

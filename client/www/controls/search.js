@@ -3,36 +3,37 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
 	controls.search = function () {
-		var base = controls.control,
-				self = Object.create(base),
-				timer = null;
+		var self = Object.create(controls.base());
 
 		self.filter = "";
-				
-		// runs search
-		function search() {
-			self.filter = self.UI.val();
-			controls.pager.reset();
-			controls.library.init();
-		}
+		
+		self.reset = function () {
+			self.filter = "";
+			self.render();
+		};
 
-		// starts search when enter was pressed
+		//////////////////////////////
+		// Event handlers
+
 		function onEnter(event) {
 			if (event.which !== 13) {
 				return;
 			}
-			search();
+			self.filter = $(this).val();
+			controls.pager.reset();
+			controls.library.init();
 		}
 		
-		self.reset = function () {
-			self.filter = "";
-			self.redraw();
+		//////////////////////////////
+		// Overrides
+
+		self.init = function (elem) {
+			elem.keyup(onEnter);
+			return false;
 		};
 		
-		self.getUI = function () {
-			return $('<input type="text" />')
-				.addClass('search')
-				.keyup(onEnter);
+		self.html = function () {
+			return '<input id="' + self.id + '" type="text" class="search" />';
 		};
 				
 		return self;
