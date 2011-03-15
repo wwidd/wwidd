@@ -37,7 +37,8 @@ var controls = (function (controls, $, data) {
 				.onChecked(function () {
 					controls.library.redraw();
 				})
-				.appendTo($('#kinds').empty(), self);
+				.render()
+				.appendTo($('#kinds').empty());
 			
 			// adding search box to page
 			controls.search
@@ -62,7 +63,9 @@ var controls = (function (controls, $, data) {
 					data.kinds
 						.init(function () {
 							controls.library.redraw();
-							controls.kinds.redraw();
+							controls.kinds
+								.load()
+								.render();
 						});
 				})
 				.init()

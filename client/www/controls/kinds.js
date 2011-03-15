@@ -1,13 +1,40 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Kind Selector Control
 //
-// Lets teh user control what kind of tags are visible
+// Lets the user control what kind of tags are visible
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, data) {
 	controls.kinds = function () {
-		var self = Object.create(controls.control),
+		var self = Object.create(controls.base()),
 				onChecked = function () {},
 				hidden = {};
+
+		//////////////////////////////
+		// Utility functions
+
+		function handler(kind, state) {
+			if (state) {
+				delete hidden[kind];
+			} else {
+				hidden[kind] = true;
+			}
+			onChecked();
+			return self;
+		}
+
+		// re-creates children controls according to kinds data
+		self.load = function () {
+			var flat = data.kinds.table ? data.kinds.table.flat() : [],
+					i;
+			self.clear();
+			for (i = 0; i < flat.length; i++) {
+				self.append(controls.kind(flat[i], handler));
+			}
+			return self;
+		};
+
+		//////////////////////////////
+		// Getters / setters
 
 		// event handler setter
 		self.onChecked = function (handler) {
@@ -20,26 +47,17 @@ var controls = function (controls, $, data) {
 			return hidden[kind];
 		};
 			
-		// function called on kind check
-		function handler(kind, state) {
-			if (state) {
-				delete hidden[kind];
-			} else {
-				hidden[kind] = true;
-			}
-			onChecked();
-			return self;
-		}
+		//////////////////////////////
+		// Overrides
 
-		// dropdown representation
-		self.getUI = function () {
-			var $kinds = $('<span />'),
-					flat = data.kinds.table ? data.kinds.table.flat() : [],
+		self.html = function () {
+			var result = ['<span id="', self.id, '">'],
 					i;
-			for (i = 0; i < flat.length; i++) {
-				controls.kind(flat[i], handler).appendTo($kinds, self);
+			for (i = 0; i < self.children.length; i++) {
+				result.push(self.children[i].html());
 			}
-			return $kinds;
+			result.push('</span>');
+			return result.join('');
 		};
 
 		return self;
