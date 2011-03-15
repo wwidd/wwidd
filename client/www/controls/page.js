@@ -29,7 +29,8 @@ var controls = (function (controls, $, data) {
 			
 			// initializing pager control
 			controls.pager
-				.appendTo($('#pager').empty(), self);
+				.render()
+				.appendTo($('#pager').empty());
 				
 			// initializing and adding kinds control
 			controls.kinds
@@ -55,7 +56,7 @@ var controls = (function (controls, $, data) {
 			controls.library
 				.onInit(function () {
 					// redrawing controls
-					controls.pager.redraw();
+					controls.pager.render();
 
 					// initializing kinds table
 					data.kinds

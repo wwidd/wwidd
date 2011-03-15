@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, data) {
 	controls.pager = function () {
-		var self = Object.create(controls.control);
+		var self = Object.create(controls.base());
 
 		// members
 		self.page = 0;
@@ -19,7 +19,7 @@ var controls = function (controls, $, data) {
 		
 		function refresh() {
 			controls.library.redraw();
-			self.redraw();
+			self.render();
 			return false;
 		}
 		
@@ -57,39 +57,49 @@ var controls = function (controls, $, data) {
 			return refresh();
 		}
 		
-		// dropdown representation
-		self.getUI = function () {
-			var options = [],
-					j, row;
-
+		// adds event handlers
+		self.init = function (elem, selector) {
+			elem
+				.find('a.first').click(onFirst).end()
+				.find('a.prev').click(onPrev).end()
+				.find('a.next').click(onNext).end()
+				.find('a.last').click(onLast).end()
+				.find('select').change(onChange).end();
+			return false;
+		};
+		
+		// constructs the pager's markup
+		self.html = function () {
+			// re-setting page in case pager is out of bounds
 			self.max = data.media.getPages(self.items);
 			if (self.page > self.max) {
 				self.page = 0;
 			}
-			
-			// constructing option collection
+
+			var options = [],
+					j, row;
+	
+			// adding options
 			for (j = 0; j < self.max; j++) {
 				row = data.media.getFirst(j, self.items)[0];
-				options.push($('<option />', {
-					value: j,
-					selected: j === parseInt(self.page, 10) ? 'selected' : null
-				}).text((j + 1) + " - " + row.file.substr(0, 5) + "...")[0]);
+				options.push([
+					'<option value="', j, '"', j === parseInt(self.page, 10) ? ' selected="selected"' : '', '>',
+					(j + 1) + " - " + row.file.substr(0, 5) + "...",
+					'</option>'
+				].join(''));
 			}
-			
-			return $('<span />', {'class': 'pager'})
-				.append($('<a />', {'class': 'first', 'href': '#', 'title': "First"})
-					.click(onFirst))
-				.append($('<a />', {'class': 'prev', 'href': '#', 'title': "Previous"})
-					.click(onPrev))
-				.append($('<select />')
-					.append($(options))
-					.change(onChange))
-				.append($('<a />', {'class': 'next', 'href': '#', 'title': "Next"})
-					.click(onNext))
-				.append($('<a />', {'class': 'last', 'href': '#', 'title': "Last"})
-					.click(onLast));
-		};
 
+			return [
+				'<span class="pager" id="' + self.id + '">',
+				'<a class="first" href="#" title="First"></a>',
+				'<a class="prev" href="#" title="Previous"></a>',
+				'<select>', options.join(''), '</select>',
+				'<a class="next" href="#" title="Next"></a>',
+				'<a class="last" href="#" title="Last"></a>',
+				'</span>'
+			].join('');
+		};
+	
 		return self;
 	}();
 	
