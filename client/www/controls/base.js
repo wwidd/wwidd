@@ -38,16 +38,21 @@ var controls = function (controls, $) {
 			},
 			
 			// renders the control
-			render: function () {
+			render: function (parent) {
 				// initializing jQuery object from full control markup
 				var elem = $(this.html()),
 						target = $('#' + this.id);
 
-				if (target) {
+				// adding control to dom
+				if (target.length) {
 					target.replaceWith(elem);
+				} else if (parent) {
+					parent.append(elem);
+				} else {
+					throw "No way to add control to DOM";
 				}
 
-				// internal tree walker
+				// walking control tree initializing nodes
 				(function inner(control) {
 					var i,
 					// initializing current control
