@@ -61,7 +61,6 @@ var controls = function (controls, $) {
 					if (control.children.length) {
 						for (i = 0; i < control.children.length; i++) {
 							// when a control.init() returns false, it breaks the init cycle
-							// for its siblings -> useful in conj. with jQuery.live()
 							if (inner(control.children[i]) === false) {
 								break;
 							}
