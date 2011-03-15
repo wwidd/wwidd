@@ -3,38 +3,51 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
 	controls.rootadd = function () {
-		var self = Object.create(controls.control),
-				$dirInput = $('<input type="text" />'),
-				$addButton = $('<button type="button" />');
+		var self = Object.create(controls.base());
+
+		//////////////////////////////
+		// Initialization
 
 		// called when a directory or file is selected
 		function onDirTyped() {
-			var dir = $(this).val();
-			$addButton.attr('disabled', dir.length ? '': 'disabled');
+			var $this = $(this);
+			$this.siblings('button').attr('disabled', $this.val().length ? null : 'disabled');
 		}
 		
 		// called on clicking the add button
 		function onAdd() {
-			services.addroot($dirInput.val(), function () {
+			var $this = $(this);
+			services.addroot($this.siblings('input').val(), function () {
 				controls.library.init();
+				$this.siblings('input').val(null);
 				alert("Folder successfully added to library.");
 			});
 		}
 
-		// generates jQuery object for control
-		self.getUI = function () {
-			return $('<div />')
-				.append($('<span />')
-					.text("Add folder to library: "))
-				.append($dirInput
-					.change(onDirTyped)
-					.keyup(onDirTyped))
-				.append($addButton
-					.text("Add")
-					.attr('disabled', 'disabled')
-					.click(onAdd));
-		};
+		//////////////////////////////
+		// Overrides
 
+		self.init = function (elem) {
+			elem
+				.find('input')
+					.change(onDirTyped)
+					.keyup(onDirTyped)
+				.end()
+				.find('button')
+					.click(onAdd)
+				.end();
+		};
+		
+		self.html = function () {
+			return [
+				'<div id="', self.id, '">',
+				'<span>', "Add filder to library:", '</span>',
+				'<input type="text">',
+				'<button type="button" disabled="disabled">', "Add", '</button>',
+				'</div>'
+			].join('');
+		};
+		
 		return self;
 	}();
 	

@@ -48,7 +48,7 @@ var controls = (function (controls, $, data) {
 				
 			// adding root adder to page
 			controls.rootadd
-				.appendTo($('#rootadd').empty(), self);
+				.render($('#rootadd').empty());
 			
 			// initializing and adding library to page
 			controls.library
