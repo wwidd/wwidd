@@ -44,8 +44,8 @@ var controls = (function (controls, $, data) {
 			
 			// adding library switcher
 			controls.switcher
-				.init()
-				.appendTo($('#switcher').empty(), self);
+				.render()
+				.appendTo($('#switcher').empty());
 				
 			// adding root adder to page
 			controls.rootadd
