@@ -2,6 +2,16 @@
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services, data) {
+	// gets key from a lookup table
+	function keys(lookup) {
+		var result = [],
+				name;
+		for (name in lookup) {
+			result.push(name);
+		}
+		return result;
+	}
+	
 	// - row: media data record
 	// - handler: callback redrawing parent
 	controls.tagbase = function (row) {
@@ -14,16 +24,6 @@ var controls = function (controls, $, services, data) {
 		self.lookup = {};
 		for (i = 0; i < siblings.length; i++) {
 			self.lookup[siblings[i]] = true;
-		}
-		
-		// gets key from a lookup table
-		function keys(lookup) {
-			var result = [],
-					name;
-			for (name in lookup) {
-				result.push(name);
-			}
-			return result;
 		}
 		
 		// changes tag to one or more tags
