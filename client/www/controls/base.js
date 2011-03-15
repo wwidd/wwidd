@@ -23,6 +23,11 @@ var controls = function (controls, $) {
 				child.parent = this;
 			},
 			
+			// removes child controls
+			clear: function () {
+				this.children.length = 0;
+			},
+			
 			// initializes the control
 			// e.g. adding data, events, etc.
 			init: null,
@@ -44,12 +49,12 @@ var controls = function (controls, $) {
 
 				// internal tree walker
 				(function inner(control) {
-					var i, child,
+					var i,
 					// initializing current control
-					result = control.init ? control.init(elem) : true;
+					result = control.init ? control.init($('#' + control.id)) : true;
 					// initializing children
-					if (control.children.lengh) {
-						for (i = 0; i < control.children; i++) {
+					if (control.children.length) {
+						for (i = 0; i < control.children.length; i++) {
 							// when a control.init() returns false, it breaks the init cycle
 							// for its siblings -> useful in conj. with jQuery.live()
 							if (inner(control.children[i]) === false) {
