@@ -10,6 +10,9 @@ var controls = function (controls, $, services, data) {
 		var	base = controls.tagbase(row),
 				self = Object.create(base);
 
+		//////////////////////////////
+		// Event handlers
+		
 		// tag remove event handler
 		function onRemove(event) {
 			var filter = controls.search.filter;
@@ -61,30 +64,38 @@ var controls = function (controls, $, services, data) {
 			}
 		}
 		
-		// constructs display state of the control
+		//////////////////////////////
+		// Overrides
+		
+		self.init = function (elem) {
+			if (self.mode === 'display') {
+				elem.find('.remove').click(onRemove);
+			} else {
+				elem.find('input').keyup(onChange);
+			}
+			base.init(self, elem);
+		};
+		
 		self.display = function () {
 			var tmp = tag.split(':'),
 					name = tmp[0] || '',
 					kind = tmp[1] || '',
 					hit = controls.search.filter.length && data.tag(controls.search.filter).match(name) ? 'hit' : null;
-					
-			return base.display(self, $('<span />', {
-				'class': ['tag', 'display', data.kinds.getNumber(kind), hit].join(' '),
-				'title': kind
-			})
-				// adding removal button
-				.append($('<a />', {'href': '#', 'class': 'remove'})
-					.click(onRemove))
-				// adding tag text
-				.append('<span>' + name + '</span>'));
+			
+			return [
+				'<span id="', self.id, '" class="', ['tag', 'display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
+				'<a href="#" class="remove"></a>',
+				'<span>', name, '</span>',
+				'</span>'
+			].join('');
 		};
 
-		// constructs edit state of the control
 		self.edit = function () {
-			return $('<span />', {'class': 'tag edit'})
-				.append($('<input />', {'type': 'text', 'class': 'focus'})
-					.val(tag)
-					.keyup(onChange));
+			return [
+				'<span id="', self.id, '" class="tag edit">',
+				'<input type="text" class="focus" value="', tag, '"/>',
+				'</span>'
+			].join('');
 		};
 		
 		return self;

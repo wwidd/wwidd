@@ -7,45 +7,56 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $) {
 	controls.editable = function () {
-		var self = Object.create(controls.control);
+		var self = Object.create(controls.base()),
+				that = this;
 		
 		// mode can be either 'display' or 'edit'
 		self.mode = 'display';
 		
+		//////////////////////////////
+		// Utility functions
+
 		// switches to mode / between modes
 		self.toggle = function (mode) {
 			this.mode = mode || {'display': 'edit', 'edit': 'display'}[this.mode];
-			this.redraw();
+			var elem = this.render();
 			if (mode === 'edit') {
-				this.UI.find('.focus').focus();
+				elem.find('.focus').focus();
 			}
+			return elem;
 		};
 		
-		// constructs display representation
-		self.display = function (self, $elem) {
-			return $elem
-				// dropdown appears on mouse click
-				.click(function () {
-					// switching display w/ edit
-					self.toggle('edit');
+		//////////////////////////////
+		// Event handlers
 
-					// 'click outside' handler
-					function handler(event) {
-						if (event.target !== (self.UI.find('input,select')[0] || self.UI[0])) {
-							// handling actual click outside event
-							self.toggle('display');
-						} else {
-							// re-binding one time handler
-							$('body').one('click', handler);
-						}
-						return false;
-					}
-					
-					// emulating a 'click outside' event
+		function onClick(self, event) {
+			// switching display w/ edit
+			var elem = self.toggle('edit');
+			
+			// 'click outside' handler
+			function handler(event) {
+				if (event.target !== (elem.find('input,select')[0] || elem[0])) {
+					// handling actual click outside event
+					self.toggle('display');
+				} else {
+					// re-binding one time handler
 					$('body').one('click', handler);
-
-					return false;
-				});
+				}
+				return false;
+			}
+			
+			// emulating a 'click outside' event
+			$('body').one('click', handler);
+			
+			return false;
+		}
+		
+		//////////////////////////////
+		// Overrides
+		
+		// constructs display representation
+		self.display = function () {
+			throw "Abstract";
 		};
 		
 		// constructs editable representation
@@ -53,8 +64,15 @@ var controls = function (controls, $) {
 			throw "Abstract";
 		};
 		
-		// constructs jQuery representation of control
-		self.getUI = function () {
+		self.init = function (self, elem) {
+			if (self.mode !== 'edit') {
+				elem.click(function (event) {
+					return onClick(self, event);
+				});
+			}			
+		};
+		
+		self.html = function () {
 			if (this.mode === 'edit') {
 				return this.edit();
 			} else {
@@ -63,7 +81,7 @@ var controls = function (controls, $) {
 		};
 		
 		return self;
-	}();
+	};
 	
 	return controls;
 }(controls || {},

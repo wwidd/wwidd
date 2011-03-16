@@ -15,8 +15,7 @@ var controls = function (controls, $, services, data) {
 	// - row: media data record
 	// - handler: callback redrawing parent
 	controls.tagbase = function (row) {
-		var	base = controls.editable,
-				self = Object.create(base),
+		var	self = Object.create(controls.editable()),
 				siblings = row.tags,
 				i;
 
@@ -37,6 +36,7 @@ var controls = function (controls, $, services, data) {
 			if (before) {
 				delete self.lookup[before];
 			}
+			
 			// adding new value(s) to buffer
 			if (after) {
 				names = data.tag(after).split();
@@ -44,6 +44,7 @@ var controls = function (controls, $, services, data) {
 					self.lookup[names[i]] = true;
 				}
 			}
+			
 			// finalizing changes
 			row.tags = keys(this.lookup);
 			

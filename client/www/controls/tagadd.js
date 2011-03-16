@@ -5,12 +5,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services, data) {
 	// - row: media data record
-	// - idx: index of tag in collection
-	// - handler: callback redrawing parent
 	controls.tagadd = function (row) {
 		var	base = controls.tagbase(row),
 				self = Object.create(base);
 
+		//////////////////////////////
+		// Event handlers
+		
 		// tag addition handler: do nothing
 		function onAdd(event) {
 			self.parent.add();
@@ -59,19 +60,33 @@ var controls = function (controls, $, services, data) {
 			}
 		}
 
+		//////////////////////////////
+		// Overrides
+		
+		self.init = function (elem) {
+			if (self.mode === 'display') {
+				elem.find('a').click(onAdd);
+			} else {
+				elem.find('input.focus').keyup(onChange);
+			}
+			base.init(self, elem);
+		};
+		
 		self.display = function () {
-			return base.display(self, $('<span />', {'class': 'tag display add'})
-				// adding removal button
-				.append($('<a />', {'href': '#'})
-					.text('+')
-					.click(onAdd)));
+			return [
+				'<span id="', self.id, '" class="tag display add">',
+				'<a href="#">', "+", '</a>',
+				'</span>'
+			].join('');
 		};
 
 		self.edit = function () {
-			return $('<span />', {'class': 'tag edit add'})
-				.append($('<input />', {'type': 'text', 'class': 'focus'})
-					.keyup(onChange))
-				.append($('<input />', {'type': 'text', 'class': 'backdrop'}));
+			return [
+				'<span id="', self.id, '" class="tag edit add">',
+				'<input type="text" class="focus" />',
+				'<input type="text" class="backdrop" />',
+				'</span>'
+			].join('');
 		};
 		
 		return self;
