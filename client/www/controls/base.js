@@ -29,11 +29,20 @@ var controls = function (controls, $) {
 			append: function (child) {
 				this.children.push(child);
 				child.parent = this;
+				return this;
+			},
+			
+			// adds control to parent as child
+			appendTo: function (parent) {
+				this.parent = parent;
+				parent.children.push(this);
+				return this;
 			},
 			
 			// removes child controls
 			clear: function () {
 				this.children.length = 0;
+				return this;
 			},
 			
 			// initializes the control
