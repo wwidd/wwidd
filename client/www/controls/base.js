@@ -38,6 +38,7 @@ var controls = function (controls, $) {
 			},
 			
 			// renders the control
+			// -parent: parent jQuery object
 			render: function (parent) {
 				// initializing jQuery object from full control markup
 				var elem = $(this.html()),
@@ -48,15 +49,14 @@ var controls = function (controls, $) {
 					target.replaceWith(elem);
 				} else if (parent) {
 					parent.append(elem);
-				} else {
-					throw "No way to add control to DOM";
 				}
 
 				// walking control tree initializing nodes
 				(function inner(control) {
-					var i,
+					var selector = '#' + control.id,
+							i,
 					// initializing current control
-					result = control.init ? control.init($('#' + control.id)) : true;
+					result = control.init ? control.init(elem.is(selector) ? elem : elem.find(selector)) : true;
 					// initializing children
 					if (control.children.length) {
 						for (i = 0; i < control.children.length; i++) {
