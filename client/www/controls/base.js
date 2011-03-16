@@ -69,7 +69,7 @@ var controls = function (controls, $) {
 					return result;
 				}(this));
 				
-				return elem;
+				return parent || elem;
 			}			
 		};
 
