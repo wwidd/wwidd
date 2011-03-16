@@ -54,7 +54,7 @@ var controls = function (controls, $, services, data) {
 				// rating
 				.append(controls.rater(row).render($('<td />', {'class': 'rater'})))
 				// tags
-				.append(controls.tagger(row).appendTo($('<td />', {'class': 'tagger'}), self))
+				.append(controls.tagger(row).render($('<td />', {'class': 'tagger'})))
 				.addClass(data.pagestate.lastPlayed === self.data.mediaid ? 'playing' : null);
 		};
 
