@@ -7,8 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $) {
 	controls.editable = function () {
-		var self = Object.create(controls.base()),
-				that = this;
+		var self = Object.create(controls.base());
 		
 		// mode can be either 'display' or 'edit'
 		self.mode = 'display';
