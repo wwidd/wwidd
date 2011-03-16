@@ -6,16 +6,24 @@
 var controls = function (controls, $) {
 	var LAST_ID = 0;
 	
+	// generates a new, unique control id
 	controls.id = function () {
 		return LAST_ID++;
 	};
 	
+	// control lookup (id -> control)
+	controls.lookup = {};
+	
+	// base control class
 	controls.base = function () {
-		var self =  {
+		var id = controls.id(),
+		
+		self =  {
 			// properties
-			id: controls.id(),	// id is automatically assigned
+			id: id,							// id is automatically assigned
 			parent: null,				// parent control
 			children: [],				// child controls
+			data: [],						// data associated with control
 	
 			// adds a child to the control
 			append: function (child) {
@@ -61,6 +69,7 @@ var controls = function (controls, $) {
 					if (control.children.length) {
 						for (i = 0; i < control.children.length; i++) {
 							// when a control.init() returns false, it breaks the init cycle
+							// for its siblings -> useful in conj. with jQuery.live()
 							if (inner(control.children[i]) === false) {
 								break;
 							}
@@ -72,6 +81,9 @@ var controls = function (controls, $) {
 				return parent || elem;
 			}			
 		};
+		
+		// adding control to lookup
+		controls.lookup[id] = self;
 
 		return self;
 	};
