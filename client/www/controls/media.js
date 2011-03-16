@@ -52,7 +52,7 @@ var controls = function (controls, $, services, data) {
 						.text(row.file)
 						.click(onClick)))
 				// rating
-				.append(controls.rater(row).appendTo($('<td />', {'class': 'rater'}), self))
+				.append(controls.rater(row).render($('<td />', {'class': 'rater'})))
 				// tags
 				.append(controls.tagger(row).appendTo($('<td />', {'class': 'tagger'}), self))
 				.addClass(data.pagestate.lastPlayed === self.data.mediaid ? 'playing' : null);

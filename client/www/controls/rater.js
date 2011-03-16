@@ -4,62 +4,63 @@
 // The number of stars represent the rating. Up to five stars can be given.
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
-	// generates a rater UI with no. of stars equal to rating
-	function getUI(row) {
-		// constructing jQuery object
-		var $result = $('<div />', {'class': 'rater'}),
-				i;
-		for (i = 0; i < 5; i++) {
-			$result.append('<a href="#" />');
-		}
+	controls.rater = function (row) {
+		var self = Object.create(controls.base());
 
-		// filling stars
-		if (row.rating > 0) {
-			$result.find('a')
-				.eq(row.rating - 1)
+		//////////////////////////////
+		// Event handlers
+
+		function onMouseOver() {
+			var buttons = $('#' + self.id).find('a');
+			
+			// filling as many stars as the user points at
+			buttons
+				.removeClass('star')
+				.eq(buttons.index(this))
 					.prevAll()
 					.andSelf()
-						.addClass('star');
+						.addClass('star');		
 		}
 		
-		return $result;
-	}
-	
-	controls.rater = function (row) {
-		var base = controls.control,
-				self = Object.create(base);
+		function onClick() {
+			var rating = $('#' + self.id).find('a').index(this) + 1;
+			// calling rater service
+			services.rate(row.mediaid, rating, function () {
+				row.rating = rating;
+				self.render();
+			});
+			return false;
+		}
+		
+		//////////////////////////////
+		// Overrides
 
-		self.getUI = function () {
-			var 
-			
-			// creates a UI with mouse handler
-			$result = getUI(row)
+		self.init = function (elem) {
+			elem
 				.mouseleave(function () {
-					self.redraw();	
-				}),
-
-			// adding event handlers to stars (filled or otherwise)
-			$buttons = $result.children('a')
-				.mouseover(function () {
-					// fills as many stars as the user points at
-					$buttons
-						.removeClass('star')
-						.eq($buttons.index(this))
-							.prevAll()
-							.andSelf()
-								.addClass('star');
+					self.render();	
 				})
-				.click(function () {
-					var rating = $buttons.index(this) + 1;
-					// calling rater service
-					services.rate(row.mediaid, rating, function () {
-						row.rating = rating;
-						self.redraw();
-					});
-					return false;
-				});
-
-			return $result;
+				.find('a')
+					.mouseover(onMouseOver)
+					.click(onClick);
+		};
+		
+		self.html = function () {
+			var i,
+			
+			result = [
+				'<div id="', self.id, '" class="rater">'
+			];
+			
+			for (i = 0; i < row.rating; i++) {
+				result.push('<a href="#" class="star"></a>');
+			}
+			for (; i < 5; i++) {
+				result.push('<a href="#"></a>');
+			}
+			result.push('</div>');
+			
+			return result.join('');
 		};
 
 		return self;
