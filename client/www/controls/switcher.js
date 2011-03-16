@@ -47,7 +47,7 @@ var controls = function (controls, $, services) {
 			];
 			for (i = 0; i < names.length; i++) {
 				result.push([
-					'<option value="', names[i], '" selected="', names[i] === selected ? 'selected' : '', '">',
+					'<option value="', names[i], '"', names[i] === selected ? ' selected="selected"' : '', '">',
 					names[i],
 					'</option>'
 				].join(''));
