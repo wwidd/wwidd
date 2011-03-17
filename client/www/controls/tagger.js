@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
 	controls.tagger = function (row) {
-		var	self = Object.create(controls.base()),
+		var	self = Object.create(controls.control()),
 				adder;
 
 		self.data.row = row;

@@ -7,7 +7,7 @@ var controls = function (controls, $, data) {
 	controls.kind = function (row, handler) {
 		handler = handler || function () {};
 		
-		var self = Object.create(controls.base());
+		var self = Object.create(controls.control());
 		
 		self.data.row = row;
 		

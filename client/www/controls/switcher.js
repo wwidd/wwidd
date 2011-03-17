@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
 	controls.switcher = function () {
-		var base = controls.base(),
+		var base = controls.control(),
 				self = Object.create(base),
 				data = {names: []};
 

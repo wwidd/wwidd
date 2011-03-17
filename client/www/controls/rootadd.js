@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
 	controls.rootadd = function () {
-		var self = Object.create(controls.base());
+		var self = Object.create(controls.control());
 
 		//////////////////////////////
 		// Initialization

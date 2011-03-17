@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = (function (controls, $, data) {
 	controls.library = function () {
-		var self = Object.create(controls.base()),
+		var self = Object.create(controls.control()),
 				onInit = function () {};
 		
 		//////////////////////////////

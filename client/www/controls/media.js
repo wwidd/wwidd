@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services, data) {
 	controls.media = function (row) {
-		var self = Object.create(controls.base());
+		var self = Object.create(controls.control());
 
 		//////////////////////////////
 		// Business functions

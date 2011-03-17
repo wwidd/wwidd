@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, data) {
 	controls.kinds = function () {
-		var self = Object.create(controls.base()),
+		var self = Object.create(controls.control()),
 				onChecked = function () {},
 				hidden = {};
 

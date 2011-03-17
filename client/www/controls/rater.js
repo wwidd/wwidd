@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services) {
 	controls.rater = function (row) {
-		var self = Object.create(controls.base());
+		var self = Object.create(controls.control());
 
 		//////////////////////////////
 		// Event handlers
