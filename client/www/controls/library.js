@@ -9,20 +9,12 @@ var controls = (function (controls, $, data) {
 		
 		// selects all elements in visible library
 		self.selectAll = function () {
-			var i;
-			for (i = 0; i < entries.length; i++) {
-				entries[i].select();
-			}
-			return self;
+			self.UI.find('td.check > :checkbox').attr('checked', 'checked');
 		};
 		
 		// deselects all elements in visible library
 		self.selectNone = function () {
-			var i;
-			for (i = 0; i < entries.length; i++) {
-				entries[i].deselect();
-			}
-			return self;
+			self.UI.find('td.check > :checkbox').removeAttr('checked', 'checked');
 		};
 				
 		// setter for external init handler
@@ -51,7 +43,8 @@ var controls = (function (controls, $, data) {
 
 			for (i = 0; i < page.length; i++) {
 				entry = controls.media(page[i]);
-				entry.appendTo($table, self);
+				entry.parent = self;
+				entry.render($table);
 				entries.push(entry);
 			}
 			return $table;
