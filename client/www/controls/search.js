@@ -21,7 +21,7 @@ var controls = function (controls, $, services) {
 			}
 			self.filter = $(this).val();
 			controls.pager.reset();
-			controls.library.init();
+			controls.library.load();
 		}
 		
 		//////////////////////////////

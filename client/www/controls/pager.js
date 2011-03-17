@@ -20,7 +20,7 @@ var controls = function (controls, $, data) {
 		};
 		
 		function refresh() {
-			controls.library.redraw();
+			controls.library.render();
 			self.render();
 			return false;
 		}
@@ -30,7 +30,7 @@ var controls = function (controls, $, data) {
 
 		function onChange() {
 			self.page = $(this).val();
-			controls.library.redraw();
+			controls.library.render();
 		}
 		function onFirst() {
 			if (self.page === 0) {

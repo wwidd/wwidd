@@ -3,10 +3,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = (function (controls, $, data) {
 	controls.library = function () {
-		var self = Object.create(controls.control),
-				entries = [],
+		var self = Object.create(controls.base()),
 				onInit = function () {};
 		
+		//////////////////////////////
+		// Business methods
+
 		// selects all elements in visible library
 		self.selectAll = function () {
 			self.UI.find('td.check > :checkbox').attr('checked', 'checked');
@@ -17,14 +19,8 @@ var controls = (function (controls, $, data) {
 			self.UI.find('td.check > :checkbox').removeAttr('checked', 'checked');
 		};
 				
-		// setter for external init handler
-		self.onInit = function (handler) {
-			onInit = handler;
-			return self;
-		};
-				
 		// (re-)loads library contents
-		self.init = function () {
+		self.load = function () {
 			// initializing media table
 			data.media.init(controls.search.filter, function () {
 				// initializing tags table
@@ -35,19 +31,31 @@ var controls = (function (controls, $, data) {
 			return self;
 		};
 		
-		// draws contents
-		self.getUI = function () {
-			var $table = $('<table />', {'class': 'media'}),
+		//////////////////////////////
+		// Event handlers
+
+		self.onInit = function (handler) {
+			onInit = handler;
+			return self;
+		};
+				
+		//////////////////////////////
+		// Overrides
+
+		self.html = function () {
+			var result = ['<table id="', self.id, '" class="media">'],
 					page = data.media.getPage(controls.pager.page, controls.pager.items),
 					i, entry;
 
 			for (i = 0; i < page.length; i++) {
-				entry = controls.media(page[i]);
-				entry.parent = self;
-				entry.render($table);
-				entries.push(entry);
+				result.push(
+					controls.media(page[i])
+						.appendTo(self)
+						.html());
 			}
-			return $table;
+			result.push('</table>');
+			
+			return result.join('');
 		};
 
 		return self;

@@ -24,7 +24,7 @@ var controls = function (controls, $, services) {
 			services.setlib($(this).val(), function () {
 				controls.pager.reset();
 				controls.search.reset();
-				controls.library.init();
+				controls.library.load();
 			});
 		}
 

@@ -20,12 +20,12 @@ var controls = function (controls, $, services, data) {
 			if (event.shiftKey) {
 				// deleting all tags like this one
 				if (confirm("Delete ALL tags of this kind?")) {
-					services.deltag(null, tag, null, controls.library.init);
+					services.deltag(null, tag, null, controls.library.load);
 				}
 			} else if (event.ctrlKey) {
 				// deleting tags from search results
 				if (filter.length && confirm("Delete this tag from SEARCH results?")) {
-					services.deltag(null, tag, controls.search.filter, controls.library.init);
+					services.deltag(null, tag, controls.search.filter, controls.library.load);
 				}
 			} else {
 				// deleting tag from one specific video
@@ -52,7 +52,7 @@ var controls = function (controls, $, services, data) {
 			if (event.shiftKey) {
 				// running batch tag change
 				if (confirm("Change ALL tags of this kind?")) {
-					services.changetag(null, before, after, controls.library.init);
+					services.changetag(null, before, after, controls.library.load);
 				}
 			} else if (event.ctrlKey) {
 				// ctrl + enter is not defined for editing

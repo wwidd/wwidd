@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = (function (controls, $, data) {
 	controls.page = function () {
-		var self = Object.create(controls.control),
+		var self = {},
 				pager,
 				kinds;
 
@@ -34,7 +34,7 @@ var controls = (function (controls, $, data) {
 			// initializing and adding kinds control
 			controls.kinds
 				.onChecked(function () {
-					controls.library.redraw();
+					controls.library.render();
 				})
 				.render($('#kinds').empty());
 			
@@ -59,30 +59,16 @@ var controls = (function (controls, $, data) {
 					// initializing kinds table
 					data.kinds
 						.init(function () {
-							controls.library.redraw();
+							controls.library.render();
 							controls.kinds
 								.load()
 								.render();
 						});
 				})
-				.init()
-				.appendTo($('#media').empty(), self);
+				.load()
+				.render($('#media').empty());
 
 			return self;
-		};
-
-		// draws contents
-		self.getUI = function () {
-			var $table = $('<table />', {'class': 'media'}),
-					page = data.media.getPage(pager.page, pager.items),
-					i, entry;
-
-			for (i = 0; i < page.length; i++) {
-				entry = controls.media(page[i]);
-				entry.appendTo($table, self);
-				entries.push(entry);
-			}
-			return $table;
 		};
 
 		return self;

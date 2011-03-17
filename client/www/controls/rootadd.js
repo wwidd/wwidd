@@ -18,7 +18,7 @@ var controls = function (controls, $, services) {
 		function onAdd() {
 			var $this = $(this);
 			services.addroot($this.siblings('input').val(), function () {
-				controls.library.init();
+				controls.library.load();
 				$this.siblings('input').val(null);
 				alert("Folder successfully added to library.");
 			});
