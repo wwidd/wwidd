@@ -49,7 +49,7 @@ var controls = function (controls, $, services, data) {
 			row.tags = keys(this.lookup);
 			
 			// redrawing tags for media entry
-			self.parent.redraw();
+			self.parent.render();
 		};
 		
 		return self;
