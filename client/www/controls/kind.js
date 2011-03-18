@@ -32,8 +32,6 @@ var controls = function (controls, $, data) {
 	// checkbox event handler
 	// when checkbox or label is clicked
 	function onChecked() {
-		console.log('kind.onChecked()');
-
 		var	$this = $(this),
 				control = controls.lookup[$this.parent().attr('id')],
 				row = control.data.row,
@@ -44,8 +42,6 @@ var controls = function (controls, $, data) {
 	
 	// when tag background is clicked
 	function onClick(event) {
-		console.log('kind.onClick()');
-		
 		if (event.target === this) {
 			var $this = $(this),
 					control = controls.lookup[$this.attr('id')],
