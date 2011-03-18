@@ -8,7 +8,7 @@ var controls = function (controls, $) {
 	
 	// generates a new, unique control id
 	controls.id = function () {
-		return LAST_ID++;
+		return 'y' + LAST_ID++;
 	};
 	
 	// control lookup (id -> control)
@@ -55,40 +55,35 @@ var controls = function (controls, $) {
 			},
 			
 			// renders the control
-			// -parent: parent jQuery object
+			// - parent: parent jQuery object
 			render: function (parent) {
 				// initializing jQuery object from full control markup
 				var elem = $(this.html()),
-						target = $('#' + this.id);
+						target = parent ? null : $('#' + this.id);
 
 				// adding control to dom
-				if (target.length) {
-					target.replaceWith(elem);
-				} else if (parent) {
+				if (parent) {
 					parent.append(elem);
+				} else if (target.length) {
+					target.replaceWith(elem);
 				}
 
-				// walking control tree initializing nodes
+				// applying instance-level events
 				(function inner(control) {
 					var selector = '#' + control.id,
 							i,
 					// initializing current control
-					result = control.init ? control.init(elem.is(selector) ? elem : elem.find(selector)) : true;
+					result = !control.init ? true :
+						control.init(elem.is(selector) ? elem : elem.find(selector));
 					// initializing children
-					if (control.children.length) {
-						for (i = 0; i < control.children.length; i++) {
-							// when a control.init() returns false, it breaks the init cycle
-							// for its siblings -> useful in conj. with jQuery.live()
-							if (inner(control.children[i]) === false) {
-								break;
-							}
-						}
+					for (i = 0; i < control.children.length; i++) {
+						inner(control.children[i]);
 					}
 					return result;
 				}(this));
 				
 				return parent || elem;
-			}			
+			}
 		};
 		
 		// adding control to lookup

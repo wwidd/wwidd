@@ -31,9 +31,8 @@ var controls = function (controls, $, services) {
 		//////////////////////////////
 		// Overrides
 
-		self.init = function (elem, selector) {
+		self.init = function (elem) {
 			elem.find('select').change(onChange);
-			return false;
 		};
 
 		self.html = function () {

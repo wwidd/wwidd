@@ -7,44 +7,40 @@ var controls = function (controls, $, services) {
 	controls.tagger = function (row) {
 		var	self = Object.create(controls.control()),
 				adder;
-
+		
 		self.data.row = row;
-				
+		
 		//////////////////////////////
 		// Utility functions
 
 		self.add = function () {
-			$('#' + adder.id).click();
+			adder.toggle('edit');
 		};
 		
 		//////////////////////////////
 		// Overrides
 
-		self.html = function () {
-			var tags = row.tags,
-					result = ['<div id="', self.id, '">'],
-					i, kind, control;
-			
-			// adding tag editor controls
-			for (i = 0; i < tags.length; i++) {
-				kind = tags[i].split(':')[1];
+		function build() {
+			var i, kind;
+			self.clear();
+			for (i = 0; i < row.tags.length; i++) {
+				kind = row.tags[i].split(':')[1];
 				if (!controls.kinds.hidden(kind)) {
-					result.push(
-						controls.tagedit(row, tags[i])
-							.appendTo(self)
-							.html()
-					);
+					controls.tagedit(row, row.tags[i]).appendTo(self);
 				}
 			}
+			adder = controls.tagadd(row).appendTo(self);
+		}
+		
+		self.html = function () {
+			build();
 			
-			// adding tag adder control
-			result.push(
-				(adder = controls.tagadd(row))
-					.appendTo(self)
-					.html());
-
-			result.push('</div>');
-			
+			var result = ['<div id="', self.id, '">'],
+					i;
+			for (i = 0; i < self.children.length; i++) {
+				result.push(self.children[i].html());
+			}
+			result.push('</div>');			
 			return result.join('');
 		};
 		

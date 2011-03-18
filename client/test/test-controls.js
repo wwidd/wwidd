@@ -8,7 +8,7 @@ var test = function (test, $, controls) {
 		////////////////////////////////////////////////////////////////////////////////
 		
 		test("[control] Appending", function () {
-			var test_control = Object.create(controls.base()),
+			var test_control = Object.create(controls.control()),
 					$parent = $('<div />'),
 					$child, $ui;
 
@@ -41,11 +41,8 @@ var test = function (test, $, controls) {
 					$control;
 
 			// mock control
-			test_editable.init = function (elem) {
-				return base_editable.init(test_editable, elem);
-			};
 			test_editable.display = function () {
-				return '<span id="' + test_editable.id + '">A</span>';
+				return '<span id="' + test_editable.id + '" class="editable">A</span>';
 			};
 			test_editable.edit = function () {
 				return '<input id="' + test_editable.id + '" type="text" />';

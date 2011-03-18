@@ -3,7 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, services, data) {
 	controls.media = function (row) {
-		var self = Object.create(controls.control());
+		var self = Object.create(controls.control()),
+				rater, tagger;
 
 		//////////////////////////////
 		// Business functions
@@ -19,37 +20,35 @@ var controls = function (controls, $, services, data) {
 		};
 
 		//////////////////////////////
-		// Event handlers
-
-		function onClick() {
-			self.play($(this).closest('.media'));
-			return false;
-		}
-
-		//////////////////////////////
 		// Overrides
 
 		self.init = function (elem) {
-			elem.find('a')
+			elem.find('a.play')
 				.click(onClick);
 		};
 		
+		function build() {
+			self.clear();
+			rater = controls.rater(row).appendTo(self);
+			tagger = controls.tagger(row).appendTo(self);
+		}
+		
 		self.html = function () {
+			self.data.that = this;
+			
+			build();
+			
 			return [
 				'<tr id="', self.id, '" class="media ', data.pagestate.lastPlayed === row.mediaid ? 'playing' : '', '">',
 				'<td class="check">', '<input type="checkbox" />', '</td>',
 				'<td class="file">',
-				'<a href="#" title="', row.file, '">', row.file, '</a>',
+				'<a href="#" class="play" title="', row.file, '">', row.file, '</a>',
 				'</td>',
 				'<td class="rater">',
-				controls.rater(row)
-					.appendTo(self)
-					.html(),
+				rater.html(),
 				'</td>',
 				'<td class="tagger">',
-				controls.tagger(row)
-					.appendTo(self)
-					.html(),
+				tagger.html(),
 				'</td>',
 				'</tr>'
 			].join('');
@@ -57,6 +56,18 @@ var controls = function (controls, $, services, data) {
 		
 		return self;
 	};
+	
+	//////////////////////////////
+	// Static event handlers
+
+	function onClick() {
+		var media = $(this).closest('.media'),
+				self = controls.lookup[media.attr('id')].data.that;
+		self.play(media);
+		return false;
+	}
+	
+	$('a.play').live('click', onClick);
 	
 	return controls;
 }(controls || {},

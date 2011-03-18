@@ -60,9 +60,7 @@ var controls = (function (controls, $, data) {
 					data.kinds
 						.init(function () {
 							controls.library.render();
-							controls.kinds
-								.load()
-								.render();
+							controls.kinds.render();
 						});
 				})
 				.load()

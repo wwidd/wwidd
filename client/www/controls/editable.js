@@ -14,41 +14,20 @@ var controls = function (controls, $) {
 		
 		//////////////////////////////
 		// Utility functions
-
+	
 		// switches to mode / between modes
 		self.toggle = function (mode) {
 			this.mode = mode || {'display': 'edit', 'edit': 'display'}[this.mode];
-			var elem = this.render();
+			var elem = this.render(),
+					that = this;
 			if (mode === 'edit') {
 				elem.find('.focus').focus();
+				$('body').one('click', function (event) {
+					onClickOutside(event, that, elem);
+				});
 			}
 			return elem;
 		};
-		
-		//////////////////////////////
-		// Event handlers
-
-		function onClick(self, event) {
-			// switching display w/ edit
-			var elem = self.toggle('edit');
-			
-			// 'click outside' handler
-			function handler(event) {
-				if (event.target !== (elem.find('input,select')[0] || elem[0])) {
-					// handling actual click outside event
-					self.toggle('display');
-				} else {
-					// re-binding one time handler
-					$('body').one('click', handler);
-				}
-				return false;
-			}
-			
-			// emulating a 'click outside' event
-			$('body').one('click', handler);
-			
-			return false;
-		}
 		
 		//////////////////////////////
 		// Overrides
@@ -62,16 +41,12 @@ var controls = function (controls, $) {
 		self.edit = function () {
 			throw "Abstract";
 		};
-		
-		self.init = function (self, elem) {
-			if (self.mode !== 'edit') {
-				elem.click(function (event) {
-					return onClick(self, event);
-				});
-			}			
-		};
-		
+				
 		self.html = function () {
+			// storing descendant  instance
+			self.data.that = this;
+			
+			// generating html according to mode
 			if (this.mode === 'edit') {
 				return this.edit();
 			} else {
@@ -81,6 +56,38 @@ var controls = function (controls, $) {
 		
 		return self;
 	};
+
+	//////////////////////////////
+	// Static event handlers
+
+	// 'click outside' handler
+	function onClickOutside(event, self, elem) {
+		if (event.target !== (elem.find('input,select')[0] || elem[0])) {
+			// handling actual click outside event
+			self.toggle('display');
+		} else {
+			// re-binding one time handler
+			$('body').one('click', function (event) {
+				onClickOutside(event, self, elem);
+			});
+		}
+		return false;
+	}
+	
+	function onClick() {
+		// switching display w/ edit
+		var self = controls.lookup[$(this).attr('id')].data.that,
+				elem = self.toggle('edit');
+		
+		// emulating a 'click outside' event
+		$('body').one('click', function (event) {
+			onClickOutside(event, self, elem);
+		});
+		
+		return false;
+	}
+
+	$('.editable').live('click', onClick);
 	
 	return controls;
 }(controls || {},

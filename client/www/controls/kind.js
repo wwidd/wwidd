@@ -5,44 +5,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 var controls = function (controls, $, data) {
 	controls.kind = function (row, handler) {
-		handler = handler || function () {};
-		
 		var self = Object.create(controls.control());
 		
 		self.data.row = row;
-		
-		//////////////////////////////
-		// Event handlers
-
-		// checkbox event handler
-		// when checkbox or label is clicked
-		function onChecked() {
-			var	$this = $(this),
-					row = controls.lookup[$this.parent().attr('id')].data.row,
-					checked = $this.attr('checked');
-			handler(row.kind, checked);
-		}
-		// when tag background is clicked
-		function onClick(event) {
-			if (event.target === this) {
-				var $this = $(this),
-						row = controls.lookup[$this.attr('id')].data.row,
-						$checkbox = $this.find(':checkbox'),
-						checked = !$checkbox.attr('checked');
-				$checkbox.attr('checked', checked);
-				handler(row.kind, checked);
-			}
-		}
+		self.data.handler = handler || function () {};
 		
 		//////////////////////////////
 		// Overrides
 
-		self.init = function (elem) {
-			$('.kind').live('click', onClick);
-			$('.kind :checkbox').live('click', onChecked);
-			return false;
-		};
-		
 		self.html = function () {
 			var id = 'kind' + row.kind;
 			return [
@@ -56,6 +26,41 @@ var controls = function (controls, $, data) {
 		return self;
 	};
 	
+	//////////////////////////////
+	// Static event handlers
+	
+	// checkbox event handler
+	// when checkbox or label is clicked
+	function onChecked() {
+		console.log('kind.onChecked()');
+
+		var	$this = $(this),
+				control = controls.lookup[$this.parent().attr('id')],
+				row = control.data.row,
+				handler = control.data.handler,
+				checked = $this.attr('checked');
+		handler(row.kind, checked);
+	}
+	
+	// when tag background is clicked
+	function onClick(event) {
+		console.log('kind.onClick()');
+		
+		if (event.target === this) {
+			var $this = $(this),
+					control = controls.lookup[$this.attr('id')],
+					row = control.data.row,
+					handler = control.data.handler,
+					$checkbox = $this.find(':checkbox'),
+					checked = !$checkbox.attr('checked');
+			$checkbox.attr('checked', checked);
+			handler(row.kind, checked);
+		}
+	}
+
+	$('.kind').live('click', onClick);
+	$('.kind :checkbox').live('click', onChecked);
+
 	return controls;
 }(controls || {},
 	jQuery,

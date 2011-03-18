@@ -22,17 +22,6 @@ var controls = function (controls, $, data) {
 			return self;
 		}
 
-		// re-creates children controls according to kinds data
-		self.load = function () {
-			var flat = data.kinds.table ? data.kinds.table.flat() : [],
-					i;
-			self.clear();
-			for (i = 0; i < flat.length; i++) {
-				self.append(controls.kind(flat[i], handler));
-			}
-			return self;
-		};
-
 		//////////////////////////////
 		// Getters / setters
 
@@ -50,7 +39,19 @@ var controls = function (controls, $, data) {
 		//////////////////////////////
 		// Overrides
 
+		function build() {
+			var flat = data.kinds.table ? data.kinds.table.flat() : [],
+					i;
+			self.clear();
+			for (i = 0; i < flat.length; i++) {
+				controls.kind(flat[i], handler).appendTo(self);
+			}
+			return self;
+		}
+
 		self.html = function () {
+			build();
+			
 			var result = ['<span id="', self.id, '">'],
 					i;
 			for (i = 0; i < self.children.length; i++) {

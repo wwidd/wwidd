@@ -64,14 +64,13 @@ var controls = function (controls, $, data) {
 		//////////////////////////////
 		// Overrides
 
-		self.init = function (elem, selector) {
+		self.init = function (elem) {
 			elem
 				.find('a.first').click(onFirst).end()
 				.find('a.prev').click(onPrev).end()
 				.find('a.next').click(onNext).end()
 				.find('a.last').click(onLast).end()
 				.find('select').change(onChange).end();
-			return false;
 		};
 		
 		self.html = function () {
