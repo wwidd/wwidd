@@ -14,7 +14,7 @@ var controls = function (controls, $, services, data) {
 	
 	// - row: media data record
 	// - handler: callback redrawing parent
-	controls.tagbase = function (row) {
+	controls.tag = function (row) {
 		var	self = Object.create(controls.editable()),
 				siblings = row.tags,
 				i;

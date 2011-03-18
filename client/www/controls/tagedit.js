@@ -7,7 +7,7 @@ var controls = function (controls, $, services, data) {
 	// - row: media data record
 	// - tag: tag string "name:kind"
 	controls.tagedit = function (row, tag) {
-		var	base = controls.tagbase(row),
+		var	base = controls.tag(row),
 				self = Object.create(base);
 
 		self.data.row = row;

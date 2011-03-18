@@ -6,7 +6,7 @@
 var controls = function (controls, $, services, data) {
 	// - row: media data record
 	controls.tagadd = function (row) {
-		var	base = controls.tagbase(row),
+		var	base = controls.tag(row),
 				self = Object.create(base);
 
 		self.data.row = row;	
