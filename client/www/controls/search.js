@@ -29,6 +29,8 @@ var controls = function (controls, $, services) {
 					.scrollLeft($this.scrollLeft());
 			} else {
 				self.filter = term;
+				$this.siblings('.backdrop')
+					.val('');
 				controls.pager.reset();
 				controls.library.load();
 			}
