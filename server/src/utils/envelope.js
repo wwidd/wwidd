@@ -17,7 +17,8 @@ envelope = function (res, async, handler) {
 	function ok(data) {
 		res.writeHead(200, {
 			'Content-Type': 'application/json',
-			'Content-Encoding': 'gzip'
+			'Content-Encoding': 'gzip',
+			'Cache-Control': 'no-cache'
 		});
 		gzip.exec(function (data) {
 			res.end(data, 'binary');
