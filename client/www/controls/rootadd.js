@@ -41,7 +41,7 @@ var controls = function (controls, $, services) {
 		self.html = function () {
 			return [
 				'<div id="', self.id, '">',
-				'<span>', "Add filder to library:", '</span>',
+				'<span>', "Add folder to library:", '</span>',
 				'<input type="text">',
 				'<button type="button" disabled="disabled">', "Add", '</button>',
 				'</div>'
