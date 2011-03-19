@@ -7,12 +7,12 @@ var	$fs = require('fs'),
 		$os = require('os'),
 		tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
-		tempFile = './temp.sql',
+		tempFile = 'temp.sql',
 
 sqlite = function () {
 	// inheriting from tool
 	var db = 'default',
-			path = './server/db/',
+			path = 'server/db/',
 			isLinux = $os.type() === 'Linux',
 	
 	outputParser = Object.create(parser, {

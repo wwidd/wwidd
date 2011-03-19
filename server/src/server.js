@@ -1,15 +1,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Yalp Server
 ////////////////////////////////////////////////////////////////////////////////
+require.paths.unshift('server/src');
+
 var	$http = require('http'),
 		$url = require('url'),
 		$path = require('path'),
 		$fs = require('fs'),
-		tag = require('./db/tag').tag,
-		library = require('./logic/library').library,
-		root = require('./logic/root').root,
-		media = require('./logic/media').media,
-		envelope = require('./utils/envelope').envelope;
+		tag = require('db/tag').tag,
+		library = require('logic/library').library,
+		root = require('logic/root').root,
+		media = require('logic/media').media,
+		envelope = require('utils/envelope').envelope;
 
 // creating server object
 $http.createServer(function (req, res) {
@@ -137,7 +139,7 @@ $http.createServer(function (req, res) {
 		
 	default:
 		// acting as static file server
-		filePath = $path.join(process.cwd(), './client/www' + endpoint);
+		filePath = $path.join(process.cwd(), 'client/www' + endpoint);
 		$path.exists(filePath, function (exists) {
 			if (!exists) {
 				res.writeHead(404, {"Content-Type": "text/plain"});
