@@ -12,9 +12,10 @@ var	library = require('../db/library').library,
 root = function (path) {
 	var self = {
 		// scans the library and returns metadata for relevant files
-		scan: function (handler) {
+		scan: function (handler, extract) {
 			var	list = [],
-					metadata = { };
+					metadata = { },
+					fileCount = 0;
 	
 			// walking library root synchronously
 			walker(
@@ -23,27 +24,36 @@ root = function (path) {
 				// called on each file
 				function (filePath) {
 					list.push(filePath);
+					metadata[filePath] = {};
 				}
 			).walkSync(path);
 			
-			// CPS async tool starter
-			// (async execution of extraction tool(s))
-			(function next(filePath) {
-				// calling extract
-				extract.exec(filePath, ['--verbose', '--filename'], function (data) {
-					var	keywords = data[0];
-					if (keywords) {
-						metadata[filePath] = keywords;
+			if (!extract) {
+				handler(metadata);
+			} else {
+				// CPS async tool starter
+				// (async execution of extraction tool(s))
+				(function next(filePath) {
+					// calling extract
+					if (fileCount++ % 10 === 0) {
+						process.stdout.write(".");
 					}
-					// exec next path in list
-					if (list.length) {
-						next(list.shift());
-					} else if (handler) {
-						handler(metadata);
-					}
-				});
-			})(list.shift());
-	
+					extract.exec(filePath, ['--verbose', '--filename'], function (data) {
+						var	keywords = data[0];
+						if (keywords) {
+							metadata[filePath] = keywords;
+						}
+						// exec next path in list
+						if (list.length) {
+							next(list.shift());
+						} else if (handler) {
+							process.stdout.write("\n");
+							handler(metadata);
+						}
+					});
+				})(list.shift());
+			}
+			
 			return self;
 		},
 		
@@ -52,10 +62,9 @@ root = function (path) {
 			console.log("Initializing library root...");
 			entity.add({'path': path}, function () {
 				console.log("Library root initialized.");
-				console.log("Ingesting video metadata into library...");
+				console.log("Ingesting video metadata into library");
 				self.scan(function (metadata) {
 					library.fill(metadata, function () {
-						console.log("Video metadata ingested.");
 						if (handler) {
 							handler(metadata);
 						}
