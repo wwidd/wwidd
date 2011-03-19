@@ -1,0 +1,67 @@
+h1. YALP!
+
+YALP! is a *browser-based, offline video library*, for organizing, searching, and playing back your existing collection.
+
+Even working with thousands of videos, YALP is designed to be responsive and fast to work with. Having frequently used actions such as search and tagging heavily assisted, you can set up a library with meaningful, searchable tags in no time.
+
+YALP! is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, libextractor, and VLC.
+
+Current version is 0.1.
+
+h2. Features
+
+Importing videos from disk
+
+* Auto-tagging
+
+Color-coded tag categories
+
+* Filtering displayed tags by category
+
+Search
+
+* Searching by multiple tags
+* Auto-complete
+
+Batch actions
+
+* Adding, renaming, and deleting tags
+* Scope: entire library, search results, or single entry
+
+h2. Installation
+
+h3. Simple installation on Windows
+
+# Download the zipped full package @yalp-X.X-full-win.zip@ (YALP! + dependencies).
+# Unzip the package into a folder of your choice. Recommended: @C:\YALP@.
+
+h3. Normal installation (Windows + Linux)
+
+# Get the dependencies one by one. Make sure all of them are in the system path after installation. The current version won't warn you about missing dependencies.
+# Download the zipped package @yalp-X.X.zip@.
+# Unzip the package into a folder of your choice.
+
+Dependency list:
+
+* Node.js 0.4.1:
+** You might want to build it yourself: "source":http://nodejs.org/#download
+** "Debian package":http://packages.debian.org/search?keywords=nodejs
+** "Windows":http://node-js.prcn.co.cc/
+* "SQLite":http://www.sqlite.org/download.html
+* "Libextractor":http://www.gnu.org/software/libextractor/download.html
+* "VLC":http://www.videolan.org/vlc/
+
+h2. Starting YALP!
+
+# Start @start.sh@ on Linux, @start.cmd@ on Windows.
+# A terminal window will pop up, just ignore it (or minimize, but don't close it!)
+# YALP! will be opened in a new window or tab in the default browser.
+
+h2. Using YALP!
+
+Check the Wiki.
+
+h2. Stopping YALP!
+
+# Close the browser window / tab.
+# Close the terminal window.
