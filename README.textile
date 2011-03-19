@@ -32,7 +32,8 @@ h2. Installation
 
 h3. Simple installation on Windows
 
-# Download the zipped full package @yalp-X.X-full-win.zip@ (YALP! + dependencies).
+# Download and install "VLC":http://www.videolan.org/vlc/.
+# Download the zipped full package @yalp-X.X-win-simple.zip@ (YALP! + dependencies).
 # Unzip the package into a folder of your choice. Recommended: @C:\YALP@.
 
 h3. Normal installation (Windows + Linux)
