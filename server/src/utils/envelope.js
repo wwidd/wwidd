@@ -31,6 +31,7 @@ envelope = function (res, async, handler) {
 
 	// final error handler
 	function error(err) {
+		console.log(err);
 		res.writeHead(400, {'Content-Type': 'application/json'});
 		res.end(JSON.stringify({
 			'status': 'ERROR',
