@@ -77,11 +77,6 @@ var controls = function (controls, $, services, data) {
 
 	// tag change event handler
 	function onChange(event) {
-		// react to Enter only
-		if (event.which !== 13) {
-			return;
-		}
-		
 		var $this = $(this),
 				tmp = getData($this),
 				self = tmp.that,
@@ -90,22 +85,33 @@ var controls = function (controls, $, services, data) {
 				before = tag,
 				after = data.tag($this.val()).sanitize();
 		
-		// discarding changes when there was no change or tag deleted
-		if (after === before || !after.length) {
-			return;
-		}
-		if (event.shiftKey) {
-			// running batch tag change
-			if (confirm("Change ALL tags of this kind?")) {
-				services.changetag(null, before, after, controls.library.load);
+		switch (event.which) {
+		case 13:
+			// enter - saving values
+			// discarding changes when there was no change or tag deleted
+			if (after === before || !after.length) {
+				return;
 			}
-		} else if (event.ctrlKey) {
-			// ctrl + enter is not defined for editing
-		} else {
-			// running single tag change
-			services.changetag(row.mediaid, before, after, function () {
-				self.changetag(before, after, row);
-			});
+			if (event.shiftKey) {
+				// running batch tag change
+				if (confirm("Change ALL tags of this kind?")) {
+					services.changetag(null, before, after, controls.library.load);
+				}
+			} else if (event.ctrlKey) {
+				// ctrl + enter is not defined for editing
+			} else {
+				// running single tag change
+				services.changetag(row.mediaid, before, after, function () {
+					self.changetag(before, after, row);
+				});
+			}
+			break;
+		case 27:
+			// escape - cancel
+			self.toggle('display');
+			break;
+		default:
+			return;
 		}
 	}
 		
