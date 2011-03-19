@@ -6,10 +6,32 @@ GENERAL
 	text-align: center;
 }
 
-input.search {
+span.search {
+	display: inline-block; *zoom: 1;
+	position: relative;
+	width: 400px;
+	height: 24px;
+}
+
+/* identical input boxes for input & backdrop */
+span.search > input {
+	position: absolute;
 	width: 400px;
 	font-size: 16px;
 	border: 1px solid grey;
 	border-radius: 3px; -moz-border-radius: 3px;
+}
+
+/* search input box */
+span.search > input.focus {
+	z-index: 2;
+	background: transparent;
+}
+
+/* search backdrop displaying best match */
+span.search > input.backdrop {
+	z-index: 1;
+	color: silver;
+	background: white;
 }
 

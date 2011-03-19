@@ -20,7 +20,7 @@ tag = function () {
 
 	// retrieves all tags
 	self.getTags = function (handler) {
-		var statement = "SELECT DISTINCT name, name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS tag FROM tags";
+		var statement = "SELECT DISTINCT lower(name) AS name, name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS tag FROM tags";
 		
 		console.log(statement);
 		sqlite.exec(statement, handler, ['-header', '-line']);
