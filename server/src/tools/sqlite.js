@@ -12,7 +12,7 @@ var	$fs = require('fs'),
 sqlite = function () {
 	// inheriting from tool
 	var db = 'default',
-			path = '../db/',
+			path = './server/db/',
 			isLinux = $os.type() === 'Linux',
 	
 	outputParser = Object.create(parser, {
