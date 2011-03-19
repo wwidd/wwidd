@@ -24,7 +24,7 @@ walker = function (dirHandler, fileHandler, options) {
 			var	fileCount = 0;
 			
 			// recursive inner function
-			console.log(["Walking path '", root, "'..."].join(''));
+			console.log(["Walking path '", root, "'"].join(''));
 			(function walk(path) {
 				var	i,
 						files,
@@ -42,12 +42,14 @@ walker = function (dirHandler, fileHandler, options) {
 				} else if (stats.isFile()) {
 					// calling file handler
 					if (path.match(options.filter)) {
-						fileCount++;
+						if (fileCount++ % 10 === 0) {
+							process.stdout.write(".");
+						}
 						fileHandler(path, stats);
 					}
 				}
 			})(root);
-			console.log(["Path '", root, "' walked: ", fileCount, " files."].join(''));
+			process.stdout.write("\n");
 			
 			return self;
 		}
