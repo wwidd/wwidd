@@ -91,7 +91,8 @@ var controls = function (controls, $, services, data) {
 		default:
 			// any other key - filling backdrop
 			$this.siblings('.backdrop')
-				.val(name);
+				.val(name)
+				.scrollLeft($this.scrollLeft());
 			break;
 		}
 	}
