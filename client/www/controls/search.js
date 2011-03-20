@@ -15,6 +15,14 @@ var controls = function (controls, $, services) {
 		//////////////////////////////
 		// Event handlers
 
+		function filter($this, term) {
+			self.filter = term;
+			$this.siblings('.backdrop')
+				.val('');
+			controls.pager.reset();
+			controls.library.load();
+		}
+
 		function onChange(event) {
 			var $this = $(this),
 					term = $this.val(),
@@ -28,25 +36,34 @@ var controls = function (controls, $, services) {
 					.val(match)
 					.scrollLeft($this.scrollLeft());
 			} else {
-				self.filter = term;
-				$this.siblings('.backdrop')
-					.val('');
-				controls.pager.reset();
-				controls.library.load();
+				filter($this, term);
 			}
+		}
+		
+		function onClear() {
+			var $input = $(this).siblings('.focus');
+			if (!$input.val().length) {
+				return false;
+			}
+			$input.val('');
+			filter($input, '');
+			return false;
 		}
 		
 		//////////////////////////////
 		// Overrides
 
 		self.init = function (elem) {
-			elem.children('.focus').keyup(onChange);
+			elem
+				.children('.focus').keyup(onChange).end()
+				.children('.clear').click(onClear).end();
 			return false;
 		};
 		
 		self.html = function () {
 			return [
 				'<span id="' + self.id + '" class="search">',
+				'<a class="clear" href="#"></a>',
 				'<input type="text" class="focus" />',
 				'<input type="text" class="backdrop" />',
 				'</span>'

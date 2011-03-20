@@ -9,14 +9,32 @@ GENERAL
 span.search {
 	display: inline-block; *zoom: 1;
 	position: relative;
-	width: 400px;
+	width: 440px;
 	height: 24px;
+	text-align: right;
+}
+
+span.search > a.clear {
+	display: inline-block; *zoom: 1;
+	position: absolute;
+	top: 0;
+	right: 1px;
+	width: 16px;
+	height: 20px;
+	background: url('/image/cross.png') no-repeat left center;
+	border: 1px solid transparent;
+	z-index: 3;
 }
 
 /* identical input boxes for input & backdrop */
 span.search > input {
+	display: inline-block; *zoom: 1;
 	position: absolute;
+	top: 0;
+	left: 0;
 	width: 400px;
+	height: 20px;
+	padding: 0 20px;
 	font-size: 16px;
 	border: 1px solid grey;
 	border-radius: 3px; -moz-border-radius: 3px;
@@ -24,8 +42,8 @@ span.search > input {
 
 /* search input box */
 span.search > input.focus {
+	background: transparent url('/image/magnifier.png') no-repeat 3px center;
 	z-index: 2;
-	background: transparent;
 }
 
 /* search backdrop displaying best match */
