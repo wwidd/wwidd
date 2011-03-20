@@ -36,7 +36,7 @@ h3. Simple installation on Windows
 # Download the zipped full package @yalp-X.X-win-simple.zip@ (YALP! + dependencies).
 # Unzip the package into a folder of your choice. Recommended: @C:\YALP@.
 
-h3. Normal installation (Windows + Linux)
+h3. Normal installation on Windows, Linux, OS X (never tested on Mac)
 
 # Get the dependencies one by one. Make sure all of them are in the system path after installation. The current version won't warn you about missing dependencies.
 # Download the zipped package @yalp-X.X.zip@.
@@ -66,3 +66,4 @@ h2. Stopping YALP!
 
 # Close the browser window / tab.
 # Close the terminal window.
+
