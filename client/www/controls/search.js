@@ -42,7 +42,7 @@ var controls = function (controls, $, services) {
 		
 		function onClear() {
 			var $input = $(this).siblings('.focus');
-			if (!$input.val().length) {
+			if (!self.filter.length) {
 				return false;
 			}
 			$input.val('');
