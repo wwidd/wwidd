@@ -40,7 +40,9 @@ var controls = (function (controls, $, data) {
 			
 			// adding search box to page
 			controls.search
-				.render($('#search').empty());
+				.render($('#search')
+					.empty()
+					.append('&nbsp;'));	// helps vertical alignment
 			
 			// adding library switcher
 			controls.switcher

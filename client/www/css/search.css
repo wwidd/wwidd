@@ -10,11 +10,6 @@ GENERAL
 	text-align: center;
 }
 
-#search:before {
-	color: transparent;
-	content: "S";
-}
-
 span.search {
 	display: inline-block; *zoom: 1;
 	position: relative;
