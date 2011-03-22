@@ -145,5 +145,5 @@ var test = function (test, $, controls) {
 	return test;
 }(test || {},
 	jQuery,
-	controls);
+	yalp.controls);
 

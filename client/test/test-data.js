@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Unit tests for the data component
 ////////////////////////////////////////////////////////////////////////////////
-var test = function (test, data) {
+var test = function (test, data, services) {
 	test.data = function () {
 		var tag1 = 'test, abc,de:fg',
 				tag2 = 'whatever/it /, is',
@@ -119,5 +119,6 @@ var test = function (test, data) {
 	
 	return test;
 }(test || {},
-	data);
+	yalp.data,
+	yalp.services);
 
