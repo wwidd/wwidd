@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tags Data
 ////////////////////////////////////////////////////////////////////////////////
-var data = function (data, jOrder, services) {
+var yalp = yalp || {};
+
+yalp.data = function (data, jOrder, services) {
 	data.tags = function () {
 		var self = {
 			table: null,
@@ -30,7 +32,7 @@ var data = function (data, jOrder, services) {
 	}();
 	
 	return data;
-}(data,
+}(yalp.data,
 	jOrder,
-	services);
+	yalp.services);
 

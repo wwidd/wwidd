@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Entry
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services, data) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $, services, data) {
 	controls.media = function (row) {
 		var self = Object.create(controls.control()),
 				rater, tagger;
@@ -70,8 +72,8 @@ var controls = function (controls, $, services, data) {
 	$('a.play').live('click', onClick);
 	
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery,
-	services,
-	data);
+	yalp.services,
+	yalp.data);
 

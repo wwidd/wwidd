@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services, data) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $, services, data) {
 	// gets key from a lookup table
 	function keys(lookup) {
 		var result = [],
@@ -56,8 +58,8 @@ var controls = function (controls, $, services, data) {
 	};
 	
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery,
-	services,
-	data);
+	yalp.services,
+	yalp.data);
 

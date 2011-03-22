@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Data
 ////////////////////////////////////////////////////////////////////////////////
-var data = function (data, jOrder, services) {
+var yalp = yalp || {};
+
+yalp.data = function (data, jOrder, services) {
 	data.media = function () {
 		// extracts filename from path
 		function splitPath(path) {
@@ -66,7 +68,7 @@ var data = function (data, jOrder, services) {
 	}();
 	
 	return data;
-}(data || {},
+}(yalp.data || {},
 	jOrder,
-	services);
+	yalp.services);
 

@@ -3,7 +3,9 @@
 //
 // Displays and edits tags.
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $, services) {
 	controls.tagger = function (row) {
 		var	self = Object.create(controls.control()),
 				adder;
@@ -48,7 +50,7 @@ var controls = function (controls, $, services) {
 	};
 	
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery,
-	services);
+	yalp.services);
 

@@ -3,7 +3,9 @@
 //
 // Lists available libraries and switches between them.
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $, services) {
 	controls.switcher = function () {
 		var base = controls.control(),
 				self = Object.create(base),
@@ -62,7 +64,7 @@ var controls = function (controls, $, services) {
 	}();
 	
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery,
-	services);
+	yalp.services);
 

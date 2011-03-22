@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Video Library - Page
 ////////////////////////////////////////////////////////////////////////////////
-var controls = (function (controls, $, data) {
+var yalp = yalp || {};
+
+yalp.controls = (function (controls, $, data) {
 	controls.page = function () {
 		var self = {},
 				pager,
@@ -75,7 +77,7 @@ var controls = (function (controls, $, data) {
 	}();
 	
 	return controls;
-})(controls || {},
+})(yalp.controls || {},
 	jQuery,
-	data);
+	yalp.data);
 

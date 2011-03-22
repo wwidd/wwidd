@@ -3,7 +3,9 @@
 //
 // Displays and switches one tag kind on and off
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, data) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $, data) {
 	controls.kind = function (row, handler) {
 		var self = Object.create(controls.control());
 		
@@ -58,7 +60,7 @@ var controls = function (controls, $, data) {
 	$('.kind :checkbox').live('click', onChecked);
 
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery,
-	data);
+	yalp.data);
 

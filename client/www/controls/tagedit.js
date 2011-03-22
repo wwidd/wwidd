@@ -3,7 +3,9 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, services, data) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $, services, data) {
 	// - row: media data record
 	// - tag: tag string "name:kind"
 	controls.tagedit = function (row, tag) {
@@ -119,8 +121,8 @@ var controls = function (controls, $, services, data) {
 	$('.tagedit.edit input').live('keyup', onChange);
 
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery,
-	services,
-	data);
+	yalp.services,
+	yalp.data);
 

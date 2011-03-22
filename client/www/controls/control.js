@@ -3,7 +3,9 @@
 //
 // 'Abstract' base class for UI controls.
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $) {
 	var LAST_ID = 0;
 	
 	// generates a new, unique control id
@@ -108,5 +110,5 @@ var controls = function (controls, $) {
 	};
 
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery);

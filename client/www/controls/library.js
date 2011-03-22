@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Video Library
 ////////////////////////////////////////////////////////////////////////////////
-var controls = (function (controls, $, data) {
+var yalp = yalp || {};
+
+yalp.controls = (function (controls, $, data) {
 	controls.library = function () {
 		var self = Object.create(controls.control()),
 				onInit = function () {};
@@ -65,7 +67,7 @@ var controls = (function (controls, $, data) {
 	}();
 	
 	return controls;
-})(controls || {},
+})(yalp.controls || {},
 	jQuery,
-	data);
+	yalp.data);
 

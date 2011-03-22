@@ -3,7 +3,9 @@
 //
 // Lets the user control what kind of tags are visible
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $, data) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $, data) {
 	controls.kinds = function () {
 		var self = Object.create(controls.control()),
 				onChecked = function () {},
@@ -65,7 +67,7 @@ var controls = function (controls, $, data) {
 	}();
 	
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery,
-	data);
+	yalp.data);
 

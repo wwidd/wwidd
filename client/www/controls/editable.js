@@ -5,7 +5,9 @@
 // displaying (default) and one for editing its value. The latter becomes
 // available when clicking on the display state.
 ////////////////////////////////////////////////////////////////////////////////
-var controls = function (controls, $) {
+var yalp = yalp || {};
+
+yalp.controls = function (controls, $) {
 	controls.editable = function () {
 		var self = Object.create(controls.control());
 		
@@ -90,5 +92,5 @@ var controls = function (controls, $) {
 	$('.editable').live('click', onClick);
 	
 	return controls;
-}(controls || {},
+}(yalp.controls || {},
 	jQuery);
