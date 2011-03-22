@@ -12,18 +12,16 @@ MEDIA ENTRY
 ******************************/
 
 tr.media {
- background: #F8F8F8;
- border-bottom: 1px solid #D6D6D6;
+ background: #f8f8f8;
+ border-top: 1px solid #e3f29b;
+}
+
+tr.media:first-child {
+	border-top: none;
 }
 
 tr.media.playing {
- background: #EFEFEF;
-}
-
-tr.media > td {
-	padding: 0 3px;
-	line-height: 16px;
-	vertical-align: middle;
+ background: #e9f3b7;
 }
 
 tr.media > td.file a {

@@ -1,20 +1,28 @@
 /******************************
+GENERAL
+******************************/
+
+body {
+	position: relative;
+	background: #f4ffd5;
+}
+
+a {
+	color: #8ea911;
+}
+
+/******************************
 HEADER
 ******************************/
 
-h1, h1 > span {
-	font-family: tahoma, sans;
-	font-size: 28px;
-	font-weight: bold;
-}
-
 h1 {
+	display: inline-block; *zoom: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 180px;
+	height: 72px;
 	margin: 0;
-	color: #888;
-}
-
-h1 > span {
-	color: #DEE5F2;
 }
 
 /******************************
@@ -22,9 +30,10 @@ LIBRARY
 ******************************/
 
 #library {
-	margin: 20px 0 0 0;
-	border: 5px solid #6694E3;
-	border-radius: 3px; -moz-border-radius: 3px;
+	margin: 5px 0 0 0;
+	border: 3px solid #a5c414;
+	border-radius: 5px; -moz-border-radius: 5px;
+	background: #a5c414;
 }
 
 /******************************
@@ -36,19 +45,23 @@ CONTROLS
 #rootadd {
 	margin: 0;
 	padding: 2px 5px;
-	background: #E0ECFF;
+	background: #e3f29b;
+}
+
+#kinds {
+	border-top-left-radius: 3px; -moz-border-top-left-radius: 3px;
+	border-top-right-radius: 3px; -moz-border-top-right-radius: 3px;
 }
 
 #controls {
 	height: 24px;
 	line-height: 24px;
 	vertical-align: bottom;
-	border-bottom: 1px solid #D6D6D6;
+	border-bottom: 1px solid #a5c414;
 }
 
 #controls > a {
 	margin: 0 10px 0 0;
-	color: #0065CC;
 	text-decoration: none;
 }
 
@@ -77,6 +90,9 @@ ROOT ADD
 #rootadd {
 	padding: 5px;
 	vertical-align: middle;
+	border-top: 1px solid #a5c414;
+	border-bottom-left-radius: 3px; -moz-border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px;
 }
 
 #rootadd input,
@@ -87,7 +103,7 @@ ROOT ADD
 }
 
 #rootadd input {
-	border: 1px solid black;
+	border: 1px solid #8ea911;
 	border-radius: 3px; -moz-border-radius: 3px;	
 }
 

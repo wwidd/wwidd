@@ -3,6 +3,6 @@ KINDS
 ******************************/
 
 div#kinds span.tag.display {
-	box-shadow: 0 0 3px #AAA; -moz-box-shadow: 0 0 3px #AAA;
+	box-shadow: 0 0 3px #aaa; -moz-box-shadow: 0 0 3px #aaa;
 }
 

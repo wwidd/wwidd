@@ -21,7 +21,7 @@ EDIT - DISPLAY STATE
 
 span.tag.display {
 	color: #888;
-	background: #EEE;
+	background: #eee;
 }
 
 /* highlighted tag (search hit) */
@@ -33,64 +33,64 @@ span.tag.display.hit {
 
 /* tag with kind */
 span.tag.kind1 {
-	color: #5A6986;
-	border-color: #5A6986;
-	background: #DEE5F2;
+	color: #5a6986;
+	border-color: #5a6986;
+	background: #dee5f2;
 }
 span.tag.kind2 {
-	color: #206CFF;
-	border-color: #206CFF;
-	background: #E0ECFF;
+	color: #206cff;
+	border-color: #206cff;
+	background: #e0ecff;
 }
 span.tag.kind3 {
-	color: #00C;
-	border-color: #00C;
-	background: #DFE2FF;
+	color: #00c;
+	border-color: #00c;
+	background: #dfe2ff;
 }
 span.tag.kind4 {
-	color: #5229A3;
-	border-color: #5229A3;
-	background: #E0D5F9;
+	color: #5229a3;
+	border-color: #5229a3;
+	background: #e0d5f9;
 }
 span.tag.kind5 {
-	color: #854F61;
-	border-color: #854F61;
-	background: #FDE9F4;
+	color: #854f61;
+	border-color: #854f61;
+	background: #fde9f4;
 }
 span.tag.kind6 {
-	color: #C00;
-	border-color: #C00;
-	background: #FFE3E3;
+	color: #c00;
+	border-color: #c00;
+	background: #ffe3e3;
 }
 span.tag.kind7 {
-	color: #EC7000;
-	border-color: #EC7000;
-	background: #FFF0E1;
+	color: #ec7000;
+	border-color: #ec7000;
+	background: #fff0e1;
 }
 span.tag.kind8 {
-	color: #B36D00;
-	border-color: #B36D00;
-	background: #FADCB3;
+	color: #b36d00;
+	border-color: #b36d00;
+	background: #fadcb3;
 }
 span.tag.kind9 {
-	color: #AB8B00;
-	border-color: #AB8B00;
-	background: #F3E7B3;
+	color: #ab8b00;
+	border-color: #ab8b00;
+	background: #f3e7b3;
 }
 span.tag.kind10 {
 	color: #636330;
 	border-color: #636330;
-	background: #FFFFD4;
+	background: #ffffd4;
 }
 span.tag.kind11 {
-	color: #64992C;
-	border-color: #64992C;
-	background: #F9FFEF;
+	color: #64992c;
+	border-color: #64992c;
+	background: #f9ffef;
 }
 span.tag.kind12 {
 	color: #063;
 	border-color: #063;
-	background: #F1F5EC;
+	background: #f1f5ec;
 }
 
 /* content alignment */
@@ -136,7 +136,7 @@ span.tag.edit > input {
 	width: 120px;
 	height: 13px;
 	padding: 0;
-	border: 1px solid #64992C;
+	border: 1px solid #a5c414;
 	font-size: 10px;
 }
 
@@ -146,13 +146,13 @@ ADD - DISPLAY STATE
 
 /* tag adder */
 span.add.tag {
-	background: #64992C;
+	background: #a5c414;
 }
 
 /* add button in add tag */
 span.add.tag > a {
 	margin: 0;
-	color: #F9FFEF;
+	color: #f9ffef;
 	text-decoration: none;
 }
 
@@ -163,7 +163,7 @@ ADD - EDIT STATE
 /* add tag editor */
 span.tag.edit.add > input.focus {
 	z-index: 2;
-	border: 1px solid #64992C;
+	border: 1px solid #a5c414;
 	background: transparent;
 }
 
