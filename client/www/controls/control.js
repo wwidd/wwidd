@@ -13,6 +13,7 @@ var controls = function (controls, $) {
 	
 	// control lookup (id -> control)
 	controls.lookup = {};
+	controls.count = 0;
 	
 	// base control class
 	controls.control = function () {
@@ -36,6 +37,7 @@ var controls = function (controls, $) {
 			remove: function () {
 				this.clear();
 				delete controls.lookup[this.id];
+				controls.count--;
 				return this;
 			},
 			
@@ -100,6 +102,7 @@ var controls = function (controls, $) {
 		
 		// adding control to lookup
 		controls.lookup[id] = self;
+		controls.count++;
 
 		return self;
 	};
