@@ -2,25 +2,66 @@
 // Unit tests for client controls
 ////////////////////////////////////////////////////////////////////////////////
 var test = function (test, $, controls) {
+	// counts number of controls in lookup
+	function count_controls() {
+		var count = 0,
+				id;
+		for (id in controls.lookup) {
+			count++;
+		}
+		return count;
+	}
+
 	test.controls = function () {
 		module("Controls");
 		
 		////////////////////////////////////////////////////////////////////////////////
 		
 		test("[control] Appending", function () {
-			var test_control = Object.create(controls.control()),
+			var count_before = count_controls(),
+					test_control = Object.create(controls.control()),
+					count_after = count_controls(),
 					$parent = $('<div />'),
 					$child, $ui;
 
+			equals(count_before + 1, count_after, "control count increments after adding control");
+					
 			test_control.html = function () {
 				return '<div />';
 			};
 			
-			equals(test_control.render($parent), $parent, "render() returns the jQuery parent");
+			equals(test_control.render($parent), $parent, "render() returns theuery parent");
 
 			$child = $parent.children()[0];
 			$ui = test_control.render()[0];
 			notEqual($ui, $child, "Control UI changes after render()");
+		});
+		
+		test("[control] Clearing", function () {
+			var count_before = count_controls(),
+					test_control = controls.control(),
+					count_after,
+					i;
+			
+			for (i = 0; i < 10; i++) {
+				test_control.append(controls.control());
+			}
+			
+			count_after = count_controls();
+			
+			equals(count_after - count_before, 11, "Addition of 11 controls registered");
+			
+			// removing first child control
+			test_control.children[0].remove();
+			equals(count_controls(), count_after - 1, "Single control unlinked from lookup table on removal");
+			
+			// clearing remaining child controls
+			test_control.clear();
+			equals(count_controls(), count_before + 1, "Multiple controls unlinked from lookup on clearing control");
+			
+			// removing main control
+			test_control.remove();
+			equals(count_controls(), count_before, "Parent control unlinked from lookup on removal");
 		});
 		
 		////////////////////////////////////////////////////////////////////////////////

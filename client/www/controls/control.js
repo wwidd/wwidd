@@ -32,6 +32,13 @@ var controls = function (controls, $) {
 				return this;
 			},
 			
+			// removes control and frees resources
+			remove: function () {
+				this.clear();
+				delete controls.lookup[this.id];
+				return this;
+			},
+			
 			// adds control to parent as child
 			appendTo: function (parent) {
 				this.parent = parent;
@@ -41,7 +48,12 @@ var controls = function (controls, $) {
 			
 			// removes child controls
 			clear: function () {
-				this.children.length = 0;
+				var children = this.children,
+						i;
+				for (i = 0; i < children.length; i++) {
+					children[i].remove();
+				}
+				children.length = 0;
 				return this;
 			},
 			
