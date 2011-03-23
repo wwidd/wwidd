@@ -50,18 +50,22 @@ var test = function (test, $, controls) {
 			count_after = count_controls();
 			
 			equals(count_after - count_before, 11, "Addition of 11 controls registered");
+			equals(count_controls(), controls.count(), "controls.count() is in sync with acual number of controls after change");
 			
 			// removing first child control
 			test_control.children[0].remove();
 			equals(count_controls(), count_after - 1, "Single control unlinked from lookup table on removal");
+			equals(count_controls(), controls.count(), "controls.count() is in sync with acual number of controls after change");
 			
 			// clearing remaining child controls
 			test_control.clear();
 			equals(count_controls(), count_before + 1, "Multiple controls unlinked from lookup on clearing control");
+			equals(count_controls(), controls.count(), "controls.count() is in sync with acual number of controls after change");
 			
 			// removing main control
 			test_control.remove();
 			equals(count_controls(), count_before, "Parent control unlinked from lookup on removal");
+			equals(count_controls(), controls.count(), "controls.count() is in sync with acual number of controls after change");
 		});
 		
 		////////////////////////////////////////////////////////////////////////////////

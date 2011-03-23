@@ -6,7 +6,8 @@
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {
-	var LAST_ID = 0;
+	var LAST_ID = 0,	// next control id to be assigned
+			COUNT = 0;	  // total number of controls attached
 	
 	// generates a new, unique control id
 	controls.id = function () {
@@ -15,7 +16,11 @@ yalp.controls = function (controls, $) {
 	
 	// control lookup (id -> control)
 	controls.lookup = {};
-	controls.count = 0;
+	
+	// getter for control count
+	controls.count = function () {
+		return COUNT;
+	};
 	
 	// base control class
 	controls.control = function () {
@@ -38,8 +43,10 @@ yalp.controls = function (controls, $) {
 			// removes control and frees resources
 			remove: function () {
 				this.clear();
-				delete controls.lookup[this.id];
-				controls.count--;
+				if (controls.lookup[this.id] !== undefined) {
+					delete controls.lookup[this.id];
+					COUNT--;
+				}
 				return this;
 			},
 			
@@ -104,7 +111,7 @@ yalp.controls = function (controls, $) {
 		
 		// adding control to lookup
 		controls.lookup[id] = self;
-		controls.count++;
+		COUNT++;
 
 		return self;
 	};
