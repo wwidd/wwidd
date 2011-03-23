@@ -23,7 +23,12 @@ yalp.controls = (function (controls, $, data) {
 		
 		// (re-)loads library contents
 		self.load = function () {
+			var $document = $(document),
+					title = $document.attr('title').split(' - ')[0];
 			data.media.init(controls.search.filter, function () {
+				// setting active library in page title
+				$document.attr('title', title + ' - ' + controls.switcher.selected);
+				// initializing tag data buffer
 				data.tags.init();
 				// external event handler
 				onInit();

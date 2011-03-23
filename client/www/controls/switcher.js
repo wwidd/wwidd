@@ -11,11 +11,14 @@ yalp.controls = function (controls, $, services) {
 				self = Object.create(base),
 				data = {names: []};
 
+		self.selected = '';
+				
 		//////////////////////////////
 		// Initialization
 
 		services.getlibs(function (json) {
 			data = json.data;
+			self.selected = json.data.selected;
 			self.render();
 		});
 
@@ -23,7 +26,9 @@ yalp.controls = function (controls, $, services) {
 		// Event handlers
 
 		function onChange() {
-			services.setlib($(this).val(), function () {
+			var library = $(this).val();
+			services.setlib(library, function () {
+				self.selected = library;
 				controls.pager.reset();
 				controls.search.reset();
 				controls.library.load();
