@@ -59,12 +59,16 @@ yalp.controls = (function (controls, $, data) {
 		self.html = function () {
 			build();
 			
-			var result = ['<table id="', self.id, '" class="media">'],
-					i;
-			for (i = 0; i < self.children.length; i++) {
-				result.push(self.children[i].html());
+			var result, i;
+			if (self.children.length) {
+				result = ['<table id="', self.id, '" class="media">'];
+				for (i = 0; i < self.children.length; i++) {
+					result.push(self.children[i].html());
+				}
+				result.push('</table>');
+			} else {
+				result = ['<span id="', self.id, '" class="empty">You have no videos in this library. Import a folder below.</span>'];
 			}
-			result.push('</table>');
 			return result.join('');
 		};
 

@@ -1,4 +1,19 @@
 /******************************
+EMPTY LIBRARY
+******************************/
+
+span.empty {
+	display: inline-block; *zoom: 1;
+	height: 20px;
+	line-height: 20px;
+	padding: 0 0 0 20px;
+	vertical-align: middle;
+	font-weight: bold;
+	color: yellow;
+	background: url('/image/arrow_down.png') no-repeat left center;
+}
+
+/******************************
 MEDIA LIST (table)
 ******************************/
 
