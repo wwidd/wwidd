@@ -40,7 +40,6 @@ yalp.controls = (function (controls, $, data) {
 			media().each(function () {
 				self.selected[controls.lookup[$(this).attr('id')].data.row.mediaid] = true;
 			});
-			console.log(self.selected);
 			return self;
 		};
 		
@@ -48,7 +47,6 @@ yalp.controls = (function (controls, $, data) {
 		self.selectNone = function () {
 			self.reset();
 			checkboxes().removeAttr('checked', 'checked');
-			console.log(self.selected);
 			return self;
 		};
 				
@@ -64,7 +62,6 @@ yalp.controls = (function (controls, $, data) {
 				// external event handler
 				onInit();
 			});
-			console.log(self.selected);
 			return self;
 		};
 		
