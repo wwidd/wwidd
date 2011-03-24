@@ -6,7 +6,7 @@ Even working with thousands of videos, *yalp* is designed to be responsive and f
 
 *yalp* is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, libextractor, and VLC.
 
-Current version is 0.1.
+Current version is 0.1.1.
 
 h2. Features
 
@@ -26,7 +26,7 @@ Search
 Batch actions
 
 * Adding, renaming, and deleting tags
-* Scope: entire library, search results, or single entry
+* Scope: entire library, search results, selected or single entries
 
 h2. Installation
 
