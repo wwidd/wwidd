@@ -62,7 +62,7 @@ yalp.controls = function (controls, $, services, data) {
 				term = $this.val(),
 				match = term.length ? data.tags.searchTag(term) : "",
 				name = match.length ? match : term,
-				filter = controls.search.filter;
+				filter;
 		
 		switch (event.which) {
 		case 13:
@@ -72,15 +72,19 @@ yalp.controls = function (controls, $, services, data) {
 				return;
 			}
 			if (event.shiftKey) {
-				// shift + enter is not defined for addition
+				// shift + enter is handled only when entry is selected (and possibly others)
+				if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
+					services.addtag(null, name, null, controls.library.selection().join(','), controls.library.load);
+				}
 			} else if (event.ctrlKey) {
 				// adding tag(s) to multiple media
+				filter = controls.search.filter;
 				if (filter.length && confirm("Add this to SEARCH results?")) {
-					services.addtag(null, name, filter, controls.library.load);
+					services.addtag(null, name, filter, null, controls.library.load);
 				}
 			} else {
 				// adding tag(s) to simgle media file
-				services.addtag(row.mediaid, name, null, function () {
+				services.addtag(row.mediaid, name, null, null, function () {
 					self.changetag(null, name, row);
 					self.parent.add();
 				});

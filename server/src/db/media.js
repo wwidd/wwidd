@@ -22,6 +22,17 @@ filter = function (tags, inclusive) {
 	].join(" ");
 };
 
+// constructs a where clause that will retrieve
+// media records by their id
+selection = function (mediaids) {
+	var tmp = mediaids.split(/[^0-9]+/);
+	return [
+		"WHERE mediaid IN (",
+		tmp.join(","),
+		")"
+	].join(" ");
+};
+
 media = function (path) {
 	var self = Object.create(entity, {kind: {value: 'media'}});
 
@@ -45,5 +56,6 @@ media = function (path) {
 };
 
 exports.filter = filter;
+exports.selection = selection;
 exports.media = media;
 

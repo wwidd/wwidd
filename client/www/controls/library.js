@@ -32,7 +32,7 @@ yalp.controls = (function (controls, $, data) {
 		};
 		
 		// returns mediaids for selected items
-		self.selected = function () {
+		self.selection = function () {
 			var result = [];
 			checked().each(function () {
 				result.push(controls.lookup[$(this).closest('.media').attr('id')].data.row.mediaid);

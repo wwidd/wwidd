@@ -23,6 +23,11 @@ yalp.controls = function (controls, $, services, data) {
 			return self;
 		};
 
+		// tells whether this media entry is selected
+		self.selected = function () {
+			return $('#' + self.id).find(':checked').length > 0;
+		};
+		
 		//////////////////////////////
 		// Overrides
 

@@ -60,17 +60,21 @@ yalp.controls = function (controls, $, services, data) {
 		
 		if (event.shiftKey) {
 			// deleting all tags like this one
-			if (confirm("Delete ALL tags of this kind?")) {
-				services.deltag(null, tag, null, controls.library.load);
+			if (self.parent.parent.selected()) {
+				if (confirm("Delete this tag from SELECTED videos?")) {
+					services.deltag(null, tag, null, controls.library.selection().join(','), controls.library.load);
+				}
+			} else if (confirm("Delete ALL tags of this kind?")) {
+				services.deltag(null, tag, null, null, controls.library.load);
 			}
 		} else if (event.ctrlKey) {
 			// deleting tags from search results
 			if (filter.length && confirm("Delete this tag from SEARCH results?")) {
-				services.deltag(null, tag, controls.search.filter, controls.library.load);
+				services.deltag(null, tag, controls.search.filter, null, controls.library.load);
 			}
 		} else {
 			// deleting tag from one specific video
-			services.deltag(row.mediaid, tag, null, function () {
+			services.deltag(row.mediaid, tag, null, null, function () {
 				self.changetag(tag, null, row);
 			});
 		}
@@ -96,7 +100,7 @@ yalp.controls = function (controls, $, services, data) {
 			}
 			if (event.shiftKey) {
 				// running batch tag change
-				if (confirm("Change ALL tags of this kind?")) {
+				if (confirm("Apply change to ALL tags of this kind?")) {
 					services.changetag(null, before, after, controls.library.load);
 				}
 			} else if (event.ctrlKey) {

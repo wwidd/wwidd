@@ -27,18 +27,20 @@ tag = function () {
 	};
 	
 	// adds one tag to the file
-	self.add = function (after, filter, handler) {
+	self.add = function (after, filter, mediaids, handler) {
 		var tmp = after.tag.split(':'),
 				name = "'" + tmp[0] + "'",
 				kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL",
 
-		statement = (filter ? [
+		statement = (filter || mediaids ? [
 			"INSERT OR IGNORE INTO",
 			self.kind,
 			"(mediaid, name, kind)",
 			["SELECT mediaid", name, kind].join(","),
 			"FROM tags",
-			$media.filter(filter)
+			mediaids ?
+				$media.selection(mediaids) :
+				$media.filter(filter)
 		] : [
 			"INSERT OR IGNORE INTO",
 			self.kind,
@@ -98,14 +100,18 @@ tag = function () {
 	};
 	
 	// removes tag from file(s)
-	self.remove = function (before, filter, handler) {
+	self.remove = function (before, filter, mediaids, handler) {
 		var mediaid = before.mediaid,
 				name = "'" + before.tag.split(':')[0] + "'",
+				clause = mediaids ?
+					$media.selection(mediaids) + " AND" :
+					filter ?
+						$media.filter(filter) + " AND" :
+						"WHERE",
 
 		statement = [
-			"DELETE FROM",
-			self.kind,
-			filter ? $media.filter(filter) + " AND" : "WHERE",
+			"DELETE FROM", self.kind,
+			clause,
 			"name = " + name,
 			mediaid ? "AND mediaid = " + mediaid : ""
 		].join(" ");

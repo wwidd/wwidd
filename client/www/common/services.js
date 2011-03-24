@@ -5,61 +5,66 @@ var yalp = yalp || {};
 
 yalp.services = function ($) {
 	var url = 'http://127.0.0.1:8124/';
-		
+	
+	// calls the service
+	function callService(endpoint, data, handler) {
+		$.getJSON(url + endpoint, data, handler);
+	}
+	
 	return {
 		// adds a root path to library (w/ import)
 		addroot: function (path, handler) {
-			$.getJSON(url + 'addroot', {
+			callService('addroot', {
 				path: path
 			}, handler);
 		},
 		
 		// retrieves a list of available libraries
 		getlibs: function (handler) {
-			$.getJSON(url + 'getlibs', handler);
+			callService('getlibs', handler);
 		},
 		
 		// retrieves a list of available libraries
 		setlib: function (name, handler) {
-			$.getJSON(url + 'setlib', {
+			callService('setlib', {
 				name: name
 			}, handler);
 		},
 		
 		// retrieves all media (matching the filter) from library
 		getmedia: function (filter, handler) {
-			$.getJSON(url + 'getmedia', {
+			callService('getmedia', {
 				filter: filter
 			}, handler);
 		},
 		
 		// retrieves all tag kinds from library
 		getkinds: function (handler) {
-			$.getJSON(url + 'getkinds', handler);
+			callService('getkinds', handler);
 		},
 		
 		// retrieves all tag kinds from library
 		gettags: function (handler) {
-			$.getJSON(url + 'gettags', handler);
+			callService('gettags', handler);
 		},
 		
 		// starts playback of a file
 		play: function (path, handler) {
-			$.getJSON(url + 'play', {
+			callService('play', {
 				path: path
 			}, handler);
 		},
 		
 		// rates a file
 		rate: function (mediaid, rating, handler) {
-			$.getJSON(url + 'rate', {
+			callService('rate', {
 				mediaid: mediaid,
 				at: rating
 			}, handler);
 		},
 		
 		// deletes tag on a file
-		addtag: function (mediaid, tag, filter, handler) {
+		addtag: function (mediaid, tag, filter, mediaids, handler) {
 			var data = {
 				mediaid: mediaid,
 				tag: tag
@@ -67,7 +72,10 @@ yalp.services = function ($) {
 			if (filter) {
 				data.filter = filter;
 			}
-			$.getJSON(url + 'addtag', data, handler);
+			if (mediaids) {
+				data.mediaids = mediaids;
+			}
+			callService('addtag', data, handler);
 		},
 
 		// changes tag on a file
@@ -79,11 +87,11 @@ yalp.services = function ($) {
 			if (mediaid) {
 				data.mediaid = mediaid;
 			}
-			$.getJSON(url + 'changetag', data, handler);
+			callService('changetag', data, handler);
 		},
 		
 		// deletes tag on a file
-		deltag: function (mediaid, tag, filter, handler) {
+		deltag: function (mediaid, tag, filter, mediaids, handler) {
 			var data = {
 				tag: tag
 			};
@@ -93,7 +101,10 @@ yalp.services = function ($) {
 			if (mediaid) {
 				data.mediaid = mediaid;
 			}
-			$.getJSON(url + 'deltag', data, handler);
+			if (mediaids) {
+				data.mediaids = mediaids;
+			}
+			callService('deltag', data, handler);
 		}
 	};
 }(jQuery);
