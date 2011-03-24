@@ -11,14 +11,33 @@ yalp.controls = (function (controls, $, data) {
 		//////////////////////////////
 		// Business methods
 
+		// returns a jQuery object with ALL checkboxes
+		function checkboxes() {
+			return $('#' + self.id + ' td.check > :checkbox');
+		}
+		
+		// returns a jQuery object with CHECKED checkboxes
+		function checked() {
+			return $('#' + self.id + ' td.check > :checked');
+		}
+
 		// selects all elements in visible library
 		self.selectAll = function () {
-			$('#' + self.id + ' td.check > :checkbox').attr('checked', 'checked');
+			checkboxes().attr('checked', 'checked');
 		};
 		
 		// deselects all elements in visible library
 		self.selectNone = function () {
-			$('#' + self.id + ' td.check > :checkbox').removeAttr('checked', 'checked');
+			checkboxes().removeAttr('checked', 'checked');
+		};
+		
+		// returns mediaids for selected items
+		self.selected = function () {
+			var result = [];
+			checked().each(function () {
+				result.push(controls.lookup[$(this).closest('.media').attr('id')].data.row.mediaid);
+			});
+			return result;
 		};
 		
 		// (re-)loads library contents

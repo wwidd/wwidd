@@ -9,26 +9,8 @@ yalp.controls = (function (controls, $, data) {
 				pager,
 				kinds;
 
-		// applies static event handlers
-		function events() {
-			$('#selectall')
-				.click(function () {
-					controls.library.selectAll();
-					return false;
-				});
-
-			$('#selectnone')
-				.click(function () {
-					controls.library.selectNone();
-					return false;
-				});
-		}
-		
 		// initializes page
 		self.init = function () {
-			// applying static events
-			events();
-			
 			// initializing pager control
 			controls.pager
 				.render($('#pager').empty());
@@ -46,6 +28,10 @@ yalp.controls = (function (controls, $, data) {
 					.empty()
 					.append('&nbsp;'));	// helps vertical alignment
 			
+			// adding select all
+			controls.checker
+				.render($('#checker').empty());
+				
 			// adding library switcher
 			controls.switcher
 				.render($('#switcher').empty());

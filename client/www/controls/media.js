@@ -8,6 +8,8 @@ yalp.controls = function (controls, $, services, data) {
 		var self = Object.create(controls.control()),
 				rater, tagger;
 
+		self.data.row = row;
+				
 		//////////////////////////////
 		// Business functions
 
