@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var yalp = yalp || {};
 
-yalp.controls = function (controls, $, services, data) {
+yalp.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
 	controls.tagadd = function (row) {
 		var	base = controls.tag(row),
@@ -74,7 +74,7 @@ yalp.controls = function (controls, $, services, data) {
 			if (event.shiftKey) {
 				// shift + enter is handled only when entry is selected (and possibly others)
 				if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
-					services.addtag(null, name, null, controls.library.selection().join(','), controls.library.load);
+					services.addtag(null, name, null, jOrder.keys(controls.library.selected).join(','), controls.library.load);
 				}
 			} else if (event.ctrlKey) {
 				// adding tag(s) to multiple media
@@ -109,6 +109,7 @@ yalp.controls = function (controls, $, services, data) {
 	return controls;
 }(yalp.controls || {},
 	jQuery,
+	jOrder,
 	yalp.services,
 	yalp.data);
 

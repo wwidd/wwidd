@@ -7,6 +7,8 @@ yalp.controls = (function (controls, $, data) {
 	controls.library = function () {
 		var self = Object.create(controls.control()),
 				onInit = function () {};
+				
+		self.selected = {};
 		
 		//////////////////////////////
 		// Business methods
@@ -16,30 +18,40 @@ yalp.controls = (function (controls, $, data) {
 			return $('#' + self.id + ' td.check > :checkbox');
 		}
 		
+		function media() {
+			return $('#' + self.id + ' tr.media');
+		}
+		
 		// returns a jQuery object with CHECKED checkboxes
 		function checked() {
 			return $('#' + self.id + ' td.check > :checked');
 		}
 
+		// resets registry of selected entries
+		self.reset = function () {
+			self.selected = {};
+			return self;
+		};
+		
 		// selects all elements in visible library
 		self.selectAll = function () {
+			self.reset();
 			checkboxes().attr('checked', 'checked');
+			media().each(function () {
+				self.selected[controls.lookup[$(this).attr('id')].data.row.mediaid] = true;
+			});
+			console.log(self.selected);
+			return self;
 		};
 		
 		// deselects all elements in visible library
 		self.selectNone = function () {
+			self.reset();
 			checkboxes().removeAttr('checked', 'checked');
+			console.log(self.selected);
+			return self;
 		};
-		
-		// returns mediaids for selected items
-		self.selection = function () {
-			var result = [];
-			checked().each(function () {
-				result.push(controls.lookup[$(this).closest('.media').attr('id')].data.row.mediaid);
-			});
-			return result;
-		};
-		
+				
 		// (re-)loads library contents
 		self.load = function () {
 			var $document = $(document),
@@ -52,6 +64,7 @@ yalp.controls = (function (controls, $, data) {
 				// external event handler
 				onInit();
 			});
+			console.log(self.selected);
 			return self;
 		};
 		

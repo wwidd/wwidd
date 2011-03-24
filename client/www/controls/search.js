@@ -22,7 +22,9 @@ yalp.controls = function (controls, $, services, data) {
 			$this.siblings('.backdrop')
 				.val('');
 			controls.pager.reset();
-			controls.library.load();
+			controls.library
+				.reset()
+				.load();
 		}
 
 		function onChange(event) {

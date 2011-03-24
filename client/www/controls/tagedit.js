@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var yalp = yalp || {};
 
-yalp.controls = function (controls, $, services, data) {
+yalp.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
 	// - tag: tag string "name:kind"
 	controls.tagedit = function (row, tag) {
@@ -62,7 +62,7 @@ yalp.controls = function (controls, $, services, data) {
 			// deleting all tags like this one
 			if (self.parent.parent.selected()) {
 				if (confirm("Delete this tag from SELECTED videos?")) {
-					services.deltag(null, tag, null, controls.library.selection().join(','), controls.library.load);
+					services.deltag(null, tag, null, jOrder.keys(controls.library.selected).join(','), controls.library.load);
 				}
 			} else if (confirm("Delete ALL tags of this kind?")) {
 				services.deltag(null, tag, null, null, controls.library.load);
@@ -127,6 +127,7 @@ yalp.controls = function (controls, $, services, data) {
 	return controls;
 }(yalp.controls || {},
 	jQuery,
+	jOrder,
 	yalp.services,
 	yalp.data);
 

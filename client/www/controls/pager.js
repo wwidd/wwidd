@@ -22,7 +22,9 @@ yalp.controls = function (controls, $, data) {
 		};
 		
 		function refresh() {
-			controls.library.render();
+			controls.library
+				.reset()
+				.render();
 			self.render();
 			return false;
 		}

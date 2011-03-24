@@ -49,7 +49,9 @@ yalp.controls = function (controls, $, services, data) {
 			
 			return [
 				'<tr id="', self.id, '" class="media ', data.pagestate.lastPlayed === row.mediaid ? 'playing' : '', '">',
-				'<td class="check">', '<input type="checkbox" />', '</td>',
+				'<td class="check">',
+				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
+				'</td>',
 				'<td class="file">',
 				'<a href="#" class="play" title="', row.file, '">', row.file, '</a>',
 				'</td>',
@@ -76,7 +78,19 @@ yalp.controls = function (controls, $, services, data) {
 		return false;
 	}
 	
+	function onChecked() {
+		var $this = $(this),
+				media = $this.closest('.media'),
+				self = controls.lookup[media.attr('id')].data.that;
+		if ($this.is(':checked')) {
+			controls.library.selected[self.data.row.mediaid] = true;
+		} else {
+			delete controls.library.selected[self.data.row.mediaid];
+		}
+	}
+	
 	$('a.play').live('click', onClick);
+	$('td.check :checkbox').live('click', onChecked);
 	
 	return controls;
 }(yalp.controls || {},
