@@ -8,7 +8,11 @@ yalp.services = function ($) {
 	
 	// calls the service
 	function callService(endpoint, data, handler) {
-		$.getJSON(url + endpoint, data, handler);
+		$.ajax(url + endpoint, {
+			data: data,
+			dataType: 'json',
+			success: handler
+		});
 	}
 	
 	return {
@@ -21,7 +25,7 @@ yalp.services = function ($) {
 		
 		// retrieves a list of available libraries
 		getlibs: function (handler) {
-			callService('getlibs', handler);
+			callService('getlibs', null, handler);
 		},
 		
 		// retrieves a list of available libraries
@@ -40,12 +44,12 @@ yalp.services = function ($) {
 		
 		// retrieves all tag kinds from library
 		getkinds: function (handler) {
-			callService('getkinds', handler);
+			callService('getkinds', null, handler);
 		},
 		
 		// retrieves all tag kinds from library
 		gettags: function (handler) {
-			callService('gettags', handler);
+			callService('gettags', null, handler);
 		},
 		
 		// starts playback of a file
