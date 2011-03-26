@@ -9,21 +9,49 @@ yalp.controls = function (controls, $, data) {
 	controls.kinds = function () {
 		var self = Object.create(controls.control()),
 				onChecked = function () {},
-				hidden = {};
-
+				hidden;
+		
 		//////////////////////////////
 		// Utility functions
 
+		// converts array to lookup
+		function toLookup(array) {
+			var i, result = {};
+			for (i = 0; i < array.length; i++) {
+				result[array[i]] = true;
+			}
+			return result;
+		}
+		
+		// converts lookup to array
+		function toArray(lookup) {
+			var result = [], key;
+			for (key in lookup) {
+				result.push(key);
+			}
+			return result;
+		}
+				
+		// adjusts the hidden state of a particular kind
 		function handler(kind, state) {
 			if (state) {
 				delete hidden[kind];
 			} else {
 				hidden[kind] = true;
 			}
+			// saving cookie
+			data.cookie.set('hiddenkinds', toArray(hidden).join(','));
+			// custom callback
 			onChecked();
 			return self;
 		}
 
+		//////////////////////////////
+		// Initialization
+
+		// initializing hidden kinds
+		hidden = toLookup((data.cookie.get('hiddenkinds') || '').split(','));
+				
 		//////////////////////////////
 		// Getters / setters
 
