@@ -12,6 +12,22 @@ var test = function (test, data, services) {
 		module("Data");
 		
 		////////////////////////////////////////////////////////////////////////////////
+		
+		test("[cookie] Setting a cookie", function () {
+			data.cookie.set('test_key', 'test_value');
+			notEqual(document.cookie.indexOf('test_key'), -1, "Cookie added.");
+		});
+		
+		test("[cookie] Reading a cookie", function () {
+			equal(data.cookie.get('test_key'), 'test_value', "Cookie read.");
+		});
+
+		test("[cookie] Erasing a cookie", function () {
+			data.cookie.unset('test_key');
+			equal(data.cookie.get('test_key'), undefined, "Cookie erased.");
+		});
+
+		////////////////////////////////////////////////////////////////////////////////
 
 		// mock method
 		services.getkinds = function (handler) {
