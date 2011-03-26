@@ -95,8 +95,10 @@ yalp.controls = (function (controls, $, data) {
 					result.push(self.children[i].html());
 				}
 				result.push('</table>');
+			} else if (controls.search.filter.length) {
+				result = ['<span id="', self.id, '" class="warning nohits">', "No videos are matching the criteria.", '</span>'];
 			} else {
-				result = ['<span id="', self.id, '" class="empty">You have no videos in this library. Import a folder below.</span>'];
+				result = ['<span id="', self.id, '" class="warning empty">', "You have no videos in this library. Import a folder below.", '</span>'];
 			}
 			return result.join('');
 		};

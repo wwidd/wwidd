@@ -2,14 +2,19 @@
 EMPTY LIBRARY
 ******************************/
 
-span.empty {
+span.warning {
 	display: inline-block; *zoom: 1;
 	height: 20px;
 	line-height: 20px;
+	margin: 0 0 0 5px;
 	padding: 0 0 0 20px;
 	vertical-align: middle;
 	font-weight: bold;
 	color: yellow;
+	background: url('/image/error.png') no-repeat left center;
+}
+	
+span.empty {
 	background: url('/image/arrow_down.png') no-repeat left center;
 }
 
