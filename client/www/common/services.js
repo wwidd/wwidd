@@ -11,7 +11,15 @@ yalp.services = function ($) {
 		$.ajax(url + endpoint, {
 			data: data,
 			dataType: 'json',
-			success: handler
+			success: handler,
+			error: function (xhr) {
+				var data = $.parseJSON(xhr.responseText);
+				alert([
+					"Service call failed. Details:",
+					"endpoint: \"" + endpoint + "\"",
+					"message: \"" + data.message + "\""
+				].join('\n'));
+			}
 		});
 	}
 	
