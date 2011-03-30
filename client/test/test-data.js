@@ -108,11 +108,11 @@ var test = function (test, data, services) {
 			handler({
 				status: 'OK',
 				data: [
-					{name: "lots", tag: "lots:"},
-					{name: "sure", tag: "sure:actor"},
-					{name: "test", tag: "test:"},
-					{name: "abc", tag: "abc:"},
-					{name: "what", tag: "what:"}
+					{name: "lots", kind: ""},
+					{name: "sure", kind: "actor"},
+					{name: "test", kind: ""},
+					{name: "abc", kind: ""},
+					{name: "what", kind: ""}
 				]
 			});
 		};
