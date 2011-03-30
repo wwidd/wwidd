@@ -25,7 +25,10 @@ yalp.data = function (data, jOrder, services) {
 
 			// retrieves the number assigned to the kind
 			getNumber: function (kind) {
-				return 'kind' + self.lookup[kind];
+				// making sure the default color is not used again
+				var lookup = self.lookup[kind],
+						value = lookup > 0 ? (lookup - 1) % 11 + 1 : 0;
+				return 'kind' + value;
 			}
 		};
 

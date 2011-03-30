@@ -92,6 +92,66 @@ span.tag.kind12 {
 	border-color: #063;
 	background: #f1f5ec;
 }
+span.tag.kind13 {
+	color: #dee5f2;
+	border-color: #dee5f2;
+	background: #5a6986;
+}
+span.tag.kind14 {
+	color: #e0ecff;
+	border-color: #e0ecff;
+	background: #206cff;
+}
+span.tag.kind15 {
+	color: #dfe2ff;
+	border-color: #dfe2ff;
+	background: #00c;
+}
+span.tag.kind16 {
+	color: #e0d5f9;
+	border-color: #e0d5f9;
+	background: #5229a3;
+}
+span.tag.kind17 {
+	color: #fde9f4;
+	border-color: #fde9f4;
+	background: #854f61;
+}
+span.tag.kind18 {
+	color: #ffe3e3;
+	border-color: #ffe3e3;
+	background: #c00;
+}
+span.tag.kind19 {
+	color: #fff0e1;
+	border-color: #fff0e1;
+	background: #ec7000;
+}
+span.tag.kind20 {
+	color: #fadcb3;
+	border-color: #fadcb3;
+	background: #b36d00;
+}
+span.tag.kind21 {
+	color: #f3e7b3;
+	border-color: #f3e7b3;
+	background: #ab8b00;
+}
+span.tag.kind22 {
+	color: #ffffd4;
+	border-color: #ffffd4;
+	background: #636330;
+}
+span.tag.kind23 {
+	color: #f9ffef;
+	border-color: #f9ffef;
+	background: #64992c;
+}
+span.tag.kind24 {
+	color: #f1f5ec;
+	border-color: #f1f5ec;
+	background: #063;
+}
 
 /* content alignment */
 span.tag > span,
