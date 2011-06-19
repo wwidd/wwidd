@@ -9,8 +9,8 @@
 	<link rel="stylesheet" href="css/media.css" />
 	<link rel="stylesheet" href="css/tag.css" />
 	<link rel="stylesheet" href="css/kinds.css" />
-	<script src="jquery/jquery-1.5.1.min.js"></script>
-	<script src="jorder/jorder-1.1.0-14.js"></script>
+	<script src="jquery/jquery-1.6.1.js"></script>
+	<script src="jorder/jorder-1.2.js"></script>
 	<script src="common/create.js"></script>
 	<script src="common/services.js"></script>
 	<script src="data/cookie.js"></script>
@@ -37,10 +37,13 @@
 	<script src="controls/search.js"></script>
 	<script src="controls/page.js"></script>
 	<script>
+		/*global jOrder, jQuery, yalp */
 		jOrder.logging = false;
-		$(function () {
-			yalp.controls.page.init();
-		});
+		(function ($, controls) {
+			$(function () {
+				controls.page.init();
+			});
+		})(jQuery, yalp.controls);
 	</script>
 </head>
 <body>
