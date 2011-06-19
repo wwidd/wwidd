@@ -9,6 +9,12 @@
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {
+	var
+	
+	// static event handler declarations
+	onClick,
+	onClickOutside;
+	
 	controls.editable = function () {
 		var self = Object.create(controls.control());
 		
@@ -64,7 +70,7 @@ yalp.controls = function (controls, $) {
 	// Static event handlers
 
 	// 'click outside' handler
-	function onClickOutside(event, self, elem) {
+	onClickOutside = function (event, self, elem) {
 		if (event.target !== (elem.find('input,select')[0] || elem[0])) {
 			// handling actual click outside event
 			self.toggle('display');
@@ -75,9 +81,9 @@ yalp.controls = function (controls, $) {
 			});
 		}
 		return false;
-	}
+	};
 	
-	function onClick() {
+	onClick = function () {
 		// switching display w/ edit
 		var self = controls.lookup[$(this).attr('id')].data.that,
 				elem = self.toggle('edit');
@@ -88,7 +94,7 @@ yalp.controls = function (controls, $) {
 		});
 		
 		return false;
-	}
+	};
 
 	$('.editable').live('click', onClick);
 	

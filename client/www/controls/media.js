@@ -5,10 +5,19 @@
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, services, data) {
+	var
+	
+	// static event handlers
+	onClick,
+	onChecked;
+	
 	controls.media = function (row) {
 		var self = Object.create(controls.control()),
-				rater, tagger;
-
+		
+		// sub-controls
+		rater,
+		tagger;
+		
 		self.data.row = row;
 				
 		//////////////////////////////
@@ -72,14 +81,14 @@ yalp.controls = function (controls, $, services, data) {
 	//////////////////////////////
 	// Static event handlers
 
-	function onClick() {
+	onClick = function () {
 		var media = $(this).closest('.media'),
 				self = controls.lookup[media.attr('id')].data.that;
 		self.play(media);
 		return false;
-	}
+	};
 	
-	function onChecked() {
+	onChecked = function () {
 		var $this = $(this),
 				media = $this.closest('.media'),
 				self = controls.lookup[media.attr('id')].data.that;
@@ -88,7 +97,7 @@ yalp.controls = function (controls, $, services, data) {
 		} else {
 			delete controls.library.selected[self.data.row.mediaid];
 		}
-	}
+	};
 	
 	$('a.play').live('click', onClick);
 	$('td.check :checkbox').live('click', onChecked);
