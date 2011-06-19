@@ -5,6 +5,7 @@
 // displaying (default) and one for editing its value. The latter becomes
 // available when clicking on the display state.
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery, yalp */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {

@@ -3,6 +3,7 @@
 //
 // The number of stars represent the rating. Up to five stars can be given.
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, services) {

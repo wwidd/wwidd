@@ -3,6 +3,7 @@
 //
 // Displays and switches one tag kind on and off
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {

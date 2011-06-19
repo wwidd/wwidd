@@ -3,6 +3,7 @@
 //
 // Lets the user control what kind of tags are visible
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {
@@ -27,7 +28,9 @@ yalp.controls = function (controls, $, data) {
 		function toArray(lookup) {
 			var result = [], key;
 			for (key in lookup) {
-				result.push(key);
+				if (lookup.hasOwnProperty(key)) {
+					result.push(key);
+				}
 			}
 			return result;
 		}

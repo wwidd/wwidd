@@ -3,6 +3,7 @@
 //
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery, jOrder, confirm */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, jOrder, services, data) {

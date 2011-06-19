@@ -3,6 +3,7 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery, jOrder, confirm */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, jOrder, services, data) {

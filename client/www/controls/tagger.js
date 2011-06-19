@@ -3,6 +3,7 @@
 //
 // Displays and edits tags.
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, services) {

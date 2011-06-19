@@ -3,6 +3,7 @@
 //
 // 'Abstract' base class for UI controls.
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {

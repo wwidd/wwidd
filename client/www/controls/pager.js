@@ -3,6 +3,7 @@
 //
 // For switching between pages
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {

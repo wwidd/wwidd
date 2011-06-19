@@ -3,6 +3,7 @@
 //
 // Lists available libraries and switches between them.
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, services) {

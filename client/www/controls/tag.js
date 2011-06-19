@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
+/*global jQuery */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, services, data) {
@@ -9,7 +10,9 @@ yalp.controls = function (controls, $, services, data) {
 		var result = [],
 				name;
 		for (name in lookup) {
-			result.push(name);
+			if (lookup.hasOwnProperty(name)) {
+				result.push(name);
+			}
 		}
 		return result;
 	}
