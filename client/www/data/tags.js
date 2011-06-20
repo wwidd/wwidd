@@ -10,16 +10,25 @@ yalp.data = function (data, jOrder, services) {
 			table: null,
 
 			// initializes data object: calls service, populates table
-			init: function () {
+			init: function (handler) {
 				services.gettags(function (json) {
+					// preprocessing tag data
 					var i, row;
 					for (i = 0; i < json.data.length; i++) {
 						row = json.data[i];
 						row.tag = row.name + '\t' + row.kind;
 					}
+					
+					// building table
 					self.table = jOrder(json.data)
 						.index('tag', ['tag'], {ordered: true, type: jOrder.string})
-						.index('name', ['name'], {ordered: true, grouped: true, type: jOrder.string});
+						.index('name', ['name'], {ordered: true, grouped: true, type: jOrder.string})
+						.index('kind', ['kind'], {grouped: true, type: jOrder.string});
+
+					// custom callback
+					if (handler) {
+						handler();
+					}
 				});
 				return self;
 			},

@@ -49,7 +49,7 @@ yalp.controls = (function (controls, $, data) {
 
 					// initializing kinds table
 					data.kinds
-						.init(function () {
+						.init(data.tags, function () {
 							controls.library.render();
 							controls.kinds.render();
 						});

@@ -7,21 +7,21 @@
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {
-	controls.kind = function (row, handler) {
+	controls.kind = function (kind, handler) {
 		var self = Object.create(controls.control());
 		
-		self.data.row = row;
+		self.data.kind = kind;
 		self.data.handler = handler || function () {};
 		
 		//////////////////////////////
 		// Overrides
 
 		self.html = function () {
-			var id = 'kind' + row.kind;
+			var id = 'kind' + kind;
 			return [
-				'<span id="', self.id, '" class="kind tag display ', data.kinds.getNumber(row.kind), '">',
-				'<input type="checkbox" id="', id, '"', !self.parent || !self.parent.hidden(row.kind) ? ' checked="checked"' : '', '/>',
-				'<label for="', id, '">', row.kind ? row.kind : "[default]", '</label>',
+				'<span id="', self.id, '" class="kind tag display ', data.kinds.getNumber(kind), '">',
+				'<input type="checkbox" id="', id, '"', !self.parent || !self.parent.hidden(kind) ? ' checked="checked"' : '', '/>',
+				'<label for="', id, '">', kind ? kind : "[default]", '</label>',
 				'</span>'
 			].join('');
 		};
@@ -37,10 +37,10 @@ yalp.controls = function (controls, $, data) {
 	function onChecked() {
 		var	$this = $(this),
 				control = controls.lookup[$this.parent().attr('id')],
-				row = control.data.row,
+				kind = control.data.kind,
 				handler = control.data.handler,
 				checked = $this.attr('checked');
-		handler(row.kind, checked);
+		handler(kind, checked);
 	}
 	
 	// when tag background is clicked
@@ -48,12 +48,12 @@ yalp.controls = function (controls, $, data) {
 		if (event.target === this) {
 			var $this = $(this),
 					control = controls.lookup[$this.attr('id')],
-					row = control.data.row,
+					kind = control.data.kind,
 					handler = control.data.handler,
 					$checkbox = $this.find(':checkbox'),
 					checked = !$checkbox.attr('checked');
 			$checkbox.attr('checked', checked);
-			handler(row.kind, checked);
+			handler(kind, checked);
 		}
 	}
 

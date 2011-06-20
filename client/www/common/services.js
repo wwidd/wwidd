@@ -51,12 +51,7 @@ yalp.services = function ($) {
 			}, handler);
 		},
 		
-		// retrieves all tag kinds from library
-		getkinds: function (handler) {
-			callService('getkinds', null, handler);
-		},
-		
-		// retrieves all tag kinds from library
+		// retrieves all tags from library
 		gettags: function (handler) {
 			callService('gettags', null, handler);
 		},
@@ -76,7 +71,7 @@ yalp.services = function ($) {
 			}, handler);
 		},
 		
-		// deletes tag on a file
+		// adds tag to a file
 		addtag: function (mediaid, tag, filter, mediaids, handler) {
 			var data = {
 				mediaid: mediaid,

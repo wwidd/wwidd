@@ -59,9 +59,10 @@ yalp.controls = (function (controls, $, data) {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + controls.switcher.selected);
 				// initializing tag data buffer
-				data.tags.init();
-				// external event handler
-				onInit();
+				data.tags.init(function () {
+					// external event handler
+					onInit();
+				});
 			});
 			return self;
 		};

@@ -73,11 +73,13 @@ yalp.controls = function (controls, $, data) {
 		// Overrides
 
 		function build() {
-			var flat = data.kinds.table ? data.kinds.table.flat() : [],
-					i;
+			var lookup = data.kinds.lookup,
+					kind;
 			self.clear();
-			for (i = 0; i < flat.length; i++) {
-				controls.kind(flat[i], handler).appendTo(self);
+			for (kind in lookup) {
+				if (lookup.hasOwnProperty(kind)) {
+					controls.kind(kind, handler).appendTo(self);
+				}
 			}
 			return self;
 		}
