@@ -8,7 +8,8 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {
 	controls.kind = function (kind, handler) {
-		var self = Object.create(controls.control());
+		var self = Object.create(controls.control()),
+				count = data.tags.table.index('kind').count(kind);	// no. of tags associated w/ kind
 		
 		self.data.kind = kind;
 		self.data.handler = handler || function () {};
@@ -19,7 +20,7 @@ yalp.controls = function (controls, $, data) {
 		self.html = function () {
 			var id = 'kind' + kind;
 			return [
-				'<span id="', self.id, '" class="kind tag display ', data.kinds.getNumber(kind), '">',
+				'<span id="', self.id, '" class="kind tag display ', data.kinds.getNumber(kind), '" title="', count, count > 1 ? ' tags' : ' tag', '">',
 				'<input type="checkbox" id="', id, '"', !self.parent || !self.parent.hidden(kind) ? ' checked="checked"' : '', '/>',
 				'<label for="', id, '">', kind ? kind : "[default]", '</label>',
 				'</span>'
