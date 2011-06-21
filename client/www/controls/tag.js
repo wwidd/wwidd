@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder */
+/*global jQuery, jOrder, escape */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, jOrder, services, data) {
@@ -37,8 +37,8 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 				names = data.tag(after).split();
 				for (i = 0; i < names.length; i++) {
 					// adding reference to tags table
-					if (index_tags.count(names[i]) === 0) {
-						tmp = names[i].split(':');
+					tmp = names[i].split(':');
+					if (tags_table.index('tag').count(escape(tmp.join('\t'))) === 0) {
 						tags_table.insert([{tag: tmp.join('\t'), name: tmp[0], kind: tmp[1]}]);
 					}
 					// adding reference to media table
