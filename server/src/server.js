@@ -46,14 +46,6 @@ $http.createServer(function (req, res) {
 		});
 		break;
 		
-	case '/getkinds':
-		ok = envelope(res, true, function () {
-			library.getKinds(function (data) {
-				ok(data);
-			});
-		});
-		break;
-		
 	case '/gettags':
 		ok = envelope(res, true, function () {
 			library.getTags(function (data) {

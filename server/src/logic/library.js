@@ -60,13 +60,7 @@ library = function () {
 			return self;
 		},
 		
-		// queries tag kinds in database
-		getKinds: function (handler) {
-			tag.getKinds(handler);
-			return self;
-		},
-		
-		// queries tag kinds in database
+		// queries all tags
 		getTags: function (handler) {
 			tag.getTags(handler);
 			return self;

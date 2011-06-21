@@ -10,14 +10,6 @@ tag = function () {
 	var base = Object.create(entity, {kind: {value: 'tags'}}),
 			self = Object.create(base);
 
-	// retrieves a list of all tag kinds
-	self.getKinds = function (handler) {
-		var statement = "SELECT DISTINCT kind FROM tags;";
-
-		console.log(statement);
-		sqlite.exec(statement, handler, ['-header', '-line']);
-	};
-
 	// retrieves all tags
 	self.getTags = function (handler) {
 		var statement = "SELECT DISTINCT lower(name) AS name, CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS kind FROM tags";
