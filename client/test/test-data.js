@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Unit tests for the data component
 ////////////////////////////////////////////////////////////////////////////////
+/*global yalp, document, module, ok, equal, equals, deepEqual, notEqual */
 var test = function (test, data, services) {
 	test.data = function () {
 		var tag1 = 'test, abc,de:fg',
@@ -27,25 +28,6 @@ var test = function (test, data, services) {
 			equal(data.cookie.get('test_key'), undefined, "Cookie erased.");
 		});
 
-		////////////////////////////////////////////////////////////////////////////////
-
-		// mock method
-		services.getkinds = function (handler) {
-			handler({
-				status: 'OK',
-				data: [{kind: ""}, {kind: "abc"}, {kind: "test"}, {kind: "whatever"}, {kind: "this"}, {kind: "alpha"}, {kind: "bravo"}]
-			});
-		};
-		
-		data.kinds.init();
-
-		test("[kinds] Reverse kind lookup (kind -> number)", function () {
-			equal(data.kinds.getNumber('abc'), 'kind1', "abc");
-			equal(data.kinds.getNumber('this'), 'kind4', "this");
-		});
-		
-		services.getkinds = kinds_bak;
-		
 		////////////////////////////////////////////////////////////////////////////////
 
 		// mock method

@@ -1,13 +1,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Unit tests for client controls
 ////////////////////////////////////////////////////////////////////////////////
+/*global yalp, jQuery, document, module, ok, equal, equals, deepEqual, notEqual, raises, expect */
 var test = function (test, $, controls) {
 	// counts number of controls in lookup
 	function count_controls() {
 		var count = 0,
 				id;
 		for (id in controls.lookup) {
-			count++;
+			if (controls.lookup.hasOwnProperty(id)) {
+				count++;
+			}
 		}
 		return count;
 	}
