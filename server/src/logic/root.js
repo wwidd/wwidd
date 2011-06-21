@@ -3,6 +3,7 @@
 //
 // Ingests metadata from media files.
 ////////////////////////////////////////////////////////////////////////////////
+/*global require, exports, process, console */
 var	library = require('../db/library').library,
 		entity = require('../db/root').root,
 		extract = require('../tools/extract').extract,

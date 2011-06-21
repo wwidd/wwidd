@@ -3,6 +3,7 @@
 //
 // Base class for table records
 ////////////////////////////////////////////////////////////////////////////////
+/*global require, exports, console */
 var	sqlite = require('../tools/sqlite').sqlite,
 
 // escapes quotes in SQL statements by duplicating them
@@ -16,8 +17,10 @@ split = function (object) {
 			keys = [],
 			values = [];
 	for (key in object) {
-		keys.push(key);
-		values.push(["'", quotes(object[key]), "'"].join(""));
+		if (object.hasOwnProperty(key)) {
+			keys.push(key);
+			values.push(["'", quotes(object[key]), "'"].join(""));
+		}
 	}
 	return {'keys': keys, 'values': values};
 },
@@ -28,11 +31,13 @@ clause = function (object) {
 	var	key,
 			result = [];
 	for (key in object) {
-		result.push([
-			key,
-			"=",
-			["'", quotes(object[key]), "'"].join("")
-		].join(' '));
+		if (object.hasOwnProperty(key)) {
+			result.push([
+				key,
+				"=",
+				["'", quotes(object[key]), "'"].join("")
+			].join(' '));
+		}
 	}
 	return result;
 },
@@ -103,7 +108,7 @@ entity = {
 	// removes an entity of this kind
 	remove: function (before, handler, self) {
 		var kind = (self || this).kind,
-				where = clause(before || {});
+				where = clause(before || {}),
 
 		statement = [
 			"DELETE FROM",

@@ -3,6 +3,7 @@
 //
 // Interface for adding library root paths and ingesting their content
 ////////////////////////////////////////////////////////////////////////////////
+/*global require, exports */
 var	$path = require('path'),
 		root = require('../logic/root').root,
 		entity = require('../db/library').library,
@@ -11,7 +12,7 @@ var	$path = require('path'),
 		walker = require('../utils/walker').walker,
 
 library = function () {
-	var json;
+	var json, self;
 	
 	// splits tags along commas
 	function splitTags(data) {

@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Entity
 ////////////////////////////////////////////////////////////////////////////////
+/*global require, exports */
 var	entity = require('../db/entity').entity,
 
 // constructs a where clause that will retrieve
@@ -20,7 +21,7 @@ filter = function (tags, inclusive) {
 		inclusive ? 1 : names.length,
 		")"
 	].join(" ");
-};
+},
 
 // constructs a where clause that will retrieve
 // media records by their id
@@ -31,7 +32,7 @@ selection = function (mediaids) {
 		tmp.join(","),
 		")"
 	].join(" ");
-};
+},
 
 media = function (path) {
 	var self = Object.create(entity, {kind: {value: 'media'}});

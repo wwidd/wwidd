@@ -3,6 +3,7 @@
 //
 // Interface for adding library root paths and ingesting their content
 ////////////////////////////////////////////////////////////////////////////////
+/*global require, exports, console */
 var	vlc = require('../tools/vlc').vlc,
 		entity = require('../db/media').media,
 

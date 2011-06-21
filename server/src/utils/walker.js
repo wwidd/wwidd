@@ -6,6 +6,7 @@
 // with CPS (continuation-passing style), which is complicated and adds
 // restrictions to the callbacks.
 ////////////////////////////////////////////////////////////////////////////////
+/*global require, exports, process, console */
 var	$fs = require('fs'),
 
 // - dirHandler: called for each directory

@@ -4,6 +4,7 @@
 // Parses the output of metadata extraction tools into a machine readable
 // format. Supports 'libextract'.
 ////////////////////////////////////////////////////////////////////////////////
+/*global exports */
 var 
 
 parser = {

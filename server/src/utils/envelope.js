@@ -3,7 +3,7 @@
 //
 // Takes care of exception handling and constructing JSON response.
 ////////////////////////////////////////////////////////////////////////////////
-
+/*global require, exports, process, console */
 var	gzip = require('../tools/gzip').gzip,
 
 // envelopes a request

@@ -3,6 +3,7 @@
 //
 // Base class for command line execution
 ////////////////////////////////////////////////////////////////////////////////
+/*global require, exports, Buffer */
 var $child_process = require('child_process'),
 
 tool = {

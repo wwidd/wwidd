@@ -3,6 +3,7 @@
 //
 // Data Access Layer
 ////////////////////////////////////////////////////////////////////////////////
+/*global require, exports */
 var	$fs = require('fs'),
 		$os = require('os'),
 		tool = require('../tools/tool').tool,
