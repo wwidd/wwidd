@@ -11,14 +11,14 @@ filter = function (tags, inclusive) {
 			clause = [],
 			i;
 	for (i = 0; i < names.length; i++) {
-		clause.push("name LIKE '" + names[i] + "%'");
+		clause.push("',' || group_concat(name) LIKE '%," + names[i] + "%'");
 	}
 	return [
-		"WHERE mediaid IN (",		
-		"SELECT mediaid FROM tags WHERE",
-		clause.join(" OR "),
-		"GROUP BY mediaid HAVING count(name) >=",
-		inclusive ? 1 : names.length,
+		"WHERE mediaid IN (",
+		"SELECT mediaid FROM tags",
+		"GROUP BY mediaid",
+		"HAVING",
+		clause.join(" AND "),
 		")"
 	].join(" ");
 },
