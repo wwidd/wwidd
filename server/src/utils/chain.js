@@ -11,6 +11,7 @@ chain = function (handler) {
 	// first element of the chain	
 	first = null,
 	lookup = {},
+	length = 0,
 	
 	self = {
 		// adds an elemet to start of chain
@@ -32,6 +33,7 @@ chain = function (handler) {
 			
 			// adding link to lookup
 			lookup[elem] = first;
+			length++;
 			
 			return self;
 		},
@@ -45,7 +47,8 @@ chain = function (handler) {
 
 			// removing reference from lookup
 			delete lookup[elem];
-					
+			length--;
+			
 			if (link === first) {
 				// removing first link
 				first = link.next;
@@ -70,6 +73,7 @@ chain = function (handler) {
 		clear: function () {
 			first = null;
 			lookup = {};
+			length = 0;
 			
 			return self;
 		},
@@ -105,6 +109,7 @@ chain = function (handler) {
 			(function next() {
 				// next chain iteration
 				result.push(self.next());
+				self.onProgress();
 				
 				// going forward
 				if (first !== null && !stopped) {
@@ -153,10 +158,16 @@ chain = function (handler) {
 			return result;
 		},
 		
+		// retrieves current chain length
+		length: function () {
+			return length;
+		},
+		
 		//////////////////////////////
 		// Events
 
-		onFinished: function () {}
+		onFinished: function (result) {},
+		onProgress: function () {}
 	};
 	
 	return self;
