@@ -1,21 +1,38 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Unit tests for the utils component
 ////////////////////////////////////////////////////////////////////////////////
-/*global yalp, exports, console, module, ok, equal, deepEqual */
+/*global yalp, exports, console, setTimeout, module, ok, equal, deepEqual */
 var test = function (test, utils) {
 	test.utils = function () {
 		module("Utils");
 		
 		////////////////////////////////////////////////////////////////////////////////
 		
-		var chain = exports.chain(function (elem) {
+		var
+		
+		// chain with synchronous handler
+		chain = exports.chain(function (elem) {
 			return elem.toLowerCase();
-		});
+		}),
+		
+		// same chain with asynchronous handler
+		chainAsync = exports.chain(function (elem, finish) {
+			setTimeout(function () {
+				var retval = elem.toLowerCase();
+				finish(retval);
+			}, 10);
+			return null;
+		})
+			.add("A")
+			.add("B")
+			.add("E");
+		
 		
 		function addStuff() {
-			chain.add("A");
-			chain.add("B");
-			chain.add("E");
+			chain
+				.add("A")
+				.add("B")
+				.add("E");
 		}
 		
 		// building chain
@@ -67,7 +84,8 @@ var test = function (test, utils) {
 			equal(result, "e", "Iteration applies handler");
 			deepEqual(chain.order(), ["B", "A"], "Iteration removes first link");
 			reset();
-			
+						
+			// starting full iteration synchronously
 			chain.onFinished = function (result) {
 				deepEqual(result, ["e", "b", "a"], "Iterated over entire chain");
 				equal(chain.first(), null, "Full iteration empties chain");
@@ -76,14 +94,13 @@ var test = function (test, utils) {
 			chain.onProgress = function () {
 				console.log(chain.length());
 			};
-			
-			// starting full iteration synchronously
-			chain.start(false);
-			
-			// starting full iteration async
 			chain.start();
-			chain.stop();
-			ok(chain.order().length > 0, "Chain has links left after iteration stopped");
+			
+			// starting full iteration asynchronously
+			chainAsync.onFinished = function (result) {
+				console.log(result, chainAsync.order());
+			};
+			chainAsync.start(true);
 		});
 	};
 	
