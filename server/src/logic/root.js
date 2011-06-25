@@ -35,19 +35,20 @@ root = function (path) {
 			if (!extract) {
 				handler(metadata);
 			} else {
-				extractor.onFinished = function (result) {
-					var i;
-					for (i = 0; i < result.length; i++) {
-						metadata[result[i].path] = result[i].keywords;
-					}
-					handler(metadata);
-				};
-				extractor.onProgress = function () {
-					if (fileCount++ % 10 === 0) {
-						process.stdout.write(".");
-					}
-				};
-				extractor.start(true);
+				extractor
+					.onFinished(function (result) {
+						var i;
+						for (i = 0; i < result.length; i++) {
+							metadata[result[i].path] = result[i].keywords;
+						}
+						handler(metadata);
+					})
+					.onProgress(function () {
+						if (fileCount++ % 10 === 0) {
+							process.stdout.write(".");
+						}
+					})
+					.start(true);
 			}
 			
 			return self;
