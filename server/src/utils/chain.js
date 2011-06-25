@@ -115,6 +115,7 @@ chain = function (handler) {
 			var result = [],
 					next;
 			
+			// prodcesses return value of self.next() (continuation function)
 			function finish(retval) {
 				result.push(retval);
 				onProgress(retval);
@@ -125,14 +126,16 @@ chain = function (handler) {
 				}
 			}
 			
+			// quasi-recursive iteration function
 			next = function () {
 				if (async) {
 					self.next(finish);		// CPS
 				} else {
-					finish(self.next());	// normal
+					finish(self.next());	// direct
 				}
 			};
 			
+			// starting processing
 			next();
 			
 			return self;
