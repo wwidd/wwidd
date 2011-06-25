@@ -14,7 +14,11 @@ yalp.controls = function (controls, $, services) {
 		// called when a directory or file is selected
 		function onDirTyped() {
 			var $this = $(this);
-			$this.siblings('button').attr('disabled', $this.val().length ? null : 'disabled');
+			if ($this.val().length) {
+				$this.siblings('button').removeAttr('disabled');
+			} else {
+				$this.siblings('button').attr('disabled', 'disabled');
+			}
 		}
 		
 		// called on clicking the add button
