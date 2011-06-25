@@ -93,35 +93,43 @@ chain = function (handler) {
 		// Iteration
 
 		// processes next element in queue
-		next: function () {
+		// - finish: function to call when handler finishes
+		next: function (finish) {
 			// removing first link (shifting)
 			var elem = first.load;
 			self.unlink(elem);
 			
 			// running handler on load
-			return handler(elem);
+			return handler(elem, finish);
 		},
 		
 		// starts processing chain
+		// - async: whether the handler (user supplied function) is asynchronous
+		//   if so, handler must call 'finish(retval)' when finished
 		start: function (async) {
 			stopped = false;
-			var result = [];
-			(function next() {
-				// next chain iteration
-				result.push(self.next());
+			var result = [],
+					next;
+			
+			function finish(retval) {
+				result.push(retval);
 				self.onProgress();
-				
-				// going forward
 				if (first !== null && !stopped) {
-					if (async === false) {
-						next();
-					} else {
-						setTimeout(next, 0);
-					}
+					next();
 				} else {
 					self.onFinished(result);
 				}
-			}());
+			}
+			
+			next = function () {
+				if (async) {
+					self.next(finish);		// CPS
+				} else {
+					finish(self.next());	// normal
+				}
+			};
+			
+			next();
 			
 			return self;
 		},
