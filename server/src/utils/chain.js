@@ -13,6 +13,10 @@ chain = function (handler) {
 	lookup = {},
 	length = 0,
 	
+	// event handlers
+	onFinished = function (result) {},	// runs when process finished
+	onProgress = function (retval) {},	// runs after preocessing each link
+
 	self = {
 		// adds an elemet to start of chain
 		add: function (elem) {
@@ -113,11 +117,11 @@ chain = function (handler) {
 			
 			function finish(retval) {
 				result.push(retval);
-				self.onProgress();
+				onProgress(retval);
 				if (first !== null && !stopped) {
 					next();
 				} else {
-					self.onFinished(result);
+					onFinished(result);
 				}
 			}
 			
@@ -172,10 +176,17 @@ chain = function (handler) {
 		},
 		
 		//////////////////////////////
-		// Events
+		// Event setters
 
-		onFinished: function (result) {},
-		onProgress: function () {}
+		onFinished: function (value) {
+			onFinished = value;
+			return self;
+		},
+		
+		onProgress: function (value) {
+			onProgress = value;
+			return self;
+		}
 	};
 	
 	return self;
