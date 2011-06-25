@@ -25,6 +25,7 @@ var test = function (test, utils) {
 			var first = chain.first();
 			
 			deepEqual(chain.order(), ["E", "B", "A"], "Original order: E, B, A");
+			equal(chain.length(), 3, "Chain length");
 			ok(first.next.next.next === null, "Third link terminated (next == null)");
 			ok(first.prev === null, "First -> null");
 			ok(first.next.prev === first, "Second -> First");
@@ -39,10 +40,12 @@ var test = function (test, utils) {
 		test("Chain manipulation", function () {
 			chain.unlink("B");
 			deepEqual(chain.order(), ["E", "A"], "Middle link removed");
+			equal(chain.length(), 2, "Chain length");
 			equal(chain.lookup("A").prev.load, "E", "E precedes A");
 
 			chain.clear();
 			equal(chain.first(), null, "Chain cleared");
+			equal(chain.length(), 0, "Chain length");
 			addStuff();
 
 			chain.unlink("E");
@@ -53,6 +56,7 @@ var test = function (test, utils) {
 			// bumping "B" to top
 			chain.bump("B");
 			deepEqual(chain.order(), ["B", "E", "A"], "B bumped up to top");
+			equal(chain.length(), 3, "Chain length");
 			chain.bump("A");
 			deepEqual(chain.order(), ["A", "B", "E"], "A bumped up to top");
 			reset();
@@ -69,6 +73,10 @@ var test = function (test, utils) {
 				equal(chain.first(), null, "Full iteration empties chain");
 				reset();
 			};
+			chain.onProgress = function () {
+				console.log(chain.length());
+			};
+			
 			// starting full iteration synchronously
 			chain.start(false);
 			
