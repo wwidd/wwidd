@@ -13,12 +13,11 @@ var	library = require('../db/library').library,
 root = function (path) {
 	var self = {
 		// scans the library and returns metadata for relevant files
-		scan: function (handler, extract) {
-			var	extractor,				// chain
-					metadata = { },
-					fileCount = 0;
-	
-			extractor = processes.extractor;
+		scan: function (handler) {
+			var	metadata = { };
+			
+			// clearing process chains
+			processes.extractor.clear();
 					
 			// walking library root synchronously
 			walker(
@@ -26,30 +25,13 @@ root = function (path) {
 				null,
 				// called on each file
 				function (filePath) {
-					extractor.add(filePath);
+					processes.extractor.add(filePath);
 					metadata[filePath] = {};
 				}
 			).walkSync(path);
 			
-			// extracting keywords
-			if (!extract) {
-				handler(metadata);
-			} else {
-				extractor
-					.onFinished(function (result) {
-						var i;
-						for (i = 0; i < result.length; i++) {
-							metadata[result[i].path] = result[i].keywords;
-						}
-						handler(metadata);
-					})
-					.onProgress(function () {
-						if (fileCount++ % 10 === 0) {
-							process.stdout.write(".");
-						}
-					})
-					.start(true);
-			}
+			// continuation - adds collected data to database
+			handler(metadata);
 			
 			return self;
 		},
@@ -61,10 +43,36 @@ root = function (path) {
 				console.log("Library root initialized.");
 				console.log("Ingesting video metadata into library");
 				self.scan(function (metadata) {
+					// filling library with pure names (auto tags)
+					// when this is done, the HTTP response ends: the rest is async
 					library.fill(metadata, function () {
 						if (handler) {
 							handler(metadata);
 						}
+						
+						var batch = {},		// batch of metadata
+								counter = 0;	// batch counter
+						
+						// flushes batch of metadata to database
+						function flush() {
+							library.fill(batch);
+							counter = 0;
+							batch = {};
+						}
+								
+						// extracting metadata from files and updating database
+						processes.extractor
+							.onFinished(function (result) {
+								// flushing remainder
+								flush();
+							})
+							.onProgress(function (elem) {
+								batch[elem.path] = elem.keywords;
+								if (++counter === 100) {
+									flush();
+								}
+							})
+							.start(true);					
 					});
 				});
 			});
