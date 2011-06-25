@@ -86,21 +86,23 @@ var test = function (test, utils) {
 			reset();
 						
 			// starting full iteration synchronously
-			chain.onFinished = function (result) {
-				deepEqual(result, ["e", "b", "a"], "Iterated over entire chain");
-				equal(chain.first(), null, "Full iteration empties chain");
-				reset();
-			};
-			chain.onProgress = function () {
-				console.log(chain.length());
-			};
-			chain.start();
+			chain
+				.onFinished(function (result) {
+					deepEqual(result, ["e", "b", "a"], "Iterated over entire chain");
+					equal(chain.first(), null, "Full iteration empties chain");
+					reset();
+				})
+				.onProgress(function () {
+					console.log(chain.length());
+				})
+				.start();
 			
 			// starting full iteration asynchronously
-			chainAsync.onFinished = function (result) {
-				console.log(result, chainAsync.order());
-			};
-			chainAsync.start(true);
+			chainAsync
+				.onFinished(function (result) {
+					console.log(result, chainAsync.order());
+				})
+				.start(true);
 		});
 	};
 	
