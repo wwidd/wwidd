@@ -6,7 +6,6 @@ var test = function (test, data, services) {
 	test.data = function () {
 		var tag1 = 'test, abc,de:fg',
 				tag2 = 'whatever/it /, is',
-				kinds_bak = services.getkinds,
 				media_bak = services.getmedia,
 				tags_bak = services.gettags;
 				
