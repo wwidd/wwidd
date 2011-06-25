@@ -6,53 +6,48 @@
 /*global require, exports, process, console */
 var	library = require('../db/library').library,
 		entity = require('../db/root').root,
-		extract = require('../tools/extract').extract,
 		walker = require('../utils/walker').walker,
-
+		processes = require('../logic/processes').processes,
+		
 // - path: root path
 root = function (path) {
 	var self = {
 		// scans the library and returns metadata for relevant files
 		scan: function (handler, extract) {
-			var	list = [],
+			var	extractor,				// chain
 					metadata = { },
 					fileCount = 0;
 	
+			extractor = processes.extractor;
+					
 			// walking library root synchronously
 			walker(
 				// called on each directory
 				null,
 				// called on each file
 				function (filePath) {
-					list.push(filePath);
+					extractor.add(filePath);
 					metadata[filePath] = {};
 				}
 			).walkSync(path);
 			
+			// extracting keywords
 			if (!extract) {
 				handler(metadata);
 			} else {
-				// CPS async tool starter
-				// (async execution of extraction tool(s))
-				(function next(filePath) {
-					// calling extract
+				extractor.onFinished = function (result) {
+					var i;
+					for (i = 0; i < result.length; i++) {
+						metadata[result[i].path] = result[i].keywords;
+					}
+					handler(metadata);
+				};
+				extractor.onProgress = function () {
 					if (fileCount++ % 10 === 0) {
 						process.stdout.write(".");
 					}
-					extract.exec(filePath, ['--verbose', '--filename'], function (data) {
-						var	keywords = data[0];
-						if (keywords) {
-							metadata[filePath] = keywords;
-						}
-						// exec next path in list
-						if (list.length) {
-							next(list.shift());
-						} else if (handler) {
-							process.stdout.write("\n");
-							handler(metadata);
-						}
-					});
-				})(list.shift());
+				};
+				extractor.start(true);
 			}
 			
 			return self;
