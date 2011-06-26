@@ -80,6 +80,8 @@ var test = function (test, utils) {
 			equal(chain.length(), 3, "Chain length");
 			chain.bump("A");
 			deepEqual(chain.order(), ["A", "B", "E"], "A bumped up to top");
+			chain.bump(["E", "B"]);
+			deepEqual(chain.order(), ["E", "B", "A"], "E, B bumped up to top");
 			reset();
 		});
 		
