@@ -13,6 +13,19 @@ chain = function (handler) {
 	lookup = {},
 	length = 0,
 	
+	// applies a handler to one or more elements in reverse order
+	batched = function (batch, handler) {
+		var elems;
+		if (typeof batch.pop !== 'function') {
+			handler(batch);
+		} else {
+			elems = batch.concat([]);
+			while (elems.length > 0) {
+				handler(elems.pop());
+			}
+		}
+	},
+	
 	// event handlers
 	onFinished = function (result) {},	// runs when process finished
 	onProgress = function (retval) {},	// runs after preocessing each link
@@ -38,19 +51,6 @@ chain = function (handler) {
 			// adding link to lookup
 			lookup[elem] = first;
 			length++;
-			
-			return self;
-		},
-		
-		// adds one or more elements to start (in original order)
-		add: function (elems) {
-			if (typeof elems.pop !== 'function') {
-				self.unshift(elems);
-			} else {
-				while (elems.length > 0) {
-					self.unshift(elems.pop());
-				}
-			}
 			
 			return self;
 		},
@@ -86,6 +86,18 @@ chain = function (handler) {
 			return self;
 		},
 		
+		// adds one or more elements to start (in original order)
+		add: function (batch) {
+			batched(batch, self.unshift);			
+			return self;
+		},
+		
+		// removes one or more elements from chain
+		remove: function (batch) {
+			batched(batch, self.unlink);			
+			return self;
+		},
+		
 		// clears chain
 		clear: function () {
 			first = null;
@@ -95,13 +107,13 @@ chain = function (handler) {
 			return self;
 		},
 		
-		// bumps element to first place
-		bump: function (elem) {
-			// removing element from chain
-			self.unlink(elem);
+		// bumps one or more elements up to top
+		bump: function (elems) {
+			// removing element(s) from chain
+			self.remove(elems);
 			
-			// adding back element at start
-			self.add(elem);
+			// adding back element(s) at start
+			self.add(elems);
 			
 			return self;
 		},
