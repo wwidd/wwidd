@@ -18,8 +18,8 @@ chain = function (handler) {
 	onProgress = function (retval) {},	// runs after preocessing each link
 
 	self = {
-		// adds an elemet to start of chain
-		add: function (elem) {
+		// adds an element to start of chain
+		unshift: function (elem) {
 			// current first becomes second
 			var second = first;
 
@@ -38,6 +38,19 @@ chain = function (handler) {
 			// adding link to lookup
 			lookup[elem] = first;
 			length++;
+			
+			return self;
+		},
+		
+		// adds one or more elements to start (in original order)
+		add: function (elems) {
+			if (typeof elems.pop !== 'function') {
+				self.unshift(elems);
+			} else {
+				while (elems.length > 0) {
+					self.unshift(elems.pop());
+				}
+			}
 			
 			return self;
 		},
