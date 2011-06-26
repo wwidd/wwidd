@@ -47,6 +47,10 @@ var test = function (test, utils) {
 			ok(first.prev === null, "First -> null");
 			ok(first.next.prev === first, "Second -> First");
 			ok(first.next.next.prev === first.next, "Third -> Second");
+
+			chain.clear();
+			chain.add(["E", "B", "A"]);
+			deepEqual(chain.order(), ["E", "B", "A"], "Order after adding batch: E, B, A");
 		});
 		
 		function reset() {
