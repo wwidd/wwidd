@@ -6,7 +6,7 @@ var	entity = require('../db/entity').entity,
 
 // constructs a where clause that will retrieve
 // media records filtered by tags
-filter = function (tags) {
+filter = function (tags, table) {
 	var names = tags.split(/\s*[^A-Za-z0-9:\s]+\s*/),
 			clause = [],
 			i;
@@ -14,7 +14,8 @@ filter = function (tags) {
 		clause.push("',' || group_concat(name) LIKE '%," + names[i] + "%'");
 	}
 	return [
-		"WHERE mediaid IN (",
+		"WHERE",
+		(table ? table + '.' : '') + "mediaid IN (",
 		"SELECT mediaid FROM tags",
 		"GROUP BY mediaid",
 		"HAVING",

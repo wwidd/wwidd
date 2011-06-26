@@ -14,14 +14,14 @@ var	$path = require('path'),
 library = function () {
 	var json, self;
 	
-	// splits tags along commas
-	function splitTags(data) {
+	// splits properties along characters
+	function split(data, property, separator) {
 		var i;
 		for (i = 0; i < data.length; i++) {
-			data[i].tags = data[i].tags.split(',');
+			data[i][property] = data[i][property].split(separator);
 		}
 	}
-	
+
 	self = {
 		// creates a new library
 		// (doesn't check whether it already exists)
@@ -55,7 +55,8 @@ library = function () {
 		// queries all media entries
 		getMedia: function (filter, handler) {
 			entity.getMedia(filter, function (data) {
-				splitTags(data);
+				split(data, 'tags', ',');
+				split(data, 'keywords', ',');
 				handler(data);
 			});
 			return self;

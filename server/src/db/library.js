@@ -12,9 +12,19 @@ library = function () {
 		// queries the entire library
 		getMedia: function (filter, handler) {
 			var statement = [
-				"SELECT mediaid, path, rating, group_concat(name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags FROM media NATURAL JOIN tags",
-				filter ? $media.filter(filter) : "",
-				"GROUP BY mediaid;"
+				"SELECT media.mediaid, path, rating, tags, keywords",
+				"FROM media",
+				"NATURAL JOIN (",
+				"	SELECT mediaid,",
+				"		group_concat(name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags",
+				"	FROM tags",
+				"	GROUP BY mediaid)",
+				"NATURAL JOIN (",
+				"	SELECT mediaid,",
+				"		group_concat(key || ':' || replace(value, ',', ' ')) AS keywords",
+				"	FROM keywords",
+				"GROUP BY mediaid)",
+				filter ? $media.filter(filter, 'media') : ""
 			].join(" ");
 			
 			console.log(statement);
