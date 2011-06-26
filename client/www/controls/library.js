@@ -58,6 +58,7 @@ yalp.controls = (function (controls, $, data) {
 			data.media.init(controls.search.filter, function () {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + controls.switcher.selected);
+				// resetting preview popup box
 				controls.preview
 					.remove()
 					.render();
