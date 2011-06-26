@@ -7,8 +7,6 @@ var yalp = yalp || {};
 yalp.controls = function (controls, $, services, data) {
 	var
 	
-	keywords,		// keywords popup, one instance
-	
 	// static event handlers
 	onEnter,
 	onLeave,
@@ -23,7 +21,7 @@ yalp.controls = function (controls, $, services, data) {
 		tagger;
 		
 		self.data.row = row;
-				
+		
 		//////////////////////////////
 		// Business functions
 
@@ -83,12 +81,13 @@ yalp.controls = function (controls, $, services, data) {
 	onEnter = function (event) {
 		var media = $(this).closest('.media'),
 				self = controls.lookup[media.attr('id')].data.that;
-		keywords = controls.keywords(self.data.row.keywords);
-		keywords.render($('body'));
+		controls.keywords
+			.keywords(self.data.row.keywords)
+			.render($('body'));
 	};
 	
 	onLeave = function (event) {
-		keywords
+		controls.keywords
 			.remove()
 			.render();
 	};
