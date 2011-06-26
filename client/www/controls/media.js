@@ -7,7 +7,11 @@ var yalp = yalp || {};
 yalp.controls = function (controls, $, services, data) {
 	var
 	
+	keywords,		// keywords popup, one instance
+	
 	// static event handlers
+	onEnter,
+	onLeave,
 	onClick,
 	onChecked;
 	
@@ -41,11 +45,6 @@ yalp.controls = function (controls, $, services, data) {
 		//////////////////////////////
 		// Overrides
 
-		self.init = function (elem) {
-			elem.find('a.play')
-				.click(onClick);
-		};
-		
 		function build() {
 			self.clear();
 			rater = controls.rater(row).appendTo(self);
@@ -63,7 +62,7 @@ yalp.controls = function (controls, $, services, data) {
 				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
 				'</td>',
 				'<td class="file">',
-				'<a href="#" class="play" title="', row.keywords.join('\r\n'), '">', row.file, '</a>',
+				'<a href="#" class="play">', row.file, '</a>',
 				'</td>',
 				'<td class="rater">',
 				rater.html(),
@@ -81,6 +80,19 @@ yalp.controls = function (controls, $, services, data) {
 	//////////////////////////////
 	// Static event handlers
 
+	onEnter = function (event) {
+		var media = $(this).closest('.media'),
+				self = controls.lookup[media.attr('id')].data.that;
+		keywords = controls.keywords(self.data.row.keywords);
+		keywords.render($('body'));
+	};
+	
+	onLeave = function (event) {
+		keywords
+			.remove()
+			.render();
+	};
+	
 	onClick = function () {
 		var media = $(this).closest('.media'),
 				self = controls.lookup[media.attr('id')].data.that;
@@ -99,7 +111,10 @@ yalp.controls = function (controls, $, services, data) {
 		}
 	};
 	
-	$('a.play').live('click', onClick);
+	$('a.play')
+		.live('click', onClick)
+		.live('mouseenter', onEnter)
+		.live('mouseleave', onLeave);
 	$('td.check :checkbox').live('click', onChecked);
 	
 	return controls;

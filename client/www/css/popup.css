@@ -1,0 +1,26 @@
+/******************************
+GENERAL POPUP
+******************************/
+
+div.popup {
+	position: absolute;
+	padding: 3px;
+	width: 300px;
+	overflow: hidden;
+	border: 2px solid #a5c414;
+	border-radius: 5px; -moz-border-radius: 5px;
+	background: #f4ffd5;
+}
+
+/******************************
+KEYWORDS POPUP
+******************************/
+
+div.popup > table.keywords td {
+	vertical-align: top;
+}
+
+div.popup > table.keywords td.key {
+	font-weight: bold;
+}
+
