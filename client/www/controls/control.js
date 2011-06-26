@@ -44,7 +44,7 @@ yalp.controls = function (controls, $) {
 			// removes control and frees resources
 			remove: function () {
 				this.clear();
-				if (controls.lookup[this.id] !== undefined) {
+				if (controls.lookup.hasOwnProperty(this.id)) {
 					delete controls.lookup[this.id];
 					COUNT--;
 				}
@@ -89,7 +89,12 @@ yalp.controls = function (controls, $) {
 				if (parent) {
 					parent.append(elem);
 				} else if (target.length) {
-					target.replaceWith(elem);
+					if (controls.lookup.hasOwnProperty(this.id)) {
+						target.replaceWith(elem);
+					} else {
+						target.remove();
+						return;
+					}
 				}
 
 				// applying instance-level events
