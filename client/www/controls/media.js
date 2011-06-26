@@ -81,13 +81,13 @@ yalp.controls = function (controls, $, services, data) {
 	onEnter = function (event) {
 		var media = $(this).closest('.media'),
 				self = controls.lookup[media.attr('id')].data.that;
-		controls.keywords
+		controls.preview
 			.keywords(self.data.row.keywords)
 			.render($('body'));
 	};
 	
 	onLeave = function (event) {
-		controls.keywords
+		controls.preview
 			.remove()
 			.render();
 	};

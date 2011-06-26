@@ -5,7 +5,7 @@
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {
-	controls.keywords = function () {
+	controls.preview = function () {
 		var self = Object.create(controls.popup()),
 				keywords = [];
 		
