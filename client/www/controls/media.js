@@ -63,7 +63,7 @@ yalp.controls = function (controls, $, services, data) {
 				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
 				'</td>',
 				'<td class="file">',
-				'<a href="#" class="play" title="', row.file, '">', row.file, '</a>',
+				'<a href="#" class="play" title="', row.keywords.join('\r\n'), '">', row.file, '</a>',
 				'</td>',
 				'<td class="rater">',
 				rater.html(),
