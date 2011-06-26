@@ -19,7 +19,7 @@ yalp.controls = function (controls, $) {
 		// Event handlers
 
 		function onMouseMove(event, elem) {
-			elem.offset({top: event.pageY + 5, left: event.pageX + 5});			
+			elem.css({top: event.pageY + 5, left: event.pageX + 5});			
 		}
 		
 		//////////////////////////////
