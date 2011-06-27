@@ -3,7 +3,8 @@
 //
 // Data Access Layer
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, exports */
+/*global require, exports, console */
+
 var	$fs = require('fs'),
 		$os = require('os'),
 		tool = require('../tools/tool').tool,
@@ -60,6 +61,7 @@ sqlite = function () {
 		// running sql statement
 		tool.exec.call(self, args, function (data) {
 			if (handler) {
+				console.log(["Retrieved", data.length, "records."].join(" "));
 				handler(data);
 			}
 		});
