@@ -58,11 +58,11 @@ sqlite = function () {
 		}
 
 		// running sql statement
-		tool.exec(args, function (data) {
+		tool.exec.call(self, args, function (data) {
 			if (handler) {
 				handler(data);
 			}
-		}, self);
+		});
 
 		// piping statement to sqlite process
 		if (pipe) {

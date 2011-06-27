@@ -27,7 +27,7 @@ extract = function () {
 	});
 	
 	self.exec = function (path, args, handler) {
-		tool.exec(args.concat([path]), handler, self);
+		tool.exec.call(self, args.concat([path]), handler);
 	};
 	
 	return self;
