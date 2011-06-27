@@ -10,6 +10,9 @@ tool = {
 	// name of executable file
 	executable: null,
 	
+	// whether the tool's output is binary
+	binary: null,
+	
 	// parser interpreting the tool's output
 	parser: null,
 	
@@ -38,7 +41,7 @@ tool = {
 
 		// data buffering
 		that.child.stdout.on('data', function (data) {
-			stdout.push(Buffer.isBuffer(data) ? data.toString('binary') : data);
+			stdout.push(Buffer.isBuffer(data) ? data.toString(that.binary ? 'binary' : 'utf8') : data);
 		});
 
 		// handling tool exit
