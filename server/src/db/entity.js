@@ -27,15 +27,18 @@ split = function (object) {
 
 // returns an array that can be used as a where or set clause
 // depending on how you concatenate them
-clause = function (object) {
-	var	key,
+// - object: key - value pairs aka. conditions in AND relationship
+// - caseless: whether conditions should be case insensitive
+clause = function (object, caseless) {
+	var	key, value,
 			result = [];
 	for (key in object) {
 		if (object.hasOwnProperty(key)) {
+			value = quotes(object[key]);
 			result.push([
-				key,
+				caseless ? 'lower(' + key + ')' : key,
 				"=",
-				["'", quotes(object[key]), "'"].join("")
+				["'", caseless ? value.toString().toLowerCase(): value, "'"].join("")
 			].join(' '));
 		}
 	}

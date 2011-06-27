@@ -51,7 +51,7 @@ tag = function () {
 		before.name = before.tag.split(':')[0];
 		delete before.tag;
 		
-		var	where =  clause(before).join(" AND "),
+		var	where =  clause(before, true).join(" AND "),
 				tmp = after.tag.split(':'),
 				name = "'" + tmp[0] + "'",
 				kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL",
