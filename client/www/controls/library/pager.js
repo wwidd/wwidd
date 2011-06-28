@@ -3,7 +3,7 @@
 //
 // For switching between pages
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, document */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {
@@ -67,6 +67,14 @@ yalp.controls = function (controls, $, data) {
 		}
 		
 		//////////////////////////////
+		// External control
+		
+		self.first = onFirst;
+		self.next = onNext;
+		self.prev = onPrev;
+		self.last = onLast;
+
+		//////////////////////////////
 		// Overrides
 
 		self.init = function (elem) {
@@ -111,6 +119,27 @@ yalp.controls = function (controls, $, data) {
 	
 		return self;
 	}();
+	
+	//////////////////////////////
+	// Keyboard controls
+
+	$(document).keydown(function (event) {
+		switch (event.which) {
+		case 36:
+			controls.pager.first();
+			break;
+		case 34:
+			controls.pager.next();
+			break;
+		case 33:
+			controls.pager.prev();
+			break;
+		case 35:
+			controls.pager.last();
+			break;
+		}
+		return false;
+	});
 	
 	return controls;
 }(yalp.controls || {},
