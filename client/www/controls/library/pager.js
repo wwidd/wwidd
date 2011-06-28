@@ -124,17 +124,23 @@ yalp.controls = function (controls, $, data) {
 	// Keyboard controls
 
 	$(document).keydown(function (event) {
+		// excluding input controls 
+		if ($(event.target).is('input')) {
+			return;
+		}
+		
+		// handling special keys  
 		switch (event.which) {
-		case 36:
+		case 36:	// home
 			controls.pager.first();
 			return false;
-		case 34:
+		case 34:	// pg down
 			controls.pager.next();
 			return false;
-		case 33:
+		case 33:	// pg up
 			controls.pager.prev();
 			return false;
-		case 35:
+		case 35:	// end
 			controls.pager.last();
 			return false;
 		}
