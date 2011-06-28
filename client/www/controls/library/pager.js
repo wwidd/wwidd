@@ -127,18 +127,17 @@ yalp.controls = function (controls, $, data) {
 		switch (event.which) {
 		case 36:
 			controls.pager.first();
-			break;
+			return false;
 		case 34:
 			controls.pager.next();
-			break;
+			return false;
 		case 33:
 			controls.pager.prev();
-			break;
+			return false;
 		case 35:
 			controls.pager.last();
-			break;
+			return false;
 		}
-		return false;
 	});
 	
 	return controls;
