@@ -20,7 +20,7 @@ yalp.data = function (data, jOrder, services) {
 			getNumber: function (kind) {
 				// making sure the default color is not used again
 				if (kind === '') {
-					return 0;
+					return 'kind0';
 				}
 				var i = 0,
 						key, value;

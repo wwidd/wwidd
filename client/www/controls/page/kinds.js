@@ -8,7 +8,9 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {
 	controls.kinds = function () {
-		var self = Object.create(controls.control()),
+		var	KIND_PREFIX = 'k',
+		
+		self = Object.create(controls.control()),
 				onChecked = function () {},
 				hidden;
 		
@@ -19,7 +21,9 @@ yalp.controls = function (controls, $, data) {
 		function toLookup(array) {
 			var i, result = {};
 			for (i = 0; i < array.length; i++) {
-				result[array[i]] = true;
+				if (array[i].length >= KIND_PREFIX.length) {
+					result[array[i].substr(KIND_PREFIX.length)] = true;
+				}
 			}
 			return result;
 		}
@@ -29,7 +33,7 @@ yalp.controls = function (controls, $, data) {
 			var result = [], key;
 			for (key in lookup) {
 				if (lookup.hasOwnProperty(key)) {
-					result.push(key);
+					result.push(KIND_PREFIX + key);
 				}
 			}
 			return result;
