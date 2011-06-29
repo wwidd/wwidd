@@ -71,7 +71,7 @@ yalp.controls = function (controls, $) {
 
 	// 'click outside' handler
 	onClickOutside = function (event, self, elem) {
-		if (event.target !== (elem.find('input,select')[0] || elem[0])) {
+		if (!elem.find(event.target).length) {
 			// handling actual click outside event
 			self.toggle('display');
 		} else {

@@ -171,6 +171,7 @@ span.tag > a.remove {
 	height: 13px;
 	margin: 0;
 	padding: 0;
+	border: 1px solid transparent;
 	color: transparent;
 	background: url('/image/bullet_delete.png') no-repeat -2px -2px;
 }
@@ -187,7 +188,7 @@ EDIT - EDIT STATE
 /* tag editor */
 span.tag.edit {
 	position: relative;
-	width: 122px;
+	width: 135px;
 	height: 15px;
 }
 
@@ -221,6 +222,9 @@ ADD - EDIT STATE
 ******************************/
 
 /* add tag editor */
+span.tag.edit.add {
+	width: 122px;
+}
 span.tag.edit.add > input.focus {
 	z-index: 2;
 	border: 1px solid #a5c414;

@@ -27,7 +27,6 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 			
 			return [
 				'<span id="', self.id, '" class="', ['tag', 'tagedit', 'editable', 'display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
-				'<a href="#" class="remove"></a>',
 				'<span>', name, '</span>',
 				'</span>'
 			].join('');
@@ -36,6 +35,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 		self.edit = function () {
 			return [
 				'<span id="', self.id, '" class="tag tagedit edit">',
+				'<a href="#" class="remove"></a>',
 				'<input type="text" class="focus" value="', tag, '"/>',
 				'</span>'
 			].join('');
@@ -121,9 +121,10 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 			return;
 		}
 	}
-		
-	$('.tagedit.display .remove').live('click', onRemove);
-	$('.tagedit.edit input').live('keyup', onChange);
+	
+	var context = $('.tagedit.edit');
+	$('.remove', context).live('click', onRemove);
+	$('input', context).live('keyup', onChange);
 
 	return controls;
 }(yalp.controls || {},
