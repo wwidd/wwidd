@@ -45,6 +45,13 @@ yalp.controls = function (controls, $, services, data) {
 			}
 		}
 		
+		function onControl(event) {
+			// making input field lose focus on hitting Esc
+			if (event.which === 27) {
+				$(this).blur();
+			}
+		}
+		
 		function onClear() {
 			var $input = $(this).siblings('.focus');
 			if (!self.filter.length) {
@@ -60,7 +67,10 @@ yalp.controls = function (controls, $, services, data) {
 
 		self.init = function (elem) {
 			elem
-				.children('.focus').keyup(onChange).end()
+				.children('.focus')
+					.keyup(onChange)
+					.keydown(onControl)
+				.end()
 				.children('.clear').click(onClear).end();
 			return false;
 		};
