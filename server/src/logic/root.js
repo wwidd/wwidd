@@ -14,24 +14,30 @@ root = function (path) {
 	var self = {
 		// scans the library and returns metadata for relevant files
 		scan: function (handler) {
-			var	metadata = { };
+			var	metadata = { },
+					count = 0;
 			
 			// clearing process chains
 			processes.extractor.clear();
 					
 			// walking library root synchronously
+			count = 0;
 			walker(
 				// called on each directory
 				null,
 				// called on each file
 				function (filePath) {
 					processes.extractor.add(filePath);
+					if (!metadata.hasOwnProperty(filePath)) {
+						// only unique keys (filePath) count
+						count++;
+					}
 					metadata[filePath] = {};
 				}
 			).walkSync(path);
 			
 			// continuation - adds collected data to database
-			handler(metadata);
+			handler(metadata, count);
 			
 			return self;
 		},
@@ -42,7 +48,15 @@ root = function (path) {
 			entity.add({'path': path}, function () {
 				console.log("Library root initialized.");
 				console.log("Ingesting video metadata into library");
-				self.scan(function (metadata) {
+				self.scan(function (metadata, count) {
+					// ending request and returning when nothing found
+					if (count === 0) {
+						if (handler) {
+							handler(metadata);
+						}
+						return;
+					}
+					
 					// filling library with pure names (auto tags)
 					// when this is done, the HTTP response ends: the rest is async
 					library.fill(metadata, function () {
