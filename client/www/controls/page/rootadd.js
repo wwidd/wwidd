@@ -13,21 +13,25 @@ yalp.controls = function (controls, $, services) {
 
 		// called when a directory or file is selected
 		function onDirTyped() {
-			var $this = $(this);
-			if ($this.val().length) {
-				$this.siblings('button').removeAttr('disabled');
+			var $input = $(this),
+					$button = $input.siblings('button');
+			if ($input.val().length) {
+				$button.removeAttr('disabled');
 			} else {
-				$this.siblings('button').attr('disabled', 'disabled');
+				$button.attr('disabled', 'disabled');
 			}
 		}
 		
 		// called on clicking the add button
 		function onAdd() {
-			var $this = $(this);
-			services.addroot($this.siblings('input').val(), function () {
+			var $button = $(this),
+					$input = $button.siblings('input');
+			$button.attr('disabled', 'disabled');
+			services.addroot($input.val(), function () {
 				controls.library.load();
-				$this.siblings('input').val(null);
 				alert("Folder successfully added to library.");
+				$input.val(null);
+				$button.removeAttr('disabled');
 			});
 		}
 
