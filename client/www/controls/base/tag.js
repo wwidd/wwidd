@@ -17,16 +17,13 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 			var lookup = jOrder.join(row.tags, []),
 					names, i, tmp,
 					media_table = data.media.table,
-					tags_table = data.tags.table,
 					index_tags = media_table.index('tags'),
 					rowId = media_table.index('mediaid').lookup([row])[0];
 
 			// deleting old tag if there was one
 			if (before) {
 				// removing reference from tags table
-				if (index_tags.count(before) === 1) {
-					tags_table.remove(tags_table.where([{tag: before.replace(':', '\t')}], {renumber: true}));
-				}
+				data.tags.remove(before);
 				// removing reference from media table
 				delete lookup[before];
 				index_tags.remove({tags: [before]}, rowId);
@@ -38,9 +35,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 				for (i = 0; i < names.length; i++) {
 					// adding reference to tags table
 					tmp = names[i].split(':');
-					if (tags_table.index('tag').count(escape(tmp.join('\t'))) === 0) {
-						tags_table.insert([{tag: tmp.join('\t'), name: tmp[0], kind: tmp[1]}]);
-					}
+					data.tags.add(tmp[0], tmp[1]);
 					// adding reference to media table
 					lookup[names[i]] = true;
 					index_tags.add({tags: [names[i]]}, rowId);
