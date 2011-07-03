@@ -61,7 +61,9 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 				self = getSelf($this),
 				row = getRow($this),
 				term = $this.val(),
-				match = term.length ? data.tags.searchTag(term) : "",
+				match = !term.length ? "" :
+					term +
+					data.tags.searchTag(term.toLowerCase()).substr(term.length),
 				name = match.length ? match : term,
 				filter;
 		
