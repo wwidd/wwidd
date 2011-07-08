@@ -7,11 +7,11 @@ var	$os = require('os'),
 		parser = require('../utils/parser').parser,
 
 extract = function () {
-	var isLinux = $os.type() === 'Linux',
+	var isWindows = $os.type() === 'Windows',
 	
 	outputParser = Object.create(parser, {
-		rowSeparator: {value: isLinux ? '\n\n' : '\r\n\r\n'},
-		fieldSeparator: {value: isLinux ? '\n' : '\r\n'},
+		rowSeparator: {value: isWindows ? '\r\n\r\n' : '\n\n'},
+		fieldSeparator: {value: isWindows ? '\r\n' : '\n'},
 		keySeparator: {value: ' - '},
 		rowSkip: {value: 0},
 		fieldSkip: {value: 1},

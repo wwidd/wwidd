@@ -15,11 +15,11 @@ sqlite = function () {
 	// inheriting from tool
 	var db = 'default',
 			path = 'server/db/',
-			isLinux = $os.type() === 'Linux',
+			isWindows = $os.type() === 'Windows',
 	
 	outputParser = Object.create(parser, {
-		rowSeparator: {value: isLinux ? /\n\n\s*/ : /\r\n\r\n\s*/},
-		fieldSeparator: {value: isLinux ? /\n\s*/ : /\r\n\s*/},
+		rowSeparator: {value: isWindows ? /\r\n\r\n\s*/ : /\n\n\s*/},
+		fieldSeparator: {value: isWindows ? /\r\n\s*/ : /\n\s*/},
 		keySeparator: {value: ' = '}
 	}),
 
