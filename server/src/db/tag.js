@@ -13,7 +13,7 @@ tag = function () {
 
 	// retrieves all tags
 	self.getTags = function (handler) {
-		var statement = "SELECT DISTINCT lower(name) AS name, CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS kind FROM tags";
+		var statement = "SELECT MIN(name) AS name, CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS kind FROM tags GROUP BY lower(name)";
 		
 		console.log(statement);
 		sqlite.exec(statement, handler, ['-header', '-line']);
