@@ -167,7 +167,7 @@ span.tag > label {
 /* delete button in tag */
 span.tag > a.remove {
 	display: inline-block; *zoom: 1;
-	width: 13px;
+	width: 11px;
 	height: 13px;
 	margin: 0;
 	padding: 0;
@@ -188,7 +188,7 @@ EDIT - EDIT STATE
 /* tag editor */
 span.tag.edit {
 	position: relative;
-	width: 135px;
+	width: 137px;
 	height: 15px;
 }
 
@@ -199,6 +199,11 @@ span.tag.edit > input {
 	padding: 0;
 	border: 1px solid #a5c414;
 	font-size: 10px;
+}
+
+span.tag.edit > a.remove {
+	position: absolute;
+	right: 0;
 }
 
 /******************************
