@@ -12,7 +12,12 @@ var	$http = require('http'),
 		library = require('logic/library').library,
 		root = require('logic/root').root,
 		media = require('logic/media').media,
-		envelope = require('utils/envelope').envelope;
+		envelope = require('utils/envelope').envelope,
+		browser = require('tools/browser').browser,
+		
+		ip = '127.0.0.1',
+		port = 8124,
+		url = 'http://' + ip + ':' + port;
 
 // creating server object
 $http.createServer(function (req, res) {
@@ -172,7 +177,11 @@ $http.createServer(function (req, res) {
 			});
 		});
 	}
-}).listen(8124, "127.0.0.1");
+}).listen(port, ip);
 
-console.log("Server running at http://127.0.0.1:8124/");
+console.log("Server running at " + url);
+
+browser.exec(url, function () {
+	console.log("Browser started.");
+});
 
