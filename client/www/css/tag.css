@@ -167,13 +167,13 @@ span.tag > label {
 /* delete button in tag */
 span.tag > a.remove {
 	display: inline-block; *zoom: 1;
-	width: 11px;
-	height: 13px;
+	width: 16px;
+	height: 16px;
 	margin: 0;
 	padding: 0;
-	border: 1px solid transparent;
+	border: 0px solid transparent;
 	color: transparent;
-	background: url('/image/bullet_delete.png') no-repeat -2px -2px;
+	background: url('/image/delete.png') no-repeat;
 }
 
 /* checkbox */
@@ -188,7 +188,7 @@ EDIT - EDIT STATE
 /* tag editor */
 span.tag.edit {
 	position: relative;
-	width: 137px;
+	width: 126px;
 	height: 15px;
 }
 
@@ -203,7 +203,8 @@ span.tag.edit > input {
 
 span.tag.edit > a.remove {
 	position: absolute;
-	right: 0;
+	top: -8px;
+	left: 114px;
 }
 
 /******************************
