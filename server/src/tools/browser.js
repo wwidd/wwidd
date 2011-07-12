@@ -7,11 +7,12 @@ var	$os = require('os'),
 
 browser = function () {
 	// inheriting from tool
-	var executable = {'Windows': 'start', 'Linux': 'xdg-open'}[$os.type()] || 'open',
+	var executable = {'cygwin': 'cmd', 'windows': 'cmd', 'linux': 'xdg-open'}[tool.os] || 'open',
 			self = Object.create(tool, {executable: {value: executable}});
 			
 	self.exec = function (url, handler) {
-		tool.exec.call(self, [url], handler);
+		var args = {'cygwin': ['/c', 'start ' + url], 'windows': ['/c', 'start ' + url]}[tool.os] || [url];
+		tool.exec.call(self, args, handler);
 		return self;
 	};
 	

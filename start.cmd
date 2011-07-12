@@ -1,4 +1,4 @@
 set	CYGWIN=nodosfilewarning
-path %CD%\redist\node;%CD%\redist\sqlite;%CD%\redist\libextractor;%PROGRAMFILES%\VideoLAN\VLC;
+path %PATH%;%CD%\redist\node;%CD%\redist\sqlite;%CD%\redist\libextractor;%PROGRAMFILES%\VideoLAN\VLC;
 node.exe server/src/server.js
 

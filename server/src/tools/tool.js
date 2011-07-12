@@ -3,10 +3,14 @@
 //
 // Base class for command line execution
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, exports, Buffer */
-var $child_process = require('child_process'),
+/*global require, exports, Buffer, console */
+var $os = require('os'),
+		$child_process = require('child_process'),
 
 tool = {
+	// os type
+	os: $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
+	
 	// name of executable file
 	executable: null,
 	
@@ -62,6 +66,8 @@ tool = {
 		return that;
 	}
 };
+
+console.log("OS type: " + tool.os);
 
 // exports
 exports.tool = tool;

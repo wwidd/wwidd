@@ -2,12 +2,11 @@
 // File Metadata Extraction Tool
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	$os = require('os'),
-		tool = require('../tools/tool').tool,
+var	tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
 
 extract = function () {
-	var isWindows = $os.type() === 'Windows',
+	var isWindows = tool.os in {'windows': 'windows', 'cygwin': 'cygwin'},
 	
 	outputParser = Object.create(parser, {
 		rowSeparator: {value: isWindows ? '\r\n\r\n' : '\n\n'},

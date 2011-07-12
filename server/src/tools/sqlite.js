@@ -6,7 +6,6 @@
 /*global require, exports, console */
 
 var	$fs = require('fs'),
-		$os = require('os'),
 		tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
 		tempFile = 'temp.sql',
@@ -15,7 +14,7 @@ sqlite = function () {
 	// inheriting from tool
 	var db = 'default',
 			path = 'server/db/',
-			isWindows = $os.type() === 'Windows',
+			isWindows = tool.os in {'windows': 'windows', 'cygwin': 'cygwin'},
 	
 	outputParser = Object.create(parser, {
 		rowSeparator: {value: isWindows ? /\r\n\r\n\s*/ : /\n\n\s*/},
