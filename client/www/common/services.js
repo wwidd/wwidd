@@ -24,6 +24,23 @@ yalp.services = function ($) {
 		});
 	}
 	
+	// calls a unary tag transformation service
+	function unary(endpoint, mediaid, tag, filter, mediaids, handler) {
+		var data = {
+			tag: tag
+		};
+		if (filter) {
+			data.filter = filter;
+		}
+		if (typeof mediaid !== 'undefined' && mediaid !== null) {
+			data.mediaid = mediaid;
+		}
+		if (mediaids) {
+			data.mediaids = mediaids;
+		}
+		callService(endpoint, data, handler);
+	}
+	
 	return {
 		// adds a root path to library (w/ import)
 		addroot: function (path, handler) {
@@ -73,17 +90,7 @@ yalp.services = function ($) {
 		
 		// adds tag to a file
 		addtag: function (mediaid, tag, filter, mediaids, handler) {
-			var data = {
-				mediaid: mediaid,
-				tag: tag
-			};
-			if (filter) {
-				data.filter = filter;
-			}
-			if (mediaids) {
-				data.mediaids = mediaids;
-			}
-			callService('addtag', data, handler);
+			unary('addtag', mediaid, tag, filter, mediaids, handler);			
 		},
 
 		// changes tag on a file
@@ -98,21 +105,14 @@ yalp.services = function ($) {
 			callService('changetag', data, handler);
 		},
 		
-		// deletes tag on a file
+		// explodes tag(s)
+		explodetag: function (mediaid, tag, filter, mediaids, handler) {
+			unary('explodetag', mediaid, tag, filter, mediaids, handler);			
+		},
+		
+		// deletes tag(s)
 		deltag: function (mediaid, tag, filter, mediaids, handler) {
-			var data = {
-				tag: tag
-			};
-			if (filter) {
-				data.filter = filter;
-			}
-			if (mediaid) {
-				data.mediaid = mediaid;
-			}
-			if (mediaids) {
-				data.mediaids = mediaids;
-			}
-			callService('deltag', data, handler);
+			unary('deltag', mediaid, tag, filter, mediaids, handler);
 		}
 	};
 }(jQuery);

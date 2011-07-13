@@ -179,6 +179,10 @@ span.tag > a.button.remove {
 	background: url('/image/delete.png') no-repeat;
 }
 
+span.tag > a.button.explode {
+	background: url('/image/bomb.png') no-repeat;
+}
+
 /******************************
 EDIT - EDIT STATE
 ******************************/
@@ -214,6 +218,12 @@ span.tag.edit > a.remove {
 	position: absolute;
 	top: -20px;
 	right: 0px;
+}
+
+span.tag.edit > a.explode {
+	position: absolute;
+	top: -20px;
+	left: 0px;
 }
 
 /******************************

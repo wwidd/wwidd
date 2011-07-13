@@ -24,6 +24,7 @@ library = function () {
 				"group_concat(key || ':' || replace(value, ',', ' ')) AS keywords",
 				"FROM keywords",
 				"GROUP BY mediaid)",
+				"WHERE 1",
 				filter ? $media.filter(filter, 'media') : ""
 			].join(" ");
 			

@@ -14,7 +14,7 @@ filter = function (tags, table) {
 		clause.push("',' || group_concat(name) LIKE '%," + names[i] + "%'");
 	}
 	return [
-		"WHERE",
+		"AND",
 		(table ? table + '.' : '') + "mediaid IN (",
 		"SELECT mediaid FROM tags",
 		"GROUP BY mediaid",
@@ -29,7 +29,7 @@ filter = function (tags, table) {
 selection = function (mediaids) {
 	var tmp = mediaids.split(/[^0-9]+/);
 	return [
-		"WHERE mediaid IN (",
+		"AND mediaid IN (",
 		tmp.join(","),
 		")"
 	].join(" ");

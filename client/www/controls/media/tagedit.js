@@ -38,6 +38,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 				'<div class="background"></div>',
 				'<input type="text" class="focus" value="', tag, '"/>',
 				'<a href="#" class="button remove" title="Remove tag"></a>',
+				tag.indexOf(' ') === -1 ? '' : '<a href="#" class="button explode" title="Explode tag"></a>',
 				'</span>'
 			].join('');
 		};
@@ -52,8 +53,8 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 		return controls.lookup[elem.closest('.tag').attr('id')].data;
 	}
 
-	// tag remove event handler
-	function onRemove(event) {
+	// general button handler
+	function onButton(event, service, lang, handler) {
 		var tmp = getData($(this)),
 				self = tmp.that,
 				row = tmp.row,
@@ -63,26 +64,51 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 		if (event.shiftKey) {
 			// deleting all tags like this one
 			if (self.parent.parent.selected()) {
-				if (confirm("Delete this tag from SELECTED videos?")) {
-					services.deltag(null, tag, null, jOrder.keys(controls.library.selected).join(','), controls.library.load);
+				if (confirm(lang.sel)) {
+					service(null, tag, null, jOrder.keys(controls.library.selected).join(','), controls.library.load);
 				}
-			} else if (confirm("Delete ALL tags of this kind?")) {
-				services.deltag(null, tag, null, null, controls.library.load);
+			} else if (confirm(lang.all)) {
+				service(null, tag, null, null, controls.library.load);
 			}
 		} else if (event.ctrlKey) {
 			// deleting tags from search results
-			if (filter.length && confirm("Delete this tag from SEARCH results?")) {
-				services.deltag(null, tag, controls.search.filter, null, controls.library.load);
+			if (filter.length && confirm(lang.hits)) {
+				service(null, tag, controls.search.filter, null, controls.library.load);
 			}
 		} else {
 			// deleting tag from one specific video
-			services.deltag(row.mediaid, tag, null, null, function () {
-				self.changetag(tag, null, row);
+			service(row.mediaid, tag, null, null, function () {
+				if (handler) {
+					handler.call(self, tag, row);
+				}
 			});
 		}
+	}
+	
+	// tag remove event handler
+	function onRemove(event) {
+		onButton.call(this, event, services.deltag, {
+			sel: "Delete this tag from SELECTED videos?",
+			all: "Delete ALL tags of this kind?",
+			hits: "Delete this tag from SEARCH results?"
+		}, function (tag, row) {
+			this.changetag(tag, null, row);
+		});
 		return false;
 	}
 
+	// tag explode (split) event handler
+	function onExplode(event) {
+		onButton.call(this, event, services.explodetag, {
+			sel: "Explode this tag in SELECTED videos?",
+			all: "Explode ALL tags of this kind?",
+			hits: "Explode this tag in SEARCH results?"
+		}, function (tag, row) {
+			this.explode(tag, row);
+		});
+		return false;
+	}
+	
 	// tag change event handler
 	function onChange(event) {
 		var $this = $(this),
@@ -125,6 +151,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	
 	var context = $('.tagedit.edit');
 	$('.remove', context).live('click', onRemove);
+	$('.explode', context).live('click', onExplode);
 	$('input', context).live('keyup', onChange);
 
 	return controls;

@@ -98,10 +98,10 @@ $http.createServer(function (req, res) {
 	case '/addtag':
 		// deleting tag
 		ok = envelope(res, true, function () {
-			if (!(query.mediaid || query.filter) || !query.tag) {
+			if (!(query.mediaid || query.filter || query.mediaids) || !query.tag) {
 				throw "Missing parameters";
 			}
-			tag.add(query, query.filter, query.mediaids, function () {
+			tag.add(query, query.filter, query.mediaids, null, function () {
 				ok(query);
 			});
 		});
@@ -123,13 +123,25 @@ $http.createServer(function (req, res) {
 		});
 		break;		
 		
+	case '/explodetag':
+		// exploding tag
+		ok = envelope(res, true, function () {
+			if (!query.tag) {
+				throw "Missing parameters";
+			}
+			tag.explode(query, query.filter, query.mediaids, function () {
+				ok(query);
+			});
+		});
+		break;
+
 	case '/deltag':
 		// deleting tag
 		ok = envelope(res, true, function () {
 			if (!query.tag) {
 				throw "Missing parameters";
 			}
-			tag.remove(query, query.filter, query.mediaids, function () {
+			tag.remove(query, query.filter, query.mediaids, null, function () {
 				ok(query);
 			});
 		});

@@ -20,29 +20,40 @@ tag = function () {
 	};
 	
 	// adds one tag to the file
-	self.add = function (after, filter, mediaids, handler) {
+	self.add = function (after, filter, mediaids, where, handler) {
 		var tmp = after.tag.split(':'),
 				name = "'" + tmp[0] + "'",
 				kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL",
 
-		statement = (filter || mediaids ? [
-			"INSERT OR IGNORE INTO",
-			self.kind,
-			"(mediaid, name, kind)",
-			["SELECT mediaid", name, kind].join(","),
-			"FROM tags",
-			mediaids ?
-				$media.selection(mediaids) :
-				$media.filter(filter)
-		] : [
+		statement = (typeof after.mediaid !== 'undefined' && after.mediaid !== null ? [
 			"INSERT OR IGNORE INTO",
 			self.kind,
 			"(mediaid, name, kind) VALUES",
 			"(" + [after.mediaid, name, kind].join(',') + ")"
+		] : [
+			"INSERT OR IGNORE INTO",
+			self.kind,
+			"(mediaid, name, kind)",
+			["SELECT mediaid", name, kind].join(","),
+			"FROM", self.kind,
+			"WHERE 1",
+			mediaids ?
+				$media.selection(mediaids) :
+				filter ?
+					$media.filter(filter) : 
+					"",
+			where ?
+				"AND " + where :
+				""
 		]).join(" ");
 				
-		console.log(statement);
-		sqlite.exec(statement, handler);		
+		if (handler) {
+			console.log(statement);
+			sqlite.exec(statement, handler);
+			return self;
+		} else {
+			return statement;
+		}
 	};
 	
 	// updates a batch of tags
@@ -93,22 +104,67 @@ tag = function () {
 	};
 	
 	// removes tag from file(s)
-	self.remove = function (before, filter, mediaids, handler) {
+	self.remove = function (before, filter, mediaids, where, handler) {
 		var mediaid = before.mediaid,
-				name = "'" + before.tag.split(':')[0] + "'",
+				tmp = before.tag.split(':'),
+				name = tmp[0],
 				clause = mediaids ?
-					$media.selection(mediaids) + " AND" :
+					$media.selection(mediaids) :
 					filter ?
-						$media.filter(filter) + " AND" :
-						"WHERE",
+						$media.filter(filter) :
+						"",
 
 		statement = [
 			"DELETE FROM", self.kind,
+			"WHERE 1",
 			clause,
-			"name = " + name,
-			mediaid ? "AND mediaid = " + mediaid : ""
+			"AND name = '" + name + "'",
+			mediaid ?
+				"AND mediaid = " + mediaid :
+				"",
+			where ?
+				"AND " + where :
+				""
 		].join(" ");
 
+		if (handler) {
+			console.log(statement);
+			sqlite.exec(statement, handler);
+			return self;
+		} else {
+			return statement;
+		}
+	};
+
+	// explodes tag
+	self.explode = function (before, filter, mediaids, handler) {
+		var tmp = before.tag.split(':'),
+				where = "name = '" + tmp[0] + "'",
+				names = tmp[0].split(' '),
+				kind = tmp[1] || '',
+
+		statement = [
+			"BEGIN TRANSACTION",
+			// adds exploded tags
+			(function () {
+				var i, name, statement = [];
+				for (i = 0; i < names.length; i++) {
+					name = names[i];
+					if (!name.length) {
+						continue;
+					}
+					statement.push(self.add({
+						mediaid: before.mediaid,
+						tag: name + ':' + kind
+					}, filter, mediaids, where));
+				}
+				return statement.join(";\n");
+			}()),
+			// removes old tag
+			self.remove(before, filter, mediaids),
+			"END TRANSACTION"
+		].join(";\n");
+		
 		console.log(statement);
 		sqlite.exec(statement, handler);
 	};
