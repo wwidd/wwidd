@@ -164,8 +164,8 @@ span.tag > label {
 	font-size: 10px;
 }
 
-/* delete button in tag */
-span.tag > a.remove {
+/* buttons in tag */
+span.tag > a.button {
 	display: inline-block; *zoom: 1;
 	width: 16px;
 	height: 16px;
@@ -173,12 +173,10 @@ span.tag > a.remove {
 	padding: 0;
 	border: 0px solid transparent;
 	color: transparent;
-	background: url('/image/delete.png') no-repeat;
 }
 
-/* checkbox */
-span.tag > input {
-	margin: 0 3px 0 0;
+span.tag > a.button.remove {
+	background: url('/image/delete.png') no-repeat;
 }
 
 /******************************
@@ -188,8 +186,19 @@ EDIT - EDIT STATE
 /* tag editor */
 span.tag.edit {
 	position: relative;
-	width: 126px;
+	width: 122px;
 	height: 15px;
+}
+
+span.tag.edit > div.background {
+	position: absolute;
+	bottom: -5px;
+	left: -5px;
+	height: 42px;
+	width: 130px;
+	background: #e3f29b;
+	border: 1px solid #a5c414;
+	border-radius: 3px; -moz-border-radius: 3px;
 }
 
 span.tag.edit > input {
@@ -203,8 +212,8 @@ span.tag.edit > input {
 
 span.tag.edit > a.remove {
 	position: absolute;
-	top: -8px;
-	left: 114px;
+	top: -20px;
+	right: 0px;
 }
 
 /******************************

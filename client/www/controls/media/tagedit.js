@@ -35,8 +35,9 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 		self.edit = function () {
 			return [
 				'<span id="', self.id, '" class="tag tagedit edit">',
+				'<div class="background"></div>',
 				'<input type="text" class="focus" value="', tag, '"/>',
-				'<a href="#" class="remove"></a>',
+				'<a href="#" class="button remove" title="Remove tag"></a>',
 				'</span>'
 			].join('');
 		};
