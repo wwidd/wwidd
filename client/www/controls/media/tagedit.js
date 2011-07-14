@@ -11,7 +11,10 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	// - tag: tag string "name:kind"
 	controls.tagedit = function (row, tag) {
 		var	base = controls.tag(row),
-				self = Object.create(base);
+				self = Object.create(base),
+				tmp = tag.split(':'),
+				name = tmp[0] || '',
+				kind = tmp[1] || '';
 
 		self.data.row = row;
 		self.data.tag = tag;
@@ -20,13 +23,10 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 		// Overrides
 		
 		self.display = function () {
-			var tmp = tag.split(':'),
-					name = tmp[0] || '',
-					kind = tmp[1] || '',
-					hit = controls.search.filter.length && data.tag(controls.search.filter).match(name) ? 'hit' : null;
+			var hit = controls.search.filter.length && data.tag(controls.search.filter).match(name) ? 'hit' : null;
 			
 			return [
-				'<span id="', self.id, '" class="', ['tag', 'tagedit', 'editable', 'display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
+				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
 				'<span>', name, '</span>',
 				'</span>'
 			].join('');
@@ -34,7 +34,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 
 		self.edit = function () {
 			return [
-				'<span id="', self.id, '" class="tag tagedit edit">',
+				'<span id="', self.id, '" class="tag tagedit edit ' + data.kinds.getNumber(kind) + '">',
 				'<div class="background"></div>',
 				'<input type="text" class="focus" value="', tag, '"/>',
 				'<a href="#" class="button remove" title="Remove tag"></a>',
