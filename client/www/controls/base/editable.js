@@ -34,6 +34,8 @@ yalp.controls = function (controls, $) {
 				$('body').one('click', function (event) {
 					onClickOutside(event, that, elem);
 				});
+			} else {
+				$('body').unbind('click');
 			}
 			return elem;
 		};

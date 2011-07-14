@@ -119,8 +119,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 				before = tag,
 				after = data.tag($this.val()).sanitize();
 		
-		switch (event.which) {
-		case 13:
+		if (event.which === 13) {
 			// enter - saving values
 			// discarding changes when there was no change or tag deleted
 			if (after === before || !after.length) {
@@ -139,13 +138,6 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 					self.changetag(before, after, row);
 				});
 			}
-			break;
-		case 27:
-			// escape - cancel
-			self.toggle('display');
-			break;
-		default:
-			return;
 		}
 	}
 	

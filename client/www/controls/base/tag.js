@@ -89,7 +89,36 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 		
 		return self;
 	};
+
+	//////////////////////////////
+	// Common static event handlers
+
+	function getData(elem) {
+		return controls.lookup[elem.closest('.tag').attr('id')].data;
+	}
+
+	// handles navigation events
+	function onNav(event) {
+		var $this = $(this),
+				$next;
+		switch (event.which) {
+		case 9:
+			// tab - jump to next tag
+			$next = event.shiftKey ? $this.closest('.tag').prev() : $this.closest('.tag').next();
+			if ($next.length) {
+				getData($this).that.toggle('display');
+				getData($next).that.toggle('edit');
+			}
+			return false;
+		case 27:
+			// escape - cancel
+			getData($this).that.toggle('display');
+			return false;
+		}
+	}
 	
+	$('.tag.edit input.focus').live('keydown', onNav);
+
 	return controls;
 }(yalp.controls || {},
 	jQuery,
