@@ -12,7 +12,7 @@ var	$fs = require('fs'),
 
 sqlite = function () {
 	// inheriting from tool
-	var db = 'default',
+	var db,
 			path = 'server/db/',
 			isWindows = tool.os in {'windows': 'windows', 'cygwin': 'cygwin'},
 	
@@ -31,13 +31,41 @@ sqlite = function () {
 	self.path = function () {
 		return path;
 	};
+
+	// applies one patch
+	function apply(version, handler) {
+		self.exec('server/db/patch.' + version + '.sql', function () {
+			console.log("DB pached to version " + version);
+			if (handler) {
+				handler();
+			}
+		});
+	}
 	
-	// getter / setter for 
-	self.db = function (value) {
+	// patches database to most recent version
+	function patch(handler) {
+		// getting current database version
+		var statement = "SELECT value FROM system WHERE key = 'version'";
+		self.exec(statement, function (data) {
+			var version = (data[0] || {value: '0.1'}).value;
+			console.log("DB version: " + version);
+			if (version < '0.2') {
+				apply('0.2', handler);
+			} else if (handler) {
+				handler();
+			}
+			return false;
+		}, ['-header', '-line']);
+	}
+	
+	// getter / setter for database name
+	self.db = function (value, handler) {
 		if (typeof value === 'undefined') {
 			return db;
 		} else {
 			db = value;
+			console.log("New DB: " + db);
+			patch(handler);
 			return self;
 		}
 	};
@@ -47,8 +75,9 @@ sqlite = function () {
 		var	fileName = path + db + '.sqlite',
 				args = (options || []).concat([fileName]);
 
-		if (statement.match(/^.+\\.sql$/ig)) {
+		if (statement.match(/^.+\.sql$/ig)) {
 			// reading statement from file
+			console.log("Reading SQL command from file: " + statement);
 			statement = $fs.readFileSync(statement);
 		}
 		
@@ -61,15 +90,17 @@ sqlite = function () {
 		tool.exec.call(self, args, function (data) {
 			if (handler) {
 				console.log(["Retrieved", data.length, "records."].join(" "));
-				handler(data);
+				return handler(data);
 			}
-		});
+		}, true);
 
 		// piping statement to sqlite process
 		if (pipe) {
 			self.pipe(statement);
 		}
 	};
+	
+	self.db('default');
 	
 	return self;
 }();

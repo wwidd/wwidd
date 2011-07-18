@@ -36,11 +36,14 @@ $http.createServer(function (req, res) {
 		break;
 		
 	case '/setlib':
-		envelope(res, false, function () {
+		ok = envelope(res, true, function () {
 			if (!query.name) {
 				throw "Missing parameters";
 			}
-			library.set(query.name);
+			library.set(query.name, function (data) {
+				console.log("library changed");
+				ok(data);
+			});
 		});
 		break;
 		

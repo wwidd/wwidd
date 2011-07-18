@@ -47,8 +47,8 @@ library = function () {
 		},
 		
 		// sets library (sqlite db file) to use
-		set: function (name) {
-			sqlite.db(name);
+		set: function (name, handler) {
+			sqlite.db(name, handler);
 			return self;
 		},
 		
