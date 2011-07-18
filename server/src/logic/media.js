@@ -16,9 +16,9 @@ media = function (path) {
 		
 		// plays back a video
 		play: function (handler) {
-			console.log("Starting playback of file " + path);
+			console.log("MEDIA - starting playback of file: " + path);
 			vlc.exec('vlc', ['-vvv', path], function (path) {
-				console.log("Playback finished or interrupted");
+				console.log("MEDIA - playback finished or interrupted");
 			});
 			// not waiting for playback to finish
 			if (handler) {
@@ -28,7 +28,7 @@ media = function (path) {
 		},
 		
 		rate: function (rating, handler) {
-			console.log("Rating file " + path + " at " + rating);
+			console.log("MEDIA - rating file: " + path + " at: " + rating);
 			entity(path).set(null, {rating: rating}, handler);
 			return self;
 		}

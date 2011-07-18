@@ -44,7 +44,7 @@ library = function () {
 					fd,
 					lastid = "(SELECT value FROM vars WHERE name = 'lastid')";
 	
-			console.log("Building ingest SQL statement...");
+			console.log("LIBRARY - building ingest SQL statement...");
 			statement.push("BEGIN TRANSACTION;");
 			
 			// adding temporary table to store last accessed media id
@@ -103,7 +103,7 @@ library = function () {
 				}
 			}
 			statement.push("COMMIT;");
-			console.log(["SQL statement built:", statement.length, "lines."].join(' '));
+			console.log("LIBRARY - SQL statement built: " + statement.length + " lines");
 			
 			// executing statement
 			sqlite.exec(statement.join('\n'), handler, null, true);

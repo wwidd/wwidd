@@ -44,10 +44,10 @@ root = function (path) {
 		
 		// ingests suitable files into the library
 		add: function (handler) {
-			console.log("Initializing library root...");
+			console.log("ROOT - initializing...");
 			entity.add({'path': path}, function () {
-				console.log("Library root initialized.");
-				console.log("Ingesting video metadata into library");
+				console.log("ROOT - initialized");
+				console.log("ROOT - ingesting video metadata into library");
 				self.scan(function (metadata, count) {
 					// ending request and returning when nothing found
 					if (count === 0) {

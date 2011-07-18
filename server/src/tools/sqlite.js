@@ -35,7 +35,7 @@ sqlite = function () {
 	// applies one patch
 	function apply(version, handler) {
 		self.exec('server/db/patch.' + version + '.sql', function () {
-			console.log("DB pached to version " + version);
+			console.log("SQLITE - DB/" + db + " patched to version " + version);
 			if (handler) {
 				handler();
 			}
@@ -48,7 +48,7 @@ sqlite = function () {
 		var statement = "SELECT value FROM system WHERE key = 'version'";
 		self.exec(statement, function (data) {
 			var version = (data[0] || {value: '0.1'}).value;
-			console.log("DB version: " + version);
+			console.log("SQLITE - DB/" + db + " version: " + version);
 			if (version < '0.2') {
 				apply('0.2', handler);
 			} else if (handler) {
@@ -64,7 +64,7 @@ sqlite = function () {
 			return db;
 		} else {
 			db = value;
-			console.log("New DB: " + db);
+			console.log("SQLITE - switching over to DB: " + db);
 			patch(handler);
 			return self;
 		}
@@ -77,7 +77,7 @@ sqlite = function () {
 
 		if (statement.match(/^.+\.sql$/ig)) {
 			// reading statement from file
-			console.log("Reading SQL command from file: " + statement);
+			console.log("SQLITE - reading SQL command from file: " + statement);
 			statement = $fs.readFileSync(statement);
 		}
 		
@@ -89,7 +89,7 @@ sqlite = function () {
 		// running sql statement
 		tool.exec.call(self, args, function (data) {
 			if (handler) {
-				console.log(["Retrieved", data.length, "records."].join(" "));
+				console.log("SQLITE - retrieved " + data.length + " records.");
 				return handler(data);
 			}
 		}, true);

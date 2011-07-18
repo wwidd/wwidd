@@ -25,7 +25,7 @@ walker = function (dirHandler, fileHandler, options) {
 			var	fileCount = 0;
 			
 			// recursive inner function
-			console.log(["Walking path '", root, "'"].join(''));
+			console.log("WALKER - walking path: " + root);
 			(function walk(path) {
 				var	i,
 						files,

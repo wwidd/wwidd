@@ -70,7 +70,7 @@ tool = {
 	}
 };
 
-console.log("OS type: " + tool.os);
+console.log("OS - type: " + tool.os);
 
 // exports
 exports.tool = tool;
