@@ -50,8 +50,8 @@ entity = {
 	kind: null,
 	
 	// gets the entity(ies) from database
-	get: function (before, handler, self) {
-		var kind = (self || this).kind,
+	get: function (before, handler) {
+		var kind = this.kind,
 				where = clause(before || {}),
 
 		statement = [
@@ -109,8 +109,8 @@ entity = {
 	},
 	
 	// removes an entity of this kind
-	remove: function (before, handler, self) {
-		var kind = (self || this).kind,
+	remove: function (before, handler) {
+		var kind = this.kind,
 				where = clause(before || {}),
 
 		statement = [
