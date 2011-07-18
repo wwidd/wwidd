@@ -12,8 +12,9 @@ library = function () {
 		// queries the entire library
 		getMedia: function (filter, handler) {
 			var statement = [
-				"SELECT media.mediaid, path, rating, tags, keywords",
+				"SELECT media.mediaid, roots.path || media.path AS path, rating, tags, keywords",
 				"FROM media",
+				"JOIN roots USING (rootid)",
 				"NATURAL LEFT JOIN (",
 				"SELECT mediaid,",
 				"group_concat(name || ':' || CASE WHEN kind IS NOT NULL THEN kind ELSE '' END) AS tags",
