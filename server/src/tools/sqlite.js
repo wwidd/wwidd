@@ -12,7 +12,7 @@ var	$fs = require('fs'),
 
 sqlite = function () {
 	// inheriting from tool
-	var db,
+	var db = 'default',
 			path = 'server/db/',
 			isWindows = tool.os in {'windows': 'windows', 'cygwin': 'cygwin'},
 	
@@ -32,40 +32,12 @@ sqlite = function () {
 		return path;
 	};
 
-	// applies one patch
-	function apply(version, handler) {
-		self.exec('server/db/patch.' + version + '.sql', function () {
-			console.log("SQLITE - DB/" + db + " patched to version " + version);
-			if (handler) {
-				handler();
-			}
-		});
-	}
-	
-	// patches database to most recent version
-	function patch(handler) {
-		// getting current database version
-		var statement = "SELECT value FROM system WHERE key = 'version'";
-		self.exec(statement, function (data) {
-			var version = (data[0] || {value: '0.1'}).value;
-			console.log("SQLITE - DB/" + db + " version: " + version);
-			if (version < '0.2') {
-				apply('0.2', handler);
-			} else if (handler) {
-				handler();
-			}
-			return false;
-		}, ['-header', '-line']);
-	}
-	
 	// getter / setter for database name
-	self.db = function (value, handler) {
+	self.db = function (value) {
 		if (typeof value === 'undefined') {
 			return db;
 		} else {
 			db = value;
-			console.log("SQLITE - switching over to DB: " + db);
-			patch(handler);
 			return self;
 		}
 	};
@@ -99,8 +71,6 @@ sqlite = function () {
 			self.pipe(statement);
 		}
 	};
-	
-	self.db('default');
 	
 	return self;
 }();

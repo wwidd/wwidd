@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 var	entity = require('../db/entity').entity,
-		sqlite = require('../tools/sqlite').sqlite, 
+		db = require('../db/db').db,
 
 // constructs a where clause that will retrieve
 // media records filtered by tags
@@ -47,7 +47,7 @@ media = function (mediaid) {
 			"WHERE mediaid =", mediaid
 		].join(" ");
 		console.log(statement);
-		sqlite.exec(statement, handler, ['-header', '-line']);
+		db.query(statement, handler);
 	};
 	
 	self.set = function (after, handler) {

@@ -4,7 +4,7 @@
 // Base class for table records
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	sqlite = require('../tools/sqlite').sqlite,
+var	db = require('../db/db').db,
 
 // escapes quotes in SQL statements by duplicating them
 quotes = function (text) {
@@ -61,8 +61,7 @@ entity = {
 		].join(" ");
 		
 		console.log(statement);
-		
-		sqlite.exec(statement, handler, ['-header', '-line']);
+		db.query(statement, handler);
 		
 		return this;
 	},
@@ -81,8 +80,7 @@ entity = {
 		].join(" ");
 		
 		console.log(statement);
-		
-		sqlite.exec(statement, handler);
+		db.nonQuery(statement, handler);
 		
 		return this;
 	},
@@ -102,8 +100,7 @@ entity = {
 		].join(" ");
 
 		console.log(statement);
-
-		sqlite.exec(statement, handler);
+		db.nonQuery(statement, handler);
 		
 		return this;
 	},
@@ -121,8 +118,7 @@ entity = {
 		].join(" ");
 
 		console.log(statement);
-
-		sqlite.exec(statement, handler);
+		db.nonQuery(statement, handler);
 
 		return this;		
 	}

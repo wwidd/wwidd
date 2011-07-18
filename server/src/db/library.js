@@ -5,7 +5,7 @@
 var	$path = require('path'),
 		$media = require('../db/media'),
 		quotes = require('../db/entity').quotes,
-		sqlite = require('../tools/sqlite').sqlite, 
+		db = require('../db/db').db,
 
 library = function () {
 	var self = {
@@ -30,7 +30,7 @@ library = function () {
 			].join(" ");
 			
 			console.log(statement);
-			sqlite.exec(statement, handler, ['-header', '-line']);
+			db.query(statement, handler);
 		},
 		
 		// inserts videos into the database 
@@ -106,7 +106,7 @@ library = function () {
 			console.log("LIBRARY - SQL statement built: " + statement.length + " lines");
 			
 			// executing statement
-			sqlite.exec(statement.join('\n'), handler, null, true);
+			db.nonQueryPiped(statement.join('\n'), handler);
 			
 			return self;
 		}

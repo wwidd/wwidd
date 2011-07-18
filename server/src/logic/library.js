@@ -6,6 +6,7 @@
 /*global require, exports */
 var	$path = require('path'),
 		root = require('../logic/root').root,
+		db = require('../db/db').db,
 		entity = require('../db/library').library,
 		tag = require('../db/tag').tag,
 		sqlite = require('../tools/sqlite').sqlite,
@@ -48,7 +49,7 @@ library = function () {
 		
 		// sets library (sqlite db file) to use
 		set: function (name, handler) {
-			sqlite.db(name, handler);
+			db.name(name, handler);
 			return self;
 		},
 		

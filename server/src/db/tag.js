@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 var	$media = require('../db/media'),
-		sqlite = require('../tools/sqlite').sqlite,
+		db = require('../db/db').db,
 		entity = require('../db/entity').entity,
 		clause = require('../db/entity').clause,
 
@@ -16,7 +16,7 @@ tag = function () {
 		var statement = "SELECT MIN(name) AS name, CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS kind FROM tags GROUP BY lower(name)";
 		
 		console.log(statement);
-		sqlite.exec(statement, handler, ['-header', '-line']);
+		db.query(statement, handler);
 	};
 	
 	// adds one tag to the file
@@ -49,7 +49,7 @@ tag = function () {
 				
 		if (handler) {
 			console.log(statement);
-			sqlite.exec(statement, handler);
+			db.nonQuery(statement, handler);
 			return self;
 		} else {
 			return statement;
@@ -100,7 +100,7 @@ tag = function () {
 		]).join(";\n");
 		
 		console.log(statement);
-		sqlite.exec(statement, handler);
+		db.nonQuery(statement, handler);
 	};
 	
 	// removes tag from file(s)
@@ -129,7 +129,7 @@ tag = function () {
 
 		if (handler) {
 			console.log(statement);
-			sqlite.exec(statement, handler);
+			db.nonQuery(statement, handler);
 			return self;
 		} else {
 			return statement;
@@ -166,7 +166,7 @@ tag = function () {
 		].join(";\n");
 		
 		console.log(statement);
-		sqlite.exec(statement, handler);
+		db.nonQuery(statement, handler);
 	};
 	
 	return self;
