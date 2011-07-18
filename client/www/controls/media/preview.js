@@ -7,7 +7,8 @@ var yalp = yalp || {};
 yalp.controls = function (controls, $) {
 	controls.preview = function () {
 		var self = Object.create(controls.popup()),
-				keywords = [];
+				keywords = [],
+				hash = '';
 		
 		//////////////////////////////
 		// Setters
@@ -17,11 +18,21 @@ yalp.controls = function (controls, $) {
 			return self;
 		};
 		
+		self.hash = function (value) {
+			hash = value;
+			return self;
+		};
+		
 		//////////////////////////////
 		// Overrides
 		
 		self.contents = function (elem) {
 			return [
+				function () {
+					if (hash.length) {
+						return ['<img src="/cache/', hash, '.jpg">'].join('');
+					}
+				}(),
 				'<table class="keywords">',
 				function () {
 					var result = [],

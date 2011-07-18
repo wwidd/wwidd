@@ -83,6 +83,7 @@ yalp.controls = function (controls, $, services, data) {
 				self = controls.lookup[media.attr('id')].data.that;
 		controls.preview
 			.keywords(self.data.row.keywords)
+			.hash(self.data.row.hash)
 			.render($('body'));
 	};
 	

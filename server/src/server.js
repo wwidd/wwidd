@@ -152,7 +152,11 @@ $http.createServer(function (req, res) {
 		
 	default:
 		// acting as static file server
-		filePath = $path.join(process.cwd(), 'client/www' + endpoint);
+		if (endpoint.split('/')[1] === 'cache') {
+			filePath = $path.join(process.cwd(), 'server' + endpoint);
+		} else {
+			filePath = $path.join(process.cwd(), 'client/www' + endpoint);
+		}
 		$path.exists(filePath, function (exists) {
 			if (!exists) {
 				res.writeHead(404, {"Content-Type": "text/plain"});

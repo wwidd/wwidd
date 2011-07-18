@@ -8,6 +8,7 @@ div.popup {
 	padding: 3px;
 	width: 300px;
 	overflow: hidden;
+	text-align: center;
 	border: 2px solid #a5c414;
 	border-radius: 5px; -moz-border-radius: 5px;
 	background: #f4ffd5;
@@ -18,6 +19,7 @@ KEYWORDS POPUP
 ******************************/
 
 div.popup > table.keywords td {
+	text-align: left;
 	vertical-align: top;
 }
 
