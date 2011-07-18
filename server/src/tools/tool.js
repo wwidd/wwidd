@@ -32,7 +32,10 @@ tool = {
 	},
 	
 	// executes tool in specified mode
-	exec: function (args, handler) {
+	// - args: command line arguments to be passed to process
+	// - handler: handler to run after execution completed
+	// - silent: doesn't throw exception on nonzero return value
+	exec: function (args, handler, silent) {
 		var stdout = [],
 				that = this;		// because of nested functions
 
@@ -50,7 +53,7 @@ tool = {
 
 		// handling tool exit
 		that.child.on('exit', function (code) {
-			if (code !== 0) {
+			if (code !== 0 && silent !== true) {
 				throw ["Tool", "'" + that.executable + "'", "exited with code:", code].join(" ") + ".";
 			}
 			if (!handler) {
