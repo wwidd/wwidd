@@ -50,10 +50,8 @@ media = function (mediaid) {
 		sqlite.exec(statement, handler, ['-header', '-line']);
 	};
 	
-	self.set = function (before, after, handler) {
-		before = before || {};
-		before.mediaid = mediaid;
-		entity.set.call(self, before, after, handler);
+	self.set = function (after, handler) {
+		entity.set.call(self, {mediaid: mediaid}, after, handler);
 	};
 	
 	return self;

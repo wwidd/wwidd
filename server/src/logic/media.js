@@ -4,10 +4,10 @@
 // Interface for adding library root paths and ingesting their content
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
-var	$path = require('path'),
-		vlc = require('../tools/vlc').vlc,
+var	vlc = require('../tools/vlc').vlc,
 		entity = require('../db/media').media,
-
+		thumb = require('../logic/thumb').thumb,
+		
 media = function (mediaid) {
 	var self = {
 		// queries media information
@@ -18,11 +18,14 @@ media = function (mediaid) {
 		// plays back a video
 		play: function (handler) {
 			self.get(function (data) {
+				// saving thumbnail
+				thumb(mediaid).generate();
+				// starting playback
 				var path = data[0].root + data[0].path;
 				console.log("MEDIA - starting playback of file: " + path);
 				vlc.exec('vlc', ['-vvv', path], function (path) {
 					console.log("MEDIA - playback finished or interrupted");
-				});			
+				});
 				// not waiting for playback to finish
 				if (handler) {
 					handler(path);
@@ -31,9 +34,10 @@ media = function (mediaid) {
 			return self;
 		},
 		
+		// rates media file
 		rate: function (rating, handler) {
 			console.log("MEDIA - rating media: " + mediaid + " at: " + rating);
-			entity(mediaid).set(null, {rating: rating}, handler);
+			entity(mediaid).set({rating: rating}, handler);
 			return self;
 		}
 	};
