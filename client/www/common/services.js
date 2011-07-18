@@ -74,9 +74,9 @@ yalp.services = function ($) {
 		},
 		
 		// starts playback of a file
-		play: function (path, handler) {
+		play: function (mediaid, handler) {
 			callService('play', {
-				path: path
+				mediaid: mediaid
 			}, handler);
 		},
 		

@@ -1,8 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Entity
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, exports */
+/*global require, exports, console */
 var	entity = require('../db/entity').entity,
+		sqlite = require('../tools/sqlite').sqlite, 
 
 // constructs a where clause that will retrieve
 // media records filtered by tags
@@ -35,23 +36,24 @@ selection = function (mediaids) {
 	].join(" ");
 },
 
-media = function (path) {
+media = function (mediaid) {
 	var self = Object.create(entity, {kind: {value: 'media'}});
 
 	self.get = function (handler) {
-		entity.get(path ? {'path': path} : null, handler, self);
+		var statement = [
+			"SELECT mediaid, roots.path AS root, media.path AS path, hash",
+			"FROM media",
+			"JOIN roots USING (rootid)",
+			"WHERE mediaid =", mediaid
+		].join(" ");
+		console.log(statement);
+		sqlite.exec(statement, handler, ['-header', '-line']);
 	};
 	
 	self.set = function (before, after, handler) {
 		before = before || {};
-		if (path) {
-			if (parseInt(path, 10)) {
-				before.mediaid = path;
-			} else {
-				before.path = path;
-			}
-		}
-		entity.set(before, after, handler, self);
+		before.mediaid = mediaid;
+		entity.set.call(self, before, after, handler);
 	};
 	
 	return self;

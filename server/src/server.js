@@ -79,10 +79,10 @@ $http.createServer(function (req, res) {
 	case '/play':
 		// playing back media file
 		envelope(res, false, function () {
-			if (!query.path) {
+			if (!query.mediaid) {
 				throw "Missing path parameter";
 			}
-			media(query.path).play();
+			media(query.mediaid).play();
 		});
 		break;
 		
