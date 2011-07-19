@@ -11,7 +11,7 @@ db = function () {
 	// applies one patch
 	function apply(version, handler) {
 		self.nonQuery('server/db/patch.' + version + '.sql', function () {
-			console.log("DB/" + db + " - patched to version " + version);
+			console.log("DB/" + name + " - patched to version " + version);
 			if (handler) {
 				handler();
 			}
@@ -24,7 +24,7 @@ db = function () {
 		var statement = "SELECT value FROM system WHERE key = 'version'";
 		self.query(statement, function (data) {
 			var version = (data[0] || {value: '0.1'}).value;
-			console.log("DB/" + db + " - version: " + version);
+			console.log("DB/" + name + " - version: " + version);
 			if (version < '0.2') {
 				apply('0.2', handler);
 			} else if (handler) {
