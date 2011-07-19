@@ -34,7 +34,7 @@ library = function () {
 		},
 		
 		// inserts videos into the database 
-		fill: function (data, handler) {
+		fill: function (rootid, data, handler) {
 			var	statement = [],
 					path,
 					keywords, keyword,
@@ -55,18 +55,23 @@ library = function () {
 				if (data.hasOwnProperty(path)) {
 					// inserting statement for media path
 					statement.push([
-						"INSERT OR IGNORE INTO media (path) VALUES ('",
-						quotes(path),
-						"');"
-					].join(""));
+						"INSERT OR IGNORE INTO media (rootid, path)",
+						"VALUES (",
+						rootid + ",",
+						"'" + quotes(path) + "'",
+						");"
+					].join(" "));
 					
 					// updating last accessed media id so sub-inserts can use that
 					statement.push([
 						"UPDATE vars SET value = (",
-						"SELECT mediaid FROM media WHERE path = '",
-						quotes(path),
-						"') WHERE name = 'lastid';"
-					].join(""));
+						"SELECT mediaid FROM media",
+						"WHERE",
+						"rootid = " + rootid, "AND",
+						"path = '" + quotes(path) + "'",
+						")",
+						"WHERE name = 'lastid';"
+					].join(" "));
 					
 					// inserting statement for media keywords (properties)
 					keywords = data[path];
@@ -104,7 +109,7 @@ library = function () {
 			}
 			statement.push("COMMIT;");
 			console.log("LIBRARY - SQL statement built: " + statement.length + " lines");
-			
+
 			// executing statement
 			db.nonQueryPiped(statement.join('\n'), handler);
 			

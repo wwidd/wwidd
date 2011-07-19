@@ -11,7 +11,8 @@ var	$fs = require('fs'),
 
 // - dirHandler: called for each directory
 // - fileHandler: called for each file
-// - options: various options, eg. filename filter
+// - options:
+//   - filter: regex for filtering file names
 walker = function (dirHandler, fileHandler, options) {
 	// defaults
 	dirHandler = dirHandler || function () { };
@@ -25,20 +26,22 @@ walker = function (dirHandler, fileHandler, options) {
 			var	fileCount = 0;
 			
 			// recursive inner function
+			// - relative: path relative to root
 			console.log("WALKER - walking path: " + root);
-			(function walk(path) {
+			(function walk(relative) {
 				var	i,
 						files,
+						path = root + relative,
 						stats = $fs.lstatSync(path);
 	
 				if (stats.isDirectory()) {
 					// calling directory callback
-					dirHandler(path, stats);
+					dirHandler(relative, stats);
 					
 					// listing directories
 					files = $fs.readdirSync(path);
 					for (i = 0; i < files.length; i++) {
-						walk([path, '/', files[i]].join(''));
+						walk(relative + '/' + files[i]);
 					}
 				} else if (stats.isFile()) {
 					// calling file handler
@@ -46,10 +49,10 @@ walker = function (dirHandler, fileHandler, options) {
 						if (fileCount++ % 10 === 0) {
 							process.stdout.write(".");
 						}
-						fileHandler(path, stats);
+						fileHandler(relative, stats);
 					}
 				}
-			})(root);
+			})('');
 			process.stdout.write("\n");
 			
 			return self;
