@@ -5,9 +5,9 @@ Yalp is a **browser-based, offline video tagger**, for organizing, searching, an
 
 Even working with thousands of videos, Yalp is designed to be responsive and fast to work with. Having frequently used actions such as search and tagging heavily assisted, you can set up a library with meaningful, searchable tags in no time.
 
-Yalp is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, libextractor, and VLC.
+Yalp is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, libextractor, ffmpeg, and VLC.
 
-Current version is 0.1.4.
+Current version is 0.2.
 
 Features
 --------
@@ -47,18 +47,22 @@ Installation
 
 Dependency list:
 
-- Node.js 0.4.1:
+- Node.js 0.4.x:
 	- You might want to build it yourself: [source](http://nodejs.org/#download)
 	- [Debian package](http://packages.debian.org/search?keywords=nodejs)
 	- [Windows](http://node-js.prcn.co.cc/)
+	- [OS X](https://sites.google.com/site/nodejsmacosx/)
 - [SQLite](http://www.sqlite.org/download.html)
 - [Libextractor](http://www.gnu.org/software/libextractor/download.html)
+- ffmpeg:
+	- [Windows](http://ffmpeg.zeranoe.com/builds/)
+	- [OS X](http://ffmpegx.com/download.html)
 - [VLC](http://www.videolan.org/vlc/)
 
 ### Starting Yalp
 
-1. Start `start.sh` on Linux, `start.cmd` on Windows.
-2. A terminal window will pop up, just ignore it (or minimize, but don't close it!)
+1. Start `start.sh` on Linux and Mac, `start.cmd` on Windows.
+2. A terminal window will pop up, ignore it (or minimize, but don't close it!)
 3. Yalp will be opened in a new window or tab in the default browser.
 
 Using Yalp
