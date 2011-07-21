@@ -45,7 +45,8 @@ thumb = function (mediaid) {
 				if (!$path.existsSync(path)) {
 					// generating thumbnail
 					console.log("THUMB - generating thumbnail for: " + inPath + " at: " + outPath);					
-					ffmpeg.thumb(inPath, outPath, 1, function () {
+					ffmpeg.thumb(inPath, outPath, 1, function (data) {
+						console.log(data);
 						console.log("THUMB - thumbnail saved: " + hash);
 					});
 				}
