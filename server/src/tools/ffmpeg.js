@@ -26,13 +26,6 @@ ffmpeg = function () {
 		stderr: {value: true}
 	});
 
-	// extracts metadata from media file
-	self.metadata = function (path, handler) {
-		tool.exec.call(self, ['-i', path], function (data) {
-			console.log(data);
-		});
-	};
-	
 	// parses ffmpeg output
 	function parse(stdout, handler) {
 		// parsing ffmpeg output
@@ -67,23 +60,23 @@ ffmpeg = function () {
 									// audio channel
 									row = row.substr('Audio: '.length).split(/,\s*/);
 									metadata.push({
-										codec: row[0],
-										sampling: row[1],
-										channels: row[2],
-										bps: row[3],
-										bitrate: row[4]
+										'audio codec': row[0],
+										'sampling freq': row[1],
+										'audio channels': row[2],
+										'audio bps': row[3],
+										'audio bitrate': row[4]
 									});
 								} else if (row.match(/^Video:/)) {
 									// video channel
 									row = row.substr('Video: '.length).split(/,\s*/);
 									properties = {
-										codec: row[0],
-										format: row[1],
-										dimensions: row[2]
+										'video codec': row[0],
+										'color space': row[1],
+										'dimensions': row[2]
 									};
 									for (l = 3; l < row.length; l++) {
 										tmp = row[l].split(' ');
-										properties[tmp[1]] = tmp[0];
+										properties['video ' + tmp[1]] = tmp[0];
 									}
 									metadata.push(properties);
 								}
@@ -97,6 +90,30 @@ ffmpeg = function () {
 		// passing on results
 		handler(metadata);
 	}
+	
+	// extracts metadata from media file
+	self.metadata = function (path, handler) {
+		tool.exec.call(self, ['-i', path], function (stdout) {
+			parse(stdout, function (metadata) {
+				// accumulating all metadata into one object
+				var i, key,
+						chapter,
+						result = {};
+				for (i = 0; i < metadata.length; i++) {
+					chapter = metadata[i];
+					for (key in chapter) {
+						if (chapter.hasOwnProperty(key)) {
+							result[key] = chapter[key];
+						}
+					}
+				}
+				// wrapping up
+				if (handler) {
+					handler(result);
+				}
+			});
+		}, true);
+	};
 	
 	// extracts thumbnail(s) from media file
 	self.thumb = function (inPath, outPath, count, handler) {
