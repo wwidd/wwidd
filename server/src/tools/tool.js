@@ -53,7 +53,7 @@ tool = {
 		}
 
 		// starting tool
-		console.log(["TOOL - executing:", that.executable, args ? args.join(" ") : ""].join(" "));
+		//console.log(["TOOL - executing:", that.executable, args ? args.join(" ") : ""].join(" "));
 		that.child = $child_process.spawn(that.executable, args);
 
 		// callback
