@@ -13,7 +13,6 @@ var	$crypto = require('crypto'),
 thumb = function (mediaid) {
 	var media = entity(mediaid),
 			self,
-			path, hash,
 			cachePath = 'server/cache/';
 			
 	// create cache dir if doesn't exist
@@ -42,7 +41,7 @@ thumb = function (mediaid) {
 							
 				// checking if thumbnail is already there				
 				outPath = cachePath + hash + '.jpg';
-				if (!$path.existsSync(path)) {
+				if (!$path.existsSync(outPath)) {
 					// generating thumbnail
 					console.log("THUMB - generating thumbnail for: " + inPath + " at: " + outPath);					
 					ffmpeg.thumb(inPath, outPath, 1, function (data) {
