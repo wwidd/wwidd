@@ -83,18 +83,21 @@ yalp.controls = function (controls, $) {
 			render: function (parent) {
 				// initializing jQuery object from full control markup
 				var elem = $(this.html()),
-						target = parent ? null : $('#' + this.id);
+						target = $('#' + this.id);
 
 				// adding control to dom
-				if (parent) {
-					parent.append(elem);
-				} else if (target.length) {
+				if (target.length) {
 					if (controls.lookup.hasOwnProperty(this.id)) {
+						// replacing when already exists
 						target.replaceWith(elem);
 					} else {
+						// removing it when destroyed at control level
 						target.remove();
 						return;
 					}
+				} else if (parent) {
+					// appending to parent when doesn't exist yet
+					parent.append(elem);
 				}
 
 				// applying instance-level events
