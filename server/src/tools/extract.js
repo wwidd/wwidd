@@ -6,11 +6,11 @@ var	tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
 
 extract = function () {
-	var isWindows = tool.os in {'windows': 'windows', 'cygwin': 'cygwin'},
+	var
 	
 	outputParser = Object.create(parser, {
-		rowSeparator: {value: isWindows ? '\r\n\r\n' : '\n\n'},
-		fieldSeparator: {value: isWindows ? '\r\n' : '\n'},
+		rowSeparator: {value: tool.lineBreak + tool.lineBreak},
+		fieldSeparator: {value: tool.lineBreak},
 		keySeparator: {value: ' - '},
 		rowSkip: {value: 0},
 		fieldSkip: {value: 1},

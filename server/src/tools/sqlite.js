@@ -14,11 +14,10 @@ sqlite = function () {
 	// inheriting from tool
 	var db = 'default',
 			path = 'server/db/',
-			isWindows = tool.os in {'windows': 'windows', 'cygwin': 'cygwin'},
 	
 	outputParser = Object.create(parser, {
-		rowSeparator: {value: isWindows ? /\r\n\r\n\s*/ : /\n\n\s*/},
-		fieldSeparator: {value: isWindows ? /\r\n\s*/ : /\n\s*/},
+		rowSeparator: {value: new RegExp(tool.lineBreak + tool.lineBreak + '\\s*')},
+		fieldSeparator: {value: new RegExp(tool.lineBreak + '\\s*')},
 		keySeparator: {value: ' = '}
 	}),
 

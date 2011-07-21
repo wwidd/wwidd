@@ -7,9 +7,14 @@
 var $os = require('os'),
 		$child_process = require('child_process'),
 
+os = $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
+		
 tool = {
 	// os type
-	os: $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
+	os: os,
+	
+	// line break string depending on OS
+	lineBreak: os in {'windows': 'windows', 'cygwin': 'cygwin'} ? '\\r\\n' : '\\n',
 	
 	// name of executable file
 	executable: null,
@@ -17,6 +22,9 @@ tool = {
 	// whether the tool's output is binary
 	binary: null,
 	
+	// whether to collect data from stderr as well
+	stderr: false,
+
 	// parser interpreting the tool's output
 	parser: null,
 	
@@ -44,13 +52,20 @@ tool = {
 		}
 
 		// starting tool
+		console.log(["TOOL - executing:", that.executable, args ? args.join(" ") : ""].join(" "));
 		that.child = $child_process.spawn(that.executable, args);
 
-		// data buffering
-		that.child.stdout.on('data', function (data) {
+		// callback
+		function onData(data) {
 			stdout.push(Buffer.isBuffer(data) ? data.toString(that.binary ? 'binary' : 'utf8') : data);
-		});
-
+		} 
+		
+		// data buffering
+		that.child.stdout.on('data', onData);
+		if (that.stderr) {
+			that.child.stderr.on('data', onData);
+		}
+		
 		// handling tool exit
 		that.child.on('exit', function (code) {
 			if (code !== 0 && silent !== true) {
@@ -70,7 +85,7 @@ tool = {
 	}
 };
 
-console.log("OS - type: " + tool.os);
+console.log("OS - type: " + os);
 
 // exports
 exports.tool = tool;
