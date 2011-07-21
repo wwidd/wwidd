@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
 var	chain = require('../utils/chain').chain,
-		extract = require('../tools/extract').extract,
+		ffmpeg = require('../tools/ffmpeg').ffmpeg,
 
 processes = {
 	// callback expects a path where the root part
@@ -17,8 +17,34 @@ processes = {
 		var tmp = path.split(':'),
 				root = tmp[0],
 				relative = tmp[1];
-		extract.exec(root + relative, ['--verbose', '--filename'], function (data) {
-			var	keywords = data[0];
+
+		// extracting metadata from file w/ ffmpeg
+		ffmpeg.metadata(root + relative, function (data) {
+			// filtering out useful metadata
+			var keywords = {},
+					key, value,
+					
+			lookup = {
+				'duration': 'Duration',
+				'dimensions': 'dimensions',
+				'distributor': 'WM/ContentDistributor',
+				'copyright': 'copyright',
+				'bitrate': 'bitrate',
+				'video codec': 'video codec',
+				'audio codec': 'audio codec',
+				'genre': 'WM/Genre',
+				'adult': 'WM/ParentalRating'
+			};
+			
+			for (key in lookup) {
+				if (lookup.hasOwnProperty(key)) {
+					value = data[lookup[key]];
+					if (typeof value !== 'undefined' && value.length) {
+						keywords[key] = data[lookup[key]];
+					}
+				}
+			}
+			
 			finish({path: relative, keywords: keywords});
 		});
 	})

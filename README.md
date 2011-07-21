@@ -5,7 +5,7 @@ Yalp is a **browser-based, offline video tagger**, for organizing, searching, an
 
 Even working with thousands of videos, Yalp is designed to be responsive and fast to work with. Having frequently used actions such as search and tagging heavily assisted, you can set up a library with meaningful, searchable tags in no time.
 
-Yalp is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, libextractor, ffmpeg, and VLC.
+Yalp is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, ffmpeg, and VLC.
 
 Current version is 0.2.
 
@@ -53,7 +53,6 @@ Dependency list:
 	- [Windows](http://node-js.prcn.co.cc/)
 	- [OS X](https://sites.google.com/site/nodejsmacosx/)
 - [SQLite](http://www.sqlite.org/download.html)
-- [Libextractor](http://www.gnu.org/software/libextractor/download.html)
 - ffmpeg:
 	- [Windows](http://ffmpeg.zeranoe.com/builds/)
 	- [OS X](http://ffmpegx.com/download.html)
