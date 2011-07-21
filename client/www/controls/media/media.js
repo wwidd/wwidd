@@ -77,14 +77,16 @@ yalp.controls = function (controls, $, services, data) {
 	
 	//////////////////////////////
 	// Static event handlers
-
+	
 	onEnter = function (event) {
 		var media = $(this).closest('.media'),
 				self = controls.lookup[media.attr('id')].data.that;
-		controls.preview
-			.keywords(self.data.row.keywords)
-			.hash(self.data.row.hash)
-			.render($('body'));
+		if (self.data.row.keywords.length || self.data.row.hash.length) {
+			controls.preview
+				.keywords(self.data.row.keywords)
+				.hash(self.data.row.hash)
+				.render($('body'));
+		}
 	};
 	
 	onLeave = function (event) {

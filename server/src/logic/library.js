@@ -17,9 +17,10 @@ library = function () {
 	
 	// splits properties along characters
 	function split(data, property, separator) {
-		var i;
+		var i, tmp;
 		for (i = 0; i < data.length; i++) {
-			data[i][property] = data[i][property].split(separator);
+			tmp = data[i][property];
+			data[i][property] = tmp.length ? tmp.split(separator) : [];
 		}
 	}
 
