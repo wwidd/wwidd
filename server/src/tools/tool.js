@@ -14,6 +14,7 @@ tool = {
 	os: os,
 	
 	// line break string depending on OS
+	// to be used in RegExp objects only!
 	lineBreak: os in {'windows': 'windows', 'cygwin': 'cygwin'} ? '\\r\\n' : '\\n',
 	
 	// name of executable file
