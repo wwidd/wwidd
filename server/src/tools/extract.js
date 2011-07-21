@@ -9,8 +9,8 @@ extract = function () {
 	var
 	
 	outputParser = Object.create(parser, {
-		rowSeparator: {value: tool.lineBreak + tool.lineBreak},
-		fieldSeparator: {value: tool.lineBreak},
+		rowSeparator: {value: new RegExp(tool.lineBreak + tool.lineBreak)},
+		fieldSeparator: {value: new RegExp(tool.lineBreak)},
 		keySeparator: {value: ' - '},
 		rowSkip: {value: 0},
 		fieldSkip: {value: 1},
