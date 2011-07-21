@@ -8,7 +8,7 @@
 var 
 
 parser = {
-	rowSeparator: '',				// separates rows
+	rowSeparator: null,			// separates rows - if null, parsed text is one row
 	fieldSeparator: '',			// separates fields  within row
 	keySeparator: '',				// separates value from key
 	rowSkip: 0,							// rows to skip
@@ -23,7 +23,7 @@ parser = {
 			return [];
 		}
 		
-		var	rows = text.split(this.rowSeparator),
+		var	rows = this.rowSeparator ? text.split(this.rowSeparator) : [text],
 				first = rows[0],
 				result = [],
 				fields, row,
