@@ -51,12 +51,11 @@ entity = {
 	
 	// gets the entity(ies) from database
 	get: function (before, handler) {
-		var kind = this.kind,
-				where = clause(before || {}),
+		var where = clause(before || {}),
 
 		statement = [
 			"SELECT * FROM",
-			kind,
+			this.kind,
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
 		].join(" ");
 		
@@ -67,13 +66,12 @@ entity = {
 	},
 	
 	// adds an entity of this kind
-	add: function (after, handler, self) {
-		var kind = (self || this).kind,
-				pair = split(after),
+	add: function (after, handler) {
+		var pair = split(after),
 
 		statement = [
 			"INSERT OR REPLACE INTO",
-			kind,
+			this.kind,
 			["(", pair.keys.join(","), ")"].join(""),
 			"VALUES",
 			["(", pair.values.join(","), ")"].join("")
@@ -86,14 +84,13 @@ entity = {
 	},
 	
 	// changes the entity in the database
-	set: function (before, after, handler, self) {
-		var kind = (self || this).kind,
-				set = clause(after || {}),
+	set: function (before, after, handler) {
+		var set = clause(after || {}),
 				where = clause(before || {}),
 				
 		statement = [
 			"UPDATE",
-			kind,
+			this.kind,
 			"SET",
 			set.join(","),
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
@@ -107,12 +104,11 @@ entity = {
 	
 	// removes an entity of this kind
 	remove: function (before, handler) {
-		var kind = this.kind,
-				where = clause(before || {}),
+		var where = clause(before || {}),
 
 		statement = [
 			"DELETE FROM",
-			kind,
+			this.kind,
 			"WHERE",
 			where.join(" AND ")
 		].join(" ");
