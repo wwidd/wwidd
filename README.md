@@ -7,7 +7,7 @@ Even working with thousands of videos, Yalp is designed to be responsive and fas
 
 Yalp is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, ffmpeg, and VLC.
 
-Current version is 0.2.
+Current version is 0.2.1.
 
 Features
 --------
