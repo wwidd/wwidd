@@ -1,0 +1,88 @@
+/*//////////////////////////////////////////////////////////////////////////////
+// Brand CSS
+//
+// Application logo and colors can be customized through this file.
+//////////////////////////////////////////////////////////////////////////////*/
+
+/******************************
+GENERAL
+******************************/
+
+body {
+	background-color: #f4ffd5;
+	background-image: url('/image/logo_horiz_72.png');
+}
+
+a {
+	color: #8ea911;
+}
+
+/******************************
+LIBRARY
+******************************/
+
+#library {
+	border-color: #a5c414;
+	background: #a5c414;
+}
+
+/******************************
+CONTROLS
+******************************/
+
+#kinds,
+#controls,
+#rootadd {
+	background: #e3f29b;
+}
+
+#controls {
+	border-color: #a5c414;
+}
+
+/******************************
+ROOT ADD
+******************************/
+
+#rootadd {
+	border-color: #a5c414;
+}
+
+#rootadd input {
+	border-color: #8ea911;
+}
+
+/******************************
+GENERAL POPUP
+******************************/
+
+div.popup {
+	border-color: #a5c414;
+	background: #f4ffd5;
+}
+
+/******************************
+SEARCH
+******************************/
+
+span.search > input {
+	border-color: #8ea911;
+}
+
+/******************************
+MEDIA ENTRY
+******************************/
+
+tr.media {
+ background: #f8f8f8;
+ border-color: #e3f29b;
+}
+
+tr.media.playing {
+ background: #e9f3b7;
+}
+
+tr.media > td.file a {
+	color: #444;
+}
+

@@ -32,16 +32,11 @@ MEDIA ENTRY
 ******************************/
 
 tr.media {
- background: #f8f8f8;
- border-top: 1px solid #e3f29b;
+ border-top: 1px solid;
 }
 
 tr.media:first-child {
 	border-top: none;
-}
-
-tr.media.playing {
- background: #e9f3b7;
 }
 
 tr.media > td.file a {
@@ -49,7 +44,6 @@ tr.media > td.file a {
 	width: 300px;
 	padding: 0 20px 0 0;
 	overflow: hidden;
-	color: #444;
 	text-decoration: none;
 	white-space: nowrap;
 }

@@ -9,9 +9,9 @@ div.popup {
 	width: 300px;
 	overflow: hidden;
 	text-align: center;
-	border: 2px solid #a5c414;
+	border: 2px solid;
 	border-radius: 5px; -moz-border-radius: 5px;
-	background: #f4ffd5;
+	background: white;
 }
 
 /******************************

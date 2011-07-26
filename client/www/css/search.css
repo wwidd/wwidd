@@ -41,7 +41,7 @@ span.search > input {
 	height: 20px;
 	padding: 0 20px;
 	font-size: 16px;
-	border: 1px solid #8ea911;
+	border: 1px solid;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
 

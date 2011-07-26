@@ -4,11 +4,8 @@ GENERAL
 
 body {
 	position: relative;
-	background: #f4ffd5;
-}
-
-a {
-	color: #8ea911;
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
 }
 
 /******************************
@@ -31,9 +28,8 @@ LIBRARY
 
 #library {
 	margin: 5px 0 0 0;
-	border: 3px solid #a5c414;
+	border: 3px solid;
 	border-radius: 5px; -moz-border-radius: 5px;
-	background: #a5c414;
 }
 
 /******************************
@@ -45,7 +41,6 @@ CONTROLS
 #rootadd {
 	margin: 0;
 	padding: 2px 5px;
-	background: #e3f29b;
 }
 
 #kinds {
@@ -57,7 +52,7 @@ CONTROLS
 	height: 24px;
 	line-height: 24px;
 	vertical-align: bottom;
-	border-bottom: 1px solid #a5c414;
+	border-bottom: 1px solid;
 }
 
 #checker a {
@@ -90,7 +85,7 @@ ROOT ADD
 #rootadd {
 	padding: 5px;
 	vertical-align: middle;
-	border-top: 1px solid #a5c414;
+	border-top: 1px solid;
 	border-bottom-left-radius: 3px; -moz-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px;
 }
@@ -103,7 +98,7 @@ ROOT ADD
 }
 
 #rootadd input {
-	border: 1px solid #8ea911;
+	border: 1px solid;
 	border-radius: 3px; -moz-border-radius: 3px;	
 }
 
