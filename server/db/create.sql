@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS system(
 	value TEXT
 );
 CREATE UNIQUE INDEX IF NOT EXISTS system_id ON system(key ASC);
+INSERT OR REPLACE INTO system (key, value) VALUES ('version', '0.2');
 
 ------------------------------
 -- Roots
@@ -22,7 +23,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS roots_id ON roots(path ASC);
 
 ------------------------------
 -- Media
-CREATE IF NOT EXISTS TABLE media(
+CREATE TABLE IF NOT EXISTS media(
 	mediaid INTEGER PRIMARY KEY,
 	rootid INTEGER,
 	path TEXT,

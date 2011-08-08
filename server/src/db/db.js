@@ -10,7 +10,7 @@ db = function () {
 	
 	// applies one patch
 	function apply(version, handler) {
-		self.nonQuery('server/db/patch.' + version + '.sql', function () {
+		self.nonQuery('patch.' + version + '.sql', function () {
 			console.log("DB/" + name + " - patched to version " + version);
 			if (handler) {
 				handler();
@@ -34,13 +34,26 @@ db = function () {
 		});
 	}
 	
+	// creates database
+	function create(handler) {
+		console.log("DB - creating DB: " + name);
+		sqlite.exec('create.sql', handler);
+	}
+	
 	self = {
 		// switches databases
 		name: function (value, handler) {
 			name = value;
 			console.log("DB - switching over to DB: " + name);
+			// switching to new db
 			sqlite.db(name);
-			patch(handler);
+			if (!sqlite.exists()) {
+				// creating new db
+				create(handler);
+			} else {
+				// patching existing db
+				patch(handler);
+			}
 		},
 
 		// executes statement that return data		

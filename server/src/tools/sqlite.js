@@ -1,11 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SQLite Database
 //
-// Data Access Layer
+// Data Access Layer (low-level)
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 
 var	$fs = require('fs'),
+		$path = require('path'),
 		tool = require('../tools/tool').tool,
 		parser = require('../utils/parser').parser,
 		tempFile = 'temp.sql',
@@ -32,6 +33,7 @@ sqlite = function () {
 	};
 
 	// getter / setter for database name
+	// - value: database name
 	self.db = function (value) {
 		if (typeof value === 'undefined') {
 			return db;
@@ -41,7 +43,18 @@ sqlite = function () {
 		}
 	};
 	
+	// checks whether current database exists
+	self.exists = function () {
+		var fileName = path + db + '.sqlite',
+				exists = $path.existsSync(fileName);
+		return exists;
+	};
+	
 	// executes an SQL command through the sqlite command line tool
+	// - statement: SQL statement or SQL file path to execute
+	// - handler: callback passed to tool
+	// - options: additional command line arguments
+	// - pipe: whether statement should be passed through stdin
 	self.exec = function (statement, handler, options, pipe) {
 		var	fileName = path + db + '.sqlite',
 				args = (options || []).concat([fileName]);
@@ -49,7 +62,7 @@ sqlite = function () {
 		if (statement.match(/^.+\.sql$/ig)) {
 			// reading statement from file
 			console.log("SQLITE - reading SQL command from file: " + statement);
-			statement = $fs.readFileSync(statement);
+			statement = $fs.readFileSync('server/db/' + statement);
 		}
 		
 		if (!pipe) {

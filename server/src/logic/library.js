@@ -25,15 +25,6 @@ library = function () {
 	}
 
 	self = {
-		// creates a new library
-		// (doesn't check whether it already exists)
-		create: function (name, handler) {
-			sqlite
-				.db(name)
-				.exec('create.sql', handler);
-			return self;
-		},
-		
 		// lists available library names
 		list: function () {
 			var names = [];
