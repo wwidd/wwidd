@@ -33,7 +33,7 @@ walker = function (dirHandler, fileHandler, options) {
 			console.log("WALKER - walking path: " + root + (hasMaxDepth ?  ", max depth: " + maxDepth : ""));
 			
 			(function walk(relative, depth) {
-				if (fileCount++ % 10 === 0) {
+				if (fileCount++ % 16 === 0) {
 					process.stdout.write(".");
 				}
 
@@ -43,11 +43,17 @@ walker = function (dirHandler, fileHandler, options) {
 						stats = $fs.lstatSync(path);
 	
 				if (stats.isDirectory()) {
+					// listing directory
+					try {
+						files = $fs.readdirSync(path);
+					} catch (e) {
+						return;
+					}
+
 					// calling directory callback
 					dirHandler(relative, stats);
-					
-					// listing directories
-					files = $fs.readdirSync(path);
+
+					// processing directory contents					
 					for (i = 0; i < files.length; i++) {
 						// optionally excluding hidden files
 						if ((options.hidden || files[i][0] !== '.') &&
