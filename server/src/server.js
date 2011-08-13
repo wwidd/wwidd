@@ -14,7 +14,7 @@ var	$http = require('http'),
 		media = require('logic/media').media,
 		envelope = require('utils/envelope').envelope,
 		browser = require('tools/browser').browser,
-		
+		system = require('utils/system').system,
 		ip = '127.0.0.1',
 		port = 8124,
 		url = 'http://' + ip + ':' + port;
@@ -147,6 +147,13 @@ $http.createServer(function (req, res) {
 			tag.remove(query, query.filter, query.mediaids, null, function () {
 				ok(query);
 			});
+		});
+		break;
+		
+	case '/getdirs':
+		// querying directory structure
+		envelope(res, false, function () {
+			return system.tree(query.root);
 		});
 		break;
 		
