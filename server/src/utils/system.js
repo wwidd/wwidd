@@ -10,13 +10,17 @@ var	walker = require('utils/walker').walker,
 system = {
 	// returns a directory tree relative to the specified path
 	// in 3 folders depth
-	// - path: path to get tree for
-	tree: function (path) {
-		var root = '/' + (path || 'media'),
+	// - paths: array of paths to get directory trees for
+	tree: function (paths) {
+		var i, root,
 				dirs = {};
-		walker(function (relative, stats) {
+		function handler(relative, stats) {
 			datastore.set.call(dirs, (root + relative).split('/').slice(1), {});
-		}).walkSync(root, 3);
+		}
+		for (i = 0; i < paths.length; i++) {
+			root = '/' + (paths[i] || 'media');
+			walker(handler).walkSync(root, 3);
+		}
 		return dirs;
 	}
 };

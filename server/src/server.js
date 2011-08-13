@@ -153,7 +153,7 @@ $http.createServer(function (req, res) {
 	case '/getdirs':
 		// querying directory structure
 		envelope(res, false, function () {
-			return system.tree(query.root);
+			return system.tree(query.root.split(','));
 		});
 		break;
 		
