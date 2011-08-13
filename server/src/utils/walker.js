@@ -17,18 +17,28 @@ walker = function (dirHandler, fileHandler, options) {
 	// defaults
 	dirHandler = dirHandler || function () { };
 	fileHandler = fileHandler || function () { };
-	options = options || { filter: new RegExp('^.+\\.(wmv|avi|mov|mp4)$', 'ig') };
+	options = options || { filter: new RegExp('^.+\\.(wmv|avi|mov|mp4)$', 'ig'), hidden: false };
 
 	var self = {
 		// synchronous directory walking
 		// when the function returns, the whole process has completed
-		walkSync: function (root) {
-			var	fileCount = 0;
+		// - root: root path
+		// - maxDepth: maximum depth
+		walkSync: function (root, maxDepth) {
+			var	fileCount = 0,
+					hasMaxDepth = typeof maxDepth !== 'undefined';
 			
 			// recursive inner function
 			// - relative: path relative to root
-			console.log("WALKER - walking path: " + root);
-			(function walk(relative) {
+			console.log("WALKER - walking path: " + root + (hasMaxDepth ?  ", max depth: " + maxDepth : ""));
+			(function walk(relative, depth) {
+				relative = relative || '';
+
+				// ending walk when maximum depth is reached
+				if (hasMaxDepth && depth > maxDepth) {
+					return;
+				}
+				
 				var	i,
 						files,
 						path = root + relative,
@@ -41,7 +51,10 @@ walker = function (dirHandler, fileHandler, options) {
 					// listing directories
 					files = $fs.readdirSync(path);
 					for (i = 0; i < files.length; i++) {
-						walk(relative + '/' + files[i]);
+						// optionally excluding hidden files
+						if (options.hidden || files[i][0] !== '.') {
+							walk(relative + '/' + files[i], depth + 1);
+						}
 					}
 				} else if (stats.isFile()) {
 					// calling file handler
@@ -52,7 +65,7 @@ walker = function (dirHandler, fileHandler, options) {
 						fileHandler(relative, stats);
 					}
 				}
-			})('');
+			})('', 0);
 			process.stdout.write("\n");
 			
 			return self;
