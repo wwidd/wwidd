@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global yalp, exports, console, setTimeout, module, ok, equal, deepEqual */
 var test = function (test, utils) {
-	test.utils = function () {
-		module("Utils");
+	test.chain = function () {
+		module("Chain");
 		
 		////////////////////////////////////////////////////////////////////////////////
 		
@@ -38,7 +38,7 @@ var test = function (test, utils) {
 		// building chain
 		addStuff();
 		
-		test("Chain construction", function () {
+		test("Construction", function () {
 			var first = chain.first();
 			
 			deepEqual(chain.order(), ["E", "B", "A"], "Original order: E, B, A");
@@ -58,7 +58,7 @@ var test = function (test, utils) {
 			addStuff();
 		}
 		
-		test("Chain manipulation", function () {
+		test("Manipulation", function () {
 			chain.unlink("B");
 			deepEqual(chain.order(), ["E", "A"], "Middle link removed");
 			equal(chain.length(), 2, "Chain length");
@@ -85,7 +85,7 @@ var test = function (test, utils) {
 			reset();
 		});
 		
-		test("Chain iteration", function () {
+		test("Iteration", function () {
 			var result = chain.next();
 			equal(result, "e", "Iteration applies handler");
 			deepEqual(chain.order(), ["B", "A"], "Iteration removes first link");
