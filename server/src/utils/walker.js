@@ -40,13 +40,21 @@ walker = function (dirHandler, fileHandler, options) {
 				var	i,
 						files,
 						path = root + relative,
-						stats = $fs.lstatSync(path);
+						stats;
+				
+				// obtaining file stats
+				try {		
+					stats = $fs.lstatSync(path);
+				} catch (e_exist) {
+					throw "The specified path: " + path + " doesn't exist or is inaccessible.";
+				}
 	
 				if (stats.isDirectory()) {
 					// listing directory
 					try {
 						files = $fs.readdirSync(path);
-					} catch (e) {
+					} catch (e_perm) {
+						// returning on insufficient permissions
 						return;
 					}
 
@@ -69,7 +77,7 @@ walker = function (dirHandler, fileHandler, options) {
 				}
 			})('', 0);
 			
-			if (fileCount > 10) {
+			if (fileCount > 16) {
 				process.stdout.write("\n");
 			}
 			
