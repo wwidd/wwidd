@@ -31,7 +31,12 @@ walker = function (dirHandler, fileHandler, options) {
 			// recursive inner function
 			// - relative: path relative to root
 			console.log("WALKER - walking path: " + root + (hasMaxDepth ?  ", max depth: " + maxDepth : ""));
+			
 			(function walk(relative, depth) {
+				if (fileCount++ % 10 === 0) {
+					process.stdout.write(".");
+				}
+
 				var	i,
 						files,
 						path = root + relative,
@@ -53,14 +58,14 @@ walker = function (dirHandler, fileHandler, options) {
 				} else if (stats.isFile()) {
 					// calling file handler
 					if (path.match(options.filter)) {
-						if (fileCount++ % 10 === 0) {
-							process.stdout.write(".");
-						}
 						fileHandler(relative, stats);
 					}
 				}
 			})('', 0);
-			process.stdout.write("\n");
+			
+			if (fileCount > 10) {
+				process.stdout.write("\n");
+			}
 			
 			return self;
 		}
