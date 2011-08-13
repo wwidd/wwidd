@@ -32,13 +32,6 @@ walker = function (dirHandler, fileHandler, options) {
 			// - relative: path relative to root
 			console.log("WALKER - walking path: " + root + (hasMaxDepth ?  ", max depth: " + maxDepth : ""));
 			(function walk(relative, depth) {
-				relative = relative || '';
-
-				// ending walk when maximum depth is reached
-				if (hasMaxDepth && depth > maxDepth) {
-					return;
-				}
-				
 				var	i,
 						files,
 						path = root + relative,
@@ -52,7 +45,8 @@ walker = function (dirHandler, fileHandler, options) {
 					files = $fs.readdirSync(path);
 					for (i = 0; i < files.length; i++) {
 						// optionally excluding hidden files
-						if (options.hidden || files[i][0] !== '.') {
+						if ((options.hidden || files[i][0] !== '.') &&
+							(!hasMaxDepth || depth < maxDepth)) {
 							walk(relative + '/' + files[i], depth + 1);
 						}
 					}
