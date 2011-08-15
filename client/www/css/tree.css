@@ -53,6 +53,7 @@ div.tree li.expanded > span.toggle {
 }
 
 div.tree li.dead > span.toggle {
+	cursor: inherit;
 	background: none;
 }
 

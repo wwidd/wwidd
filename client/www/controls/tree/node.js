@@ -135,8 +135,11 @@ yalp.controls = function (controls, $) {
 		return false;
 	}
 	
-	$('span.toggle').live('click', onExpandCollapse);
-	$('div.tree span.name').live('click', onSelect);
+	// applying handlers
+	// any non-dead folder can be expanded
+	// any folder can be selected
+	$('li.node:not(.dead) > span.toggle').live('click', onExpandCollapse);
+	$('li.node > span.name').live('click', onSelect);
 	
 	return controls;
 }(yalp.controls,
