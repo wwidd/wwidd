@@ -15,7 +15,20 @@ yalp.controls = function (controls, $) {
 		//////////////////////////////
 		// External
 		
-		self.data.path = path;		// path to current node
+		// returns path to current node
+		self.data.path = function () {
+			return path;
+		};
+		
+		// sets json
+		self.data.json = function (value) {
+			if (typeof value !== 'undefined') {
+				json = value;
+				return self;
+			} else {
+				return json;
+			}
+		};
 		
 		// toggles expanded / collapsed state
 		self.data.toggle = function () {
@@ -28,10 +41,7 @@ yalp.controls = function (controls, $) {
 		//////////////////////////////
 		// Getters, setters
 		
-		self.json = function (value) {
-			json = value;
-			return self;
-		};
+		self.json = self.data.json;
 		
 		//////////////////////////////
 		// Overrides
@@ -53,7 +63,7 @@ yalp.controls = function (controls, $) {
 
 		// returns whether the current node is selected
 		function selected() {
-			return tree.data.selected.join('/') === self.data.path.join('/');
+			return tree.data.selected.join('/') === path.join('/');
 		}
 		
 		self.html = function () {
@@ -85,27 +95,43 @@ yalp.controls = function (controls, $) {
 
 	// expand / collapse button handler
 	function onExpandCollapse() {
+		// obtaining necessary objects (current node & tree)
 		var	$node = $(this).parent(),
-				control = controls.lookup[$node.attr('id')];
-		control.data.toggle();
+				node = controls.lookup[$node.attr('id')],
+				$tree = $node.closest('div.tree'),
+				tree = controls.lookup[$tree.attr('id')];
+		
+		// toggling expanded state of current node
+		$node = node.data.toggle();
+		
+		// calling tree's handler on expand / collapse event
+		tree.data.onExpandCollapse($node, node);
+		
 		return false;
 	}
 	
 	// directory selection button
 	function onSelect() {
+		// obtaining necessary objects (current node & tree)
 		var	$node = $(this).parent(),
-				control = controls.lookup[$node.attr('id')],
+				node = controls.lookup[$node.attr('id')],
 				$tree = $node.closest('div.tree'),
 				tree = controls.lookup[$tree.attr('id')];
+		
+		// setting selected status on current node
 		$tree
 			.find('span.selected')
-				.text('/' + control.data.path.join('/'))
+				.text('/' + node.data.path().join('/'))
 			.end()
 			.find('li')
 				.removeClass('selected')
 			.end();
 		$node.addClass('selected');
-		tree.data.selected = control.data.path;
+		
+		// storing selected path and calling tree's handler
+		tree.data.selected = node.data.path();
+		tree.data.onSelect($node, node);
+
 		return false;
 	}
 	

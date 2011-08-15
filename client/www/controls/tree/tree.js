@@ -5,14 +5,16 @@
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {
-	controls.tree = function () {
+	controls.tree = function (onSelect, onExpandCollapse) {
 		var self = Object.create(controls.control()),
 				rootNode;
 		
 		//////////////////////////////
 		// External
 		
-		self.data.selected = [];			// selected path
+		self.data.selected = [];
+		self.data.onSelect = onSelect || function ($node, node) {};
+		self.data.onExpandCollapse = onExpandCollapse || function ($node, node) {};		
 				
 		//////////////////////////////
 		// Setters / getters
