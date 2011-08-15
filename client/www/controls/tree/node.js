@@ -86,9 +86,7 @@ yalp.controls = function (controls, $) {
 	// expand / collapse button handler
 	function onExpandCollapse() {
 		var	$node = $(this).parent(),
-				control = controls.lookup[$node.attr('id')],
-				$tree = $node.closest('div.tree'),
-				tree = controls.lookup[$tree.attr('id')];
+				control = controls.lookup[$node.attr('id')];
 		control.data.toggle();
 		return false;
 	}
@@ -99,7 +97,13 @@ yalp.controls = function (controls, $) {
 				control = controls.lookup[$node.attr('id')],
 				$tree = $node.closest('div.tree'),
 				tree = controls.lookup[$tree.attr('id')];
-		$tree.find('li').removeClass('selected');
+		$tree
+			.find('span.selected')
+				.text('/' + control.data.path.join('/'))
+			.end()
+			.find('li')
+				.removeClass('selected')
+			.end();
 		$node.addClass('selected');
 		tree.data.selected = control.data.path;
 		return false;

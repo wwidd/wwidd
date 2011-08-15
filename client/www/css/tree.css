@@ -12,6 +12,11 @@ div.tree {
 	background: white;
 }
 
+div.tree > span.selected {
+	margin: 0 0 0 5px;
+	font-weight: bold;
+}
+
 div.tree ul {
 	margin: 0;
 	padding: 0 0 0 10px;
@@ -28,7 +33,7 @@ div.tree li > span {
 }
 
 div.tree li > span.name {
-	cursor: default;
+	cursor: pointer;
 }
 
 div.tree li.selected > span.name {

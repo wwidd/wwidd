@@ -30,6 +30,7 @@ yalp.controls = function (controls, $) {
 		self.html = function () {
 			return [
 				'<div id="', self.id, '" class="tree">',
+				'<span>', "Selected:", '</span>', '<span class="selected"></span>',
 				rootNode ? '<ul>' + rootNode.html() + '</ul>' : '',
 				'</div>'
 			].join('');
