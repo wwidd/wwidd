@@ -1,0 +1,53 @@
+/*//////////////////////////////////////////////////////////////////////////////
+// Tree
+//
+// Style sheet for the Tree control
+//////////////////////////////////////////////////////////////////////////////*/
+
+/******************************
+GENERAL
+******************************/
+
+div.tree {
+	background: white;
+}
+
+div.tree ul {
+	margin: 0;
+	padding: 0 0 0 10px;
+	list-style: none;
+}
+
+div.tree > ul {
+	padding: 0;
+}
+
+div.tree li > span {
+	line-height: 16px;
+	vertical-align: middle;
+}
+
+div.tree li > span.name {
+	cursor: default;
+}
+
+div.tree li.selected > span.name {
+	font-weight: bold;
+}
+
+div.tree li > span.toggle {
+	display: inline-block; *zoom: 1;
+	height: 16px;
+	width: 16px;
+	cursor: pointer;
+	background: url('/image/bullet_toggle_plus.png');
+}
+
+div.tree li.expanded > span.toggle {
+	background: url('/image/bullet_toggle_minus.png');
+}
+
+div.tree li.dead > span.toggle {
+	background: none;
+}
+
