@@ -59,7 +59,7 @@ yalp.controls = function (controls, $, services) {
 				onCancel, onOk;
 		
 		// initial service call for root dirs
-		services.getdirs('home,media', function (json) {
+		services.getdirs(null, function (json) {
 			// initial tree contents
 			tree
 				.build(json.data)
