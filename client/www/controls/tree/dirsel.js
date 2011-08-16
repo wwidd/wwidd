@@ -21,6 +21,10 @@ yalp.controls = function (controls, $, services) {
 	// directory selection handler
 	// dummy function, unused
 	function onSelect($node, node) {
+		var $dirsel = $node.closest('div.popup');
+		$dirsel
+			.find('button.ok')
+				.removeAttr('disabled');
 	}
 	
 	// directory expand / collapse handler
@@ -49,15 +53,66 @@ yalp.controls = function (controls, $, services) {
 	}
 
 	controls.dirsel = function () {		
-		var self = Object.create(controls.tree(onSelect, onExpandCollapse));
+		var self = Object.create(controls.popup('centered')),
+				base_init = self.init,
+				tree = controls.tree(onSelect, onExpandCollapse),
+				onCancel, onOk;
 		
 		// initial service call for root dirs
 		services.getdirs('home,media', function (json) {
-			self
+			// initial tree contents
+			tree
 				.build(json.data)
+				.appendTo(self);
+				
+			// re-rendering full control
+			self
 				.render();
 		});
 
+		//////////////////////////////
+		// Setters / getters
+
+		self.onCancel = function (value) {
+			onCancel = value;
+			return self;
+		};
+		
+		self.onOk = function (value) {
+			onOk = value;
+			return self;
+		};
+		
+		self.selected = function () {
+			return '/' + tree.selected().join('/');
+		};
+		
+		//////////////////////////////
+		// Overrides
+
+		self.init = function (elem) {
+			base_init.call(self, elem);
+			elem
+				.find('table.status')
+					.insertAfter(elem.find('ul.root'));
+			elem
+				.find('button.cancel')
+					.click(onCancel)
+				.end()
+				.find('button.ok')
+					.click(onOk)
+				.end();
+		};
+		
+		self.contents = function () {
+			return [
+				'<span class="title">', "Add folder to library", '</span>',
+				tree.html(),
+				'<button type="button" class="ok" disabled="disabled">', "OK", '</button>',
+				'<button type="button" class="cancel">', "Cancel", '</button>'
+			].join('');
+		};
+		
 		return self;
 	};
 	

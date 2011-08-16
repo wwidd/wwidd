@@ -35,3 +35,23 @@ div.popup > table.keywords td.key {
 	font-weight: bold;
 }
 
+/******************************
+DIRECTORY SELECTOR POPUP
+******************************/
+
+div.popup > span.title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.popup > table.status {
+	margin: 5px 0 0;
+}
+
+div.popup > div.tree > ul.root {
+	height: 200px;
+	margin: 5px 0;
+	background: white;
+	overflow-y: scroll;
+}
+

@@ -6,33 +6,35 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $, services) {
 	controls.rootadd = function () {
-		var self = Object.create(controls.control());
+		var self = Object.create(controls.control()),
+				dirsel;
 
 		//////////////////////////////
-		// Initialization
+		// Events
 
-		// called when a directory or file is selected
-		function onDirTyped() {
-			var $input = $(this),
-					$button = $input.siblings('button');
-			if ($input.val().length) {
-				$button.removeAttr('disabled');
-			} else {
-				$button.attr('disabled', 'disabled');
-			}
-		}
-		
 		// called on clicking the add button
 		function onAdd() {
-			var $button = $(this),
-					$input = $button.siblings('input');
+			var $button = $(this);
 			$button.attr('disabled', 'disabled');
-			services.addroot($input.val(), function () {
-				controls.library.load();
-				alert("Folder successfully added to library.");
-				$input.val(null);
+
+			function close() {
+				dirsel
+					.remove()
+					.render();
 				$button.removeAttr('disabled');
-			});
+			}
+
+			dirsel = controls.dirsel();
+			dirsel
+				.onCancel(close)
+				.onOk(function () {
+					services.addroot(dirsel.selected(), function () {
+						close();
+						controls.library.load();
+						alert("Folder successfully added to library.");
+					});
+				})
+				.render($('body'));
 		}
 
 		//////////////////////////////
@@ -40,21 +42,14 @@ yalp.controls = function (controls, $, services) {
 
 		self.init = function (elem) {
 			elem
-				.find('input')
-					.change(onDirTyped)
-					.keyup(onDirTyped)
-				.end()
 				.find('button')
-					.click(onAdd)
-				.end();
+					.click(onAdd);
 		};
 		
 		self.html = function () {
 			return [
 				'<div id="', self.id, '">',
-				'<span>', "Add folder to library:", '</span>',
-				'<input type="text">',
-				'<button type="button" disabled="disabled">', "Add", '</button>',
+				'<button type="button">', "Add folder to library", '</button>',
 				'</div>'
 			].join('');
 		};
