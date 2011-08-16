@@ -113,6 +113,16 @@ yalp.services = function ($) {
 		// deletes tag(s)
 		deltag: function (mediaid, tag, filter, mediaids, handler) {
 			unary('deltag', mediaid, tag, filter, mediaids, handler);
+		},
+		
+		// gets directory tree for given root path(s)
+		// - root: unix absolute path(s separadted by commas) without leading slash
+		getdirs: function (root, handler) {
+			var data = {};
+			if (root) {
+				data.root = root;
+			}
+			callService('getdirs', data, handler);
 		}
 	};
 }(jQuery);

@@ -8,16 +8,10 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {
 	controls.tree = function (onSelect, onExpandCollapse) {
-		var self = Object.create(controls.control()),
-				rootNode;
+		var self = controls.control.create(),
+				rootNode,
+				selected = [];
 		
-		//////////////////////////////
-		// External
-		
-		self.data.selected = [];
-		self.data.onSelect = onSelect || function ($node, node) {};
-		self.data.onExpandCollapse = onExpandCollapse || function ($node, node) {};		
-				
 		//////////////////////////////
 		// Setters / getters
 		
@@ -28,6 +22,21 @@ yalp.controls = function (controls, $) {
 			return self;
 		};
 		
+		self.selected = function (value) {
+			if (typeof value !== 'undefined') {
+				selected = value;
+				return self;
+			} else {
+				return selected;
+			}
+		};
+		
+		//////////////////////////////
+		// Custom events
+		
+		self.onSelect = onSelect || function ($node, node) {};
+		self.onExpandCollapse = onExpandCollapse || function ($node, node) {};		
+
 		//////////////////////////////
 		// Overrides
 

@@ -8,20 +8,25 @@ yalp.controls = function (controls, $) {
 	controls.node = function (text, tree, path) {
 		path = path || [];
 		
-		var self = Object.create(controls.control()),
+		var self = controls.control.create(),
 				json,
 				expanded = false;
-		
+				
 		//////////////////////////////
-		// External
+		// Getters, setters
 		
 		// returns path to current node
-		self.data.path = function () {
+		self.path = function () {
 			return path;
+		};
+
+		// returns expanded state		
+		self.expanded = function () {
+			return expanded;
 		};
 		
 		// sets json
-		self.data.json = function (value) {
+		self.json = function (value) {
 			if (typeof value !== 'undefined') {
 				json = value;
 				return self;
@@ -30,18 +35,16 @@ yalp.controls = function (controls, $) {
 			}
 		};
 		
+		//////////////////////////////
+		// Control
+		
 		// toggles expanded / collapsed state
-		self.data.toggle = function () {
+		self.toggle = function () {
 			expanded = !expanded;
 			return self
 				.clear()
 				.render();
 		};
-		
-		//////////////////////////////
-		// Getters, setters
-		
-		self.json = self.data.json;
 		
 		//////////////////////////////
 		// Overrides
@@ -63,7 +66,7 @@ yalp.controls = function (controls, $) {
 
 		// returns whether the current node is selected
 		function selected() {
-			return tree.data.selected.join('/') === path.join('/');
+			return tree.selected().join('/') === path.join('/');
 		}
 		
 		self.html = function () {
@@ -102,10 +105,10 @@ yalp.controls = function (controls, $) {
 				tree = controls.lookup[$tree.attr('id')];
 		
 		// toggling expanded state of current node
-		$node = node.data.toggle();
+		$node = node.toggle();
 		
 		// calling tree's handler on expand / collapse event
-		tree.data.onExpandCollapse($node, node);
+		tree.onExpandCollapse($node, node);
 		
 		return false;
 	}
@@ -121,7 +124,7 @@ yalp.controls = function (controls, $) {
 		// setting selected status on current node
 		$tree
 			.find('span.selected')
-				.text('/' + node.data.path().join('/'))
+				.text('/' + node.path().join('/'))
 			.end()
 			.find('li')
 				.removeClass('selected')
@@ -129,8 +132,8 @@ yalp.controls = function (controls, $) {
 		$node.addClass('selected');
 		
 		// storing selected path and calling tree's handler
-		tree.data.selected = node.data.path();
-		tree.data.onSelect($node, node);
+		tree.selected(node.path());
+		tree.onSelect($node, node);
 
 		return false;
 	}
