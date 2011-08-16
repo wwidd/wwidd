@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // General Popup Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, window */
 var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {
@@ -10,25 +10,22 @@ yalp.controls = function (controls, $) {
 		'follow': 'follow'
 	};
 	
-	controls.popup = function () {
-		var self = Object.create(controls.control()),
-				type = 'follow',
-				base_remove = self.remove;
+	controls.popup = function (type) {
+		type = type || 'follow';
+		
+		var self = Object.create(controls.control());
 		
 		//////////////////////////////
 		// Event handlers
 
 		function onMouseMove(event, elem) {
-			elem.css({top: event.pageY + 5, left: event.pageX + 5});			
+			elem.css({top: event.pageY + 5, left: event.pageX + 5});
 		}
 		
-		//////////////////////////////
-		// Setters
-		
-		// sets position type
-		self.type = function (value) {
-			type = TYPES[value] || 'follow'; 
-		};
+		function onResize(elem) {
+			var $window = $(window);
+			elem.css({top: ($window.height() - elem.height()) / 2, left: ($window.width() - elem.width()) / 2});
+		}
 		
 		//////////////////////////////
 		// Overrides
@@ -37,8 +34,12 @@ yalp.controls = function (controls, $) {
 		self.contents = null;
 		
 		self.init = function (elem) {
-			switch (type || 'follow') {
+			switch (type) {
 			case 'centered':
+				onResize(elem);
+				$(window).bind('resize', function (event) {
+					onResize(elem);
+				});
 				break;
 			default:
 			case 'follow':
@@ -51,7 +52,7 @@ yalp.controls = function (controls, $) {
 
 		self.html = function () {
 			return [
-				'<div id="', self.id, '" class="popup">',
+				'<div id="', self.id, '" class="', ['popup', TYPES[type] || 'follow'].join(' '), '">',
 				this.contents(),
 				'</div>'
 			].join('');

@@ -15,6 +15,14 @@ div.popup {
 }
 
 /******************************
+CENTERED POPUP
+******************************/
+
+div.popup.centered {
+	box-shadow: 0 0 10px #aaa; -moz-box-shadow: 0 0 10px #aaa;
+}
+
+/******************************
 KEYWORDS POPUP
 ******************************/
 
