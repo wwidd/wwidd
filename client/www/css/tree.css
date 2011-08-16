@@ -9,12 +9,27 @@ GENERAL
 ******************************/
 
 div.tree {
-	background: white;
+	text-align: left;
 }
 
-div.tree > span.selected {
-	margin: 0 0 0 5px;
-	font-weight: bold;
+div.tree > table.status {
+	width: 100%;
+	margin: 0 auto;
+	border-collapse: separate;
+}
+
+div.tree > table.status col.key {
+	width: auto;
+}
+
+div.tree > table.status col.value {
+	width: 100%;
+}
+
+div.tree > table.status span.selected {
+	display: inline-block;
+	width: 100%;
+	background: white;
 }
 
 div.tree ul {
@@ -23,7 +38,7 @@ div.tree ul {
 	list-style: none;
 }
 
-div.tree > ul {
+div.tree > ul.root {
 	padding: 0;
 }
 
