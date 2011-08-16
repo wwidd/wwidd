@@ -125,6 +125,13 @@ yalp.controls = function (controls, $) {
 		return self;
 	};
 
+	// creates a new control
+	controls.control.create = function () {
+		var self = Object.create(controls.control());
+		controls.lookup[self.id] = self;
+		return self;
+	};
+	
 	return controls;
 }(yalp.controls || {},
 	jQuery);
