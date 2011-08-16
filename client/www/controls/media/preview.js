@@ -26,7 +26,7 @@ yalp.controls = function (controls, $) {
 		//////////////////////////////
 		// Overrides
 		
-		self.contents = function (elem) {
+		self.contents = function () {
 			return [
 				function () {
 					if (hash.length) {
