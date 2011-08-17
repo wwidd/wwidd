@@ -9,6 +9,8 @@ var	$path = require('path'),
 		db = require('../db/db').db,
 		entity = require('../db/library').library,
 		tag = require('../db/tag').tag,
+		tool = require('../tools/tool').tool,
+		cygpath = require('../tools/cygpath').cygpath,
 		sqlite = require('../tools/sqlite').sqlite,
 		walker = require('../utils/walker').walker,
 
@@ -63,7 +65,13 @@ library = function () {
 		
 		// adds a root path to the library
 		addRoot: function (path, handler) {
-			root(path).add(handler);
+			if (tool.os === 'cygwin') {
+				cygpath.exec(path, function (wpath) {
+					root(wpath).add(handler);
+				});
+			} else {
+				root(path).add(handler);
+			}
 			return self;
 		},
 		

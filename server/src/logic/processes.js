@@ -11,10 +11,10 @@ var	chain = require('../utils/chain').chain,
 processes = {
 	// callback expects a path where the root part
 	// and relative part are separated by colon
-	// - path: e.g. "/media/HDD:/videos"
+	// - path: e.g. '/media/HDD|/videos'
 	// - finish: callback for each element in process chain 
 	extractor: chain(function (path, finish) {
-		var tmp = path.split(':'),
+		var tmp = path.split('|'),
 				root = tmp[0],
 				relative = tmp[1];
 

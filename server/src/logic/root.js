@@ -28,7 +28,7 @@ root = function (path) {
 				// called on each file
 				function (filePath) {
 					// adding full video path to extractor process
-					processes.extractor.add(path + ':' + filePath);
+					processes.extractor.add(path + '|' + filePath);
 					// increasing counter
 					if (!metadata.hasOwnProperty(filePath)) {
 						// only unique keys (filePath) count
