@@ -8,8 +8,8 @@ vlc = function () {
 	// inheriting from tool
 	var self = Object.create(tool, {executable: {value: 'vlc'}});
 			
-	self.exec = function (path, args, handler) {
-		tool.exec.call(self, args.concat([path]), handler);
+	self.exec = function (path, handler) {
+		tool.exec.call(self, ['-vvv', path], handler);
 		return self;
 	};
 	

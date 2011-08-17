@@ -23,7 +23,7 @@ media = function (mediaid) {
 				// starting playback
 				var path = data[0].root + data[0].path;
 				console.log("MEDIA - starting playback of file: " + path);
-				vlc.exec('vlc', ['-vvv', path], function (path) {
+				vlc.exec(path, function (path) {
 					console.log("MEDIA - playback finished or interrupted");
 				});
 				// not waiting for playback to finish
