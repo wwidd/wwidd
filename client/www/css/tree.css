@@ -29,6 +29,7 @@ div.tree > table.status col.value {
 div.tree > table.status span.selected {
 	display: inline-block;
 	width: 100%;
+	font-weight: bold;
 	background: white;
 }
 

@@ -119,12 +119,14 @@ yalp.controls = function (controls, $) {
 		var	$node = $(this).parent(),
 				node = controls.lookup[$node.attr('id')],
 				$tree = $node.closest('div.tree'),
-				tree = controls.lookup[$tree.attr('id')];
-		
+				tree = controls.lookup[$tree.attr('id')],
+				path = '/' + node.path().join('/');
+
 		// setting selected status on current node
 		$tree
 			.find('span.selected')
-				.text('/' + node.path().join('/'))
+				.text(path)
+				.attr('title', path)
 			.end()
 			.find('li')
 				.removeClass('selected')
