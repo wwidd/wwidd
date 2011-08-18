@@ -40,6 +40,15 @@ div.popup > table.keywords td.key {
 DIRECTORY SELECTOR POPUP
 ******************************/
 
+div.popup > div.spinner {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	width: 16px;
+	height: 16px;
+	background: url('/image/spinner16.gif');
+}
+
 div.popup > span.title {
 	font-size: 14px;
 	font-weight: bold;

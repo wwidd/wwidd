@@ -19,7 +19,6 @@ yalp.controls = function (controls, $, services) {
 	}				
 
 	// directory selection handler
-	// dummy function, unused
 	function onSelect($node, node) {
 		var $dirsel = $node.closest('div.popup');
 		$dirsel
@@ -31,11 +30,17 @@ yalp.controls = function (controls, $, services) {
 	// loads child directories on demand
 	function onExpandCollapse($node, node) {
 		var expanded = node.expanded(),
-				empty = !hasOwnProperties(node.json());
+				empty = !hasOwnProperties(node.json()),
+				$spinner;
 	
 		// acquiring sub-nodes when expanding an empty node
 		if (expanded && empty) {
+			$spinner = $node
+				.closest('div.popup')
+					.find('div.spinner')
+						.show();
 			services.getdirs(node.path().join('/'), function (json) {
+				$spinner.hide();
 				empty = !hasOwnProperties(json.data);
 				if (empty) {
 					// no subdirs, removing expand button
@@ -67,7 +72,9 @@ yalp.controls = function (controls, $, services) {
 				
 			// re-rendering full control
 			self
-				.render();
+				.render()
+				.find('div.spinner')
+					.hide();
 		});
 
 		//////////////////////////////
@@ -106,6 +113,7 @@ yalp.controls = function (controls, $, services) {
 		
 		self.contents = function () {
 			return [
+				'<div class="spinner"></div>',
 				'<span class="title">', "Add folder to library", '</span>',
 				tree.html(),
 				'<button type="button" class="ok" disabled="disabled">', "OK", '</button>',
