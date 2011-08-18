@@ -8,8 +8,7 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $, services) {
 	controls.switcher = function () {
-		var base = controls.control(),
-				self = Object.create(base),
+		var self = controls.control.create(),
 				data = {names: []};
 
 		self.selected = '';

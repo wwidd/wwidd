@@ -6,7 +6,7 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {
 	controls.checker = function () {
-		var self = Object.create(controls.control());
+		var self = controls.control.create();
 				
 		//////////////////////////////
 		// Overrides

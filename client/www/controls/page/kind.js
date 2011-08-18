@@ -8,7 +8,7 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {
 	controls.kind = function (kind, handler) {
-		var self = Object.create(controls.control()),
+		var self = controls.control.create(),
 				count = data.tags.table.index('kind').count(kind);	// no. of tags associated w/ kind
 		
 		self.data.kind = kind;

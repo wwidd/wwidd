@@ -8,7 +8,7 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $, services) {
 	controls.tagger = function (row) {
-		var	self = Object.create(controls.control()),
+		var	self = controls.control.create(),
 				adder;
 		
 		self.data.row = row;

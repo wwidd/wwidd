@@ -8,7 +8,7 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $, data) {
 	controls.pager = function () {
-		var self = Object.create(controls.control());
+		var self = controls.control.create();
 
 		// members
 		self.page = 0;

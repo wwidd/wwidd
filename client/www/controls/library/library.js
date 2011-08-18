@@ -6,7 +6,7 @@ var yalp = yalp || {};
 
 yalp.controls = (function (controls, $, data) {
 	controls.library = function () {
-		var self = Object.create(controls.control()),
+		var self = controls.control.create(),
 				onInit = function () {};
 				
 		self.selected = {};

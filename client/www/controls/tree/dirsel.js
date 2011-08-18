@@ -53,7 +53,7 @@ yalp.controls = function (controls, $, services) {
 	}
 
 	controls.dirsel = function () {		
-		var self = Object.create(controls.popup('centered')),
+		var self = controls.control.create(controls.popup('centered')),
 				base_init = self.init,
 				tree = controls.tree(onSelect, onExpandCollapse),
 				onCancel, onOk;

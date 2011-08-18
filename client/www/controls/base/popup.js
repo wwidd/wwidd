@@ -13,7 +13,7 @@ yalp.controls = function (controls, $) {
 	controls.popup = function (type) {
 		type = type || 'follow';
 		
-		var self = Object.create(controls.control());
+		var self = controls.control.create();
 		
 		//////////////////////////////
 		// Event handlers

@@ -10,7 +10,7 @@ yalp.controls = function (controls, $, data) {
 	controls.kinds = function () {
 		var	KIND_PREFIX = 'k',
 		
-		self = Object.create(controls.control()),
+		self = controls.control.create(),
 				onChecked = function () {},
 				hidden;
 		

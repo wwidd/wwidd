@@ -6,7 +6,7 @@ var yalp = yalp || {};
 
 yalp.controls = function (controls, $) {
 	controls.preview = function () {
-		var self = Object.create(controls.popup()),
+		var self = controls.control.create(controls.popup()),
 				keywords = [],
 				hash = '';
 		
