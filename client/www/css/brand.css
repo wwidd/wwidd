@@ -9,12 +9,13 @@ GENERAL
 ******************************/
 
 body {
-	background-color: #f4ffd5;
-	background-image: url('/image/logo_horiz_72.png');
+	background-color: #f3f3f3;
+	background-image: url('/image/widd_library_bg.png');
+	background-position: 0 0;
 }
 
 a {
-	color: #8ea911;
+	color: #003e55;
 }
 
 /******************************
@@ -22,8 +23,8 @@ LIBRARY
 ******************************/
 
 #library {
-	border-color: #a5c414;
-	background: #a5c414;
+	border-color: #303030;
+	background: #303030;
 }
 
 /******************************
@@ -33,11 +34,11 @@ CONTROLS
 #kinds,
 #controls,
 #rootadd {
-	background: #e3f29b;
+	background: #c4d2d7;
 }
 
 #controls {
-	border-color: #a5c414;
+	border-color: #303030;
 }
 
 /******************************
@@ -45,11 +46,11 @@ ROOT ADD
 ******************************/
 
 #rootadd {
-	border-color: #a5c414;
+	border-color: #303030;
 }
 
 #rootadd input {
-	border-color: #8ea911;
+	border-color: #003e55;
 }
 
 /******************************
@@ -57,8 +58,12 @@ GENERAL POPUP
 ******************************/
 
 div.popup {
-	border-color: #a5c414;
-	background: #f4ffd5;
+	border-color: #616c71;
+	background: #f3f3f3;
+}
+
+div.popup > div.tree li > span.name {
+	color: #444;
 }
 
 /******************************
@@ -66,7 +71,7 @@ SEARCH
 ******************************/
 
 span.search > input {
-	border-color: #8ea911;
+	border-color: #003e55;
 }
 
 /******************************
@@ -75,11 +80,11 @@ MEDIA ENTRY
 
 tr.media {
  background: #f8f8f8;
- border-color: #e3f29b;
+ border-color: #c4d2d7;
 }
 
 tr.media.playing {
- background: #e9f3b7;
+ background: #e2f3f9;
 }
 
 tr.media > td.file a {
