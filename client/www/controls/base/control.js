@@ -126,8 +126,8 @@ yalp.controls = function (controls, $) {
 	};
 
 	// creates a new control
-	controls.control.create = function () {
-		var self = Object.create(controls.control());
+	controls.control.create = function (base) {
+		var self = Object.create(base || controls.control());
 		controls.lookup[self.id] = self;
 		return self;
 	};
