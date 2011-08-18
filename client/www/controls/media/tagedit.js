@@ -10,8 +10,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
 	// - tag: tag string "name:kind"
 	controls.tagedit = function (row, tag) {
-		var	base = controls.tag(row),
-				self = Object.create(base),
+		var	self = controls.control.create(controls.tag(row)),
 				tmp = tag.split(':'),
 				name = tmp[0] || '',
 				kind = tmp[1] || '';
@@ -49,16 +48,15 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	//////////////////////////////
 	// Static event handlers
 
-	function getData(elem) {
-		return controls.lookup[elem.closest('.tag').attr('id')].data;
+	function getSelf(elem) {
+		return controls.lookup[elem.closest('.tag').attr('id')];
 	}
 
 	// general button handler
 	function onButton(event, service, lang, handler) {
-		var tmp = getData($(this)),
-				self = tmp.that,
-				row = tmp.row,
-				tag = tmp.tag,
+		var self = getSelf($(this)),
+				row = self.data.row,
+				tag = self.data.tag,
 				filter = controls.search.filter;
 		
 		if (event.shiftKey) {
@@ -112,10 +110,9 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	// tag change event handler
 	function onChange(event) {
 		var $this = $(this),
-				tmp = getData($this),
-				self = tmp.that,
-				row = tmp.row,
-				tag = tmp.tag,
+				self = getSelf($this),
+				row = self.data.row,
+				tag = self.data.tag,
 				before = tag,
 				after = data.tag($this.val()).sanitize();
 		

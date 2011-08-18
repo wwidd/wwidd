@@ -16,7 +16,7 @@ yalp.controls = function (controls, $) {
 	onClickOutside;
 	
 	controls.editable = function () {
-		var self = Object.create(controls.control());
+		var self = controls.control.create();
 		
 		// mode can be either 'display' or 'edit'
 		self.mode = 'display';
@@ -54,9 +54,6 @@ yalp.controls = function (controls, $) {
 		};
 				
 		self.html = function () {
-			// storing descendant  instance
-			self.data.that = this;
-			
 			// generating html according to mode
 			if (this.mode === 'edit') {
 				return this.edit();
@@ -87,7 +84,7 @@ yalp.controls = function (controls, $) {
 	
 	onClick = function () {
 		// switching display w/ edit
-		var self = controls.lookup[$(this).attr('id')].data.that,
+		var self = controls.lookup[$(this).attr('id')],
 				elem = self.toggle('edit');
 		
 		// emulating a 'click outside' event

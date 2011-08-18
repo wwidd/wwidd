@@ -14,7 +14,7 @@ yalp.controls = function (controls, $, services, data) {
 	onChecked;
 	
 	controls.media = function (row) {
-		var self = Object.create(controls.control()),
+		var self = controls.control.create(),
 		
 		// sub-controls
 		rater,
@@ -50,8 +50,6 @@ yalp.controls = function (controls, $, services, data) {
 		}
 		
 		self.html = function () {
-			self.data.that = this;
-			
 			build();
 			
 			return [
@@ -80,7 +78,7 @@ yalp.controls = function (controls, $, services, data) {
 	
 	onEnter = function (event) {
 		var media = $(this).closest('.media'),
-				self = controls.lookup[media.attr('id')].data.that;
+				self = controls.lookup[media.attr('id')];
 		if (self.data.row.keywords.length || self.data.row.hash.length) {
 			controls.preview
 				.keywords(self.data.row.keywords)
@@ -97,7 +95,7 @@ yalp.controls = function (controls, $, services, data) {
 	
 	onClick = function () {
 		var media = $(this).closest('.media'),
-				self = controls.lookup[media.attr('id')].data.that;
+				self = controls.lookup[media.attr('id')];
 		self.play(media);
 		return false;
 	};
@@ -105,7 +103,7 @@ yalp.controls = function (controls, $, services, data) {
 	onChecked = function () {
 		var $this = $(this),
 				media = $this.closest('.media'),
-				self = controls.lookup[media.attr('id')].data.that;
+				self = controls.lookup[media.attr('id')];
 		if ($this.is(':checked')) {
 			controls.library.selected[self.data.row.mediaid] = true;
 		} else {

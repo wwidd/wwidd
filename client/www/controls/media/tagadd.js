@@ -9,8 +9,7 @@ var yalp = yalp || {};
 yalp.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
 	controls.tagadd = function (row) {
-		var	base = controls.tag(row),
-				self = Object.create(base);
+		var	self = controls.control.create(controls.tag(row));
 
 		self.data.row = row;	
 
@@ -41,11 +40,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	// Static event handlers
 
 	function getSelf(elem) {
-		return controls.lookup[elem.closest('.tag').attr('id')].data.that;
-	}
-	
-	function getRow(elem) {
-		return controls.lookup[elem.closest('.tag').attr('id')].data.row;
+		return controls.lookup[elem.closest('.tag').attr('id')];
 	}
 	
 	// tag addition handler: do nothing
@@ -59,7 +54,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	function onChange(event) {
 		var $this = $(this),
 				self = getSelf($this),
-				row = getRow($this),
+				row = self.data.row,
 				term = $this.val(),
 				match = !term.length ? "" :
 					term +

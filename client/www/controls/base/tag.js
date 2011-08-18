@@ -8,7 +8,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
 	// - handler: callback redrawing parent
 	controls.tag = function (row) {
-		var	self = Object.create(controls.editable()),
+		var	self = controls.control.create(controls.editable()),
 				lookup = jOrder.join(row.tags, []),
 				media_table = data.media.table,
 				index_tags = media_table.index('tags'),
@@ -93,8 +93,8 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	//////////////////////////////
 	// Common static event handlers
 
-	function getData(elem) {
-		return controls.lookup[elem.closest('.tag').attr('id')].data;
+	function getSelf(elem) {
+		return controls.lookup[elem.closest('.tag').attr('id')];
 	}
 
 	// handles navigation events
@@ -106,13 +106,13 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 			// tab - jump to next tag
 			$next = event.shiftKey ? $this.closest('.tag').prev() : $this.closest('.tag').next();
 			if ($next.length) {
-				getData($this).that.toggle('display');
-				getData($next).that.toggle('edit');
+				getSelf($this).toggle('display');
+				getSelf($next).toggle('edit');
 			}
 			return false;
 		case 27:
 			// escape - cancel
-			getData($this).that.toggle('display');
+			getSelf($this).toggle('display');
 			return false;
 		}
 	}
