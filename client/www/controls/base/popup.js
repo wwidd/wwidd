@@ -13,13 +13,19 @@ yalp.controls = function (controls, $) {
 	controls.popup = function (type) {
 		type = type || 'follow';
 		
-		var self = controls.control.create();
-		
+		var self = controls.control.create(),
+				$window = $(window);
+				
 		//////////////////////////////
 		// Event handlers
 
-		function onMouseMove(event, elem) {
-			elem.css({top: event.pageY + 5, left: event.pageX + 5});
+		// mouse move event handler
+		// - dims: dimensions of elem(Height / Width) and window(Height / Width)
+		function onMouseMove(event, elem, dims) {
+			elem.css({
+				top: dims.windowHeight > event.pageY + dims.elemHeight ? event.pageY : event.pageY - dims.elemHeight,
+				left: dims.windowWidth > event.pageX + dims.elemWidth ? event.pageX : event.pageX - dims.elemWidth
+			});
 		}
 		
 		function onResize(elem) {
@@ -34,6 +40,8 @@ yalp.controls = function (controls, $) {
 		self.contents = null;
 		
 		self.init = function (elem) {
+			var elemHeight, elemWidth,
+					windowHeight, windowWidth;
 			switch (type) {
 			case 'centered':
 				onResize(elem);
@@ -43,8 +51,17 @@ yalp.controls = function (controls, $) {
 				break;
 			default:
 			case 'follow':
+				elemHeight = elem.outerHeight(true);
+				elemWidth = elem.outerWidth(true);
+				windowHeight = $window.height();
+				windowWidth = $window.width();
 				$('body').bind('mousemove', function (event) {
-					onMouseMove(event, elem);
+					onMouseMove(event, elem, {
+						elemHeight: elemHeight,
+						elemWidth: elemWidth,
+						windowHeight: windowHeight,
+						windowWidth: windowWidth
+					});
 				});
 				break;
 			}
