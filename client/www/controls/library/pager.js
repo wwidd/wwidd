@@ -87,8 +87,14 @@ yalp.controls = function (controls, $, data) {
 		};
 		
 		self.html = function () {
-			// re-setting page in case pager is out of bounds
 			self.max = data.media.getPages(self.items);
+
+			// returning empty control on no data
+			if (self.max <= 1) {
+				return '<span id="' + self.id + '"></span>';
+			}
+			
+			// re-setting page in case pager is out of bounds
 			if (self.page > self.max) {
 				self.page = 0;
 			}
