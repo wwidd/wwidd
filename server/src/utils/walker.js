@@ -33,7 +33,7 @@ walker = function (dirHandler, fileHandler, options) {
 			console.log("WALKER - walking path: " + root + (hasMaxDepth ?  ", max depth: " + maxDepth : ""));
 			
 			(function walk(relative, depth) {
-				if (fileCount++ % 16 === 0) {
+				if (++fileCount % 16 === 0) {
 					process.stdout.write(".");
 				}
 
