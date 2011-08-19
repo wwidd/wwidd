@@ -51,14 +51,26 @@ yalp.controls = function (controls, $) {
 
 		// builds the node with subnodes as specified by json
 		function build() {
-			var node;
+			var node, keys, i;
 			if (json && expanded) {
+				// obtaining sorted array of node names
+				keys = [];
 				for (node in json) {
 					if (json.hasOwnProperty(node)) {
-						controls.node(node, tree, path.concat([node]))
-							.json(json[node])
-							.appendTo(self);
+						keys.push(node);
 					}
+				}
+				keys.sort(function (a, b) {
+					a = a.toLowerCase();
+					b = b.toLowerCase();
+					return a > b ? 1 : a < b ? -1 : 0; 
+				});
+				// adding child controls according to node names
+				for (i = 0; i < keys.length; i++) {
+					node = keys[i];
+					controls.node(node, tree, path.concat([node]))
+						.json(json[node])
+						.appendTo(self);
 				}
 			}
 			return self;
