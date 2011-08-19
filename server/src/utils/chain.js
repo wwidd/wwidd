@@ -9,12 +9,11 @@ var
 
 // - handler: function to call on each element
 chain = function (handler) {
-	var stopped = false,	// whether processing is stopped
-
-	// first element of the chain	
-	first = null,
-	lookup = {},
-	length = 0,
+	var stopped = true,		// whether processing is stopped
+			first = null,			// pointer to first element in the chain
+			lookup = {},			// lookup table value -> chain link
+			length = 0,				// number of remaining links in chain
+			total = 0,				// nulber of links in chain on starting process
 	
 	// applies a handler to one or more elements in reverse order
 	batched = function (batch, handler) {
@@ -30,8 +29,8 @@ chain = function (handler) {
 	},
 	
 	// event handlers
-	onFinished = function (result) {},	// runs when process finished
-	onProgress = function (retval) {},	// runs after preocessing each link
+	onFinished,			// runs when process finished
+	onProgress,			// runs after processing each link
 
 	self = {
 		// adds an element to start of chain
@@ -140,16 +139,19 @@ chain = function (handler) {
 		//   if so, handler must call 'finish(retval)' when finished
 		start: function (async) {
 			stopped = false;
+			total = length;
 			var result = [],
 					next;
 			
 			// prodcesses return value of self.next() (continuation function)
 			function finish(retval) {
 				result.push(retval);
-				onProgress(retval);
+				if (onProgress) {
+					onProgress(retval);
+				}
 				if (first !== null && !stopped) {
 					next();
-				} else {
+				} else if (onFinished) {
 					onFinished(result);
 				}
 			}
@@ -172,6 +174,7 @@ chain = function (handler) {
 		// stops processing chain
 		stop: function () {
 			stopped = true;
+			total = 0;
 			
 			return self;
 		},
@@ -204,6 +207,22 @@ chain = function (handler) {
 		// retrieves current chain length
 		length: function () {
 			return length;
+		},
+		
+		// retrieves chain length at start
+		total: function () {
+			return total;
+		},
+		
+		// returns progress of processing chain
+		// returns float between 0 and 1
+		// returns -1 when process is stopped
+		progress: function () {
+			if (stopped) {
+				return -1;
+			} else {
+				return length / total;
+			}
 		},
 		
 		//////////////////////////////
