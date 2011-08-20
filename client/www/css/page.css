@@ -104,16 +104,18 @@ ROOT ADD
 	border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px;
 }
 
-#rootadd input,
-#rootadd span,
-#rootadd button {
+#rootadd table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#rootadd table td.progress {
+	width: 100%;
+}
+
+#rootadd table td.button button {
 	margin: 0 5px 0 0;
+	white-space: nowrap;
 	vertical-align: middle;
 }
-
-#rootadd input {
-	border: 1px solid;
-	border-radius: 3px; -moz-border-radius: 3px;	
-}
-
 

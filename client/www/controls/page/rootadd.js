@@ -7,8 +7,11 @@ var yalp = yalp || {};
 yalp.controls = function (controls, $, services) {
 	controls.rootadd = function () {
 		var self = controls.control.create(),
+				progress = controls.progress(),
 				dirsel;
 
+		progress.appendTo(self);
+				
 		//////////////////////////////
 		// Events
 
@@ -17,21 +20,33 @@ yalp.controls = function (controls, $, services) {
 			var $button = $(this);
 			$button.attr('disabled', 'disabled');
 
-			function close() {
-				dirsel
-					.remove()
-					.render();
-				$button.removeAttr('disabled');
+			function poll() {
+				services.poll('extractor', function (value) {
+					progress
+						.progress(value)
+						.render();
+					if (value === -1) {
+						$button.removeAttr('disabled');
+					}
+				});
 			}
-
+			
 			dirsel = controls.dirsel();
 			dirsel
-				.onCancel(close)
+				.onCancel(function () {
+					dirsel
+						.remove()
+						.render();
+					$button.removeAttr('disabled');
+				})
 				.onOk(function () {
 					services.addroot(dirsel.selected(), function () {
-						close();
+						poll();
+						dirsel
+							.remove()
+							.render();
 						controls.library.load();
-						alert("Folder successfully added to library.");
+						alert("Folder successfully added to library.\nNow importing metadata in background.");
 					});
 				})
 				.render($('body'));
@@ -49,7 +64,14 @@ yalp.controls = function (controls, $, services) {
 		self.html = function () {
 			return [
 				'<div id="', self.id, '">',
-				'<button type="button">', "Add folder to library", '</button>',
+				'<table>',
+				'<tr>',
+				'<td class="button">', '<button type="button">', "Add folder to library", '</button>', '</td>',
+				'<td class="progress">',
+				progress.html(),
+				'</td>',
+				'</tr>',
+				'</table>',
 				'</div>'
 			].join('');
 		};

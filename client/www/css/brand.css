@@ -37,6 +37,10 @@ CONTROLS
 	background: #c4d2d7;
 }
 
+#rootadd div.progress > div.bar {
+	background: #9ab0b7;
+}
+
 #controls {
 	border-color: #303030;
 }
