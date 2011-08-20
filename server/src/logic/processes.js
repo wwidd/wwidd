@@ -52,7 +52,17 @@ processes = {
 				finish({path: relative, keywords: keywords});
 			});
 		});
-	}()
+	}(),
+	
+	// polls process
+	// - name: process name
+	poll: function (name) {
+		// checking for invalid process name
+		if (name === 'poll' || !processes.hasOwnProperty(name)) {
+			return false;
+		}
+		return processes[name].progress();
+	}
 };
 
 exports.processes = processes;

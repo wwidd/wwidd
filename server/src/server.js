@@ -10,6 +10,7 @@ var	$http = require('http'),
 		$fs = require('fs'),
 		tag = require('db/tag').tag,
 		library = require('logic/library').library,
+		processes = require('logic/processes').processes,
 		root = require('logic/root').root,
 		media = require('logic/media').media,
 		envelope = require('utils/envelope').envelope,
@@ -154,6 +155,16 @@ $http.createServer(function (req, res) {
 		// querying directory structure
 		envelope(res, false, function () {
 			return system.tree(query.root ? query.root.split(',') : null);
+		});
+		break;
+	
+	case '/poll':
+		// polling processes
+		envelope(res, false, function () {
+			if (!query.process) {
+				throw "Missing parameters";
+			}
+			return processes.poll(query.process);
 		});
 		break;
 		
