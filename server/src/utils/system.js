@@ -3,12 +3,17 @@
 //
 // System operations
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, exports */
-var	tool = require('tools/tool').tool,
+/*global require, exports, console */
+var	$os = require('os'),
 		walker = require('utils/walker').walker,
 		datastore = require('utils/datastore').datastore,
+
+os = $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
 		
 system = {
+	// os type
+	os: os,
+	
 	// returns a directory tree relative to the specified path
 	// in 3 folders depth
 	// - paths: array of paths to get directory trees for
@@ -22,7 +27,7 @@ system = {
 			paths = {
 				'linux': ['home', 'media'],
 				'cygwin': ['cygdrive']
-			}[tool.os] || ['home'];
+			}[os] || ['home'];
 		}
 		
 		// walker handler
@@ -45,6 +50,8 @@ system = {
 		}
 	}
 };
+
+console.log("SYSTEM - OS type: " + os);
 
 exports.system = system;
 

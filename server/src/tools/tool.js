@@ -3,19 +3,14 @@
 //
 // Base class for command line execution
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, exports, Buffer, console */
-var $os = require('os'),
-		$child_process = require('child_process'),
+/*global require, exports, Buffer */
+var $child_process = require('child_process'),
+		system = require('utils/system').system,
 
-os = $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
-		
 tool = {
-	// os type
-	os: os,
-	
 	// line break string depending on OS
 	// to be used in RegExp objects only!
-	lineBreak: os in {'windows': 'windows', 'cygwin': 'cygwin'} ? '\\r\\n' : '\\n',
+	lineBreak: system.os in {'windows': 'windows', 'cygwin': 'cygwin'} ? '\\r\\n' : '\\n',
 	
 	// name of executable file
 	executable: null,
@@ -85,8 +80,6 @@ tool = {
 		return that;
 	}
 };
-
-console.log("OS - type: " + os);
 
 // exports
 exports.tool = tool;
