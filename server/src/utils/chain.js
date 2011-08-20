@@ -149,10 +149,17 @@ chain = function (handler) {
 				if (onProgress) {
 					onProgress(retval);
 				}
-				if (first !== null && !stopped) {
-					next();
-				} else if (onFinished) {
-					onFinished(result);
+				if (first !== null) {
+					// jumping to next link in chain when processing is not stopped
+					if (!stopped) {
+						next();
+					}
+				} else {
+					// chain underrun, stopping processing
+					self.stop();
+					if (onFinished) {
+						onFinished(result);
+					}
 				}
 			}
 			
@@ -221,7 +228,7 @@ chain = function (handler) {
 			if (stopped) {
 				return -1;
 			} else {
-				return length / total;
+				return (total - length) / total;
 			}
 		},
 		
