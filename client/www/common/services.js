@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Web Services
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, alert */
+/*global jQuery, alert, window */
 var yalp = yalp || {};
 
-yalp.services = function ($) {
+yalp.services = function ($, window) {
 	var url = 'http://127.0.0.1:8124/';
 	
 	// calls the service
@@ -123,6 +123,32 @@ yalp.services = function ($) {
 				data.root = root;
 			}
 			callService('getdirs', data, handler);
+		},
+		
+		// polls a background process
+		// - process: name of process
+		// - handler: handler to call on each poll
+		poll: function (process, handler) {
+			var delay = 1000;		// delay between polls
+			function next() {
+				callService('poll', {
+					process: process
+				}, function (json) {
+					var progress = json.data;
+					
+					// calling handler
+					if (handler) {
+						handler(progress);
+					}
+					
+					// initiating next poll
+					if (progress !== -1 && progress !== false) {
+						window.setTimeout(next, delay);
+					}
+				});
+			}
+			next();
 		}
 	};
-}(jQuery);
+}(jQuery,
+	window);
