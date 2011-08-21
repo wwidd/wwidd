@@ -10,43 +10,78 @@ yalp.controls = function (controls, $, services) {
 				progress = controls.progress(),
 				dirsel;
 
+		//////////////////////////////
+		// Child controls
+		
 		progress.appendTo(self);
 				
+		//////////////////////////////
+		// Utility functions
+		
+		function enable(elem) {
+			elem.removeAttr('disabled');
+		}
+		
+		function disable(elem) {
+			elem.attr('disabled', 'disabled');
+		}
+
 		//////////////////////////////
 		// Events
 
 		// called on clicking the add button
 		function onAdd() {
-			var $button = $(this);
-			$button.attr('disabled', 'disabled');
+			var $button = $(this),
+					$switcher = $('#switcher select');
+					
+			// disabling 'add folder' button
+			// preventing multiple directory selection windows
+			disable($button);
 
+			// polls metadata extraction process
 			function poll() {
+				// polling extraction process
 				services.poll('extractor', function (value) {
+					// updating progress indicator
 					progress
 						.progress(value)
 						.render();
+					// re-enabling disabled controls when polling ends
 					if (value === -1) {
-						$button.removeAttr('disabled');
+						enable($button.add($switcher));
 					}
 				});
 			}
 			
+			// creating directory selection dialog
 			dirsel = controls.dirsel();
 			dirsel
 				.onCancel(function () {
+					// removing dialog on 'cancel'
 					dirsel
 						.remove()
 						.render();
-					$button.removeAttr('disabled');
+						
+					// re-enabling 'add folder' button
+					enable($button);
 				})
 				.onOk(function () {
+					// initiating folder import on 'ok' button
 					services.addroot(dirsel.selected(), function () {
+						// disabling library switcher
+						// changing libraries while import is unsafe
+						disable($switcher);
+				
+						// starting poll process
 						poll();
+						
+						// removing dialog
 						dirsel
 							.remove()
 							.render();
+						
+						// reloading library
 						controls.library.load();
-						alert("Folder successfully added to library.\nNow importing metadata in background.");
 					});
 				})
 				.render($('body'));
