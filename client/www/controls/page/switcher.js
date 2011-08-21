@@ -11,17 +11,26 @@ yalp.controls = function (controls, $, services) {
 		var self = controls.control.create(),
 				busy = false,
 				disabled = false,
+				selected = '',
 				data = {names: []};
-
-		self.selected = '';
 				
 		//////////////////////////////
 		// Initialization
 
 		services.getlibs(function (json) {
 			data = json.data;
-			self.selected = json.data.selected;
-			self.render();
+			selected = json.data.selected;
+			
+			// detecting in-progress processes
+			var processes = json.data.processes,
+					extractor = processes.extractor || -1;
+			
+			if (extractor > 0) {
+				controls.rootadd
+					.poll();
+			} else {
+				self.render();
+			}
 		});
 
 		//////////////////////////////
@@ -36,6 +45,15 @@ yalp.controls = function (controls, $, services) {
 			disabled = value;
 			return self;
 		};
+		
+		self.selected = function (value) {
+			if (typeof value !== 'undefined') {
+				selected = value;
+				return self;
+			} else {
+				return selected;
+			}
+		};
 
 		//////////////////////////////
 		// Event handlers
@@ -45,7 +63,7 @@ yalp.controls = function (controls, $, services) {
 			
 			// changing library
 			services.setlib(library, function () {
-				self.selected = library;
+				selected = library;
 				
 				// resetting controls
 				controls.pager.reset();
@@ -84,7 +102,6 @@ yalp.controls = function (controls, $, services) {
 
 		self.html = function () {
 			var names = data.names,
-					selected = self.selected,
 					i,
 			result = [
 				'<span class="switcher" id="', self.id, '">',
