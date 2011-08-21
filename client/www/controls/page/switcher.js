@@ -10,6 +10,7 @@ yalp.controls = function (controls, $, services) {
 	controls.switcher = function () {
 		var self = controls.control.create(),
 				busy = false,
+				disabled = false,
 				data = {names: []};
 
 		self.selected = '';
@@ -28,6 +29,11 @@ yalp.controls = function (controls, $, services) {
 		
 		self.busy = function (value) {
 			busy = value;
+			return self;
+		};
+		
+		self.disabled = function (value) {
+			disabled = value;
 			return self;
 		};
 
@@ -55,20 +61,20 @@ yalp.controls = function (controls, $, services) {
 
 		self.init = function (elem) {
 			// setting state
-			if (busy) {
-				elem
-					.find('.spinner')
-						.show()
-					.end()
-					.find('select')
-						.attr('disabled', 'disabled');
+			if (busy || disabled) {
+				elem.find('select')
+					.attr('disabled', 'disabled');
 			} else {
-				elem
-					.find('.spinner')
-						.hide()
-					.end()
-					.find('select')
-						.removeAttr('disabled');				
+				elem.find('select')
+					.removeAttr('disabled');				
+			}
+			
+			if (busy) {
+				elem.find('.spinner')
+					.show();
+			} else {
+				elem.find('.spinner')
+					.hide();
 			}
 			
 			// adding events

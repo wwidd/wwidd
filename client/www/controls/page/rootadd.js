@@ -31,8 +31,7 @@ yalp.controls = function (controls, $, services) {
 
 		// called on clicking the add button
 		function onAdd() {
-			var $button = $(this),
-					$switcher = $('#switcher select');
+			var $button = $(this);
 					
 			// disabling 'add folder' button
 			// preventing multiple directory selection windows
@@ -48,7 +47,10 @@ yalp.controls = function (controls, $, services) {
 						.render();
 					// re-enabling disabled controls when polling ends
 					if (value === -1) {
-						enable($button.add($switcher));
+						enable($button);
+						controls.switcher
+							.disabled(false)
+							.render();
 					}
 				});
 			}
@@ -69,8 +71,10 @@ yalp.controls = function (controls, $, services) {
 					// initiating folder import on 'ok' button
 					services.addroot(dirsel.selected(), function () {
 						// disabling library switcher
-						// changing libraries while import is unsafe
-						disable($switcher);
+						// changing libraries while import is in progress is unsafe
+						controls.switcher
+							.disabled(true)
+							.render();
 				
 						// starting poll process
 						poll();
