@@ -26,7 +26,7 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 			
 			return [
 				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
-				'<span>', name, '</span>',
+				'<span>', name.replace(' ', '&nbsp'), '</span>',
 				'</span>'
 			].join('');
 		};
