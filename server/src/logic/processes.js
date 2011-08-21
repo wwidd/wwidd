@@ -57,11 +57,25 @@ processes = {
 	// polls process
 	// - name: process name
 	poll: function (name) {
-		// checking for invalid process name
-		if (name === 'poll' || !processes.hasOwnProperty(name)) {
-			return false;
+		var result,
+				key;
+		if (typeof name !== 'undefined') {
+			// getting progress for one specific process
+			// checking for invalid process name
+			if (name === 'poll' || !processes.hasOwnProperty(name)) {
+				return false;
+			}
+			result = processes[name].progress();
+		} else {
+			// getting progress for all processes
+			result = {};
+			for (key in processes) {
+				if (processes.hasOwnProperty(key) && key !== 'poll') {
+					result[key] = processes[key].progress();
+				}
+			}
 		}
-		return processes[name].progress();
+		return result;
 	}
 };
 

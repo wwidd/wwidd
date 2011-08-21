@@ -9,6 +9,7 @@ var	$path = require('path'),
 		db = require('../db/db').db,
 		entity = require('../db/library').library,
 		tag = require('../db/tag').tag,
+		processes = require('../logic/processes').processes,
 		system = require('../utils/system').system,
 		cygpath = require('../tools/cygpath').cygpath,
 		sqlite = require('../tools/sqlite').sqlite,
@@ -37,7 +38,8 @@ library = function () {
 			}).walkSync(sqlite.path());
 			return {
 				names: names,
-				selected: sqlite.db()
+				selected: sqlite.db(),
+				processes: processes.poll()
 			};
 		},
 		
