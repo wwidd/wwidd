@@ -57,6 +57,7 @@ CONTROLS
 
 #checker a {
 	margin: 0 10px 0 0;
+	vertical-align: middle;
 	text-decoration: none;
 }
 
@@ -64,8 +65,16 @@ CONTROLS
 LIBRARY SWITCHER
 ******************************/
 
-#switcher > span > span {
+#switcher > span > span,
+#switcher > span > select {
 	margin: 0 5px 0 0;
+	vertical-align: middle;
+}
+
+#switcher span.spinner {
+	display: inline-block; *zoom: 1;
+	height: 16px;
+	width: 16px;
 }
 
 /******************************

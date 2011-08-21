@@ -7,7 +7,7 @@ var yalp = yalp || {};
 yalp.controls = (function (controls, $, data) {
 	controls.library = function () {
 		var self = controls.control.create(),
-				onInit = function () {};
+				onInit;
 				
 		self.selected = {};
 		
@@ -55,18 +55,28 @@ yalp.controls = (function (controls, $, data) {
 		self.load = function () {
 			var $document = $(document),
 					title = $document.attr('title').split(' - ')[0];
+
+			// indicating busy state
+			controls.switcher
+				.busy(true)
+				.render();
+					
 			data.media.init(controls.search.filter, function () {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + controls.switcher.selected);
+				
 				// resetting preview popup box
 				controls.preview
 					.remove()
 					.render();
+				
 				// initializing tag data buffer
-				data.tags.init(function () {
-					// external event handler
-					onInit();
-				});
+				data.tags.init(onInit);
+
+				// removing busy state
+				controls.switcher
+					.busy(false)
+					.render();
 			});
 			return self;
 		};

@@ -9,6 +9,7 @@ var yalp = yalp || {};
 yalp.controls = function (controls, $, services) {
 	controls.switcher = function () {
 		var self = controls.control.create(),
+				busy = false,
 				data = {names: []};
 
 		self.selected = '';
@@ -23,14 +24,28 @@ yalp.controls = function (controls, $, services) {
 		});
 
 		//////////////////////////////
+		// Getters, setters
+		
+		self.busy = function (value) {
+			busy = value;
+			return self;
+		};
+
+		//////////////////////////////
 		// Event handlers
 
 		function onChange() {
 			var library = $(this).val();
+			
+			// changing library
 			services.setlib(library, function () {
 				self.selected = library;
+				
+				// resetting controls
 				controls.pager.reset();
 				controls.search.reset();
+				
+				// loading new library contents
 				controls.library.load();
 			});
 		}
@@ -39,12 +54,31 @@ yalp.controls = function (controls, $, services) {
 		// Overrides
 
 		self.init = function (elem) {
-			elem.find('select').change(onChange);
+			// setting state
+			if (busy) {
+				elem
+					.find('.spinner')
+						.show()
+					.end()
+					.find('select')
+						.attr('disabled', 'disabled');
+			} else {
+				elem
+					.find('.spinner')
+						.hide()
+					.end()
+					.find('select')
+						.removeAttr('disabled');				
+			}
+			
+			// adding events
+			elem.find('select')
+				.change(onChange);
 		};
 
 		self.html = function () {
 			var names = data.names,
-					selected = data.selected,
+					selected = self.selected,
 					i,
 			result = [
 				'<span class="switcher" id="', self.id, '">',
@@ -60,6 +94,7 @@ yalp.controls = function (controls, $, services) {
 			}
 			result.push([
 				'</select>',
+				'<span class="spinner"></span>',
 				'</span>'
 			].join(''));
 			return result.join('');

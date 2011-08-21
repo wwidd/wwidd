@@ -45,6 +45,10 @@ CONTROLS
 	border-color: #303030;
 }
 
+#switcher span.spinner {
+	background: url('/image/spinner16dark.gif');
+}
+
 /******************************
 ROOT ADD
 ******************************/
@@ -68,6 +72,10 @@ div.popup {
 
 div.popup > div.tree li > span.name {
 	color: #444;
+}
+
+div.popup > div.spinner {
+	background: url('/image/spinner16light.gif');
 }
 
 /******************************
