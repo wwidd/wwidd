@@ -63,7 +63,7 @@ root = function (path) {
 						
 						// filling library with pure names (auto tags)
 						// when this is done, the HTTP response ends: the rest is async
-						library.fill(rootid, metadata, function () {
+						library.fill(rootid, metadata, {keywords: false}, function () {
 							if (handler) {
 								handler(metadata);
 							}
@@ -73,7 +73,7 @@ root = function (path) {
 							
 							// flushes batch of metadata to database
 							function flush() {
-								library.fill(rootid, batch);
+								library.fill(rootid, batch, {tags: false});
 								counter = 0;
 								batch = {};
 							}

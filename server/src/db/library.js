@@ -33,8 +33,8 @@ library = function () {
 			db.query(statement, handler);
 		},
 		
-		// inserts videos into the database 
-		fill: function (rootid, data, handler) {
+		// inserts videos into the database
+		fill: function (rootid, data, options, handler) {
 			var	statement = [],
 					path,
 					keywords, keyword,
@@ -74,36 +74,40 @@ library = function () {
 					].join(" "));
 					
 					// inserting statement for media keywords (properties)
-					keywords = data[path];
-					for (keyword in keywords) {
-						if (keywords.hasOwnProperty(keyword)) {
-							statement.push([
-								"INSERT OR REPLACE INTO keywords (mediaid, key, value) VALUES (",
-								lastid, ",'",
-								keyword, "','",
-								quotes(keywords[keyword]),
-								"');"
-							].join(""));
+					if (options.keywords !== false) {
+						keywords = data[path];
+						for (keyword in keywords) {
+							if (keywords.hasOwnProperty(keyword)) {
+								statement.push([
+									"INSERT OR REPLACE INTO keywords (mediaid, key, value) VALUES (",
+									lastid, ",'",
+									keyword, "','",
+									quotes(keywords[keyword]),
+									"');"
+								].join(""));
+							}
 						}
 					}
 					
 					// inserting statement for auto tags
-					tags = []
-						// filename broken down into its word-like components
-						.concat($path.basename(path, $path.extname(path)).split(/[^A-Za-z0-9]+/))
-						// path stripped of non-word characters and broken down by directory levels
-						.concat($path.dirname(path).replace(/[^A-Za-z0-9\/\\\s]+/g, ' ').split(/[\/\\]/));
-	
-					for (i = 0; i < tags.length; i++) {
-						if (!tags[i].length) {
-							continue;
+					if (options.tags !== false) {
+						tags = []
+							// filename broken down into its word-like components
+							.concat($path.basename(path, $path.extname(path)).split(/[^A-Za-z0-9]+/))
+							// path stripped of non-word characters and broken down by directory levels
+							.concat($path.dirname(path).replace(/[^A-Za-z0-9\/\\\s]+/g, ' ').split(/[\/\\]/));
+		
+						for (i = 0; i < tags.length; i++) {
+							if (!tags[i].length) {
+								continue;
+							}
+							statement.push([
+								"INSERT OR REPLACE INTO tags (mediaid, name) VALUES (",
+								lastid, ",'",
+								quotes(tags[i]),
+								"');"				
+							].join(""));
 						}
-						statement.push([
-							"INSERT OR REPLACE INTO tags (mediaid, name) VALUES (",
-							lastid, ",'",
-							quotes(tags[i]),
-							"');"				
-						].join(""));
 					}
 				}
 			}
