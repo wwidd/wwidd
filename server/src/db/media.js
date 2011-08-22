@@ -37,7 +37,7 @@ selection = function (mediaids) {
 },
 
 media = function (mediaid) {
-	var self = Object.create(entity, {kind: {value: 'media'}});
+	var self = Object.create(entity, {kind: {value: 'media'}, key: {value: 'mediaid'}});
 
 	self.get = function (handler) {
 		var statement = [
@@ -45,6 +45,17 @@ media = function (mediaid) {
 			"FROM media",
 			"JOIN roots USING (rootid)",
 			"WHERE mediaid =", mediaid
+		].join(" ");
+		console.log(statement);
+		db.query(statement, handler);
+	};
+	
+	self.multiGet = function (mediaids, handler) {
+		var statement = [
+			"SELECT mediaid, roots.path AS root, media.path AS path, hash",
+			"FROM media",
+			"JOIN roots USING (rootid)",
+			"WHERE mediaid IN", "('" + mediaids.join("','") + "')"
 		].join(" ");
 		console.log(statement);
 		db.query(statement, handler);
