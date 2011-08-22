@@ -6,7 +6,7 @@
 /*global require, exports, console */
 var	vlc = require('../tools/vlc').vlc,
 		entity = require('../db/media').media,
-		thumb = require('../logic/thumb').thumb,
+		thumbs = require('../logic/thumbs').thumbs,
 		
 media = function (mediaid) {
 	var self = {
@@ -19,7 +19,7 @@ media = function (mediaid) {
 		play: function (handler) {
 			self.get(function (data) {
 				// saving thumbnail
-				thumb(mediaid).generate();
+				thumbs.generate([mediaid]);
 				// starting playback
 				var path = data[0].root + data[0].path;
 				console.log("MEDIA - starting playback of file: " + path);
