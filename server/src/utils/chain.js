@@ -126,6 +126,11 @@ chain = function (handler) {
 		// processes next element in queue
 		// - finish: function to call when handler finishes
 		next: function (finish) {
+			// checking if there are elements in the chain
+			if (!first) {
+				return;
+			}
+			
 			// removing first link (shifting)
 			var elem = first.load;
 			self.unlink(elem);
@@ -143,12 +148,22 @@ chain = function (handler) {
 			var result = [],
 					next;
 			
-			// prodcesses return value of self.next() (continuation function)
+			// processes return value of self.next() (continuation function)
 			function finish(retval) {
+				// stopping chain on empty retval
+				if (typeof retval === 'undefined') {
+					self.stop();
+					return;
+				}
+				
+				// adding processed value to final result
 				result.push(retval);
+				
+				// calling progress indication
 				if (onProgress) {
 					onProgress(retval);
 				}
+				
 				if (first !== null) {
 					// jumping to next link in chain when processing is not stopped
 					if (!stopped) {
