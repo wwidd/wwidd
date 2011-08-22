@@ -91,27 +91,37 @@ ffmpeg = function () {
 		handler(metadata);
 	}
 	
+	// unites metadata chapters
+	// - metadata: multi-chapter metadatata
+	function unite(metadata) {
+		// uniting metadata chapters
+		var i, key,
+				chapter,
+				result = {};
+		for (i = 0; i < metadata.length; i++) {
+			chapter = metadata[i];
+			for (key in chapter) {
+				if (chapter.hasOwnProperty(key)) {
+					result[key] = chapter[key];
+				}
+			}
+		}
+		return result;
+	}
+	
+	// processes metadata
+	function process(stdout, handler) {
+		parse(stdout, function (metadata) {
+			if (handler) {
+				handler(unite(metadata));
+			}
+		});
+	}
+	
 	// extracts metadata from media file
 	self.metadata = function (path, handler) {
 		tool.exec.call(self, ['-i', path], function (stdout) {
-			parse(stdout, function (metadata) {
-				// accumulating all metadata into one object
-				var i, key,
-						chapter,
-						result = {};
-				for (i = 0; i < metadata.length; i++) {
-					chapter = metadata[i];
-					for (key in chapter) {
-						if (chapter.hasOwnProperty(key)) {
-							result[key] = chapter[key];
-						}
-					}
-				}
-				// wrapping up
-				if (handler) {
-					handler(result);
-				}
-			});
+			process(stdout, handler);
 		}, true);
 	};
 	
