@@ -149,10 +149,9 @@ entity = {
 			}
 		}
 		statement.push("COMMIT");
-		statement = statement.join(";\n");
 		
-		console.log(statement);
-		db.nonQuery(statement, handler);
+		console.log("ENTITY - multiSet SQL statement built: " + statement.length + " lines");
+		db.nonQuery(statement.join(";\n"), handler);
 		
 		return this;
 	},
