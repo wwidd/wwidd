@@ -110,6 +110,19 @@ var test = function (test, utils) {
 				})
 				.start(true);
 		});
+				
+		test("Corner cases", function () {
+			// iterating on empty chain does nothing
+			chainAsync
+				.clear()
+				.start(true);
+			equal(chainAsync.length(), 0, "Iterating on empty ASYNC chain does nothing");
+
+			chainAsync
+				.clear()
+				.start();
+			equal(chainAsync.length(), 0, "Iterating on empty SYNC chain does nothing");
+		});
 	};
 	
 	return test;
