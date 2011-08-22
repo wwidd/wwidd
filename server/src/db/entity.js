@@ -49,6 +49,9 @@ entity = {
 	// kind of entity (aka. table name)
 	kind: null,
 	
+	// primary key in entity
+	key: null,
+	
 	// gets the entity(ies) from database
 	get: function (before, handler) {
 		var where = clause(before || {}),
@@ -63,6 +66,25 @@ entity = {
 		db.query(statement, handler);
 		
 		return this;
+	},
+	
+	// retrieves multiple rows from table
+	// - keys: keys for rows to return
+	multiGet: function (keys, handler) {
+		if (!this.key) {
+			throw "Entity key undefined.";
+		}
+
+		var statement  = [
+			"SELECT * FROM",
+			this.kind,
+			"WHERE", this.key, "IN", "('" + keys.join("','") + "')"
+		].join(" ");
+
+		console.log(statement);
+		db.query(statement, handler);
+		
+		return this;		
 	},
 	
 	// adds an entity of this kind
@@ -96,6 +118,39 @@ entity = {
 			where.length ? ["WHERE", where.join(" AND ")].join(" ") : ""
 		].join(" ");
 
+		console.log(statement);
+		db.nonQuery(statement, handler);
+		
+		return this;
+	},
+	
+	// updates multiple rows in table
+	// - after: lookup table containing all updated rows
+	// 	 indexed by key
+	multiSet: function (after, handler) {
+		if (!this.key) {
+			throw "Entity key undefined.";
+		}
+		
+		var statement = [],
+				key, set;
+		
+		statement.push("BEGIN TRANSACTION");
+		for (key in after) {
+			if (after.hasOwnProperty(key)) {
+				set = clause(after[key] || {});
+				statement.push([
+					"UPDATE",
+					this.kind,
+					"SET",
+					set.join(","),
+					"WHERE", this.key, "=", "'" + key + "'"
+				].join(" "));
+			}
+		}
+		statement.push("COMMIT");
+		statement = statement.join(";\n");
+		
 		console.log(statement);
 		db.nonQuery(statement, handler);
 		
