@@ -39,10 +39,19 @@ thumbs = function () {
 				// ---- request ends here, rest is background
 				
 				// saving thumbnails
-				for (i = 0; i < data.length; i++) {
-					entry = data[i];
-					thumb.generate(entry.root + entry.path, result[entry.mediaid].hash);
+				i = 0;
+				function next() {
+					var hash;
+					if (i++ >= data.length) {
+						return;
+					} else {
+						entry = data[i];
+						hash = result[entry.mediaid].hash;
+						console.log("THUMBS - generating thumbnail: " + hash);
+						thumb.generate(entry.root + entry.path, hash, next);
+					}
 				}
+				next();
 			});
 		}
 	};

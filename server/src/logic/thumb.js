@@ -20,16 +20,14 @@ thumb = function () {
 	self = {
 		// generates thumbnail for video
 		// - path: media path relative to root
-		generate: function (path, hash) {
+		// - name: thumbnail file name
+		generate: function (path, name, handler) {
 			// checking if thumbnail is already there				
 			var inPath = path,
-					outPath = cachePath + hash + '.jpg';
+					outPath = cachePath + name + '.jpg';
 			if (!$path.existsSync(outPath)) {
 				// generating thumbnail
-				console.log("THUMB - generating thumbnail for: " + inPath + " at: " + outPath);					
-				ffmpeg.thumb(inPath, outPath, 1, function (data) {
-					console.log("THUMB - thumbnail saved: " + hash);
-				});
+				ffmpeg.thumb(inPath, outPath, 1, handler);
 			}
 		}
 	};
