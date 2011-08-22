@@ -7,6 +7,7 @@
 var	$crypto = require('crypto'),
 		entity = require('../db/media').media,
 		thumb = require('../logic/thumb').thumb,
+		chain = require('../utils/chain').chain,
 		
 thumbs = function () {	
 	var media = entity(),
@@ -19,42 +20,37 @@ thumbs = function () {
 			media.multiGet(mediaids, function (data) {
 				// collecting hashes
 				var result = {},
-						count = 0,
 						i, entry,
 						shasum,
-						next;
+				
+				// thumbnail generating process
+				process = chain(function (elem, finish) {
+					var tmp = elem.split('|'),
+							entry = {root: tmp[0], path: tmp[1], hash: tmp[2]};
+					console.log("THUMBS - generating thumbnail: " + entry.hash);
+					thumb.generate(entry.root + entry.path, entry.hash, finish);
+				});
 
+				// collecting necessary hashes
 				for (i = 0; i < data.length; i++) {
 					entry = data[i];
-					// generating hash when necessary
 					if (!entry.hash.length) {
 						shasum = $crypto.createHash('md5');
 						shasum.update(entry.path);
+						entry.hash = shasum.digest('hex');
 						result[entry.mediaid] = {
-							hash: shasum.digest('hex')
+							hash: entry.hash
 						};
-						count++;
+						process.add(entry.root + '|' + entry.path + '|' + entry.hash);
 					}
-				}	
-
-				// generating thumbnails in background
-				if (count) {
-					// saving thumbnails
-					i = 0;
-					next = function () {
-						var hash;
-						if (i >= data.length) {
-							media.multiSet(result, handler);
-						} else {
-							entry = data[i];
-							hash = result[entry.mediaid].hash;
-							console.log("THUMBS - generating thumbnail: " + hash);
-							i++;
-							thumb.generate(entry.root + entry.path, hash, next);
-						}
-					};
-					next();
 				}
+
+				// starting thumbnail generation process
+				process
+					.onFinished(function () {
+						media.multiSet(result, handler);
+					})
+					.start(true);
 			});
 		}
 	};
