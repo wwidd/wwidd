@@ -4,7 +4,7 @@
 /*global jQuery, document */
 var yalp = yalp || {};
 
-yalp.controls = (function (controls, $, data) {
+yalp.controls = (function (controls, $, data, services) {
 	controls.library = function () {
 		var self = controls.control.create(),
 				onInit;
@@ -12,7 +12,7 @@ yalp.controls = (function (controls, $, data) {
 		self.selected = {};
 		
 		//////////////////////////////
-		// Business methods
+		// Control
 
 		// returns a jQuery object with ALL checkboxes
 		function checkboxes() {
@@ -92,9 +92,35 @@ yalp.controls = (function (controls, $, data) {
 		//////////////////////////////
 		// Overrides
 
+		// generates thumbnails for videos on current
+		function thumbnails(data) {
+			var mediaids = [],
+					i, entry;
+			
+			// collecting entries with no thumbnail (hash)
+			for (i = 0; i < data.length; i++) {
+				entry = data[i];
+				if (!entry.hash.length) {
+					mediaids.push(entry.mediaid);
+				}
+			}
+			
+			// calling thumbnail service
+			if (mediaids.length) {
+				services.genthumbs(mediaids.join(','));
+			}
+			
+			return self;
+		}
+		
 		function build() {
 			var page = data.media.getPage(controls.pager.page, controls.pager.items),
 					i;
+			
+			// generating thumbnails if necessary
+			thumbnails(page);
+			
+			// attaching new controls to cleaned library
 			self.clear();
 			for (i = 0; i < page.length; i++) {
 				controls.media(page[i]).appendTo(self);
@@ -125,5 +151,6 @@ yalp.controls = (function (controls, $, data) {
 	return controls;
 })(yalp.controls || {},
 	jQuery,
-	yalp.data);
+	yalp.data,
+	yalp.services);
 

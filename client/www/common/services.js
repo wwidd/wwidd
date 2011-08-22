@@ -125,6 +125,15 @@ yalp.services = function ($, window) {
 			callService('getdirs', data, handler);
 		},
 		
+		// generates thumbs for a set of video files
+		// - mediaids: comma separated list of media ids
+		genthumbs: function (mediaids, handler) {
+			var data = {
+				mediaids: mediaids
+			};
+			callService('genthumbs', data, handler);			
+		},
+		
 		// polls a background process
 		// - process: name of process
 		// - handler: handler to call on each poll
