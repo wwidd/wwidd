@@ -19,8 +19,11 @@ thumbs = function () {
 			media.multiGet(mediaids, function (data) {
 				// collecting hashes
 				var result = {},
+						count = 0,
 						i, entry,
-						shasum;
+						shasum,
+						next;
+
 				for (i = 0; i < data.length; i++) {
 					entry = data[i];
 					// generating hash when necessary
@@ -30,28 +33,28 @@ thumbs = function () {
 						result[entry.mediaid] = {
 							hash: shasum.digest('hex')
 						};
+						count++;
 					}
 				}	
-				
-				// updating hashes in DB, no need to wait to return
-				media.multiSet(result, handler);
-				
-				// ---- request ends here, rest is background
-				
-				// saving thumbnails
-				i = 0;
-				function next() {
-					var hash;
-					if (i++ >= data.length) {
-						return;
-					} else {
-						entry = data[i];
-						hash = result[entry.mediaid].hash;
-						console.log("THUMBS - generating thumbnail: " + hash);
-						thumb.generate(entry.root + entry.path, hash, next);
-					}
+
+				// generating thumbnails in background
+				if (count) {
+					// saving thumbnails
+					i = 0;
+					next = function () {
+						var hash;
+						if (i >= data.length) {
+							media.multiSet(result, handler);
+						} else {
+							entry = data[i];
+							hash = result[entry.mediaid].hash;
+							console.log("THUMBS - generating thumbnail: " + hash);
+							i++;
+							thumb.generate(entry.root + entry.path, hash, next);
+						}
+					};
+					next();
 				}
-				next();
 			});
 		}
 	};
