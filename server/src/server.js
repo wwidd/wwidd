@@ -13,6 +13,7 @@ var	$http = require('http'),
 		processes = require('logic/processes').processes,
 		root = require('logic/root').root,
 		media = require('logic/media').media,
+		thumbs = require('logic/thumb').thumbs,
 		envelope = require('utils/envelope').envelope,
 		browser = require('tools/browser').browser,
 		system = require('utils/system').system,
@@ -165,6 +166,18 @@ $http.createServer(function (req, res) {
 				throw "Missing parameters";
 			}
 			return processes.poll(query.process);
+		});
+		break;
+	
+	case '/genthumbs':
+		// generates thumbnails
+		ok = envelope(res, true, function () {
+			if (!query.mediaids) {
+				throw "Missing parameters";
+			}
+			thumbs.generate(query.mediaids.split(/[^0..9]+/), function () {
+				ok(query);
+			});
 		});
 		break;
 		
