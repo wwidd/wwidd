@@ -28,6 +28,8 @@ thumb = function () {
 			if (!$path.existsSync(outPath)) {
 				// generating thumbnail
 				ffmpeg.thumb(inPath, outPath, 1, handler);
+			} else if (handler) {
+				handler(false);
 			}
 		}
 	};
