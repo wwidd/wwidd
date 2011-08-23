@@ -8,7 +8,6 @@ yalp.controls = function (controls, $, services) {
 	controls.rootadd = function () {
 		var self = controls.control.create(),
 				progress = controls.progress(),
-				disabled = false,
 				dirsel;
 
 		//////////////////////////////
@@ -17,27 +16,17 @@ yalp.controls = function (controls, $, services) {
 		progress.appendTo(self);
 				
 		//////////////////////////////
-		// Getters / setters
-		
-		self.disabled = function (value) {
-			disabled = value;
-			return self;
-		};
-
-		//////////////////////////////
 		// Control
 
 		// polls metadata extraction process
 		self.poll = function () {
 			// disabling add folder button and library switcher
 			// changing libraries while import is in progress is unsafe
-			if (!disabled) {
-				self
-					.disabled(true)
-					.render();
-			}
+			self
+				.disabled({'import': true})
+				.render();
 			controls.switcher
-				.disabled(true)
+				.disabled({'import': true})
 				.render();
 
 			// polling extraction process
@@ -50,10 +39,10 @@ yalp.controls = function (controls, $, services) {
 				// re-enabling disabled controls when polling ends
 				if (value === -1) {
 					self
-						.disabled(false)
+						.disabled({'import': false})
 						.render();
 					controls.switcher
-						.disabled(false)
+						.disabled({'import': false})
 						.render();
 				}
 			});
@@ -67,7 +56,7 @@ yalp.controls = function (controls, $, services) {
 			// disabling 'add folder' button
 			// preventing multiple directory selection windows
 			self
-				.disabled(true)
+				.disabled({'import': true})
 				.render();
 
 			// creating directory selection dialog
@@ -81,7 +70,7 @@ yalp.controls = function (controls, $, services) {
 						
 					// re-enabling 'add folder' button
 					self
-						.disabled(false)
+						.disabled({'import': false})
 						.render();
 				})
 				.onOk(function () {
@@ -107,7 +96,7 @@ yalp.controls = function (controls, $, services) {
 
 		self.init = function (elem) {
 			// setting state
-			if (disabled) {
+			if (self.disabled()) {
 				elem.find('button')
 					.attr('disabled', 'disabled');
 			} else {
