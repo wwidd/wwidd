@@ -133,7 +133,8 @@ entity = {
 		}
 		
 		var statement = [],
-				key, set;
+				key, set,
+				counter = 0;
 		
 		statement.push("BEGIN TRANSACTION");
 		for (key in after) {
@@ -146,12 +147,15 @@ entity = {
 					set.join(","),
 					"WHERE", this.key, "=", "'" + key + "'"
 				].join(" "));
+				counter++;
 			}
 		}
 		statement.push("COMMIT");
 		
-		console.log("ENTITY - multiSet SQL statement built: " + statement.length + " lines");
-		db.nonQuery(statement.join(";\n"), handler);
+		if (counter > 0) {
+			console.log("ENTITY - multiSet SQL statement built: " + statement.length + " lines");
+			db.nonQuery(statement.join(";\n"), handler);
+		}
 		
 		return this;
 	},
