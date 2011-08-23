@@ -27,6 +27,10 @@ yalp.controls = function (controls, $) {
 	controls.control = function () {
 		var id = controls.id(),
 		
+		// hashtable containing references to disabling
+		// sources and their imposed states
+		disabled = {},
+		
 		self =  {
 			// properties
 			id: id,							// id is automatically assigned
@@ -67,6 +71,34 @@ yalp.controls = function (controls, $) {
 				}
 				children.length = 0;
 				return this;
+			},
+			
+			// sets disable flag for diabling souce(s)
+			// a control may be disabled by many sources
+			// - value: object containing flags indexed by source
+			//	 format: {source: bool}
+			disabled: function (value) {
+				var source;
+				if (typeof value === 'undefined') {
+					// one source disables the control
+					for (source in disabled) {
+						if (disabled.hasOwnProperty(source)) {
+							if (disabled[source] === true) {
+								return true;
+							}
+						}
+					}
+					// no disabling source means control is enabled
+					return false;
+				} else {
+					// adding sources to internal buffer
+					for (source in value) {
+						if (value.hasOwnProperty(source)) {
+							disabled[source] = value[source];
+						}
+					}
+					return this;
+				}
 			},
 			
 			// initializes the control
