@@ -62,6 +62,23 @@ yalp.data = function (data, jOrder, services) {
 				return self.table ? 
 					Math.ceil(self.table.flat().length / items) :
 					0;
+			},
+			
+			// updates hashes for media entries
+			// - hashes: object containing hash values for mediaids
+			//	 format: {mediaid: {hash: string}}
+			setHash: function (hashes) {
+				var mediaid,
+						before, after;
+				for (mediaid in hashes) {
+					if (hashes.hasOwnProperty(mediaid)) {
+						// to save cpu, hash is updated directly (w/o jOrder.update)
+						// because hash is not part of any indexes
+						before = self.table.where([{mediaid: mediaid}], {renumber: true})[0];
+						before.hash = hashes[mediaid].hash;
+					}
+				}
+				return self;
 			}
 		};
 

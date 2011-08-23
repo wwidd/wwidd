@@ -93,13 +93,13 @@ yalp.controls = (function (controls, $, data, services) {
 		// Overrides
 
 		// generates thumbnails for videos on current
-		function thumbnails(data) {
+		function thumbnails(page) {
 			var mediaids = [],
 					i, entry;
 			
 			// collecting entries with no thumbnail (hash)
-			for (i = 0; i < data.length; i++) {
-				entry = data[i];
+			for (i = 0; i < page.length; i++) {
+				entry = page[i];
 				if (!entry.hash.length) {
 					mediaids.push(entry.mediaid);
 				}
@@ -107,7 +107,11 @@ yalp.controls = (function (controls, $, data, services) {
 			
 			// calling thumbnail service
 			if (mediaids.length) {
-				services.genthumbs(mediaids.join(','));
+				services.genthumbs(mediaids.join(','), function (json) {
+					// updating thumbnail data
+					var hashes = json.data;
+					data.media.setHash(hashes);
+				});
 			}
 			
 			return self;
