@@ -107,10 +107,16 @@ yalp.controls = (function (controls, $, data, services) {
 			
 			// calling thumbnail service
 			if (mediaids.length) {
+				controls.switcher
+					.disabled({library: true})
+					.render();
 				services.genthumbs(mediaids.join(','), function (json) {
 					// updating thumbnail data
 					var hashes = json.data;
 					data.media.setHash(hashes);
+					controls.switcher
+						.disabled({library: false})
+						.render();
 				});
 			}
 			
