@@ -11,6 +11,9 @@ var	$crypto = require('crypto'),
 		
 thumbs = function () {	
 	var media = entity(),
+
+	// thumbnail generating process
+	process,
 	
 	self = {
 		// generates thumbnails for video files
@@ -19,18 +22,24 @@ thumbs = function () {
 		generate: function (mediaids, handler) {
 			media.multiGet(mediaids, function (data) {
 				// collecting hashes
-				var result = {},
-						i, entry,
-						shasum,
-				
-				// thumbnail generating process
+				var i, entry,
+						shasum;
+
+				// stopping previous process
+				if (process) {
+					process
+						.clear();
+				}
+
 				process = chain(function (elem, finish) {
 					var tmp = elem.split('|'),
-							entry = {root: tmp[0], path: tmp[1], hash: tmp[2]};
+							entry = {mediaid: tmp[0], root: tmp[1], path: tmp[2], hash: tmp[3]};
 					console.log("THUMBS - generating thumbnail: " + entry.hash);
-					thumb.generate(entry.root + entry.path, entry.hash, finish);
+					thumb.generate(entry.root + entry.path, entry.hash, function (created) {
+						finish(entry);
+					});
 				});
-
+				
 				// collecting necessary hashes
 				for (i = 0; i < data.length; i++) {
 					entry = data[i];
@@ -38,17 +47,25 @@ thumbs = function () {
 						shasum = $crypto.createHash('md5');
 						shasum.update(entry.path);
 						entry.hash = shasum.digest('hex');
-						result[entry.mediaid] = {
-							hash: entry.hash
-						};
-						process.add(entry.root + '|' + entry.path + '|' + entry.hash);
+						process.add(entry.mediaid + '|' + entry.root + '|' + entry.path + '|' + entry.hash);
 					}
 				}
 
-				// starting thumbnail generation process
+				// (re-)starting thumbnail generation process
 				process
-					.onFinished(function () {
-						media.multiSet(result, handler);
+					.onFinished(function (result) {
+						// assembling hash update
+						var after = {},
+								i, entry;
+						for (i = 0; i < result.length; i++) {
+							entry = result[i];
+							after[entry.mediaid] = {
+								hash: entry.hash
+							};
+						}
+						
+						// updating hashes
+						media.multiSet(after, handler);
 					})
 					.start(true);
 			});
