@@ -175,8 +175,8 @@ $http.createServer(function (req, res) {
 			if (!query.mediaids) {
 				throw "Missing parameters";
 			}
-			thumbs.generate(query.mediaids.split(/[^0-9]+/), function () {
-				ok(query);
+			thumbs.generate(query.mediaids.split(/[^0-9]+/), function (data) {
+				ok(data);
 			});
 		});
 		break;

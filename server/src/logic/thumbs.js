@@ -11,9 +11,7 @@ var	$crypto = require('crypto'),
 		
 thumbs = function () {	
 	var media = entity(),
-
-	// thumbnail generating process
-	process,
+			process,
 	
 	self = {
 		// generates thumbnails for video files
@@ -65,7 +63,13 @@ thumbs = function () {
 						}
 						
 						// updating hashes
-						media.multiSet(after, handler);
+						media.multiSet(after, function () {
+							// returning to caller process
+							// (ending request when called from service)
+							if (handler) {
+								handler(after);
+							}
+						});
 					})
 					.start(true);
 			});
