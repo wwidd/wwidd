@@ -7,7 +7,7 @@
 var	$crypto = require('crypto'),
 		entity = require('../db/media').media,
 		thumb = require('../logic/thumb').thumb,
-		chain = require('../utils/chain').chain,
+		queue = require('../utils/queue').queue,
 		
 thumbs = function () {	
 	var media = entity(),
@@ -29,7 +29,7 @@ thumbs = function () {
 						.clear();
 				}
 
-				process = chain(function (elem, finish) {
+				process = queue(function (elem, finish) {
 					var tmp = elem.split('|'),
 							entry = {mediaid: tmp[0], root: tmp[1], path: tmp[2], hash: tmp[3]};
 					console.log("THUMBS - generating thumbnail: " + entry.hash);

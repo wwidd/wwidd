@@ -5,14 +5,14 @@
 // snapshot extraction, etc. together.
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	chain = require('../utils/chain').chain,
+var	queue = require('../utils/queue').queue,
 		ffmpeg = require('../tools/ffmpeg').ffmpeg,
 
 processes = {
 	// callback expects a path where the root part
 	// and relative part are separated by colon
 	// - path: e.g. '/media/HDD|/videos'
-	// - finish: callback for each element in process chain 
+	// - finish: callback for each element in process queue 
 	extractor: function () {
 		var
 		
@@ -28,8 +28,8 @@ processes = {
 			'adult': 'WM/ParentalRating'
 		};
 
-		// handler run on each link in process chain
-		return chain(function (path, finish) {
+		// handler run on each link in process queue
+		return queue(function (path, finish) {
 			var tmp = path.split('|'),
 					root = tmp[0],
 					relative = tmp[1];

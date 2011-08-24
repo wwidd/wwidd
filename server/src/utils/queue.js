@@ -1,29 +1,30 @@
 ////////////////////////////////////////////////////////////////////////////////
-// General Purpose Linked Chain
+// General Purpose Process Queue
 //
 // Manages prioritized queues, where elements can be added and removed,
-// priorities changed while the queue is being processed. 
+// priorities changed while the queue is being processed.
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, setTimeout */
 var
 
 // - handler: function to call on each element
-chain = function (handler) {
+queue = function (handler) {
 	var stopped = true,		// whether processing is stopped
-			first = null,			// pointer to first element in the chain
-			lookup = {},			// lookup table value -> chain link
-			length = 0,				// number of remaining links in chain
-			total = 0,				// nulber of links in chain on starting process
+			first = null,			// pointer to first element in the queue
+			lookup = {},			// lookup table value -> queue link
+			length = 0,				// number of remaining links in queue
+			total = 0,				// nulber of links in queue on starting process
 	
-	// applies a handler to one or more elements in reverse order
-	batched = function (batch, handler) {
-		var elems;
-		if (typeof batch.pop !== 'function') {
-			handler(batch);
+	// batched processing of elements
+	// - elems: elements to apply handler to
+	batched = function (elems, handler) {
+		var tmp;
+		if (typeof elems.pop !== 'function') {
+			handler(elems);
 		} else {
-			elems = batch.concat([]);
-			while (elems.length > 0) {
-				handler(elems.pop());
+			tmp = elems.concat([]);
+			while (tmp.length > 0) {
+				handler(tmp.pop());
 			}
 		}
 	},
@@ -33,7 +34,7 @@ chain = function (handler) {
 	onProgress,			// runs after processing each link
 
 	self = {
-		// adds an element to start of chain
+		// adds an element to start of queue
 		unshift: function (elem) {
 			// current first becomes second
 			var second = first;
@@ -57,7 +58,7 @@ chain = function (handler) {
 			return self;
 		},
 		
-		// removes an element from chain
+		// removes an element from queue
 		unlink: function (elem) {
 			// looking up link
 			var link = lookup[elem],
@@ -76,7 +77,7 @@ chain = function (handler) {
 				}
 			} else {					
 				// pairing up previous and next links
-				// current link is no more in the chain
+				// current link is no longer in the queue
 				if (prev) {
 					prev.next = next;
 				}
@@ -89,18 +90,18 @@ chain = function (handler) {
 		},
 		
 		// adds one or more elements to start (in original order)
-		add: function (batch) {
-			batched(batch, self.unshift);			
+		add: function (elems) {
+			batched(elems, self.unshift);			
 			return self;
 		},
 		
-		// removes one or more elements from chain
-		remove: function (batch) {
-			batched(batch, self.unlink);			
+		// removes one or more elements from queue
+		remove: function (elems) {
+			batched(elems, self.unlink);			
 			return self;
 		},
 		
-		// clears chain
+		// clears queue
 		clear: function () {
 			first = null;
 			lookup = {};
@@ -111,7 +112,7 @@ chain = function (handler) {
 		
 		// bumps one or more elements up to top
 		bump: function (elems) {
-			// removing element(s) from chain
+			// removing element(s) from queue
 			self.remove(elems);
 			
 			// adding back element(s) at start
@@ -127,7 +128,7 @@ chain = function (handler) {
 		// - finish: function to call when handler finishes
 		next: function (finish) {
 			if (first === null) {
-				// finishing immediately when chain is empty
+				// finishing immediately when queue is empty
 				if (finish) {
 					finish();
 				}
@@ -141,7 +142,7 @@ chain = function (handler) {
 			}
 		},
 		
-		// starts processing chain
+		// starts processing queue
 		// - async: whether the handler (user supplied function) is asynchronous
 		//   if so, handler must call 'finish(retval)' when finished
 		start: function (async) {
@@ -152,7 +153,7 @@ chain = function (handler) {
 			
 			// processes return value of self.next() (continuation function)
 			function finish(retval) {
-				// stopping chain on empty retval
+				// stopping queue on empty retval
 				if (typeof retval !== 'undefined') {
 					// adding processed value to final result
 					result.push(retval);
@@ -164,12 +165,12 @@ chain = function (handler) {
 				}
 				
 				if (first !== null) {
-					// jumping to next link in chain when processing is not stopped
+					// jumping to next link in queue when processing is not stopped
 					if (!stopped) {
 						next();
 					}
 				} else {
-					// chain underrun, stopping processing
+					// queue underrun, stopping processing
 					self.stop();
 					if (onFinished) {
 						onFinished(result);
@@ -192,7 +193,7 @@ chain = function (handler) {
 			return self;
 		},
 		
-		// stops processing chain
+		// stops processing queue
 		stop: function () {
 			stopped = true;
 			total = 0;
@@ -213,7 +214,7 @@ chain = function (handler) {
 			return lookup[elem];
 		},
 		
-		// returns the chain load as an array
+		// returns the queue load as an array
 		// in the current order
 		order: function () {
 			var tmp = first,
@@ -225,17 +226,17 @@ chain = function (handler) {
 			return result;
 		},
 		
-		// retrieves current chain length
+		// retrieves current queue length
 		length: function () {
 			return length;
 		},
 		
-		// retrieves chain length at start
+		// retrieves queue length at start
 		total: function () {
 			return total;
 		},
 		
-		// returns progress of processing chain
+		// returns progress of processing queue
 		// returns float between 0 and 1
 		// returns -1 when process is stopped
 		progress: function () {
@@ -263,5 +264,5 @@ chain = function (handler) {
 	return self;
 };
 
-exports.chain = chain;
+exports.queue = queue;
 
