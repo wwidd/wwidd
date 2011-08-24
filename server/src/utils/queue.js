@@ -60,6 +60,11 @@ queue = function (handler) {
 		
 		// removes an element from queue
 		unlink: function (elem) {
+			// checking whether elem is present in queue
+			if (!lookup.hasOwnProperty(elem)) {
+				return self;
+			}
+			
 			// looking up link
 			var link = lookup[elem],
 					prev = link.prev,

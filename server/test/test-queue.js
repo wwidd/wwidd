@@ -64,6 +64,9 @@ var test = function (test, utils) {
 			equal(queue.length(), 2, "Queue length");
 			equal(queue.lookup("A").prev.load, "E", "E precedes A");
 
+			queue.unlink("B");
+			deepEqual(queue.order(), ["E", "A"], "Removing non-existing element does nothing");
+			
 			queue.clear();
 			equal(queue.first(), null, "Queue cleared");
 			equal(queue.length(), 0, "Queue length");
