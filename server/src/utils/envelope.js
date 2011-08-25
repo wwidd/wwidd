@@ -47,8 +47,7 @@ envelope = function (res, async, handler) {
 			throw "Envelope handler was not specified";
 		}
 		if (async) {
-			handler();
-			// function to call in the innermost handler
+			handler(ok);
 			return ok;
 		} else {
 			ok(handler());
