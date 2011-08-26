@@ -17,7 +17,7 @@ root = function (path) {
 			var	metadata = { },
 					count = 0;
 			
-			// clearing process chains
+			// clearing process queues
 			processes.extractor.clear();
 					
 			// walking library root synchronously
@@ -67,30 +67,6 @@ root = function (path) {
 							if (handler) {
 								handler(metadata);
 							}
-							
-							var batch = {},		// batch of metadata
-									counter = 0;	// batch counter
-							
-							// flushes batch of metadata to database
-							function flush() {
-								library.fill(rootid, batch, {tags: false});
-								counter = 0;
-								batch = {};
-							}
-									
-							// extracting metadata from files and updating database
-							processes.extractor
-								.onFinished(function (result) {
-									// flushing remainder
-									flush();
-								})
-								.onProgress(function (elem) {
-									batch[elem.path] = elem.keywords;
-									if (++counter === 100) {
-										flush();
-									}
-								})
-								.start(true);					
 						});
 					});
 				});

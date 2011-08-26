@@ -15,39 +15,6 @@ yalp.controls = function (controls, $, services) {
 		controls.progress.appendTo(self);
 				
 		//////////////////////////////
-		// Control
-
-		// polls metadata extraction process
-		self.poll = function () {
-			// disabling add folder button and library switcher
-			// changing libraries while import is in progress is unsafe
-			self
-				.disabled({'import': true})
-				.render();
-			controls.switcher
-				.disabled({'import': true})
-				.render();
-
-			// polling extraction process
-			services.poll('extractor', function (value) {
-				// updating progress indicator
-				controls.progress
-					.progress(value)
-					.render();
-					
-				// re-enabling disabled controls when polling ends
-				if (value === -1) {
-					self
-						.disabled({'import': false})
-						.render();
-					controls.switcher
-						.disabled({'import': false})
-						.render();
-				}
-			});
-		};
-
-		//////////////////////////////
 		// Events
 			
 		// called on clicking the add button
@@ -75,9 +42,10 @@ yalp.controls = function (controls, $, services) {
 				.onOk(function () {
 					// initiating folder import on 'ok' button
 					services.addroot(dirsel.selected(), function () {
-						// starting poll process
-						self.poll();
-						
+						self
+							.disabled({'import': false})
+							.render();
+
 						// removing dialog
 						dirsel
 							.remove()
