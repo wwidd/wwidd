@@ -22,10 +22,10 @@ yalp.controls = function (controls, $, services) {
 			
 			// detecting in-progress processes
 			var processes = json.data.processes,
-					extractor = processes.extractor || -1;
+					progress = processes.thumbnails.progress;
 			
-			if (extractor > 0) {
-				controls.rootadd
+			if (progress > 0) {
+				controls.library
 					.poll();
 			} else {
 				self.render();

@@ -81,6 +81,29 @@ yalp.controls = (function (controls, $, data, services) {
 			return self;
 		};
 		
+		// polls thumbnail generation process
+		self.poll = function () {
+			controls.switcher
+				.disabled({library: true})
+				.render();
+			services.poll('thumbnails', function (json) {
+				controls.progress
+					.progress(json.progress)
+					.render();
+
+				// updating thumbnail data
+				var hashes = json.load;
+				data.media.setHash(hashes);
+				
+				// updating UI if necessary
+				if (json.progress === -1) {
+					controls.switcher
+						.disabled({library: false})
+						.render();
+				}
+			});
+		};
+		
 		//////////////////////////////
 		// Event handlers
 
@@ -92,12 +115,13 @@ yalp.controls = (function (controls, $, data, services) {
 		//////////////////////////////
 		// Overrides
 
-		// generates thumbnails for videos on current
+		// initiates acquiring of video metadata (keywords, thumbnails, etc.)
 		function thumbnails(page) {
 			var mediaids = [],
 					i, entry;
 			
-			// collecting entries with no thumbnail (hash)
+			// collecting entries with no hash
+			// only previously processed media entries have hash
 			for (i = 0; i < page.length; i++) {
 				entry = page[i];
 				if (!entry.hash.length) {
@@ -107,16 +131,8 @@ yalp.controls = (function (controls, $, data, services) {
 			
 			// calling thumbnail service
 			if (mediaids.length) {
-				controls.switcher
-					.disabled({library: true})
-					.render();
-				services.genthumbs(mediaids.join(','), function (json) {
-					// updating thumbnail data
-					var hashes = json.data;
-					data.media.setHash(hashes);
-					controls.switcher
-						.disabled({library: false})
-						.render();
+				services.genthumbs(mediaids.join(','), function () {
+					self.poll();
 				});
 			}
 			

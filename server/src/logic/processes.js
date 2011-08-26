@@ -4,8 +4,10 @@
 // Singleton that batches background processes such as metadata extraction,
 // snapshot extraction, etc. together.
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, exports */
-var	queue = require('../utils/queue').queue,
+/*global require, exports, console */
+var	thumb = require('../logic/thumb').thumb,
+		media = require('../db/media').media,
+		queue = require('../utils/queue').queue,
 		ffmpeg = require('../tools/ffmpeg').ffmpeg,
 
 processes,
@@ -38,10 +40,10 @@ processes = {
 			'audio codec': 'audio codec',
 			'genre': 'WM/Genre',
 			'adult': 'WM/ParentalRating'
-		};
+		},
 
 		// handler run on each link in process queue
-		return queue(function (path, finish) {
+		process = queue(function (path, finish) {
 			var tmp = path.split('|'),
 					root = tmp[0],
 					relative = tmp[1];
@@ -64,6 +66,45 @@ processes = {
 				finish({path: relative, keywords: keywords});
 			});
 		});
+		
+		return process;
+	}(),
+	
+	thumbnails: function () {
+		var entity = media(),
+		
+		process = queue(function (elem, finish) {
+			var tmp = elem.split('|'),
+					entry = {mediaid: tmp[0], root: tmp[1], path: tmp[2], hash: tmp[3]};
+			console.log("THUMBS - generating thumbnail: " + entry.hash);
+			thumb.generate(entry.root + entry.path, entry.hash, function (created) {
+				finish(entry);
+			});
+		});
+		
+		process
+			.onFlush(function (result, handler) {
+				// assembling hash update
+				var after = {},
+						i, entry;
+				for (i = 0; i < result.length; i++) {
+					entry = result[i];
+					after[entry.mediaid] = {
+						hash: entry.hash
+					};
+				}
+				
+				// updating hashes
+				entity.multiSet(after, function () {
+					// returning to caller process
+					// (ending request when called from service)
+					if (handler) {
+						handler(after);
+					}
+				});
+			});
+			
+		return process;
 	}(),
 	
 	// polls process
