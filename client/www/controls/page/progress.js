@@ -47,7 +47,7 @@ yalp.controls = function (controls, $) {
 		};
 		
 		return self;
-	};
+	}();
 	
 	return controls;
 }(yalp.controls || {},

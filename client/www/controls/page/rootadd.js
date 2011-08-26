@@ -7,13 +7,12 @@ var yalp = yalp || {};
 yalp.controls = function (controls, $, services) {
 	controls.rootadd = function () {
 		var self = controls.control.create(),
-				progress = controls.progress(),
 				dirsel;
 
 		//////////////////////////////
 		// Child controls
 		
-		progress.appendTo(self);
+		controls.progress.appendTo(self);
 				
 		//////////////////////////////
 		// Control
@@ -32,7 +31,7 @@ yalp.controls = function (controls, $, services) {
 			// polling extraction process
 			services.poll('extractor', function (value) {
 				// updating progress indicator
-				progress
+				controls.progress
 					.progress(value)
 					.render();
 					
@@ -113,7 +112,7 @@ yalp.controls = function (controls, $, services) {
 				'<tr>',
 				'<td class="button">', '<button type="button">', "Add folder to library", '</button>', '</td>',
 				'<td class="progress">',
-				progress.html(),
+				controls.progress.html(),
 				'</td>',
 				'</tr>',
 				'</table>',
