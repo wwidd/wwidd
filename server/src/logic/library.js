@@ -29,18 +29,26 @@ library = function () {
 
 	self = {
 		// lists available library names
-		list: function () {
-			var names = [];
+		list: function (handler) {
+			var names = [],
+					state;
+
+			// collecting library names from file system
 			walker(null, function (path, stats) {
 				names.push($path.basename(path, '.sqlite'));
 			}, {
 				filter: new RegExp('^.+\\.sqlite$', 'ig')
 			}).walkSync(sqlite.path());
-			return {
-				names: names,
-				selected: sqlite.db(),
-				processes: processes.poll()
-			};
+
+			// polling all processes on current library
+			processes.poll(null, handler ? function (data) {
+				handler({
+					names: names,
+					selected: sqlite.db(),
+					processes: data
+				});
+			} : null);
+			return self;
 		},
 		
 		// sets library (sqlite db file) to use

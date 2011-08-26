@@ -8,6 +8,18 @@
 var	queue = require('../utils/queue').queue,
 		ffmpeg = require('../tools/ffmpeg').ffmpeg,
 
+processes,
+
+// gets progress for one specific process
+poll = function (name, handler) {
+	processes[name].flush(function (data) {
+		handler({
+			progress: processes[name].progress(),
+			load: data
+		});
+	});
+};
+
 processes = {
 	// callback expects a path where the root part
 	// and relative part are separated by colon
@@ -56,26 +68,35 @@ processes = {
 	
 	// polls process
 	// - name: process name
-	poll: function (name) {
+	poll: function (name, handler) {
 		var result,
-				key;
-		if (typeof name !== 'undefined') {
-			// getting progress for one specific process
-			// checking for invalid process name
+				names, next;
+		if (name) {
+			// getting progress for one specific process			
 			if (name === 'poll' || !processes.hasOwnProperty(name)) {
-				return false;
+				throw "Invalid process name";
+			} else {
+				poll(name, handler);
 			}
-			result = processes[name].progress();
 		} else {
 			// getting progress for all processes
 			result = {};
-			for (key in processes) {
-				if (processes.hasOwnProperty(key) && key !== 'poll') {
-					result[key] = processes[key].progress();
+			names = ['extractor', 'thumbnails'];
+			next = function (i) {
+				if (i >= names.length) {
+					if (handler) {
+						handler(result);
+					}
+					return;
 				}
-			}
+				var name = names[i];
+				poll(name, function (data) {
+					result[name] = data;
+					next(++i);
+				});
+			};
+			next(0);
 		}
-		return result;
 	}
 };
 

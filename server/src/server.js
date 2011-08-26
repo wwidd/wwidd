@@ -32,8 +32,11 @@ $http.createServer(function (req, res) {
   // executing command
 	switch (endpoint) {
 	case '/getlibs':
-		envelope(res, false, function () {
-			return library.list();
+		// retrieves library list and information on selected library
+		envelope(res, true, function (ok) {
+			library.list(function (data) {
+				ok(data);
+			});
 		});
 		break;
 		
@@ -161,11 +164,13 @@ $http.createServer(function (req, res) {
 	
 	case '/poll':
 		// polling processes
-		envelope(res, false, function () {
+		envelope(res, true, function (ok) {
 			if (!query.process) {
 				throw "Missing parameters";
 			}
-			return processes.poll(query.process);
+			processes.poll(query.process, function (data) {
+				ok(data);
+			});
 		});
 		break;
 	
