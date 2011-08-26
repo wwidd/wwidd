@@ -96,10 +96,13 @@ var test = function (test, utils) {
 						
 			// starting full iteration synchronously
 			queue
-				.onFinished(function (result) {
-					deepEqual(result, ["e", "b", "a"], "Iterated over entire queue");
+				.onFinish(function () {
 					equal(queue.first(), null, "Full iteration empties queue");
+					queue.flush();
 					reset();
+				})
+				.onFlush(function (result) {
+					deepEqual(result, ["e", "b", "a"], "Flushed results");					
 				})
 				.onProgress(function () {
 					console.log(queue.length());
@@ -108,7 +111,7 @@ var test = function (test, utils) {
 			
 			// starting full iteration asynchronously
 			queueAsync
-				.onFinished(function (result) {
+				.onFinish(function (result) {
 					console.log(result, queueAsync.order());
 				})
 				.start(true);

@@ -14,6 +14,7 @@ queue = function (handler) {
 			lookup = {},			// lookup table value -> queue link
 			length = 0,				// number of remaining links in queue
 			total = 0,				// nulber of links in queue on starting process
+			result = {},			// results of processed elements
 	
 	// batched processing of elements
 	// - elems: elements to apply handler to
@@ -30,8 +31,9 @@ queue = function (handler) {
 	},
 	
 	// event handlers
-	onFinished,			// runs when process finished
+	onFinish,				// runs when process finished
 	onProgress,			// runs after processing each link
+	onFlush,				// runs after calling .flush
 
 	self = {
 		// adds an element to start of queue
@@ -96,13 +98,17 @@ queue = function (handler) {
 		
 		// adds one or more elements to start (in original order)
 		add: function (elems) {
-			batched(elems, self.unshift);			
+			var tmp = length;
+			batched(elems, self.unshift);
+			total += length - tmp;
 			return self;
 		},
 		
 		// removes one or more elements from queue
 		remove: function (elems) {
-			batched(elems, self.unlink);			
+			var tmp = length;
+			batched(elems, self.unlink);
+			total -= tmp - length;
 			return self;
 		},
 		
@@ -111,6 +117,8 @@ queue = function (handler) {
 			first = null;
 			lookup = {};
 			length = 0;
+			total = 0;
+			result = {};
 			
 			return self;
 		},
@@ -126,6 +134,35 @@ queue = function (handler) {
 			return self;
 		},
 		
+		// flushes results
+		// - handler: optional callback, usually for ending request
+		flush: function (handler) {
+			var flushed = result,
+					packed, elem;
+			
+			// emptying buffer
+			result = {};
+			
+			if (onFlush || handler) {
+				// packing result into array
+				packed = [];
+				for (elem in flushed) {
+					if (flushed.hasOwnProperty(elem)) {
+						packed.push(flushed[elem]);
+					}
+				}
+				
+				// calling handler
+				if (onFlush) {
+					onFlush(packed, handler);
+				} else if (handler) {
+					handler(packed);
+				}
+			}
+			
+			return self;
+		},
+		
 		//////////////////////////////
 		// Iteration
 
@@ -133,62 +170,52 @@ queue = function (handler) {
 		// - finish: function to call when handler finishes
 		next: function (finish) {
 			if (first === null) {
-				// finishing immediately when queue is empty
-				if (finish) {
-					finish();
+				// queue underrun, stopping and wrapping up
+				self.stop();
+				if (onFinish) {
+					onFinish();
 				}
 			} else {
 				// removing first link (shifting)
-				var elem = first.load;
+				var elem = first.load,
+						retval;				
 				self.unlink(elem);
 				
-				// running handler on load
-				return handler(elem, finish);
+				// running handler on element
+				if (finish) {
+					handler(elem, function (retval) {
+						result[elem] = retval;
+						finish(retval);
+					});
+				} else {
+					retval = handler(elem);
+					result[elem] = retval;
+					return retval;
+				}
 			}
+			
+			return self;
 		},
 		
 		// starts processing queue
 		// - async: whether the handler (user supplied function) is asynchronous
 		//   if so, handler must call 'finish(retval)' when finished
 		start: function (async) {
-			stopped = false;
-			total = length;
-			var result = [],
-					next;
-			
-			// processes return value of self.next() (continuation function)
-			function finish(retval) {
-				// stopping queue on empty retval
-				if (typeof retval !== 'undefined') {
-					// adding processed value to final result
-					result.push(retval);
-					
-					// calling progress indication
-					if (onProgress) {
-						onProgress(retval);
-					}
-				}
-				
-				if (first !== null) {
-					// jumping to next link in queue when processing is not stopped
-					if (!stopped) {
-						next();
-					}
-				} else {
-					// queue underrun, stopping processing
-					self.stop();
-					if (onFinished) {
-						onFinished(result);
-					}
-				}
+			if (!stopped) {
+				return self;
 			}
 			
+			stopped = false;
+
 			// quasi-recursive iteration function
-			next = function () {
+			var next = function () {
+				if (stopped) {
+					return;
+				}
 				if (async) {
-					self.next(finish);		// CPS
+					self.next(next);		// CPS
 				} else {
-					finish(self.next());	// direct
+					next(self.next());	// direct
 				}
 			};
 			
@@ -247,6 +274,8 @@ queue = function (handler) {
 		progress: function () {
 			if (stopped) {
 				return -1;
+			} else if (!total) {
+				return 0;
 			} else {
 				return (total - length) / total;
 			}
@@ -255,13 +284,18 @@ queue = function (handler) {
 		//////////////////////////////
 		// Event setters
 
-		onFinished: function (value) {
-			onFinished = value;
+		onFinish: function (value) {
+			onFinish = value;
 			return self;
 		},
 		
 		onProgress: function (value) {
 			onProgress = value;
+			return self;
+		},
+		
+		onFlush: function (value) {
+			onFlush = value;
 			return self;
 		}
 	};
