@@ -155,6 +155,8 @@ entity = {
 		if (counter > 0) {
 			console.log("ENTITY - multiSet SQL statement built: " + statement.length + " lines");
 			db.nonQuery(statement.join(";\n"), handler);
+		} else if (handler) {
+			handler();
 		}
 		
 		return this;
