@@ -118,17 +118,12 @@ ffmpeg = function () {
 		});
 	}
 	
-	// extracts metadata from media file
-	self.metadata = function (path, handler) {
-		tool.exec.call(self, ['-i', path], function (stdout) {
-			process(stdout, handler);
-		}, true);
-	};
-	
-	// extracts thumbnail(s) from media file
-	self.thumb = function (inPath, outPath, count, handler) {
-		// check if thumbnail exists
-		tool.exec.call(self, [
+	// extracts metadata from video file
+	// - inPath: path to video file
+	// - outPath: path to thumbnail, no thumbnail will be generated when absent
+	// - count: number of thumbs to generate
+	self.exec = function (inPath, outPath, count, handler) {
+		var args = outPath ? [
 			'-i', inPath,
 			'-f', 'image2',
 			'-vframes', count || 1,
@@ -136,8 +131,13 @@ ffmpeg = function () {
 			'-aspect', '4:3',
 			'-ss', '15',
 			outPath
-		], function (stdout) {
-			parse(stdout, handler);
+		] : [
+			'-i', inPath
+		];
+		
+		// check if thumbnail exists
+		tool.exec.call(self, args, function (stdout) {
+			process(stdout, handler);
 		}, true);
 	};
 	

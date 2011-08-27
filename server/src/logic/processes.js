@@ -49,7 +49,7 @@ processes = {
 					relative = tmp[1];
 	
 			// extracting metadata from file w/ ffmpeg
-			ffmpeg.metadata(root + relative, function (data) {
+			ffmpeg.exec(root + relative, null, null, function (data) {
 				// filtering out useful metadata
 				var keywords = {},
 						key, value;
