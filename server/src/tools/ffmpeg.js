@@ -138,7 +138,7 @@ ffmpeg = function () {
 			outPath
 		], function (stdout) {
 			parse(stdout, handler);
-		});
+		}, true);
 	};
 	
 	return self;
