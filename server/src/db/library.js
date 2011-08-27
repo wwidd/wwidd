@@ -34,6 +34,10 @@ library = function () {
 		},
 		
 		// inserts videos into the database
+		// - rootid: id of root for videos
+		// - data: keywords indexed by path (rel. to root)
+		// - options: specifies what sort of information to store
+		//	 format: {keywords: bool, tags: bool} (default is 'true' for both)
 		fill: function (rootid, data, options, handler) {
 			var	statement = [],
 					path,
