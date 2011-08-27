@@ -64,16 +64,27 @@ tool = {
 		
 		// handling tool exit
 		that.child.on('exit', function (code) {
-			if (code !== 0 && silent !== true) {
-				throw ["Tool", "'" + that.executable + "'", "exited with code:", code].join(" ") + ".";
+			if (code !== 0) {
+				// tool failed
+				if (silent === true) {
+					// wrapping up
+					if (handler) {
+						handler('');
+					}
+				} else {
+					// taking it seriously
+					throw ["Tool", "'" + that.executable + "'", "exited with code:", code].join(" ") + ".";
+				}
 			}
-			if (!handler) {
-				return;
-			} else if (!that.parser) {
-				handler(stdout.join(''));
-			} else {
-				that.child = null;
-				handler(that.parser.parse(stdout.join('')));
+			if (handler) {
+				if (that.parser) {
+					// returning parsed data
+					that.child = null;
+					handler(that.parser.parse(stdout.join('')));
+				} else {
+					// returning string
+					handler(stdout.join(''));
+				}
 			}
 		});
 		
