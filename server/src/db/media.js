@@ -52,7 +52,7 @@ media = function (mediaid) {
 	
 	self.multiGet = function (mediaids, handler) {
 		var statement = [
-			"SELECT mediaid, roots.path AS root, media.path AS path, hash",
+			"SELECT roots.rootid, mediaid, roots.path AS root, media.path AS path, hash",
 			"FROM media",
 			"JOIN roots USING (rootid)",
 			"WHERE mediaid IN", "('" + mediaids.join("','") + "')"

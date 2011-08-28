@@ -6,6 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 var	thumb = require('../logic/thumb').thumb,
+		library = require('../db/library').library,
 		media = require('../db/media').media,
 		queue = require('../utils/queue').queue,
 		ffmpeg = require('../tools/ffmpeg').ffmpeg,
@@ -22,15 +23,13 @@ poll = function (name, handler) {
 	});
 };
 
-processes = {
-	// callback expects a path where the root part
-	// and relative part are separated by colon
-	// - path: e.g. '/media/HDD|/videos'
-	// - finish: callback for each element in process queue 
-	extractor: function () {
-		var
+processes = {	
+	thumbnails: function () {
+		var entity = media(),
 		
+		// keyword / metadata lookup 
 		lookup = {
+			'title': 'title',
 			'duration': 'Duration',
 			'dimensions': 'dimensions',
 			'distributor': 'WM/ContentDistributor',
@@ -42,65 +41,88 @@ processes = {
 			'adult': 'WM/ParentalRating'
 		},
 
-		// handler run on each link in process queue
-		process = queue(function (path, finish) {
-			var tmp = path.split('|'),
-					root = tmp[0],
-					relative = tmp[1];
-	
-			// extracting metadata from file w/ ffmpeg
-			ffmpeg.exec(root + relative, null, null, function (data) {
-				// filtering out useful metadata
-				var keywords = {},
-						key, value;
-
-				for (key in lookup) {
-					if (lookup.hasOwnProperty(key)) {
-						value = data[lookup[key]];
-						if (typeof value !== 'undefined' && value.length) {
-							keywords[key] = data[lookup[key]];
-						}
+		// filters out useful metadata
+		// returns uniform keywords
+		// format: {key: value}
+		// - data: metadata returned by thumbnail generator
+		//	 format: {key: value}
+		filter = function (data) {
+			var result = {},
+					key, value;
+			for (key in lookup) {
+				if (lookup.hasOwnProperty(key)) {
+					value = data[lookup[key]];
+					if (typeof value !== 'undefined' && value.length) {
+						result[key] = data[lookup[key]];
 					}
 				}
-				
-				finish({path: relative, keywords: keywords});
-			});
-		});
+			}
+			return result;
+		},
 		
-		return process;
-	}(),
-	
-	thumbnails: function () {
-		var entity = media(),
+		toArray = function (obj) {
+			var result = [],
+					key;
+			for (key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					result.push(key + ':' + obj[key]);
+				}
+			}
+			return result;
+		},
 		
+		// thumbnail process
 		process = queue(function (elem, finish) {
 			var tmp = elem.split('|'),
-					entry = {mediaid: tmp[0], root: tmp[1], path: tmp[2], hash: tmp[3]};
-			console.log("THUMBS - generating thumbnail: " + entry.hash);
-			thumb.generate(entry.root + entry.path, entry.hash, function (created) {
+					entry = {rootid: tmp[0], mediaid: tmp[1], root: tmp[2], path: tmp[3], hash: tmp[4], keywords: {}};
+			thumb.generate(entry.root + entry.path, entry.hash, function (data) {
+				if (data !== false) {
+					console.log("PROCESSES - generated thumbnail: " + entry.hash);
+					entry.keywords = filter(data);
+				}
 				finish(entry);
 			});
 		});
 		
+		// adding process events
 		process
 			.onFlush(function (result, handler) {
 				// assembling hash update
-				var after = {},
+				var hashes = {},			// format: {mediaid: {hash: hash}}
+						keywords = {},		// format: {rootid: {path: keywords}}
+						response = {},		// format: {mediaid: {hash: hash, keywords: keywords}}
 						i, entry;
 				for (i = 0; i < result.length; i++) {
 					entry = result[i];
-					after[entry.mediaid] = {
+					
+					// adding hash
+					hashes[entry.mediaid] = {
 						hash: entry.hash
+					};
+					
+					// adding keywords to library ingest
+					if (!keywords.hasOwnProperty(entry.rootid)) {
+						keywords[entry.rootid] = {};
+					}
+					keywords[entry.rootid][entry.path] = entry.keywords;
+					
+					// adding hash and keyword to response
+					response[entry.mediaid] = {
+						hash: entry.hash,
+						keywords: toArray(entry.keywords)
 					};
 				}
 				
 				// updating hashes
-				entity.multiSet(after, function () {
-					// returning to caller process
-					// (ending request when called from service)
-					if (handler) {
-						handler(after);
-					}
+				entity.multiSet(hashes, function () {
+					// updating metadata
+					library.fill(keywords, {tags: false}, function () {
+						// returning to caller process
+						// (ending request when called from service)
+						if (handler) {
+							handler(response);
+						}
+					});
 				});
 			});
 			
@@ -122,7 +144,7 @@ processes = {
 		} else {
 			// getting progress for all processes
 			result = {};
-			names = ['extractor', 'thumbnails'];
+			names = ['thumbnails'];
 			next = function (i) {
 				if (i >= names.length) {
 					if (handler) {

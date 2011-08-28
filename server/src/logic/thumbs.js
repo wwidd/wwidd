@@ -29,7 +29,7 @@ thumbs = function () {
 						shasum = $crypto.createHash('md5');
 						shasum.update(entry.path);
 						entry.hash = shasum.digest('hex');
-						elems.push(entry.mediaid + '|' + entry.root + '|' + entry.path + '|' + entry.hash);
+						elems.push(entry.rootid + '|' + entry.mediaid + '|' + entry.root + '|' + entry.path + '|' + entry.hash);
 					}
 				}
 				
