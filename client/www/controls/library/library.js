@@ -92,8 +92,7 @@ yalp.controls = (function (controls, $, data, services) {
 					.render();
 
 				// updating thumbnail data
-				var hashes = json.load;
-				data.media.setHash(hashes);
+				data.media.update(json.load);
 				
 				// updating UI if necessary
 				if (json.progress === -1) {

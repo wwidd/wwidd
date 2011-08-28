@@ -65,17 +65,24 @@ yalp.data = function (data, jOrder, services) {
 			},
 			
 			// updates hashes for media entries
-			// - hashes: object containing hash values for mediaids
-			//	 format: {mediaid: {hash: string}}
-			setHash: function (hashes) {
+			// WARNING: bypasses jOrder! Only for hashes and keywords for now!
+			// - diffs: object containing fields to update, indexed by media id
+			//	 format: {mediaid: media record}}
+			update: function (diffs) {
 				var mediaid,
-						before, after;
-				for (mediaid in hashes) {
-					if (hashes.hasOwnProperty(mediaid)) {
-						// to save cpu, hash is updated directly (w/o jOrder.update)
-						// because hash is not part of any indexes
+						before, diff,
+						keys = [], key;
+				for (mediaid in diffs) {
+					if (diffs.hasOwnProperty(mediaid)) {
+						// to save cpu, fields are updated directly (w/o jOrder.update)
+						// works only with hash and keywords
 						before = self.table.where([{mediaid: mediaid}], {renumber: true})[0];
-						before.hash = hashes[mediaid].hash;
+						diff = diffs[mediaid];
+						for (key in diff) {
+							if (diff.hasOwnProperty(key)) {
+								before[key] = diff[key];								
+							}
+						}
 					}
 				}
 				return self;
