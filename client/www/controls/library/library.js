@@ -81,12 +81,24 @@ yalp.controls = (function (controls, $, data, services) {
 			return self;
 		};
 		
+		// sets disabled state of db controls
+		function disabled(value) {
+			controls.switcher
+				.disabled({library: value})
+				.render();
+			controls.rootadd
+				.disabled({library: value})
+				.render();
+		}
+		
 		// polls thumbnail generation process
 		self.poll = function () {
-			controls.switcher
-				.disabled({library: true})
-				.render();
+			// disabling db controls
+			disabled(true);
+			
+			// polling background processes
 			services.poll('thumbnails', function (json) {
+				// updating progress indicator
 				controls.progress
 					.progress(json.progress)
 					.render();
@@ -96,9 +108,8 @@ yalp.controls = (function (controls, $, data, services) {
 				
 				// updating UI if necessary
 				if (json.progress === -1) {
-					controls.switcher
-						.disabled({library: false})
-						.render();
+					// re-enabling db controls
+					disabled(false);
 				}
 			});
 		};
