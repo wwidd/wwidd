@@ -17,9 +17,6 @@ root = function (path) {
 			var	metadata = { },
 					count = 0;
 			
-			// clearing process queues
-			processes.extractor.clear();
-					
 			// walking library root synchronously
 			count = 0;
 			walker(
@@ -27,8 +24,6 @@ root = function (path) {
 				null,
 				// called on each file
 				function (filePath) {
-					// adding full video path to extractor process
-					processes.extractor.add(path + '|' + filePath);
 					// increasing counter
 					if (!metadata.hasOwnProperty(filePath)) {
 						// only unique keys (filePath) count
