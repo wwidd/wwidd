@@ -36,16 +36,15 @@ library = function () {
 		// inserts videos into the database
 		// - rootid: id of root for videos
 		// - data: keywords indexed by path (rel. to root)
+		// 	 format: {rootid: {path: {keyword: value}}}
 		// - options: specifies what sort of information to store
 		//	 format: {keywords: bool, tags: bool} (default is 'true' for both)
-		fill: function (rootid, data, options, handler) {
+		fill: function (data, options, handler) {
 			var	statement = [],
-					path,
+					rootid,
+					paths, path,
 					keywords, keyword,
-					tags,
-					i,
-					buffer,
-					fd,
+					tags, i,
 					lastid = "(SELECT value FROM vars WHERE name = 'lastid')";
 	
 			console.log("LIBRARY - building ingest SQL statement...");
@@ -55,62 +54,67 @@ library = function () {
 			statement.push("CREATE TEMPORARY TABLE vars (name TEXT, value INTEGER);");
 			statement.push("INSERT INTO vars (name, value) VALUES ('lastid', 0);");
 			
-			for (path in data) {
-				if (data.hasOwnProperty(path)) {
-					// inserting statement for media path
-					statement.push([
-						"INSERT OR IGNORE INTO media (rootid, path)",
-						"VALUES (",
-						rootid + ",",
-						"'" + quotes(path) + "'",
-						");"
-					].join(" "));
-					
-					// updating last accessed media id so sub-inserts can use that
-					statement.push([
-						"UPDATE vars SET value = (",
-						"SELECT mediaid FROM media",
-						"WHERE",
-						"rootid = " + rootid, "AND",
-						"path = '" + quotes(path) + "'",
-						")",
-						"WHERE name = 'lastid';"
-					].join(" "));
-					
-					// inserting statement for media keywords (properties)
-					if (options.keywords !== false) {
-						keywords = data[path];
-						for (keyword in keywords) {
-							if (keywords.hasOwnProperty(keyword)) {
-								statement.push([
-									"INSERT OR REPLACE INTO keywords (mediaid, key, value) VALUES (",
-									lastid, ",'",
-									keyword, "','",
-									quotes(keywords[keyword]),
-									"');"
-								].join(""));
-							}
-						}
-					}
-					
-					// inserting statement for auto tags
-					if (options.tags !== false) {
-						tags = []
-							// filename broken down into its word-like components
-							.concat($path.basename(path, $path.extname(path)).split(/[^A-Za-z0-9]+/))
-							// path stripped of non-word characters and broken down by directory levels
-							.concat($path.dirname(path).replace(/[^A-Za-z0-9\/\\\s]+/g, ' ').split(/[\/\\]/));
-		
-						for (i = 0; i < tags.length; i++) {
-							if (!tags[i].length) {
-								continue;
-							}
+			for (rootid in data) {
+				if (data.hasOwnProperty(rootid)) {
+					paths = data[rootid];
+					for (path in paths) {
+						if (paths.hasOwnProperty(path)) {
+							// inserting statement for media path
 							statement.push([
-								"INSERT OR REPLACE INTO tags (mediaid, name) VALUES (",
-								lastid, ",'",
-								quotes(tags[i]),
-								"');"				
-							].join(""));
+								"INSERT OR IGNORE INTO media (rootid, path)",
+								"VALUES (",
+								rootid + ",",
+								"'" + quotes(path) + "'",
+								");"
+							].join(" "));
+							
+							// updating last accessed media id so sub-inserts can use that
+							statement.push([
+								"UPDATE vars SET value = (",
+								"SELECT mediaid FROM media",
+								"WHERE",
+								"rootid = " + rootid, "AND",
+								"path = '" + quotes(path) + "'",
+								")",
+								"WHERE name = 'lastid';"
+							].join(" "));
+							
+							// inserting statement for media keywords (properties)
+							if (options.keywords !== false) {
+								keywords = paths[path];
+								for (keyword in keywords) {
+									if (keywords.hasOwnProperty(keyword)) {
+										statement.push([
+											"INSERT OR REPLACE INTO keywords (mediaid, key, value) VALUES (",
+											lastid, ",'",
+											keyword, "','",
+											quotes(keywords[keyword]),
+											"');"
+										].join(""));
+									}
+								}
+							}
+							
+							// inserting statement for auto tags
+							if (options.tags !== false) {
+								tags = []
+									// filename broken down into its word-like components
+									.concat($path.basename(path, $path.extname(path)).split(/[^A-Za-z0-9]+/))
+									// path stripped of non-word characters and broken down by directory levels
+									.concat($path.dirname(path).replace(/[^A-Za-z0-9\/\\\s]+/g, ' ').split(/[\/\\]/));
+				
+								for (i = 0; i < tags.length; i++) {
+									if (!tags[i].length) {
+										continue;
+									}
+									statement.push([
+										"INSERT OR REPLACE INTO tags (mediaid, name) VALUES (",
+										lastid, ",'",
+										quotes(tags[i]),
+										"');"				
+									].join(""));
+								}
+							}
 						}
 					}
 				}

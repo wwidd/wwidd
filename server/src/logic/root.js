@@ -56,9 +56,12 @@ root = function (path) {
 							return;
 						}
 						
+						var result = {};
+						result[rootid] = metadata;
+						
 						// filling library with pure names (auto tags)
 						// when this is done, the HTTP response ends: the rest is async
-						library.fill(rootid, metadata, {keywords: false}, function () {
+						library.fill(result, {keywords: false}, function () {
 							if (handler) {
 								handler(metadata);
 							}
