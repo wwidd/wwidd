@@ -9,7 +9,7 @@ The Wwidd Library is open, written entirely in JavaScript, and built on top of o
 
 Full packages and dependencies are nonger available from here. Check the Donwloads page on [http://wwidd.com](http://wwidd.com).
 
-Current version is 0.2.1.
+Current version is 0.3.
 
 Features
 --------
@@ -17,6 +17,7 @@ Features
 Importing videos from disk:
 
 - Auto-tagging
+- Thumbnail and metadata extraction
 
 Color-coded tag categories:
 
