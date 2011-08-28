@@ -3,7 +3,7 @@
 //
 // Base class for command line execution
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, exports, Buffer */
+/*global require, exports, Buffer, console */
 var $child_process = require('child_process'),
 		system = require('utils/system').system,
 
@@ -64,16 +64,19 @@ tool = {
 		
 		// handling tool exit
 		that.child.on('exit', function (code) {
+			var message;
 			if (code !== 0) {
+				message = ["Tool", "'" + that.executable + "'", "exited with code:", code].join(" ") + ".";
 				// tool failed
 				if (silent === true) {
+					console.log("TOOL - silently failed. " + message);
 					// wrapping up
 					if (handler) {
 						handler('');
 					}
 				} else {
 					// taking it seriously
-					throw ["Tool", "'" + that.executable + "'", "exited with code:", code].join(" ") + ".";
+					throw message;
 				}
 			}
 			if (handler) {
