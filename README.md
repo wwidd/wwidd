@@ -7,7 +7,7 @@ Even working with thousands of videos, the Wwidd Library is designed to be respo
 
 The Wwidd Library is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, ffmpeg, and VLC.
 
-Full packages and dependencies are nonger available from here. Check the Donwloads page on [http://wwidd.com](http://wwidd.com).
+Full packages and dependencies are nonger available from here. Check the Downloads page at [http://wwidd.com](http://wwidd.com).
 
 Current version is 0.3.
 
