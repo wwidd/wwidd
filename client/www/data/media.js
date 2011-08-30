@@ -77,10 +77,13 @@ yalp.data = function (data, jOrder, services) {
 						// to save cpu, fields are updated directly (w/o jOrder.update)
 						// works only with hash and keywords
 						before = self.table.where([{mediaid: mediaid}], {renumber: true})[0];
-						diff = diffs[mediaid];
-						for (key in diff) {
-							if (diff.hasOwnProperty(key)) {
-								before[key] = diff[key];								
+						if (typeof before !== 'undefined') {
+							// it is possible that the mediaid being polled is not loaded ATM
+							diff = diffs[mediaid];
+							for (key in diff) {
+								if (diff.hasOwnProperty(key)) {
+									before[key] = diff[key];								
+								}
 							}
 						}
 					}
