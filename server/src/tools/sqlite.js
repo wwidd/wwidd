@@ -73,8 +73,14 @@ sqlite = function () {
 		// running sql statement
 		tool.exec.call(self, args, function (data) {
 			if (handler) {
-				console.log("SQLITE - retrieved " + data.length + " records.");
-				return handler(data);
+				if (typeof data !== 'undefined') {
+					console.log("SQLITE - retrieved " + data.length + " records.");
+					handler(data);
+				} else {
+					console.log("SQLITE - query failed");
+					console.log(statement);
+					handler();
+				}
 			}
 		}, true);
 

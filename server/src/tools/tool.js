@@ -72,7 +72,7 @@ tool = {
 					console.log("TOOL - silently failed. " + message);
 					// wrapping up
 					if (handler) {
-						handler('');
+						handler();
 					}
 				} else {
 					// taking it seriously
