@@ -3,9 +3,9 @@
 //
 // Performs certain operations on a comma separated list of tags.
 ////////////////////////////////////////////////////////////////////////////////
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.data = function (data) {
+app.data = function (data) {
 	// tag collection
 	data.tag = function (names) {
 		var separator = /\s*[^A-Za-z0-9:\s]+\s*/,
@@ -39,5 +39,5 @@ yalp.data = function (data) {
 	};
 	
 	return data;
-}(yalp.data || {});
+}(app.data || {});
 

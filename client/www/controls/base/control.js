@@ -4,9 +4,9 @@
 // 'Abstract' base class for UI controls.
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $) {
+app.controls = function (controls, $) {
 	var LAST_ID = 0,	// next control id to be assigned
 			COUNT = 0;	  // total number of controls attached
 	
@@ -165,5 +165,5 @@ yalp.controls = function (controls, $) {
 	};
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery);

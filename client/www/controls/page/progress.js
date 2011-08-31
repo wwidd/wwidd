@@ -2,9 +2,9 @@
 // General Progress Indicator Control
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $) {
+app.controls = function (controls, $) {
 	controls.progress = function () {
 		var self = controls.control.create(),
 				progress = 0;
@@ -50,6 +50,6 @@ yalp.controls = function (controls, $) {
 	}();
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery);
 

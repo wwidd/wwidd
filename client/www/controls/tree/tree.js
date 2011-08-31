@@ -4,9 +4,9 @@
 // Represents a tree with expandable / collapsible nodes
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $) {
+app.controls = function (controls, $) {
 	controls.tree = function (onSelect, onExpandCollapse) {
 		var self = controls.control.create(),
 				rootNode,
@@ -59,6 +59,6 @@ yalp.controls = function (controls, $) {
 	};
 	
 	return controls;
-}(yalp.controls,
+}(app.controls,
 	jQuery);
 

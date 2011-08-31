@@ -2,9 +2,9 @@
 // Polling Background Processes
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, alert, window */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.poll = function (service) {
+app.poll = function (service) {
 	var stopped = true,			// whether polling is stopped
 			delay = 2000;				// delay between polls
 	
@@ -40,4 +40,4 @@ yalp.poll = function (service) {
 		}
 		next();
 	};
-}(yalp.service);
+}(app.service);

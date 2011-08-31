@@ -4,9 +4,9 @@
 // Tree control designed specifically to display directories
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, services) {
+app.controls = function (controls, $, services) {
 	// tells whether an object has any own propertes
 	function hasOwnProperties(obj) {
 		var prop;
@@ -125,7 +125,7 @@ yalp.controls = function (controls, $, services) {
 	};
 	
 	return controls;
-}(yalp.controls,
+}(app.controls,
 	jQuery,
-	yalp.services);
+	app.services);
 

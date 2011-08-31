@@ -2,9 +2,9 @@
 // Media Entry
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, services, data) {
+app.controls = function (controls, $, services, data) {
 	var
 	
 	// static event handlers
@@ -118,8 +118,8 @@ yalp.controls = function (controls, $, services, data) {
 	$('td.check :checkbox').live('click', onChecked);
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
-	yalp.services,
-	yalp.data);
+	app.services,
+	app.data);
 

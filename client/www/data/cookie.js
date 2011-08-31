@@ -2,9 +2,9 @@
 // Browser Cookie
 ////////////////////////////////////////////////////////////////////////////////
 /*global document */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.data = function (data, services) {
+app.data = function (data, services) {
 	// parses the entire cookie string
 	function parse() {
 		var cookies = document.cookie.split('; '),
@@ -50,6 +50,6 @@ yalp.data = function (data, services) {
 	}();
 	
 	return data;
-}(yalp.data || {},
-	yalp.services);
+}(app.data || {},
+	app.services);
 

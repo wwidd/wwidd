@@ -2,9 +2,9 @@
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, jOrder, escape */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, jOrder, services, data) {
+app.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
 	// - handler: callback redrawing parent
 	controls.tag = function (row) {
@@ -120,9 +120,9 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	$('.tag.edit input.focus').live('keydown', onNav);
 
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
 	jOrder,
-	yalp.services,
-	yalp.data);
+	app.services,
+	app.data);
 

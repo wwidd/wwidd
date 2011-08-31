@@ -2,9 +2,9 @@
 // Web Services
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, alert, window */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.services = function ($, window, service, poll) {
+app.services = function ($, window, service, poll) {
 	return {
 		// adds a root path to library (w/ import)
 		addroot: function (path, handler) {
@@ -104,5 +104,5 @@ yalp.services = function ($, window, service, poll) {
 	};
 }(jQuery,
 	window,
-	yalp.service,
-	yalp.poll);
+	app.service,
+	app.poll);

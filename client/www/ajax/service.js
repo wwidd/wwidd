@@ -2,9 +2,9 @@
 // Service
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, alert */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.service = function ($) {
+app.service = function ($) {
 	var url = 'http://127.0.0.1:8124/';
 	
 	return function (endpoint) {

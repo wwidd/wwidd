@@ -2,9 +2,9 @@
 // Keywords Popup
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $) {
+app.controls = function (controls, $) {
 	controls.preview = function () {
 		var self = controls.control.create(controls.popup()),
 				keywords = [],
@@ -56,6 +56,6 @@ yalp.controls = function (controls, $) {
 	}();
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery);
 

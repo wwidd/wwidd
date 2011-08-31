@@ -4,9 +4,9 @@
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, jOrder, confirm */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, jOrder, services, data) {
+app.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
 	// - tag: tag string "name:kind"
 	controls.tagedit = function (row, tag) {
@@ -144,9 +144,9 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	$('input', context).live('keyup', onChange);
 
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
 	jOrder,
-	yalp.services,
-	yalp.data);
+	app.services,
+	app.data);
 

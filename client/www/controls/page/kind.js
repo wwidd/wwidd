@@ -4,9 +4,9 @@
 // Displays and switches one tag kind on and off
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, data) {
+app.controls = function (controls, $, data) {
 	controls.kind = function (kind, handler) {
 		var self = controls.control.create(),
 				count = data.tags.table.index('kind').count(kind);	// no. of tags associated w/ kind
@@ -62,7 +62,7 @@ yalp.controls = function (controls, $, data) {
 	$('.kind :checkbox').live('click', onChecked);
 
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
-	yalp.data);
+	app.data);
 

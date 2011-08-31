@@ -2,9 +2,9 @@
 // Video Library - Page
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = (function (controls, $, data) {
+app.controls = (function (controls, $, data) {
 	controls.page = function () {
 		var self = {},
 				pager,
@@ -64,7 +64,7 @@ yalp.controls = (function (controls, $, data) {
 	}();
 	
 	return controls;
-})(yalp.controls || {},
+})(app.controls || {},
 	jQuery,
-	yalp.data);
+	app.data);
 

@@ -2,9 +2,9 @@
 // Select All - Select None control
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $) {
+app.controls = function (controls, $) {
 	controls.checker = function () {
 		var self = controls.control.create();
 				
@@ -36,6 +36,6 @@ yalp.controls = function (controls, $) {
 	}();
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery);
 

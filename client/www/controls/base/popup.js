@@ -2,9 +2,9 @@
 // General Popup Control
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, window */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $) {
+app.controls = function (controls, $) {
 	var TYPES = {
 		'centered': 'centered',
 		'follow': 'follow'
@@ -79,6 +79,6 @@ yalp.controls = function (controls, $) {
 	};
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery);
 

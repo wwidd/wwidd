@@ -4,9 +4,9 @@
 // For switching between pages
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, document */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, data) {
+app.controls = function (controls, $, data) {
 	controls.pager = function () {
 		var self = controls.control.create();
 
@@ -153,7 +153,7 @@ yalp.controls = function (controls, $, data) {
 	});
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
-	yalp.data);
+	app.data);
 

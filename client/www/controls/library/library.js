@@ -2,9 +2,9 @@
 // Video Library
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, document */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = (function (controls, $, data, services) {
+app.controls = (function (controls, $, data, services) {
 	controls.library = function () {
 		var self = controls.control.create(),
 				onInit;
@@ -185,8 +185,8 @@ yalp.controls = (function (controls, $, data, services) {
 	}();
 	
 	return controls;
-})(yalp.controls || {},
+})(app.controls || {},
 	jQuery,
-	yalp.data,
-	yalp.services);
+	app.data,
+	app.services);
 

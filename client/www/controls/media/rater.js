@@ -4,9 +4,9 @@
 // The number of stars represent the rating. Up to five stars can be given.
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, services) {
+app.controls = function (controls, $, services) {
 	controls.rater = function (row) {
 		var self = controls.control.create();
 
@@ -70,7 +70,7 @@ yalp.controls = function (controls, $, services) {
 	};
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
-	yalp.services);
+	app.services);
 

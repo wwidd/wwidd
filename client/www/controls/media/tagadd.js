@@ -4,9 +4,9 @@
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, jOrder, confirm */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, jOrder, services, data) {
+app.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
 	controls.tagadd = function (row) {
 		var	self = controls.control.create(controls.tag(row));
@@ -105,9 +105,9 @@ yalp.controls = function (controls, $, jOrder, services, data) {
 	$('.tag.add.edit input.focus').live('keyup', onChange);
 
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
 	jOrder,
-	yalp.services,
-	yalp.data);
+	app.services,
+	app.data);
 

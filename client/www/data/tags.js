@@ -2,9 +2,9 @@
 // Tags Data
 ////////////////////////////////////////////////////////////////////////////////
 /*global jOrder, escape */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.data = function (data, jOrder, services) {
+app.data = function (data, jOrder, services) {
 	data.tags = function () {
 		var self = {
 			table: null,
@@ -79,7 +79,7 @@ yalp.data = function (data, jOrder, services) {
 	}();
 	
 	return data;
-}(yalp.data,
+}(app.data,
 	jOrder,
-	yalp.services);
+	app.services);
 

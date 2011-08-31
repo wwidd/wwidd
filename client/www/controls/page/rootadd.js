@@ -2,9 +2,9 @@
 // Root Adder Control
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, services) {
+app.controls = function (controls, $, services) {
 	controls.rootadd = function () {
 		var self = controls.control.create(),
 				dirsel;
@@ -92,7 +92,7 @@ yalp.controls = function (controls, $, services) {
 	}();
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
-	yalp.services);
+	app.services);
 

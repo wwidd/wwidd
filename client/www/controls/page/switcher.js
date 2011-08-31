@@ -4,9 +4,9 @@
 // Lists available libraries and switches between them.
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, services) {
+app.controls = function (controls, $, services) {
 	controls.switcher = function () {
 		var self = controls.control.create(),
 				busy = false,
@@ -121,7 +121,7 @@ yalp.controls = function (controls, $, services) {
 	}();
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
-	yalp.services);
+	app.services);
 

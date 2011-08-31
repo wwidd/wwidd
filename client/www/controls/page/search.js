@@ -2,9 +2,9 @@
 // Search Box Control
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $, services, data) {
+app.controls = function (controls, $, services, data) {
 	controls.search = function () {
 		var self = controls.control.create();
 
@@ -89,8 +89,8 @@ yalp.controls = function (controls, $, services, data) {
 	}();
 	
 	return controls;
-}(yalp.controls || {},
+}(app.controls || {},
 	jQuery,
-	yalp.services,
-	yalp.data);
+	app.services,
+	app.data);
 

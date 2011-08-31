@@ -2,9 +2,9 @@
 // Tree node in a tree control
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.controls = function (controls, $) {
+app.controls = function (controls, $) {
 	controls.node = function (text, tree, path) {
 		path = path || [];
 		
@@ -159,6 +159,6 @@ yalp.controls = function (controls, $) {
 	$('li.node > span.name').live('click', onSelect);
 	
 	return controls;
-}(yalp.controls,
+}(app.controls,
 	jQuery);
 

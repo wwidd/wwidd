@@ -2,9 +2,9 @@
 // Tag Kinds Data
 ////////////////////////////////////////////////////////////////////////////////
 /*global jOrder */
-var yalp = yalp || {};
+var app = app || {};
 
-yalp.data = function (data, jOrder, services) {
+app.data = function (data, jOrder, services) {
 	data.kinds = function () {
 		var self = {
 			lookup: {},
@@ -41,7 +41,7 @@ yalp.data = function (data, jOrder, services) {
 	}();
 	
 	return data;
-}(yalp.data || {},
+}(app.data || {},
 	jOrder,
-	yalp.services);
+	app.services);
 
