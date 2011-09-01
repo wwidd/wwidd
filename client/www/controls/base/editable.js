@@ -16,26 +16,41 @@ app.controls = function (controls, $) {
 	onClickOutside;
 	
 	controls.editable = function () {
-		var self = controls.control.create();
-		
-		// mode can be either 'display' or 'edit'
-		self.mode = 'display';
+		var self = controls.control.create(),
+				mode = 'display';
+
+		self.hints = controls.editable.hints;
 		
 		//////////////////////////////
 		// Utility functions
 	
 		// switches to mode / between modes
-		self.toggle = function (mode) {
-			this.mode = mode || {'display': 'edit', 'edit': 'display'}[this.mode];
+		self.toggle = function (value) {
+			mode = value || {'display': 'edit', 'edit': 'display'}[mode];
 			var elem = this.render(),
 					that = this;
-			if (mode === 'edit') {
-				elem.find('.focus').focus();
+			if (value === 'edit') {
+				// delegating focus to focus object
+				elem.find('.focus')
+					.focus();
+				
+				// displaying hint
+				controls.hints
+					.hints(this.hints)
+					.render();
+
+				// adding removal event
 				$('body').one('click', function (event) {
 					onClickOutside(event, that, elem);
 				});
 			} else {
+				// unbinding global 'clickoutside' handler(s)
 				$('body').unbind('click');
+
+				// hiding hint
+				controls.hints
+					.clear()
+					.render();				
 			}
 			return elem;
 		};
@@ -55,7 +70,7 @@ app.controls = function (controls, $) {
 				
 		self.html = function () {
 			// generating html according to mode
-			if (this.mode === 'edit') {
+			if (mode === 'edit') {
 				return this.edit();
 			} else {
 				return this.display();
@@ -66,6 +81,13 @@ app.controls = function (controls, $) {
 	};
 
 	//////////////////////////////
+	// Static properties
+
+	// hints associated with this control
+	controls.editable.hints = [
+	];
+	
+	//////////////////////////////
 	// Static event handlers
 
 	// 'click outside' handler
@@ -73,6 +95,11 @@ app.controls = function (controls, $) {
 		if (!elem.find(event.target).length) {
 			// handling actual click outside event
 			self.toggle('display');
+			
+			// hiding hint
+			controls.hints
+				.clear()
+				.render();
 		} else {
 			// re-binding one time handler
 			$('body').one('click', function (event) {

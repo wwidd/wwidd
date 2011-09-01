@@ -37,6 +37,10 @@ app.controls = (function (controls, $, data) {
 			controls.switcher
 				.render($('#switcher').empty());
 				
+			// adding hints container to page
+			controls.hints
+				.render($('#hints').empty());
+			
 			// adding root adder to page
 			controls.rootadd
 				.render($('#rootadd').empty());

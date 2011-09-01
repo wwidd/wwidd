@@ -11,7 +11,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 	controls.tagadd = function (row) {
 		var	self = controls.control.create(controls.tag(row));
 
-		self.data.row = row;	
+		self.data.row = row;
+		self.hints = controls.tagadd.hints;
 
 		//////////////////////////////
 		// Overrides
@@ -35,6 +36,15 @@ app.controls = function (controls, $, jOrder, services, data) {
 		
 		return self;
 	};
+	
+	//////////////////////////////
+	// Static properties
+
+	// hints associated with this control
+	controls.tagadd.hints = [
+		"SHIFT + ENTER to add tag to checked videos.",
+		"CTRL + ENTER to add tag to search results."
+	].concat(controls.tag.hints);
 	
 	//////////////////////////////
 	// Static event handlers

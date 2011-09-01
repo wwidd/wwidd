@@ -14,6 +14,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 				index_tags = media_table.index('tags'),
 				rowId = media_table.index('mediaid').lookup([row])[0];
 		
+		self.hints = controls.tag.hints;
+				
 		// removes tag from media entry
 		function remove(before) {
 			if (before) {
@@ -90,6 +92,15 @@ app.controls = function (controls, $, jOrder, services, data) {
 		return self;
 	};
 
+	//////////////////////////////
+	// Static properties
+
+	// hints associated with this control
+	controls.tag.hints = [
+		"Press ESC to exit edit mode.",
+		"Use TAB and SHIFT + TAB to move between tags."
+	];
+	
 	//////////////////////////////
 	// Common static event handlers
 

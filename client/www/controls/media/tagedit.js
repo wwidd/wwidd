@@ -17,6 +17,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 
 		self.data.row = row;
 		self.data.tag = tag;
+		self.hints = controls.tagedit.hints;
 				
 		//////////////////////////////
 		// Overrides
@@ -44,6 +45,17 @@ app.controls = function (controls, $, jOrder, services, data) {
 		
 		return self;
 	};
+	
+	//////////////////////////////
+	// Static properties
+
+	// hints associated with this control
+	controls.tagedit.hints = [
+		"SHIFT + ENTER to change tag on checked videos.",
+		"SHIFT + CLICK on delete to remove all occurrences.",
+		"CTRL + ENTER to change tag on search results.",
+		"CTRL + CLICK on delete to remove from search results."	
+	].concat(controls.tag.hints);
 	
 	//////////////////////////////
 	// Static event handlers
