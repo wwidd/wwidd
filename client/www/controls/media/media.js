@@ -78,15 +78,19 @@ app.controls = function (controls, $, services, data) {
 				'<', child, ' class="check">',
 				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
 				'</', child, '>',
-				'<', child, ' class="file">',
-				'<a href="#" class="play">', row.file, '</a>',
-				'</', child, '>',
 				view === 'tile' ? [
+					'<div class="file">',
+					'<span>', row.file, '</span>',
+					'</div>',
 					'<div class="overlay"></div>',
 					'<div class="thumb">',
-					hash.length ? ['<img src="/cache/', hash, '.jpg">'].join('') : '',
+					hash.length ? ['<img class="play" src="/cache/', hash, '.jpg">'].join('') : '',
 					'</div>'
-				].join('') : '',
+				].join('') : [
+					'<td class="file">',
+					'<a href="#" class="play">', row.file, '</a>',
+					'</td>'
+				].join(''),
 				'<', child, ' class="rater">',
 				rater.html(),
 				'</', child, '>',
@@ -107,11 +111,12 @@ app.controls = function (controls, $, services, data) {
 	
 	onEnter = function (event) {
 		var media = $(this).closest('.medium'),
-				self = controls.lookup[media.attr('id')];
-		if (self.data.row.keywords.length || self.data.row.hash.length) {
+				self = controls.lookup[media.attr('id')],
+				view = self.view();
+		if (self.data.row.keywords.length || view === 'list' && self.data.row.hash.length) {
 			controls.preview
 				.keywords(self.data.row.keywords)
-				.hash(self.data.row.hash)
+				.hash(view === 'list' ? self.data.row.hash : '')
 				.render($('body'));
 		}
 	};
@@ -140,7 +145,7 @@ app.controls = function (controls, $, services, data) {
 		}
 	};
 	
-	$('a.play')
+	$('a.play, img.play')
 		.live('click', onClick)
 		.live('mouseenter', onEnter)
 		.live('mouseleave', onLeave);

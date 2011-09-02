@@ -31,6 +31,10 @@ table.media {
 MEDIA ENTRY
 ******************************/
 
+.medium .play {
+	cursor: pointer;
+}
+
 .medium > .file a {
 	display: inline-block; *zoom: 1;
 	width: 300px;
