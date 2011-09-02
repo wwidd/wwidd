@@ -96,6 +96,10 @@ MEDIA ENTRY
 	background: #f8f8f8;
 }
 
+div.medium > div.thumb > span.spinner {
+	background: url('/image/spinner48light.gif');
+}
+
 tr.medium {
 	border-color: #c4d2d7;
 }
