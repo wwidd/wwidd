@@ -9,7 +9,11 @@ gzip = function () {
 	var self = Object.create(tool, {executable: {value: 'gzip'}, binary: {value: true}});
 	
 	self.exec = function (handler) {
-		tool.exec.call(self, null, handler);
+		tool.exec.call(self, null, function (code, data) {
+			if (handler) {
+				handler(data);
+			}
+		});
 	};
 	
 	return self;

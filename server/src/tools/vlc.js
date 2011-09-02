@@ -9,7 +9,11 @@ vlc = function () {
 	var self = Object.create(tool, {executable: {value: 'vlc'}});
 			
 	self.exec = function (path, handler) {
-		tool.exec.call(self, ['-vvv', path], handler);
+		tool.exec.call(self, ['-vvv', path], function (code, data) {
+			if (handler) {
+				handler(data);
+			}
+		});
 		return self;
 	};
 	

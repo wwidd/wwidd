@@ -72,7 +72,7 @@ tool = {
 					console.log("TOOL - silently failed. " + message);
 					// wrapping up
 					if (handler) {
-						handler();
+						handler(code);
 					}
 				} else {
 					// taking it seriously
@@ -83,10 +83,10 @@ tool = {
 				if (that.parser) {
 					// returning parsed data
 					that.child = null;
-					handler(that.parser.parse(stdout.join('')));
+					handler(code, that.parser.parse(stdout.join('')));
 				} else {
 					// returning string
-					handler(stdout.join(''));
+					handler(code, stdout.join(''));
 				}
 			}
 		});

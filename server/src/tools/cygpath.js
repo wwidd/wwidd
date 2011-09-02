@@ -12,7 +12,7 @@ cygpath = function () {
 	var self = Object.create(tool, {executable: {value: 'cygpath'}});
 			
 	self.exec = function (path, handler) {
-		tool.exec.call(self, ['-w', path], handler ? function (data) {
+		tool.exec.call(self, ['-w', path], handler ? function (code, data) {
 			handler(data.replace(/\s+/g, ''));
 		} : handler);
 		return self;
