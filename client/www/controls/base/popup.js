@@ -22,9 +22,12 @@ app.controls = function (controls, $) {
 		// mouse move event handler
 		// - dims: dimensions of elem(Height / Width) and window(Height / Width)
 		function onMouseMove(event, elem, dims) {
+			// we need the top left of the mouse cursor
+			var pageX = event.pageX - 8,
+					pageY = event.pageY - 8;
 			elem.css({
-				top: dims.windowHeight > event.pageY + dims.elemHeight ? event.pageY : event.pageY - dims.elemHeight,
-				left: dims.windowWidth > event.pageX + dims.elemWidth ? event.pageX : event.pageX - dims.elemWidth
+				top: dims.windowHeight > pageY + dims.elemHeight ? pageY : pageY - dims.elemHeight,
+				left: dims.windowWidth > pageX + dims.elemWidth ? pageX : pageX - dims.elemWidth
 			});
 		}
 		
