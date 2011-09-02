@@ -55,6 +55,10 @@ CONTROLS
 	border-bottom: 1px solid;
 }
 
+/******************************
+CHECKER
+******************************/
+
 #checker a {
 	margin: 0 10px 0 0;
 	vertical-align: middle;
@@ -75,6 +79,29 @@ LIBRARY SWITCHER
 	display: inline-block; *zoom: 1;
 	height: 16px;
 	width: 16px;
+}
+
+/******************************
+VIEW SELECTOR
+******************************/
+#views {
+	margin: 0 0 0 5px;
+}
+
+#views a {
+	display: inline-block; *zoom: 1;
+	width: 16px;
+	height: 16px;
+	margin: 0 5px 0 0;
+	vertical-align: middle;
+}
+
+#views a.tile {
+	background: url('/image/application_view_tile.png');
+}
+
+#views a.list {
+	background: url('/image/application_view_list.png');
 }
 
 /******************************

@@ -33,6 +33,10 @@ app.controls = (function (controls, $, data) {
 			controls.checker
 				.render($('#checker').empty());
 				
+			// adding select all
+			controls.views
+				.render($('#views').empty());
+				
 			// adding library switcher
 			controls.switcher
 				.render($('#switcher').empty());
