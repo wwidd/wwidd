@@ -15,16 +15,20 @@ app.controls = function (controls, $) {
 			elem
 				.find('.tile').click(function () {
 					// switching to tile view
-					controls.library
-						.view('tile')
-						.render();
+					if (controls.library.view() !== 'tile') {
+						controls.library
+							.view('tile')
+							.render();
+					}
 					return false;
 				}).end()
 				.find('.list').click(function () {
 					// switching to list view
-					controls.library
-						.view('list')
-						.render();
+					if (controls.library.view() !== 'list') {
+						controls.library
+							.view('list')
+							.render();
+					}
 					return false;
 				}).end();
 		};

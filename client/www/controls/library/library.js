@@ -126,8 +126,12 @@ app.controls = (function (controls, $, data, services) {
 		// Getters / setters
 
 		self.view = function (value) {
-			view = value;
-			return self;
+			if (typeof value !== 'undefined') {
+				view = value;
+				return self;
+			} else {
+				return view;
+			}
 		};
 		
 		self.onInit = function (handler) {
