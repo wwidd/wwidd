@@ -91,16 +91,19 @@ span.search > input {
 MEDIA ENTRY
 ******************************/
 
-tr.media {
- background: #f8f8f8;
- border-color: #c4d2d7;
+.medium {
+	background: #f8f8f8;
 }
 
-tr.media.playing {
- background: #e2f3f9;
+tr.medium {
+	border-color: #c4d2d7;
 }
 
-tr.media > td.file a {
+.medium.playing {
+	background: #e2f3f9;
+}
+
+.medium > .file a {
 	color: #444;
 }
 

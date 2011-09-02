@@ -31,15 +31,15 @@ table.media {
 MEDIA ENTRY
 ******************************/
 
-tr.media {
- border-top: 1px solid;
+tr.medium {
+	border-top: 1px solid;
 }
 
-tr.media:first-child {
+tr.medium:first-child {
 	border-top: none;
 }
 
-tr.media > td.file a {
+.medium > .file a {
 	display: inline-block; *zoom: 1;
 	width: 300px;
 	padding: 0 20px 0 0;
@@ -48,12 +48,12 @@ tr.media > td.file a {
 	white-space: nowrap;
 }
 
-tr.media > td.file a:hover {
+.medium > .file a:hover {
 	padding: 0 0 0 20px;
 	background: url('/image/control_play.png') no-repeat center left;
 }
 
-tr.media.playing > td.file a {
+.medium.playing > .file a {
 	padding: 0 0 0 20px;
 	color: black;
 	font-weight: bold;	
@@ -64,19 +64,19 @@ tr.media.playing > td.file a {
 COLUMNS
 ******************************/
 
-tr.media > td.check {
+tr.medium > td.check {
 	width: 16px;
 }
 
-tr.media > td.file {
+tr.medium > td.file {
 	width: 300px;
 }
 
-tr.media > td.rater {
+tr.medium > td.rater {
 	width: 85px;
 }
 
-tr.media > td.tagger {
+tr.medium > td.tagger {
 	width: 100%;
 	min-width: 200px;
 }

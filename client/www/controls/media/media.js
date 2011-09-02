@@ -53,7 +53,7 @@ app.controls = function (controls, $, services, data) {
 			build();
 			
 			return [
-				'<tr id="', self.id, '" class="media ', data.pagestate.lastPlayed === row.mediaid ? 'playing' : '', '">',
+				'<tr id="', self.id, '" class="', ['medium'].concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : []).join(' '), '">',
 				'<td class="check">',
 				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
 				'</td>',
@@ -77,7 +77,7 @@ app.controls = function (controls, $, services, data) {
 	// Static event handlers
 	
 	onEnter = function (event) {
-		var media = $(this).closest('.media'),
+		var media = $(this).closest('.medium'),
 				self = controls.lookup[media.attr('id')];
 		if (self.data.row.keywords.length || self.data.row.hash.length) {
 			controls.preview
@@ -94,7 +94,7 @@ app.controls = function (controls, $, services, data) {
 	};
 	
 	onClick = function () {
-		var media = $(this).closest('.media'),
+		var media = $(this).closest('.medium'),
 				self = controls.lookup[media.attr('id')];
 		self.play(media);
 		return false;
@@ -102,7 +102,7 @@ app.controls = function (controls, $, services, data) {
 	
 	onChecked = function () {
 		var $this = $(this),
-				media = $this.closest('.media'),
+				media = $this.closest('.medium'),
 				self = controls.lookup[media.attr('id')];
 		if ($this.is(':checked')) {
 			controls.library.selected[self.data.row.mediaid] = true;

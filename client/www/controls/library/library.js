@@ -16,16 +16,16 @@ app.controls = (function (controls, $, data, services) {
 
 		// returns a jQuery object with ALL checkboxes
 		function checkboxes() {
-			return $('#' + self.id + ' td.check > :checkbox');
+			return $('#' + self.id + ' .check > :checkbox');
 		}
 		
 		function media() {
-			return $('#' + self.id + ' tr.media');
+			return $('#' + self.id + ' .medium');
 		}
 		
 		// returns a jQuery object with CHECKED checkboxes
 		function checked() {
-			return $('#' + self.id + ' td.check > :checked');
+			return $('#' + self.id + ' .check > :checked');
 		}
 
 		// resets registry of selected entries
