@@ -13,7 +13,7 @@ app.controls = function (controls, $, services, data) {
 	onClick,
 	onChecked;
 	
-	controls.media = function (row) {
+	controls.media = function (row, view) {
 		var self = controls.control.create(),
 		
 		// sub-controls
@@ -21,6 +21,13 @@ app.controls = function (controls, $, services, data) {
 		tagger;
 		
 		self.data.row = row;
+
+		//////////////////////////////
+		// Getters / setters
+
+		self.view = function () {
+			return view;
+		};
 		
 		//////////////////////////////
 		// Business functions
@@ -46,27 +53,49 @@ app.controls = function (controls, $, services, data) {
 		function build() {
 			self.clear();
 			rater = controls.rater(row).appendTo(self);
-			tagger = controls.tagger(row).appendTo(self);
+			if (view === 'list') {
+				tagger = controls.tagger(row).appendTo(self);
+			}
 		}
 		
 		self.html = function () {
 			build();
 			
+			var parent, child,
+					hash = row.hash;
+
+			// containers for html tag names
+			if (view === 'list') {
+				parent = 'tr';
+				child = 'td';
+			} else {
+				parent = 'div';
+				child = 'div';
+			}
+			
 			return [
-				'<tr id="', self.id, '" class="', ['medium'].concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : []).join(' '), '">',
-				'<td class="check">',
+				'<', parent, ' id="', self.id, '" class="', ['medium'].concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : []).join(' '), '">',
+				'<', child, ' class="check">',
 				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
-				'</td>',
-				'<td class="file">',
+				'</', child, '>',
+				'<', child, ' class="file">',
 				'<a href="#" class="play">', row.file, '</a>',
-				'</td>',
-				'<td class="rater">',
+				'</', child, '>',
+				view === 'tile' ? [
+					'<div class="overlay"></div>',
+					'<div class="thumb">',
+					hash.length ? ['<img src="/cache/', hash, '.jpg">'].join('') : '',
+					'</div>'
+				].join('') : '',
+				'<', child, ' class="rater">',
 				rater.html(),
-				'</td>',
-				'<td class="tagger">',
-				tagger.html(),
-				'</td>',
-				'</tr>'
+				'</', child, '>',
+				view === 'list' ? [
+					'<', child, ' class="tagger">',
+					tagger.html(),
+					'</', child, '>'
+				].join('') : '',
+				'</', parent, '>'
 			].join('');
 		};
 		

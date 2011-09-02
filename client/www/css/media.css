@@ -31,14 +31,6 @@ table.media {
 MEDIA ENTRY
 ******************************/
 
-tr.medium {
-	border-top: 1px solid;
-}
-
-tr.medium:first-child {
-	border-top: none;
-}
-
 .medium > .file a {
 	display: inline-block; *zoom: 1;
 	width: 300px;
@@ -58,6 +50,75 @@ tr.medium:first-child {
 	color: black;
 	font-weight: bold;	
 	background: url('/image/control_play_blue.png') no-repeat center left;
+}
+
+/******************************
+TILE VIEW
+******************************/
+
+div.medium {
+	position: relative;
+	display: inline-block; *display: inline; *zoom: 1;
+	width: 128px;
+	height: 116px;
+	margin: 5px;
+	vertical-align: top;
+	overflow: hidden;
+}
+
+div.medium > div {
+	position: absolute;
+}
+
+div.medium > div.file {
+	top: 100px;
+	left: 0;
+}
+
+div.medium > div.overlay {
+	top: 0px;
+	left: 0;
+	width: 128px;
+	height: 24px;
+	background: black;
+	opacity: 0.5; *filter:alpha(opacity=50);
+	z-index: 2;
+}
+
+div.medium > div.thumb {
+	top: 0px;
+	left: 0;
+	z-index: 1;
+}
+
+div.medium > div.rater {
+	top: 3px;
+	left: 3px; 
+	z-index: 3;
+}
+
+div.medium > div.check {
+	top: 2px;
+	right: 0;
+	z-index: 3;
+}
+
+div.medium > div.tagger {
+	top: 120px;
+	left: 0;
+	z-index: 4;
+}
+
+/******************************
+LIST VIEW
+******************************/
+
+tr.medium {
+	border-top: 1px solid;
+}
+
+tr.medium:first-child {
+	border-top: none;
 }
 
 /******************************

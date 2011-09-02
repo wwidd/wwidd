@@ -7,6 +7,7 @@ var app = app || {};
 app.controls = (function (controls, $, data, services) {
 	controls.library = function () {
 		var self = controls.control.create(),
+				view = 'list',
 				onInit;
 				
 		self.selected = {};
@@ -115,8 +116,13 @@ app.controls = (function (controls, $, data, services) {
 		};
 		
 		//////////////////////////////
-		// Event handlers
+		// Getters / setters
 
+		self.view = function (value) {
+			view = value;
+			return self;
+		};
+		
 		self.onInit = function (handler) {
 			onInit = handler;
 			return self;
@@ -159,20 +165,21 @@ app.controls = (function (controls, $, data, services) {
 			// attaching new controls to cleaned library
 			self.clear();
 			for (i = 0; i < page.length; i++) {
-				controls.media(page[i]).appendTo(self);
+				controls.media(page[i], view).appendTo(self);
 			}
 		}
 
 		self.html = function () {
 			build();
 			
-			var result, i;
+			var node = view === 'list' ? 'table' : 'div',
+					result, i;
 			if (self.children.length) {
-				result = ['<table id="', self.id, '" class="media">'];
+				result = ['<', node, ' id="', self.id, '" class="', ['media', view].join(' '), '">'];
 				for (i = 0; i < self.children.length; i++) {
 					result.push(self.children[i].html());
 				}
-				result.push('</table>');
+				result.push('</' + node + '>');
 			} else if (controls.search.filter.length) {
 				result = ['<span id="', self.id, '" class="warning nohits">', "No videos are matching the criteria.", '</span>'];
 			} else {
