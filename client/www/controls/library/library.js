@@ -8,6 +8,7 @@ app.controls = (function (controls, $, data, services) {
 	controls.library = function () {
 		var self = controls.control.create(),
 				view = 'list',
+				lookup = {},
 				onInit;
 				
 		self.selected = {};
@@ -104,8 +105,14 @@ app.controls = (function (controls, $, data, services) {
 					.progress(json.progress)
 					.render();
 
-				// updating thumbnail data
+				// updating thumbnails
+				var mediaid;
 				data.media.update(json.load);
+				for (mediaid in json.load) {
+					if (json.load.hasOwnProperty(mediaid) && lookup.hasOwnProperty(mediaid)) {
+						lookup[mediaid].render();
+					}
+				}
 				
 				// updating UI if necessary
 				if (json.progress === -1) {
@@ -157,15 +164,21 @@ app.controls = (function (controls, $, data, services) {
 		
 		function build() {
 			var page = data.media.getPage(controls.pager.page, controls.pager.items),
-					i;
+					i, control;
 			
 			// generating thumbnails if necessary
 			thumbnails(page);
 			
 			// attaching new controls to cleaned library
 			self.clear();
+			lookup = {};
 			for (i = 0; i < page.length; i++) {
-				controls.media(page[i], view).appendTo(self);
+				// adding media control to library
+				control = controls.media(page[i], view);
+				control.appendTo(self);
+				
+				// storing control reference for lookup by id
+				lookup[page[i].mediaid] = control;
 			}
 		}
 

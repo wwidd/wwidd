@@ -84,7 +84,9 @@ app.controls = function (controls, $, services, data) {
 					'</div>',
 					'<div class="overlay"></div>',
 					'<div class="thumb">',
-					hash.length ? ['<img class="play" src="/cache/', hash, '.jpg">'].join('') : '',
+					hash.length ?
+						['<img class="play" src="/cache/', hash, '.jpg">'].join('') :
+						'<span class="spinner"></span>',
 					'</div>'
 				].join('') : [
 					'<td class="file">',
