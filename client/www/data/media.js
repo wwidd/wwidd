@@ -71,18 +71,21 @@ app.data = function (data, jOrder, services) {
 			update: function (diffs) {
 				var mediaid,
 						before, diff,
-						keys = [], key;
-				for (mediaid in diffs) {
-					if (diffs.hasOwnProperty(mediaid)) {
-						// to save cpu, fields are updated directly (w/o jOrder.update)
-						// works only with hash and keywords
-						before = self.table.where([{mediaid: mediaid}], {renumber: true})[0];
-						if (typeof before !== 'undefined') {
-							// it is possible that the mediaid being polled is not loaded ATM
-							diff = diffs[mediaid];
-							for (key in diff) {
-								if (diff.hasOwnProperty(key)) {
-									before[key] = diff[key];								
+						keys, key;
+				if (self.table) {
+					keys = [];
+					for (mediaid in diffs) {
+						if (diffs.hasOwnProperty(mediaid)) {
+							// to save cpu, fields are updated directly (w/o jOrder.update)
+							// works only with hash and keywords
+							before = self.table.where([{mediaid: mediaid}], {renumber: true})[0];
+							if (typeof before !== 'undefined') {
+								// it is possible that the mediaid being polled is not loaded ATM
+								diff = diffs[mediaid];
+								for (key in diff) {
+									if (diff.hasOwnProperty(key)) {
+										before[key] = diff[key];								
+									}
 								}
 							}
 						}
