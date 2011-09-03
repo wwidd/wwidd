@@ -4,7 +4,7 @@
 // Manages prioritized queues, where elements can be added and removed,
 // priorities changed while the queue is being processed.
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, exports, setTimeout */
+/*global require, exports */
 var
 
 // - handler: function to call on each element
