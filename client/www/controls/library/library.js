@@ -7,7 +7,7 @@ var app = app || {};
 app.controls = (function (controls, $, data, services) {
 	controls.library = function () {
 		var self = controls.control.create(),
-				view = 'list',
+				view = data.cookie.get('view') || 'list',
 				lookup = {},
 				onInit;
 				

@@ -4,7 +4,7 @@
 /*global jQuery */
 var app = app || {};
 
-app.controls = function (controls, $) {
+app.controls = function (controls, $, data) {
 	controls.views = function () {
 		var self = controls.control.create();
 				
@@ -19,6 +19,7 @@ app.controls = function (controls, $) {
 						controls.library
 							.view('tile')
 							.render();
+						data.cookie.set('view', 'tile');
 					}
 					return false;
 				}).end()
@@ -28,6 +29,7 @@ app.controls = function (controls, $) {
 						controls.library
 							.view('list')
 							.render();
+						data.cookie.set('view', 'list');
 					}
 					return false;
 				}).end();
@@ -47,5 +49,6 @@ app.controls = function (controls, $) {
 	
 	return controls;
 }(app.controls || {},
-	jQuery);
+	jQuery,
+	app.data);
 
