@@ -78,8 +78,7 @@ tool = {
 					// taking it seriously
 					throw message;
 				}
-			}
-			if (handler) {
+			} else if (handler) {
 				if (that.parser) {
 					// returning parsed data
 					that.child = null;
