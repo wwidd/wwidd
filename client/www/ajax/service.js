@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Service
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, alert */
+/*global jQuery, window, alert */
 var app = app || {};
 
 app.service = function ($) {
-	var url = 'http://127.0.0.1:8124/';
+	var url = window.location.href;
 	
 	return function (endpoint) {
 		var self = {

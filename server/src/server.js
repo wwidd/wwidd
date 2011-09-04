@@ -15,14 +15,13 @@ var	$http = require('http'),
 		media = require('logic/media').media,
 		thumbs = require('logic/thumbs').thumbs,
 		envelope = require('utils/envelope').envelope,
-		browser = require('tools/browser').browser,
+		browser = require('tools/browser').browser,	
+		ifconfig = require('tools/ifconfig').ifconfig,
 		system = require('utils/system').system,
-		ip = '127.0.0.1',
 		port = 8124,
-		url = 'http://' + ip + ':' + port;
 
 // creating server object
-$http.createServer(function (req, res) {
+server = $http.createServer(function (req, res) {
 	var	url = $url.parse(req.url, true),
 			endpoint = url.pathname,
 			filePath,
@@ -232,11 +231,15 @@ $http.createServer(function (req, res) {
 			});
 		});
 	}
-}).listen(port, ip);
+});
 
-console.log("Server running at " + url);
-
-browser.exec(url, function () {
-	console.log("Browser started.");
+ifconfig.exec(function (ip) {
+	var url = 'http://' + ip + ':' + port;
+	server.listen(port, ip, function () {
+		console.log("Server running at " + url);
+		browser.exec(url, function () {
+			console.log("Browser started.");
+		});
+	});
 });
 
