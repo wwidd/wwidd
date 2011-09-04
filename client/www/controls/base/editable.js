@@ -11,6 +11,9 @@ var app = app || {};
 app.controls = function (controls, $) {
 	var
 	
+	// event.type for clicking ('click' or 'touchend')
+	click = 'click', 
+	
 	// static event handler declarations
 	onClick,
 	onClickOutside;
@@ -40,17 +43,17 @@ app.controls = function (controls, $) {
 					.render();
 
 				// adding removal event
-				$('body').one('click', function (event) {
+				$('body').one(click, function (event) {
 					onClickOutside(event, that, elem);
 				});
 			} else {
 				// unbinding global 'clickoutside' handler(s)
-				$('body').unbind('click');
+				$('body').unbind(click);
 
 				// hiding hint
 				controls.hints
 					.clear()
-					.render();				
+					.render();
 			}
 			return elem;
 		};
@@ -102,27 +105,31 @@ app.controls = function (controls, $) {
 				.render();
 		} else {
 			// re-binding one time handler
-			$('body').one('click', function (event) {
+			$('body').one(click, function (event) {
 				onClickOutside(event, self, elem);
 			});
 		}
 		return false;
 	};
 	
-	onClick = function () {
+	onClick = function (event) {
+		click = event.type;
+		
 		// switching display w/ edit
 		var self = controls.lookup[$(this).attr('id')],
 				elem = self.toggle('edit');
 		
 		// emulating a 'click outside' event
-		$('body').one('click', function (event) {
+		$('body').one(click, function (event) {
 			onClickOutside(event, self, elem);
 		});
 		
 		return false;
 	};
 
-	$('.editable').live('click', onClick);
+	$('.editable')
+		.live('click', onClick)
+		.live('touchend', onClick);
 	
 	return controls;
 }(app.controls || {},
