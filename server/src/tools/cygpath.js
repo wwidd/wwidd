@@ -8,7 +8,6 @@ var	$path = require('path'),
 		tool = require('../tools/tool').tool,
 
 cygpath = function () {
-	// inheriting from tool
 	var self = Object.create(tool, {executable: {value: 'cygpath'}});
 			
 	self.exec = function (path, handler) {

@@ -6,7 +6,6 @@ var	system = require('../utils/system').system,
 		tool = require('../tools/tool').tool,
 
 browser = function () {
-	// inheriting from tool
 	var executable = {'cygwin': 'cmd', 'windows': 'cmd', 'linux': 'xdg-open'}[system.os] || 'open',
 			self = Object.create(tool, {executable: {value: executable}});
 			

@@ -7,7 +7,6 @@ var	$path = require('path'),
 		parser = require('../utils/parser').parser,
 
 ffmpeg = function () {
-	// inheriting from tool
 	var
 
 	customParser = Object.create(parser, {

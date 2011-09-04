@@ -12,7 +12,6 @@ var	$fs = require('fs'),
 		tempFile = 'temp.sql',
 
 sqlite = function () {
-	// inheriting from tool
 	var db = 'default',
 			path = 'server/db/',
 	
