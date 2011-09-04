@@ -29,7 +29,7 @@ thumb = function () {
 				// generating thumbnail
 				ffmpeg.exec(inPath, outPath, 1, handler);
 			} else if (handler) {
-				handler(false);
+				handler();
 			}
 		}
 	};
