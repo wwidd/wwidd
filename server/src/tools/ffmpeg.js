@@ -136,7 +136,11 @@ ffmpeg = function () {
 		
 		// check if thumbnail exists
 		tool.exec.call(self, args, function (code, stdout) {
-			process(stdout, handler);
+			if (code === 0) {
+				process(stdout, handler);
+			} else if (handler) {
+				handler();
+			}
 		}, true);
 	};
 	
