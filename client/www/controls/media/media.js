@@ -80,9 +80,10 @@ app.controls = function (controls, $, services, data) {
 				'</', child, '>',
 				view === 'tile' ? [
 					'<div class="file">',
-					'<span>', row.file, '</span>',
+					'<span title="', row.file, '">', row.file, '</span>',
 					'</div>',
 					'<div class="overlay"></div>',
+					'<div class="play"></div>',
 					'<div class="thumb">',
 					hash.length ?
 						['<img class="play" src="/cache/', hash, '.jpg">'].join('') :

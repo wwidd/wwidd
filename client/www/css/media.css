@@ -92,6 +92,15 @@ div.medium > div.overlay {
 	z-index: 2;
 }
 
+div.medium > div.play {
+	display: none;
+}
+
+div.medium.playing > div.play {
+	display: block;
+	z-index: 2;
+}
+
 div.medium > div.thumb {
 	top: 0px;
 	left: 0;

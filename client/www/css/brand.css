@@ -106,6 +106,14 @@ div.medium.playing {
 	background: #a1cad7;
 }
 
+div.medium.playing > div.play {
+	top: 22px;
+	left: 28px;
+	height: 72px;
+	width: 72px;
+	background: url('/image/wwidd_play_72.png');	
+}
+
 div.medium > div.thumb > span.spinner {
 	background: url('/image/spinner48light.gif');
 }
