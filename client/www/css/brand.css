@@ -102,8 +102,12 @@ div.medium:hover {
 }
 
 div.medium.playing {
-	border-color: #a1cad7;
-	background: #a1cad7;
+	border-color: #444;
+	background: #444;
+}
+
+div.medium.playing > div.file > span {
+	color: #f8f8f8;
 }
 
 div.medium.playing > div.play {
