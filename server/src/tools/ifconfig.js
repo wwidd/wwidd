@@ -9,16 +9,18 @@ var	system = require('../utils/system').system,
 ifconfig = function () {
 	var LOOPBACK = '127.0.0.1',
 	
-	executable = {'cygwin': 'ipconfig', 'windows': 'ipconfig', 'linux': 'ifconfig'}[system.os] || 'ifconfig',
+	executable = {'cygwin': 'ipconfig', 'windows': 'ipconfig'}[system.os] || 'ifconfig',
 	
 	outputParser = Object.create(parser, {
 		rowSeparator: {value: new RegExp(tool.lineBreak + tool.lineBreak + '\\s*')},
 		fieldSeparator: {value: new RegExp('[' + tool.lineBreak + '\\s]{2,}')},
-		keySeparator: {value: ':'}
+		keySeparator: {value: new RegExp('[\\s.]*:\\s*')},
+		keyLength: {value: {'cygwin': 2, 'windows': 2}[system.os] || 0}
 	}),
 	
 	self = Object.create(tool, {
 		executable: {value: executable},
+		binary: {value: true},
 		parser: {value: outputParser}
 	});
 
@@ -30,7 +32,7 @@ ifconfig = function () {
 			// acquiring IP address
 			if (code === 0) {
 				for (i = 0; i < data.length; i++) {
-					ip = data[i]['inet addr'];
+					ip = data[i]['inet addr'] || data[i]['IP'];
 					if (typeof ip !== 'undefined' &&
 							ip !== LOOPBACK) {
 						result = ip;
