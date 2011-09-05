@@ -52,7 +52,7 @@ MEDIA ENTRY
 .medium.playing > .file a {
 	padding: 0 0 0 20px;
 	color: black;
-	font-weight: bold;	
+	font-weight: bold;
 	background: url('/image/control_play_blue.png') no-repeat center left;
 }
 
@@ -64,8 +64,10 @@ div.medium {
 	position: relative;
 	display: inline-block; *display: inline; *zoom: 1;
 	width: 128px;
-	height: 116px;
-	margin: 5px;
+	height: 115px;
+	margin: 5px 0 5px 5px;
+	border: 5px solid transparent;
+	border-radius: 3px; -moz-border-radius: 3px;
 	vertical-align: top;
 	overflow: hidden;
 }
@@ -75,8 +77,9 @@ div.medium > div {
 }
 
 div.medium > div.file {
-	top: 100px;
+	top: 96px;
 	left: 0;
+	margin: 2px;
 }
 
 div.medium > div.overlay {

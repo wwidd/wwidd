@@ -96,6 +96,16 @@ MEDIA ENTRY
 	background: #f8f8f8;
 }
 
+div.medium:hover {
+	border-color: #c4d2d7;
+	background: #c4d2d7;
+}
+
+div.medium.playing {
+	border-color: #a1cad7;
+	background: #a1cad7;
+}
+
 div.medium > div.thumb > span.spinner {
 	background: url('/image/spinner48light.gif');
 }
