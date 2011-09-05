@@ -45,9 +45,9 @@ library = function () {
 					paths, path,
 					keywords, keyword,
 					tags, i,
-					lastid = "(SELECT value FROM vars WHERE name = 'lastid')";
+					lastid = "(SELECT value FROM vars WHERE name = 'lastid')",
+					count = 0;
 	
-			console.log("LIBRARY - building ingest SQL statement...");
 			statement.push("BEGIN TRANSACTION;");
 			
 			// adding temporary table to store last accessed media id
@@ -115,16 +115,23 @@ library = function () {
 									].join(""));
 								}
 							}
+							
+							// one more path processed
+							count++;
 						}
 					}
 				}
 			}
 			statement.push("COMMIT;");
-			console.log("LIBRARY - SQL statement built: " + statement.length + " lines");
-
-			// executing statement
-			db.nonQueryPiped(statement.join('\n'), handler);
 			
+			if (count > 0) {
+				// executing statement
+				console.log("LIBRARY - ingest SQL statement built: " + statement.length + " lines");	
+				db.nonQueryPiped(statement.join('\n'), handler);
+			} else {
+				handler();
+			}
+
 			return self;
 		}
 	};
