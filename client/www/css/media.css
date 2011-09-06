@@ -22,9 +22,8 @@ span.empty {
 MEDIA LIST (table)
 ******************************/
 
-table.media {
+div.media {
 	width: 100%;
-	border-collapse: collapse;
 }
 
 /******************************
@@ -39,7 +38,7 @@ MEDIA ENTRY
 TILE VIEW
 ******************************/
 
-div.medium {
+div.media.tile > div.medium {
 	position: relative;
 	display: inline-block; *display: inline; *zoom: 1;
 	width: 128px;
@@ -51,22 +50,22 @@ div.medium {
 	overflow: hidden;
 }
 
-div.medium > div {
+div.media.tile > div.medium > div {
 	position: absolute;
 }
 
-div.medium > div.file {
+div.media.tile > div.medium > div.file {
 	top: 96px;
 	left: 0;
 	margin: 2px;
 	overflow: hidden;
 }
 
-div.medium > div.file > span {
+div.media.tile > div.medium > div.file > span {
 	white-space: nowrap;
 }
 
-div.medium > div.overlay {
+div.media.tile > div.medium > div.overlay {
 	top: 0px;
 	left: 0;
 	width: 128px;
@@ -76,16 +75,16 @@ div.medium > div.overlay {
 	z-index: 2;
 }
 
-div.medium > div.play {
+div.media.tile > div.medium > div.play {
 	display: none;
 }
 
-div.medium.playing > div.play {
+div.media.tile > div.medium.playing > div.play {
 	display: block;
 	z-index: 2;
 }
 
-div.medium > div.thumb {
+div.media.tile > div.medium > div.thumb {
 	top: 0px;
 	left: 0;
 	width: 128px;
@@ -93,7 +92,7 @@ div.medium > div.thumb {
 	z-index: 1;
 }
 
-div.medium > div.thumb > span.spinner {
+div.media.tile > div.medium > div.thumb > span.spinner {
 	position: absolute;
 	top: 34px;
 	left: 40px;
@@ -103,19 +102,19 @@ div.medium > div.thumb > span.spinner {
 	margin: 0 auto;
 }
 
-div.medium > div.rater {
+div.media.tile > div.medium > div.rater {
 	top: 3px;
 	left: 3px; 
 	z-index: 3;
 }
 
-div.medium > div.check {
+div.media.tile > div.medium > div.check {
 	top: 2px;
 	right: 0;
 	z-index: 3;
 }
 
-div.medium > div.tagger {
+div.media.tile > div.medium > div.tagger {
 	top: 120px;
 	left: 0;
 	z-index: 4;
@@ -125,51 +124,61 @@ div.medium > div.tagger {
 LIST VIEW
 ******************************/
 
-tr.medium {
+div.media.list > div.medium {
+	width: 100%;
 	border-top: 1px solid transparent;
 }
 
-tr.medium:first-child {
+div.media.list > div.medium:first-child {
 	border-top: none;
 }
 
-tr.medium > td.file > a {
+div.media.list > div.medium > div {
+	display: inline-block; *display: inline; *zoom: 1;
+	height: 16px;
+	padding: 2px 5px 2px 0;
+	vertical-align: middle;
+}
+
+div.media.list > div.medium > div.check {
+	width: 16px;
+	padding-left: 4px;
+}
+
+div.media.list > div.medium > div.check > input {
+	height: 16px;
+	margin: 0;
+	vertical-align: middle;
+}
+
+div.media.list > div.medium > div.file {
+	width: 300px;
+	overflow: hidden;
+}
+
+div.media.list > div.medium > div.file > a {
 	display: inline-block; *zoom: 1;
 	width: 300px;
 	padding: 0 20px 0 0;
-	overflow: hidden;
 	text-decoration: none;
 	white-space: nowrap;
 }
 
-tr.medium.playing > td.file > a {
+div.media.list > div.medium.playing > div.file > a {
 	padding: 0 0 0 20px;
 	color: black;
 	font-weight: bold;
 	background: url('/image/control_play_blue.png') no-repeat center left;
 }
 
-/******************************
-COLUMNS
-******************************/
-
-tr.medium > td.check {
-	width: 16px;
-}
-
-tr.medium > td.file {
-	width: 300px;
-}
-
-tr.medium > td.rater {
+div.media.list > div.medium > div.rater {
 	width: 85px;
-	padding: 0 4px;
 }
 
-tr.medium > td.tagger {
-	width: 100%;
+div.media.list > div.medium > div.tagger {
 	min-width: 200px;
-	padding-left: 4px;
+	height: auto;
+	margin: 0 0 0 5px;
 }
 
 /******************************

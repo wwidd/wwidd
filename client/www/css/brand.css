@@ -91,60 +91,52 @@ span.search > input {
 MEDIA ENTRY
 ******************************/
 
-.media,
-.medium {
+div.media,
+div.medium {
 	background: #f8f8f8;
 }
 
-div.medium:hover {
-	border-color: #c4d2d7;
-	background: #c4d2d7;
+div.media.tile > div.medium:hover {
+	border-color: #e0e0e0;
+	background: #e0e0e0;
 }
 
-tr.medium {
-	border-color: #e8e8e8;
+div.media.list > div.medium:hover {
+	background: #f0f0f0;
 }
 
-tr.medium:hover > td.check,
-tr.medium:hover > td.rater,
-tr.medium:hover > td.file {
-	background: #c4d2d7;
-}
-
-div.medium.playing {
+div.media.tile > div.medium.playing {
 	border-color: #444;
 	background: #444;
 }
 
-tr.medium.playing > td.check,
-tr.medium.playing > td.rater,
-tr.medium.playing > td.file {
+div.media.list > div.medium.playing {
 	background: #444;
 }
 
-div.medium > div.file > span,
-tr.medium > td.file > a {
+div.media.tile > div.medium > div.file > span,
+div.media.list > div.medium > div.file > a {
 	color: #444;
 }
 
-div.medium.playing > div.file > span,
-tr.medium.playing > td.file > a {
+div.media.tile > div.medium.playing > div.file > span,
+div.media.list > div.medium.playing > div.file > a {
 	color: #f8f8f8;
 }
 
-div.medium.playing > div.play {
+div.media.tile > div.medium.playing > div.play {
 	top: 22px;
 	left: 28px;
 	height: 72px;
 	width: 72px;
-	background: url('/image/wwidd_play_72.png');	
+	background: url('/image/wwidd_play_72.png') no-repeat top left;
 }
 
-tr.medium.playing > td.file > a {
-	background: url('/image/wwidd_play_16.png') no-repeat center left;
+div.media.list > div.medium.playing > div.file > a {
+	background: url('/image/wwidd_play_16.png') no-repeat bottom left;
 }
 
-div.medium > div.thumb > span.spinner {
+div.media.tile > div.medium > div.thumb > span.spinner {
 	background: url('/image/spinner48light.gif');
 }
 

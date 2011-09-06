@@ -1,17 +1,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Entry
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, window */
 var app = app || {};
 
 app.controls = function (controls, $, services, data) {
 	var
 	
+	// static properties
+	lastWidth,
+	
 	// static event handlers
 	onEnter,
 	onLeave,
 	onClick,
-	onChecked;
+	onChecked,
+	onResize;
 	
 	controls.media = function (row, view) {
 		var self = controls.control.create(),
@@ -64,24 +68,19 @@ app.controls = function (controls, $, services, data) {
 			var parent, child,
 					hash = row.hash;
 
-			// containers for html tag names
-			if (view === 'list') {
-				parent = 'tr';
-				child = 'td';
-			} else {
-				parent = 'div';
-				child = 'div';
-			}
-			
 			return [
-				'<', parent, ' id="', self.id, '" class="', ['medium'].concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : []).join(' '), '">',
-				'<', child, ' class="check">',
+				'<div id="', self.id, '" class="', ['medium'].concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : []).join(' '), '">',
+				'<div class="check">',
 				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
-				'</', child, '>',
+				'</div>',
+				'<div class="file">',
 				view === 'tile' ? [
-					'<div class="file">',
-					'<span title="', row.file, '">', row.file, '</span>',
-					'</div>',
+					'<span title="', row.file, '">', row.file, '</span>'
+				].join('') : [
+					'<a href="#" class="play">', row.file, '</a>'
+				].join(''),
+				'</div>',
+				view === 'tile' ? [
 					'<div class="overlay"></div>',
 					'<div class="play"></div>',
 					'<div class="thumb">',
@@ -89,24 +88,54 @@ app.controls = function (controls, $, services, data) {
 						['<img class="play" src="/cache/', hash, '.jpg">'].join('') :
 						'<span class="spinner"></span>',
 					'</div>'
-				].join('') : [
-					'<td class="file">',
-					'<a href="#" class="play">', row.file, '</a>',
-					'</td>'
-				].join(''),
-				'<', child, ' class="rater">',
-				rater.html(),
-				'</', child, '>',
-				view === 'list' ? [
-					'<', child, ' class="tagger">',
-					tagger.html(),
-					'</', child, '>'
 				].join('') : '',
-				'</', parent, '>'
+				'<div class="rater">',
+				rater.html(),
+				'</div>',
+				view === 'list' ? [
+					'<div class="tagger">',
+					tagger.html(),
+					'</div>'
+				].join('') : '',
+				'</div>'
 			].join('');
 		};
 		
 		return self;
+	};
+	
+	//////////////////////////////
+	// Static methods
+	
+	// resizes tagger 'column' to fit screen width
+	controls.media.resize = function (force) {
+		var $list = $('div.media.list'),
+				widths = {full: $list.innerWidth()},
+				$media, $model;
+		if (force || (!lastWidth || widths.full !== lastWidth) && $list.length) {
+			// obtaining DOM elements
+			$media = $list.children('div.medium');
+			$model = $media.eq(0);
+			
+			// measuring fix widths that influence variable width
+			widths.check = $model.children('div.check').outerWidth(true);
+			widths.file = $model.children('div.file').outerWidth(true);
+			widths.rater = $model.children('div.rater').outerWidth(true);
+			widths.margin = $model.children('div.tagger').outerWidth(true) - $model.children('div.tagger').width();
+			widths.scroller = 15;	// scroller may appear without triggering a resize event
+			
+			// changing width
+			$media.find('div.tagger').width(
+				widths.full -
+				widths.check -
+				widths.file -
+				widths.rater -
+				widths.margin -
+				widths.scroller);
+			
+			// updating state indicator
+			lastWidth = widths.full;
+		}
 	};
 	
 	//////////////////////////////
@@ -148,11 +177,19 @@ app.controls = function (controls, $, services, data) {
 		}
 	};
 	
+	onResize = function (elem) {
+		controls.media.resize();
+	};
+	
+	//////////////////////////////
+	// Event bindings
+
 	$('a.play, img.play')
 		.live('click', onClick)
 		.live('mouseenter', onEnter)
 		.live('mouseleave', onLeave);
 	$('td.check :checkbox').live('click', onChecked);
+	$(window).bind('resize', onResize);
 	
 	return controls;
 }(app.controls || {},

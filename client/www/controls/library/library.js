@@ -186,17 +186,23 @@ app.controls = (function (controls, $, data, services) {
 			}
 		}
 
+		self.init = function (elem) {
+			// adjusting control widths for list view
+			if (view === 'list') {
+				controls.media.resize(true);
+			}
+		};
+		
 		self.html = function () {
 			build();
 			
-			var node = view === 'list' ? 'table' : 'div',
-					result, i;
+			var result, i;
 			if (self.children.length) {
-				result = ['<', node, ' id="', self.id, '" class="', ['media', view].join(' '), '">'];
+				result = ['<div id="', self.id, '" class="', ['media', view].join(' '), '">'];
 				for (i = 0; i < self.children.length; i++) {
 					result.push(self.children[i].html());
 				}
-				result.push('</' + node + '>');
+				result.push('</div>');
 			} else if (controls.search.filter.length) {
 				result = ['<span id="', self.id, '" class="warning nohits">', "No videos are matching the criteria.", '</span>'];
 			} else {
