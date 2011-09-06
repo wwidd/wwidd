@@ -101,12 +101,34 @@ div.medium:hover {
 	background: #c4d2d7;
 }
 
+tr.medium {
+	border-color: #e8e8e8;
+}
+
+tr.medium:hover > td.check,
+tr.medium:hover > td.rater,
+tr.medium:hover > td.file {
+	background: #c4d2d7;
+}
+
 div.medium.playing {
 	border-color: #444;
 	background: #444;
 }
 
-div.medium.playing > div.file > span {
+tr.medium.playing > td.check,
+tr.medium.playing > td.rater,
+tr.medium.playing > td.file {
+	background: #444;
+}
+
+div.medium > div.file > span,
+tr.medium > td.file > a {
+	color: #444;
+}
+
+div.medium.playing > div.file > span,
+tr.medium.playing > td.file > a {
 	color: #f8f8f8;
 }
 
@@ -118,19 +140,11 @@ div.medium.playing > div.play {
 	background: url('/image/wwidd_play_72.png');	
 }
 
+tr.medium.playing > td.file > a {
+	background: url('/image/wwidd_play_16.png') no-repeat center left;
+}
+
 div.medium > div.thumb > span.spinner {
 	background: url('/image/spinner48light.gif');
-}
-
-tr.medium {
-	border-color: #c4d2d7;
-}
-
-.medium.playing {
-	background: #e2f3f9;
-}
-
-.medium > .file a {
-	color: #444;
 }
 

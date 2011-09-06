@@ -35,27 +35,6 @@ MEDIA ENTRY
 	cursor: pointer;
 }
 
-.medium > .file a {
-	display: inline-block; *zoom: 1;
-	width: 300px;
-	padding: 0 20px 0 0;
-	overflow: hidden;
-	text-decoration: none;
-	white-space: nowrap;
-}
-
-.medium > .file a:hover {
-	padding: 0 0 0 20px;
-	background: url('/image/control_play.png') no-repeat center left;
-}
-
-.medium.playing > .file a {
-	padding: 0 0 0 20px;
-	color: black;
-	font-weight: bold;
-	background: url('/image/control_play_blue.png') no-repeat center left;
-}
-
 /******************************
 TILE VIEW
 ******************************/
@@ -80,6 +59,11 @@ div.medium > div.file {
 	top: 96px;
 	left: 0;
 	margin: 2px;
+	overflow: hidden;
+}
+
+div.medium > div.file > span {
+	white-space: nowrap;
 }
 
 div.medium > div.overlay {
@@ -142,11 +126,27 @@ LIST VIEW
 ******************************/
 
 tr.medium {
-	border-top: 1px solid;
+	border-top: 1px solid transparent;
 }
 
 tr.medium:first-child {
 	border-top: none;
+}
+
+tr.medium > td.file > a {
+	display: inline-block; *zoom: 1;
+	width: 300px;
+	padding: 0 20px 0 0;
+	overflow: hidden;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+tr.medium.playing > td.file > a {
+	padding: 0 0 0 20px;
+	color: black;
+	font-weight: bold;
+	background: url('/image/control_play_blue.png') no-repeat center left;
 }
 
 /******************************
@@ -163,11 +163,13 @@ tr.medium > td.file {
 
 tr.medium > td.rater {
 	width: 85px;
+	padding: 0 4px;
 }
 
 tr.medium > td.tagger {
 	width: 100%;
 	min-width: 200px;
+	padding-left: 4px;
 }
 
 /******************************
