@@ -6,7 +6,7 @@ var app = app || {};
 
 app.controls = function (controls, $) {
 	controls.preview = function () {
-		var self = controls.control.create(controls.popup()),
+		var self = controls.control.create(controls.popup('context')),
 				keywords = [],
 				hash = '';
 		
