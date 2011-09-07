@@ -24,7 +24,6 @@ app.controls = function (controls, $, services, data) {
 	
 	// static event handlers
 	onClick,
-	onMouseDown,
 	onChecked,
 	onResize;
 	
@@ -156,28 +155,10 @@ app.controls = function (controls, $, services, data) {
 	//////////////////////////////
 	// Static event handlers
 	
-	function showPreview(event) {
-		var media = $(this).closest('.medium'),
-				self = controls.lookup[media.attr('id')],
-				view = self.view();
-		if (self.data.row.keywords.length || view === 'compact' && self.data.row.hash.length) {
-			controls.preview
-				.keywords(self.data.row.keywords)
-				.hash(view === 'compact' ? self.data.row.hash : '')
-				.position(event)
-				.render($('body'));
-		}
-	}
-	
 	onClick = function () {
 		var media = $(this).closest('.medium'),
 				self = controls.lookup[media.attr('id')];
 		self.play(media);
-		return false;
-	};
-	
-	onMouseDown = function (event) {
-		showPreview.call(this, event);
 		return false;
 	};
 	
@@ -200,8 +181,7 @@ app.controls = function (controls, $, services, data) {
 	// Event bindings
 
 	$('a.play, img.play')
-		.live('click', onClick)
-		.live('contextmenu', onMouseDown);
+		.live('click', onClick);
 	$('td.check :checkbox').live('click', onChecked);
 	$(window).bind('resize', onResize);
 	

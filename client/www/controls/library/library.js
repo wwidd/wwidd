@@ -72,11 +72,6 @@ app.controls = (function (controls, $, data, services) {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + controls.switcher.selected());
 				
-				// resetting preview popup box
-				controls.preview
-					.remove()
-					.render();
-				
 				// initializing tag data buffer
 				data.tags.init(onInit);
 
