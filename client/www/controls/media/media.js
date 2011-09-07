@@ -1,11 +1,23 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Entry
+//
+// Single video entry.
+// Available views:
+// - compact: checkbox, filename, rater, and tagger controls as a row
+// - thumb: checker, thumbnail, filename, and rater overlayed
+// - full: all controls (checkbox, thumbnail, filename, rater, keywords, tagger)
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, window */
 var app = app || {};
 
 app.controls = function (controls, $, services, data) {
 	var
+	
+	VIEWS = {
+		'thumb': 'thumb',
+		'compact': 'compact',
+		'full': 'full'
+	},
 	
 	// static properties
 	lastWidth,
@@ -57,7 +69,7 @@ app.controls = function (controls, $, services, data) {
 		function build() {
 			self.clear();
 			rater = controls.rater(row).appendTo(self);
-			if (view === 'list') {
+			if (view !== 'thumb') {
 				tagger = controls.tagger(row).appendTo(self);
 			}
 		}
@@ -69,18 +81,22 @@ app.controls = function (controls, $, services, data) {
 					hash = row.hash;
 
 			return [
-				'<div id="', self.id, '" class="', ['medium'].concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : []).join(' '), '">',
+				'<div id="', self.id, '" class="', 
+				['medium']
+					.concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : [])
+					.concat(VIEWS[view] || [])
+					.join(' '), '">',
 				'<div class="check">',
 				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
 				'</div>',
 				'<div class="file">',
-				view === 'tile' ? [
+				view === 'thumb' ? [
 					'<span title="', row.file, '">', row.file, '</span>'
 				].join('') : [
 					'<a href="#" class="play">', row.file, '</a>'
 				].join(''),
 				'</div>',
-				view === 'tile' ? [
+				view === 'thumb' ? [
 					'<div class="overlay"></div>',
 					'<div class="play"></div>',
 					'<div class="thumb">',
@@ -92,7 +108,7 @@ app.controls = function (controls, $, services, data) {
 				'<div class="rater">',
 				rater.html(),
 				'</div>',
-				view === 'list' ? [
+				view === 'compact' ? [
 					'<div class="tagger">',
 					tagger.html(),
 					'</div>'
@@ -145,10 +161,10 @@ app.controls = function (controls, $, services, data) {
 		var media = $(this).closest('.medium'),
 				self = controls.lookup[media.attr('id')],
 				view = self.view();
-		if (self.data.row.keywords.length || view === 'list' && self.data.row.hash.length) {
+		if (self.data.row.keywords.length || view === 'compact' && self.data.row.hash.length) {
 			controls.preview
 				.keywords(self.data.row.keywords)
-				.hash(view === 'list' ? self.data.row.hash : '')
+				.hash(view === 'compact' ? self.data.row.hash : '')
 				.render($('body'));
 		}
 	};

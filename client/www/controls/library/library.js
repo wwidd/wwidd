@@ -1,5 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Video Library
+//
+// Displays a set of media entries.
+// Available views:
+// - tile: grid of thumbnails
+// - list: list of compact rows
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, document */
 var app = app || {};
@@ -168,7 +173,13 @@ app.controls = (function (controls, $, data, services) {
 		
 		function build() {
 			var page = data.media.getPage(controls.pager.page, controls.pager.items),
-					i, control;
+					i, control,
+					
+			// association between library views and entry views
+			views = {
+				'list': 'compact',
+				'tile': 'thumb'
+			};
 			
 			// generating thumbnails if necessary
 			thumbnails(page);
@@ -178,7 +189,7 @@ app.controls = (function (controls, $, data, services) {
 			lookup = {};
 			for (i = 0; i < page.length; i++) {
 				// adding media control to library
-				control = controls.media(page[i], view);
+				control = controls.media(page[i], views[view]);
 				control.appendTo(self);
 				
 				// storing control reference for lookup by id
