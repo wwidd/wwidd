@@ -6,16 +6,24 @@ var app = app || {};
 
 app.controls = function (controls, $) {
 	var TYPES = {
-		'centered': 'centered',
-		'follow': 'follow'
+		'centered': 'centered',		// always centered, like a modal dialog
+		'context': 'context',			// positions near mouse mask, stays there
+		'follow': 'follow'				// follows mouse mask
 	};
 	
 	controls.popup = function (type) {
-		type = type || 'follow';
+		type = type || 'context';
 		
 		var self = controls.control.create(),
-				$window = $(window);
-				
+				$window = $(window),
+				position = {};
+			
+		// sets static mouse position
+		self.position = function (value) {
+			position = value;
+			return this;
+		};
+		
 		//////////////////////////////
 		// Event handlers
 
@@ -23,8 +31,8 @@ app.controls = function (controls, $) {
 		// - dims: dimensions of elem(Height / Width) and window(Height / Width)
 		function onMouseMove(event, elem, dims) {
 			// we need the top left of the mouse cursor
-			var pageX = event.pageX - 8,
-					pageY = event.pageY - 8;
+			var pageX = (event ? event : position).pageX - 8,
+					pageY = (event ? event : position).pageY - 8;
 			elem.css({
 				top: dims.windowHeight > pageY + dims.elemHeight ? pageY : pageY - dims.elemHeight,
 				left: dims.windowWidth > pageX + dims.elemWidth ? pageX : pageX - dims.elemWidth
@@ -42,9 +50,19 @@ app.controls = function (controls, $) {
 		// constructs the specific contents of the popup
 		self.contents = null;
 		
+		// acquires element and window dimensions
+		function getDims(elem) {
+			return {
+				elemHeight: elem.outerHeight(true),
+				elemWidth: elem.outerWidth(true),
+				windowHeight: $window.height(),
+				windowWidth: $window.width()
+			};
+		}
+		
 		self.init = function (elem) {
-			var elemHeight, elemWidth,
-					windowHeight, windowWidth;
+			var dims,
+					that = this;
 			switch (type) {
 			case 'centered':
 				onResize(elem);
@@ -52,19 +70,21 @@ app.controls = function (controls, $) {
 					onResize(elem);
 				});
 				break;
-			default:
 			case 'follow':
-				elemHeight = elem.outerHeight(true);
-				elemWidth = elem.outerWidth(true);
-				windowHeight = $window.height();
-				windowWidth = $window.width();
+				dims = getDims(elem);
+				onMouseMove(null, elem, dims);
 				$('body').bind('mousemove', function (event) {
-					onMouseMove(event, elem, {
-						elemHeight: elemHeight,
-						elemWidth: elemWidth,
-						windowHeight: windowHeight,
-						windowWidth: windowWidth
-					});
+					onMouseMove(event, elem, dims);
+				});
+				break;
+			default:
+			case 'context':
+				dims = getDims(elem);
+				onMouseMove(null, elem, dims);
+				$('body').one('mousedown', function (event) {
+					that
+						.remove()
+						.render();
 				});
 				break;
 			}
