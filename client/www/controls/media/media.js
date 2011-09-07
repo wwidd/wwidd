@@ -110,7 +110,7 @@ app.controls = function (controls, $, services, data) {
 	// resizes tagger 'column' to fit screen width
 	controls.media.resize = function (force) {
 		var $list = $('div.media.list'),
-				widths = {full: $list.innerWidth()},
+				widths = {full: $list.width()},
 				$media, $model;
 		if (force || (!lastWidth || widths.full !== lastWidth) && $list.length) {
 			// obtaining DOM elements
