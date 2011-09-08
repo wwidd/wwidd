@@ -38,7 +38,7 @@ app.controls = function (controls, $, services) {
 		self.html = function () {
 			build();
 			
-			var result = ['<div id="', self.id, '">'],
+			var result = ['<div id="', self.id, '" class="tagger">'],
 					i;
 			for (i = 0; i < self.children.length; i++) {
 				result.push(self.children[i].html());
