@@ -100,6 +100,9 @@ app.controls = function (controls, $, services) {
 		self.init = function (elem) {
 			base_init.call(self, elem);
 			elem
+				.find('div.spinner')
+					.show()
+				.end()
 				.find('table.status')
 					.insertAfter(elem.find('ul.root'));
 			elem
