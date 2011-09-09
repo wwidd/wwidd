@@ -140,7 +140,9 @@ app.controls = function (controls, $, services, data) {
 				rater.html(),
 				
 				// keywords
-				full ? keywords.html() : '',
+				full ? keywords
+					.compact(view !== 'compact')
+					.html() : '',
 				
 				// tagger
 				full || view === 'compact' ? tagger.html() : '',

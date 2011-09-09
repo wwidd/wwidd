@@ -22,16 +22,27 @@ span.empty {
 KEYWORDS
 ******************************/
 
-div.keywords > ul {
+div.keywords > .details {
 	position: absolute;
 	top: 20px;
 	left: 0;
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	list-style: none;
 	overflow-x: hidden;
 	overflow-y: auto;
+}
+
+div.keywords ul {
+	list-style: none;
+}
+
+div.keywords table {
+	border-collapse: collapse;
+}
+
+div.keywords tr > td:first-child {
+	padding: 0 5px 0 0;
 }
 
 div.keywords > span {
@@ -124,7 +135,7 @@ div.medium.full > div.keywords {
 	height: 115px;
 }
 
-div.medium.full > div.keywords > ul {
+div.medium.full > div.keywords > .details {
 	height: 76px;
 }
 
