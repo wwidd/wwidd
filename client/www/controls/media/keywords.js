@@ -67,7 +67,7 @@ app.controls = function (controls, $, services) {
 				result.push('<table>');
 				for (key in rest) {
 					if (rest.hasOwnProperty(key)) {
-						result.push('<tr><td><span>' + key + '</span></td><td><span>' + rest[key] + '</span></td></tr>');
+						result.push('<tr><td><span>' + key + '</span></td><td><span title="' + rest[key] + '">' + rest[key] + '</span></td></tr>');
 					}
 				}
 				result.push('</table>');
