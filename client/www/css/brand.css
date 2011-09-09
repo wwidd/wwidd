@@ -96,16 +96,22 @@ div.medium {
 	background: #f8f8f8;
 }
 
-div.medium.thumb:hover {
+div.medium.thumb:hover { 
 	border-color: #e0e0e0;
 	background: #e0e0e0;
+}
+
+div.medium.full {
+	border-color: #f0f0f0;
+	background: #f0f0f0;
 }
 
 div.medium.compact:hover {
 	background: #f0f0f0;
 }
 
-div.medium.thumb.playing {
+div.medium.thumb.playing,
+div.medium.full.playing {
 	border-color: #444;
 	background: #444;
 }
@@ -114,17 +120,17 @@ div.medium.compact.playing {
 	background: #444;
 }
 
-div.medium.thumb > div.file > span,
-div.medium.compact > div.file > a {
+div.medium > div.file > span {
 	color: #444;
 }
 
-div.medium.thumb.playing > div.file > span,
-div.medium.compact.playing > div.file > a {
+div.medium.playing > div.file > span,
+div.medium.playing > div.keywords span {
 	color: #f8f8f8;
 }
 
-div.medium.thumb.playing > div.play {
+div.medium.thumb.playing > div.play,
+div.medium.full.playing > div.play {
 	top: 22px;
 	left: 28px;
 	height: 72px;
@@ -132,11 +138,16 @@ div.medium.thumb.playing > div.play {
 	background: url('/image/wwidd_play_72.png') no-repeat top left;
 }
 
-div.medium.compact.playing > div.file > a {
+div.medium.compact.playing > div.file > span {
 	background: url('/image/wwidd_play_16.png') no-repeat bottom left;
 }
 
-div.medium.thumb > div.thumb > span.spinner {
+div.medium.thumb > div.thumb > span.spinner,
+div.medium.full > div.thumb > span.spinner {
 	background: url('/image/spinner48light.gif');
+}
+
+div.medium > div.keywords {
+	color: #444;
 }
 

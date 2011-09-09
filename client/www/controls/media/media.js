@@ -20,7 +20,8 @@ app.controls = function (controls, $, services, data) {
 	},
 	
 	// static properties
-	lastWidth,
+	lastWidth,			// last measured available width for compact view media entry
+	lastOpen,				// control reference to the last opened medium (thumb or compact to full)
 	
 	// static event handlers
 	onClick,
@@ -32,7 +33,11 @@ app.controls = function (controls, $, services, data) {
 		
 		// sub-controls
 		rater,
-		tagger;
+		tagger,
+		keywords,
+		
+		// flags
+		full = null;
 		
 		self.data.row = row;
 
@@ -43,6 +48,16 @@ app.controls = function (controls, $, services, data) {
 			return view;
 		};
 		
+		// true or false
+		self.full = function (value) {
+			if (typeof value !== 'undefined') {
+				full = value ? 'full' : null;
+				return self;
+			} else {
+				return full ? true : false;
+			}
+		};
+		
 		//////////////////////////////
 		// Business functions
 
@@ -51,7 +66,7 @@ app.controls = function (controls, $, services, data) {
 			elem
 				.siblings().removeClass('playing').end()
 				.addClass('playing');
-			services.play(row.mediaid);
+			//services.play(row.mediaid);
 			data.pagestate.lastPlayed = row.mediaid;
 			return self;
 		};
@@ -64,13 +79,28 @@ app.controls = function (controls, $, services, data) {
 		//////////////////////////////
 		// Overrides
 
+		// builds control structure
+		// TODO: controls need be added once, or, when views change
 		function build() {
 			self.clear();
+			
+			// adding rater control
 			rater = controls.rater(row).appendTo(self);
-			if (view !== 'thumb') {
+			
+			// adding tagger control to non-thumb views
+			if (full || view === 'compact') {
 				tagger = controls.tagger(row).appendTo(self);
 			}
+			
+			// adding keywords control to full view only
+			if (full) {
+				keywords = controls.keywords(row.keywords).appendTo(self);
+			}
 		}
+		
+		self.init = function (elem) {
+			controls.media.resize(true, elem);
+		};
 		
 		self.html = function () {
 			build();
@@ -82,35 +112,39 @@ app.controls = function (controls, $, services, data) {
 				'<div id="', self.id, '" class="', 
 				['medium']
 					.concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : [])
-					.concat(VIEWS[view] || [])
+					.concat(VIEWS[full || view] || [])
 					.join(' '), '">',
+					
+				// checkbox
 				'<div class="check">',
 				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
 				'</div>',
+				
+				// file name
 				'<div class="file">',
-				view === 'thumb' ? [
-					'<span title="', row.file, '">', row.file, '</span>'
-				].join('') : [
-					'<a href="#" class="play">', row.file, '</a>'
-				].join(''),
+				'<span title="', row.file, '">', row.file, '</span>',
 				'</div>',
-				view === 'thumb' ? [
+				
+				// thumbnail
+				full || view === 'thumb' ? [
 					'<div class="overlay"></div>',
 					'<div class="play"></div>',
 					'<div class="thumb">',
 					hash.length ?
-						['<img class="play" src="/cache/', hash, '.jpg">'].join('') :
+						['<img src="/cache/', hash, '.jpg">'].join('') :
 						'<span class="spinner"></span>',
 					'</div>'
 				].join('') : '',
-				'<div class="rater">',
+				
+				// rater
 				rater.html(),
-				'</div>',
-				view === 'compact' ? [
-					'<div class="tagger">',
-					tagger.html(),
-					'</div>'
-				].join('') : '',
+				
+				// keywords
+				full ? keywords.html() : '',
+				
+				// tagger
+				full || view === 'compact' ? tagger.html() : '',
+				
 				'</div>'
 			].join('');
 		};
@@ -122,13 +156,13 @@ app.controls = function (controls, $, services, data) {
 	// Static methods
 	
 	// resizes tagger 'column' to fit screen width
-	controls.media.resize = function (force) {
-		var $list = $('div.media.list'),
+	controls.media.resize = function (force, elem) {
+		var $list = elem || $('div.media.list'),
 				widths = {full: $list.width()},
 				$media, $model;
 		if (force || (!lastWidth || widths.full !== lastWidth) && $list.length) {
 			// obtaining DOM elements
-			$media = $list.children('div.medium');
+			$media = elem || $list.children('div.medium');
 			$model = $media.eq(0);
 			
 			// measuring fix widths that influence variable width
@@ -157,8 +191,30 @@ app.controls = function (controls, $, services, data) {
 	
 	onClick = function () {
 		var media = $(this).closest('.medium'),
-				self = controls.lookup[media.attr('id')];
-		self.play(media);
+				self = controls.lookup[media.attr('id')],
+				full = self.full();
+
+		if (full) {
+			// starting playback
+			self.play(media);
+		} else {
+			// closing last opened entry
+			if (lastOpen) {
+				lastOpen
+					.full(false)
+					.render();
+				lastOpen = null;
+			}
+			
+			// flipping full state and re-rendering control
+			self
+				.full(!full)
+				.render();
+				
+			// saving reference to last opened entry
+			lastOpen = self;
+		}
+			
 		return false;
 	};
 	
@@ -180,10 +236,12 @@ app.controls = function (controls, $, services, data) {
 	//////////////////////////////
 	// Event bindings
 
-	$('a.play, img.play')
+	$('div.thumb, div.file, div.play', $('div.medium'))
 		.live('click', onClick);
-	$('td.check :checkbox').live('click', onChecked);
-	$(window).bind('resize', onResize);
+	$('div.check > :checkbox')
+		.live('click', onChecked);
+	$(window)
+		.bind('resize', onResize);
 	
 	return controls;
 }(app.controls || {},

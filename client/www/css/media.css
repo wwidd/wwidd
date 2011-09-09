@@ -19,51 +19,56 @@ span.empty {
 }
 
 /******************************
-MEDIA ENTRY
+KEYWORDS
 ******************************/
 
-.medium .play {
-	cursor: pointer;
+div.keywords > ul {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
-/******************************
-TILE VIEW
-******************************/
-
-div.media.tile {
-	padding: 5px;
-}
-
-div.medium.thumb {
-	position: relative;
-	display: inline-block; *display: inline; *zoom: 1;
-	width: 128px;
-	height: 115px;
-	margin: 0 5px 5px 0;
-	border: 5px solid transparent;
-	border-radius: 3px; -moz-border-radius: 3px;
-	vertical-align: top;
-	overflow: hidden;
-}
-
-div.medium.thumb > div {
+div.keywords > span {
 	position: absolute;
 }
 
-div.medium.thumb > div.file {
-	top: 96px;
+div.keywords > span.duration {
+	top: 0;
 	left: 0;
-	margin: 2px;
-	overflow: hidden;
+	font-size: 14px;
+	font-weight: bold;
 }
 
-div.medium.thumb > div.file > span {
+div.keywords > span.dimensions {
+	top: 0;
+	right: 0;
+}
+
+/******************************
+MEDIA ENTRY
+******************************/
+
+div.media {
+	padding: 5px;
+}
+
+div.medium > div.thumb,
+div.medium > div.file,
+div.medium > div.play {
+	cursor: pointer;
+}
+
+div.medium > div.file > span {
 	white-space: nowrap;
 }
 
-div.medium.thumb > div.overlay {
-	top: 0px;
-	left: 0;
+div.medium > div.overlay {
 	width: 128px;
 	height: 24px;
 	background: black;
@@ -71,24 +76,22 @@ div.medium.thumb > div.overlay {
 	z-index: 2;
 }
 
-div.medium.thumb > div.play {
+div.medium > div.play {
 	display: none;
 }
 
-div.medium.thumb.playing > div.play {
+div.medium.playing > div.play {
 	display: block;
 	z-index: 2;
 }
 
-div.medium.thumb > div.thumb {
-	top: 0px;
-	left: 0;
+div.medium > div.thumb {
 	width: 128px;
 	height: 96px;
 	z-index: 1;
 }
 
-div.medium.thumb > div.thumb > span.spinner {
+div.medium > div.thumb > span.spinner {
 	position: absolute;
 	top: 34px;
 	left: 40px;
@@ -98,87 +101,208 @@ div.medium.thumb > div.thumb > span.spinner {
 	margin: 0 auto;
 }
 
-div.medium.thumb > div.rater {
-	top: 3px;
-	left: 3px; 
+div.medium > div.rater {
 	z-index: 3;
 }
 
-div.medium.thumb > div.check {
-	top: 2px;
-	right: 0;
+div.medium > div.check {
 	z-index: 3;
-}
-
-div.medium.thumb > div.tagger {
-	top: 120px;
-	left: 0;
-	z-index: 4;
 }
 
 /******************************
-LIST VIEW
+FULL VIEW
 ******************************/
 
-div.media.list {
-	padding: 5px;
+div.medium.full > div.file > span {
+	font-weight: bold;
 }
 
-div.medium.compact {
+div.medium.full > div.keywords {
+	top: 0;
+	left: 138px;
+	width: 140px;
+	height: 115px;
+}
+
+div.medium.full > div.keywords > ul {
+	height: 76px;
+}
+
+div.medium.full > div.tagger {
+	top: 0;
+	left: 288px;
+	height: 115px;
+}
+
+/******************************
+TILE / THUMBNAIL VIEW
+******************************/
+
+div.medium.thumb,
+div.media.tile > div.medium.full {
+	position: relative;
+	display: inline-block; *display: inline; *zoom: 1;
+	height: 115px;
+	margin: 0 5px 5px 0;
+	border: 5px solid transparent;
+	border-radius: 3px; -moz-border-radius: 3px;
+	vertical-align: top;
+}
+
+div.medium.thumb {
+	width: 128px;
+}
+
+div.media.tile > div.medium.full {
+	width: 558px;
+}
+
+div.medium.thumb > div,
+div.media.tile > div.medium.full > div {
+	position: absolute;
+}
+
+div.medium.thumb > div.file,
+div.media.tile > div.medium.full > div.file {
+	top: 96px;
+	left: 0;
+	margin: 3px 0 1px;
+}
+
+div.medium.thumb > div.file {
+	width: 124px;
+	overflow: hidden;
+}
+
+div.medium.thumb > div.overlay,
+div.media.tile > div.medium.full > div.overlay {
+	top: 0;
+	left: 0;
+}
+
+div.medium.thumb > div.thumb,
+div.media.tile > div.medium.full > div.thumb {
+	top: 0;
+	left: 0;
+}
+
+div.medium.thumb > div.rater,
+div.media.tile > div.medium.full > div.rater {
+	top: 3px;
+	left: 3px; 
+}
+
+div.medium.thumb > div.check,
+div.media.tile > div.medium.full > div.check {
+	top: 2px;
+	left: 108px;
+}
+
+/******************************
+LIST / COMPACT VIEW
+******************************/
+
+div.medium.compact,
+div.media.list > div.medium.full {
 	border-radius: 3px; -moz-border-radius: 3px;
 }
 
-div.medium.compact:first-child {
-	border-top: none;
+div.media.list > div.medium.full {
+	position: relative;
+	padding: 2px 0;
+	height: 123px;
 }
 
-div.medium.compact > div {
+div.medium.compact > div.check,
+div.media.list > div.medium.full > div.check,
+div.medium.compact > div.file,
+div.media.list > div.medium.full > div.file,
+div.medium.compact > div.rater,
+div.media.list > div.medium.full > div.rater,
+div.medium.compact > div.tagger {
 	display: inline-block; *display: inline; *zoom: 1;
 	height: 16px;
 	padding: 2px 5px 2px 0;
-	vertical-align: middle;
+	vertical-align: middle;	
 }
 
-div.medium.compact > div.check {
+div.medium.compact > div.check,
+div.media.list > div.medium.full > div.check {
 	width: 16px;
 	padding-left: 4px;
 }
 
-div.medium.compact > div.check > input {
+div.medium.compact > div.check > input,
+div.media.list > div.medium.full > div.check > input {
 	height: 16px;
 	margin: 0;
 	vertical-align: middle;
 }
 
-div.medium.compact > div.file {
+div.medium.compact > div.file,
+div.media.list > div.medium.full > div.file {
 	width: 300px;
 	overflow: hidden;
 }
 
-div.medium.compact > div.file > a {
+div.medium.compact > div.file > span,
+div.media.list > div.medium.full > div.file > span {
 	display: inline-block; *zoom: 1;
 	width: 300px;
 	line-height: 16px;
 	padding: 0 20px 0 0;
 	text-decoration: none;
-	white-space: nowrap;
 }
 
-div.medium.compact.playing > div.file > a {
+div.medium.compact.playing > div.file > span {
 	padding: 0 0 0 20px;
-	color: black;
-	font-weight: bold;
 	background: url('/image/control_play_blue.png') no-repeat center left;
 }
 
-div.medium.compact > div.rater {
-	width: 85px;
+div.media.list > div.medium.full > div.keywords {
+	position: absolute;
+	top: 24px;
+	left: 163px;
+	width: 257px; /* 420 - 163 */
 }
 
-div.medium.compact > div.tagger {
+div.media.list > div.medium.full > div.keywords > span.dimensions {
+	left: 100px;
+}
+
+div.media.list > div.medium.full > div.overlay {
+	display: none;
+}
+
+div.media.list > div.medium.full > div.play {
+	position: absolute;
+	top: 36px;
+	left: 53px;
+}
+
+div.media.list > div.medium.full > div.thumb {
+	position: absolute;
+	top: 24px;
+	left: 25px;
+}
+
+div.medium.compact > div.rater,
+div.media.list > div.medium.full > div.rater {
+	width: 85px;
+	height: 16px;
+}
+
+div.medium.compact > div.tagger,
+div.media.list > div.medium.full > div.tagger {
 	min-width: 200px;
 	height: auto;
 	margin: 0 0 0 5px;
+}
+
+div.media.list > div.medium.full > div.tagger {
+	position: absolute;
+	top: 2px;
+	left: 420px;
 }
 
 /******************************

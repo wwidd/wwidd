@@ -192,13 +192,6 @@ app.controls = (function (controls, $, data, services) {
 			}
 		}
 
-		self.init = function (elem) {
-			// adjusting control widths for list view
-			if (view === 'list') {
-				controls.media.resize(true);
-			}
-		};
-		
 		self.html = function () {
 			build();
 			
