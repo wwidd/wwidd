@@ -18,9 +18,6 @@ app.controls = (function (controls, $, data) {
 				
 			// initializing and adding kinds control
 			controls.kinds
-				.onChecked(function () {
-					controls.library.render();
-				})
 				.render($('#kinds').empty());
 			
 			// adding search box to page
@@ -51,21 +48,6 @@ app.controls = (function (controls, $, data) {
 			
 			// initializing and adding library to page
 			controls.library
-				.onInit(function () {
-					// redrawing controls
-					controls.pager.render();
-
-					// initializing kinds table
-					data.kinds
-						.init(data.tags, function () {
-							controls.library
-								.build()
-								.render();
-							controls.kinds
-								.build()
-								.render();
-						});
-				})
 				.load()
 				.render($('#media').empty());
 

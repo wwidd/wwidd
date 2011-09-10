@@ -21,8 +21,7 @@ app.controls = (function (controls, $, data, services) {
 	controls.library = function () {
 		var self = controls.control.create(),
 				view = data.cookie.get('view') || 'list',
-				lookup = {},
-				onInit;
+				lookup = {};
 				
 		self.selected = {};
 		
@@ -75,13 +74,32 @@ app.controls = (function (controls, $, data, services) {
 			controls.switcher
 				.busy(true)
 				.render();
-					
+			
+			// loading video data
 			data.media.init(controls.search.filter, function () {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + controls.switcher.selected());
 				
 				// initializing tag data buffer
-				data.tags.init(onInit);
+				data.tags.init(function () {
+					// redrawing controls
+					controls.pager
+						.render();
+
+					// initializing kinds table
+					data.kinds
+						.init(data.tags, function () {
+							// finalizing library
+							controls.library
+								.build()
+								.render();
+
+							// finalizing kinds
+							controls.kinds
+								.build()
+								.render();
+						});
+				});
 
 				// removing busy state
 				controls.switcher
@@ -153,11 +171,6 @@ app.controls = (function (controls, $, data, services) {
 			}
 		};
 		
-		self.onInit = function (handler) {
-			onInit = handler;
-			return self;
-		};
-				
 		//////////////////////////////
 		// Overrides
 

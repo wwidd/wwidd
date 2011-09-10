@@ -11,7 +11,6 @@ app.controls = function (controls, $, data) {
 		var	KIND_PREFIX = 'k',
 		
 		self = controls.control.create(),
-				onChecked = function () {},
 				hidden;
 		
 		//////////////////////////////
@@ -48,8 +47,11 @@ app.controls = function (controls, $, data) {
 			}
 			// saving cookie
 			data.cookie.set('hiddenkinds', toArray(hidden).join(','));
+			
 			// custom callback
-			onChecked();
+			controls.library
+				.render();
+			
 			return self;
 		}
 
@@ -62,12 +64,6 @@ app.controls = function (controls, $, data) {
 		//////////////////////////////
 		// Getters / setters
 
-		// event handler setter
-		self.onChecked = function (handler) {
-			onChecked = handler;
-			return self;
-		};
-		
 		// gets the hidden property of a kind
 		self.hidden = function (kind) {
 			return hidden[kind];
