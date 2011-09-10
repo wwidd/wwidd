@@ -25,12 +25,8 @@ thumb = function () {
 			// checking if thumbnail is already there				
 			var inPath = path,
 					outPath = cachePath + name + '.jpg';
-			if (!$path.existsSync(outPath)) {
-				// generating thumbnail
-				ffmpeg.exec(inPath, outPath, 1, handler);
-			} else if (handler) {
-				handler();
-			}
+			// generating thumbnail
+			ffmpeg.exec(inPath, outPath, 1, handler);
 		}
 	};
 	
