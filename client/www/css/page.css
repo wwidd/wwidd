@@ -45,6 +45,7 @@ CONTROLS
 }
 
 #kinds {
+	margin-bottom: -1px;	/* iOS bug workaround */
 	border-top-left-radius: 3px; -moz-border-top-left-radius: 3px;
 	border-top-right-radius: 3px; -moz-border-top-right-radius: 3px;
 }
@@ -161,6 +162,7 @@ ROOT ADD
 ******************************/
 
 #rootadd {
+	margin-top: -1px;	/* iOS bug workaround */
 	padding: 5px;
 	vertical-align: middle;
 	border-bottom-left-radius: 3px; -moz-border-bottom-left-radius: 3px;
