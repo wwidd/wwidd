@@ -20,6 +20,7 @@ CENTERED POPUP
 ******************************/
 
 div.popup.centered {
+	position: fixed;
 	box-shadow: 0 0 10px #444; -moz-box-shadow: 0 0 10px #444;
 }
 
