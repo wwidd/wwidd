@@ -162,31 +162,43 @@ app.controls = function (controls, $, services, data) {
 	// resizes tagger 'column' to fit screen width
 	controls.media.resize = function (force, elem) {
 		var $list = elem || $('div.media.list'),
-				widths = {full: $list.width()},
-				$media, $model;
-		if (force || (!lastWidth || widths.full !== lastWidth) && $list.length) {
-			// obtaining DOM elements
+				width, full = $list.width(),
+				$media, $model, $tagger,
+				left;
+
+		if (force || (!lastWidth || full !== lastWidth) && $list.length) {
 			$media = elem || $list.children('div.medium');
-			$model = $media.eq(0);
-			
-			// measuring fix widths that influence variable width
-			widths.check = $model.children('div.check').outerWidth(true);
-			widths.file = $model.children('div.file').outerWidth(true);
-			widths.rater = $model.children('div.rater').outerWidth(true);
-			widths.margin = $model.children('div.tagger').outerWidth(true) - $model.children('div.tagger').width();
-			widths.scroller = 15;	// scroller may appear without triggering a resize event
-			
-			// changing width
-			$media.find('div.tagger').width(
-				widths.full -
-				widths.check -
-				widths.file -
-				widths.rater -
-				widths.margin -
-				widths.scroller);
-			
-			// updating state indicator
-			lastWidth = widths.full;
+			$tagger = $media.find('div.tagger');
+
+			if ($tagger.length) {
+				// obtaining single tagger for measurement
+				$model = $media.eq(0).find('div.tagger');
+				
+				if ($model.css('position') === 'absolute') {
+					// tagger absolutely positioned
+					left = $model.position().left;
+				} else if ($model.css('display') === 'inline-block') {
+					// tagger is inline-block
+					// measuring padding + border + margin + scroller
+					left = $model.outerWidth(true) - $model.width() + 15;
+					
+					// counting all previous siblings' width
+					$model.prevAll()
+						.each(function () {
+							left += $(this).outerWidth(true);
+						});
+				} else {
+					// failsafe
+					// will look ugly
+					left = full;
+				}
+				
+				// setting updated width
+				$tagger.width(full - left);
+
+				// updating state indicator
+				lastWidth = full;
+			}			
 		}
 	};
 	
