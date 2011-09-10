@@ -51,6 +51,7 @@ app.controls = function (controls, $, services) {
 					// has subdirs, creating child nodes
 					node
 						.json(json.data)
+						.build()
 						.render();
 				}
 			});
@@ -67,7 +68,7 @@ app.controls = function (controls, $, services) {
 		services.getdirs(null, function (json) {
 			// initial tree contents
 			tree
-				.build(json.data)
+				.json(json.data)
 				.appendTo(self);
 				
 			// re-rendering full control

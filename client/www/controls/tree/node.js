@@ -20,7 +20,7 @@ app.controls = function (controls, $) {
 			return path;
 		};
 
-		// returns expanded state		
+		// returns expanded state
 		self.expanded = function () {
 			return expanded;
 		};
@@ -43,6 +43,7 @@ app.controls = function (controls, $) {
 			expanded = !expanded;
 			return self
 				.clear()
+				.build()
 				.render();
 		};
 		
@@ -50,7 +51,7 @@ app.controls = function (controls, $) {
 		// Overrides
 
 		// builds the node with subnodes as specified by json
-		function build() {
+		self.build = function () {
 			var node, keys, i;
 			if (json && expanded) {
 				// obtaining sorted array of node names
@@ -74,7 +75,7 @@ app.controls = function (controls, $) {
 				}
 			}
 			return self;
-		}
+		};
 
 		// returns whether the current node is selected
 		function selected() {
@@ -82,8 +83,6 @@ app.controls = function (controls, $) {
 		}
 		
 		self.html = function () {
-			build();
-			
 			return [
 				'<li id="', self.id, '" class="', ['node', expanded ? 'expanded' : '', selected() ? 'selected' : ''].join(' '), '">',
 				'<span class="toggle"></span>',

@@ -9,17 +9,20 @@ var app = app || {};
 app.controls = function (controls, $) {
 	controls.tree = function (onSelect, onExpandCollapse) {
 		var self = controls.control.create(),
+				json,
 				rootNode,
 				selected = [];
 		
 		//////////////////////////////
 		// Setters / getters
 		
-		self.build = function (json) {
-			rootNode = controls.node("/", self)
-				.json(json)
-				.appendTo(self);
-			return self;
+		self.json = function (value) {
+			if (typeof value !== 'undefined') {
+				json = value;
+				return self;
+			} else {
+				return json;
+			}
 		};
 		
 		self.selected = function (value) {
@@ -40,6 +43,13 @@ app.controls = function (controls, $) {
 		//////////////////////////////
 		// Overrides
 
+		self.build = function () {
+			rootNode = controls.node("/", self)
+				.json(json)
+				.appendTo(self);
+			return self;
+		};
+		
 		self.html = function () {
 			return [
 				'<div id="', self.id, '" class="tree">',
