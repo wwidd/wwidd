@@ -112,12 +112,12 @@ div.medium.compact:hover {
 
 div.medium.thumb.playing,
 div.medium.full.playing {
-	border-color: #444;
-	background: #444;
+	border-color: #B1C3C9;
+	background: #B1C3C9;
 }
 
 div.medium.compact.playing {
-	background: #444;
+	background: #B1C3C9;
 }
 
 div.medium > div.file > span {
@@ -126,15 +126,11 @@ div.medium > div.file > span {
 
 div.medium.playing > div.file > span,
 div.medium.playing > div.keywords span {
-	color: #f8f8f8;
+	color: #181818;
 }
 
 div.medium > div.play {
-	top: 22px;
-	left: 28px;
-	height: 72px;
-	width: 72px;
-	background: url('/image/wwidd_play_72.png') no-repeat top left;
+	background: url('/image/wwidd_play_72.png') no-repeat center center;
 }
 
 div.medium.compact.playing > div.file > span {

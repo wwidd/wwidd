@@ -76,6 +76,10 @@ div.medium > div.play {
 	cursor: pointer;
 }
 
+div.medium > div.file {
+	overflow: hidden;
+}
+
 div.medium > div.file > span {
 	white-space: nowrap;
 }
@@ -85,10 +89,14 @@ div.medium > div.overlay {
 	height: 24px;
 	background: black;
 	opacity: 0.5; *filter:alpha(opacity=50);
-	z-index: 2;
+	z-index: 3;
 }
 
 div.medium > div.play {
+	top: 0;
+	left: 0;
+	width: 128px;
+	height: 96px;
 	opacity: 0.0; *filter:alpha(opacity=0);
 	z-index: 2;
 }
@@ -114,16 +122,20 @@ div.medium > div.thumb > span.spinner {
 }
 
 div.medium > div.rater {
-	z-index: 3;
+	z-index: 4;
 }
 
 div.medium > div.check {
-	z-index: 3;
+	z-index: 4;
 }
 
 /******************************
 FULL VIEW
 ******************************/
+
+div.medium.full > div {
+	position: absolute;
+}
 
 div.medium.full > div.file > span {
 	font-weight: bold;
@@ -138,20 +150,11 @@ div.medium.full.playing > div.play:hover {
 }
 
 div.medium.full > div.keywords {
-	top: 0;
-	left: 138px;
-	width: 140px;
-	height: 115px;
+	height: 96px;
 }
 
 div.medium.full > div.keywords > .details {
 	height: 76px;
-}
-
-div.medium.full > div.tagger {
-	top: 0;
-	left: 288px;
-	height: 115px;
 }
 
 /******************************
@@ -177,8 +180,7 @@ div.media.tile > div.medium.full {
 	width: 558px;
 }
 
-div.medium.thumb > div,
-div.media.tile > div.medium.full > div {
+div.medium.thumb > div {
 	position: absolute;
 }
 
@@ -191,13 +193,23 @@ div.media.tile > div.medium.full > div.file {
 
 div.medium.thumb > div.file {
 	width: 124px;
-	overflow: hidden;
+}
+
+div.media.tile > div.medium.full > div.file {
+	width: 278px;
 }
 
 div.medium.thumb > div.overlay,
 div.media.tile > div.medium.full > div.overlay {
 	top: 0;
 	left: 0;
+}
+
+div.medium.thumb > div.play,
+div.media.tile > div.medium.full > div.play {
+	top: 24px;
+	left: 0;
+	height: 72px;
 }
 
 div.medium.thumb > div.thumb,
@@ -218,6 +230,18 @@ div.media.tile > div.medium.full > div.check {
 	left: 108px;
 }
 
+div.media.tile > div.medium.full > div.keywords {
+	top: 0;
+	left: 138px;
+	width: 140px;
+}
+
+div.media.tile > div.medium.full > div.tagger {
+	top: 0;
+	left: 288px;
+	height: 115px;
+}
+
 /******************************
 LIST / COMPACT VIEW
 ******************************/
@@ -235,11 +259,8 @@ div.media.list > div.medium.full {
 }
 
 div.medium.compact > div.check,
-div.media.list > div.medium.full > div.check,
 div.medium.compact > div.file,
-div.media.list > div.medium.full > div.file,
 div.medium.compact > div.rater,
-div.media.list > div.medium.full > div.rater,
 div.medium.compact > div.tagger {
 	display: inline-block; *display: inline; *zoom: 1;
 	height: 16px;
@@ -253,6 +274,11 @@ div.media.list > div.medium.full > div.check {
 	padding-left: 4px;
 }
 
+div.media.list > div.medium.full > div.check {
+	top: 3px;
+	left: 0;
+}
+
 div.medium.compact > div.check > input,
 div.media.list > div.medium.full > div.check > input {
 	height: 16px;
@@ -260,16 +286,18 @@ div.media.list > div.medium.full > div.check > input {
 	vertical-align: middle;
 }
 
-div.medium.compact > div.file,
-div.media.list > div.medium.full > div.file {
+div.medium.compact > div.file {
 	width: 300px;
-	overflow: hidden;
+}
+
+div.media.list > div.medium.full > div.file {
+	top: 3px;
+	left: 25px;
 }
 
 div.medium.compact > div.file > span,
 div.media.list > div.medium.full > div.file > span {
 	display: inline-block; *zoom: 1;
-	width: 300px;
 	line-height: 16px;
 	padding: 0 20px 0 0;
 	text-decoration: none;
@@ -281,7 +309,6 @@ div.medium.compact.playing > div.file > span {
 }
 
 div.media.list > div.medium.full > div.keywords {
-	position: absolute;
 	top: 24px;
 	left: 163px;
 	width: 257px; /* 420 - 163 */
@@ -296,13 +323,11 @@ div.media.list > div.medium.full > div.overlay {
 }
 
 div.media.list > div.medium.full > div.play {
-	position: absolute;
-	top: 36px;
-	left: 53px;
+	top: 24px;
+	left: 25px;
 }
 
 div.media.list > div.medium.full > div.thumb {
-	position: absolute;
 	top: 24px;
 	left: 25px;
 }
@@ -313,6 +338,11 @@ div.media.list > div.medium.full > div.rater {
 	height: 16px;
 }
 
+div.media.list > div.medium.full > div.rater {
+	top: 24px;
+	left: 330px;
+}
+
 div.medium.compact > div.tagger,
 div.media.list > div.medium.full > div.tagger {
 	min-width: 200px;
@@ -321,8 +351,7 @@ div.media.list > div.medium.full > div.tagger {
 }
 
 div.media.list > div.medium.full > div.tagger {
-	position: absolute;
-	top: 2px;
+	top: 24px;
 	left: 420px;
 }
 
