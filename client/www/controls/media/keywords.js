@@ -8,14 +8,25 @@
 var app = app || {};
 
 app.controls = function (controls, $, services) {
-	controls.keywords = function (keywords) {
+	controls.keywords = function () {
 		var self = controls.control.create(),
+				keywords = [],
 				special = {},
 				rest = {},
 				compact = true;
 
+				
+		//////////////////////////////
+		// Setters / getters
+		
+		self.compact = function (value) {
+			compact = value;
+			return self;
+		};
+
 		// initializing lookup
-		(function () {
+		self.keywords = function (value) {
+			keywords = value;
 			var i, keyword, key;
 			for (i = 0; i < keywords.length; i++) {
 				keyword = keywords[i].split(':');
@@ -28,16 +39,9 @@ app.controls = function (controls, $, services) {
 			};
 			delete rest.duration;
 			delete rest.dimensions;
-		}());
-				
-		//////////////////////////////
-		// Setters / getters
-		
-		self.compact = function (value) {
-			compact = value;
 			return self;
 		};
-
+		
 		//////////////////////////////
 		// Overrides
 

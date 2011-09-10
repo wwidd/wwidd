@@ -131,12 +131,22 @@ app.controls = (function (controls, $, data, services) {
 					.progress(json.progress)
 					.render();
 
-				// updating thumbnails
-				var mediaid;
+				// updating media data
 				data.media.update(json.load);
+				
+				// updating thumbnails
+				var mediaid, medium;
 				for (mediaid in json.load) {
 					if (json.load.hasOwnProperty(mediaid) && lookup.hasOwnProperty(mediaid)) {
-						lookup[mediaid].render();
+						medium = lookup[mediaid];
+						
+						// updating keywords in keywords control
+						medium.keywords
+							.keywords(json.load[mediaid].keywords)
+							.render();
+						
+						// rendering media entry
+						medium.render();
 					}
 				}
 				

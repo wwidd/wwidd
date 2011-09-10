@@ -31,17 +31,17 @@ app.controls = function (controls, $, services, data) {
 	controls.media = function (row) {
 		var self = controls.control.create(),
 		
-		// sub-controls
-		rater,
-		tagger,
-		keywords,
-		
 		// flags
 		view = 'thumb',
 		full = null;
 		
 		self.data.row = row;
 
+		// sub-controls
+		self.rater = null;
+		self.tagger = null;
+		self.keywords = null;
+		
 		//////////////////////////////
 		// Getters / setters
 
@@ -90,13 +90,17 @@ app.controls = function (controls, $, services, data) {
 			self.clear();
 			
 			// adding rater control
-			rater = controls.rater(row).appendTo(self);
+			self.rater = controls.rater(row)
+				.appendTo(self);
 			
 			// adding tagger control to non-thumb views
-			tagger = controls.tagger(row).appendTo(self);
+			self.tagger = controls.tagger(row)
+				.appendTo(self);
 			
 			// adding keywords control
-			keywords = controls.keywords(row.keywords).appendTo(self);
+			self.keywords = controls.keywords()
+				.keywords(row.keywords)
+				.appendTo(self);
 			
 			return self;
 		};
@@ -138,15 +142,15 @@ app.controls = function (controls, $, services, data) {
 				].join('') : '',
 				
 				// rater
-				rater.html(),
+				self.rater.html(),
 				
 				// keywords
-				full ? keywords
+				full ? self.keywords
 					.compact(view !== 'compact')
 					.html() : '',
 				
 				// tagger
-				full || view === 'compact' ? tagger.html() : '',
+				full || view === 'compact' ? self.tagger.html() : '',
 				
 				'</div>'
 			].join('');
