@@ -216,13 +216,14 @@ LIST / COMPACT VIEW
 
 div.medium.compact,
 div.media.list > div.medium.full {
+	margin: 0 0 5px 0;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
 
 div.media.list > div.medium.full {
 	position: relative;
 	padding: 2px 0;
-	height: 123px;
+	height: 122px;
 }
 
 div.medium.compact > div.check,
@@ -234,7 +235,7 @@ div.media.list > div.medium.full > div.rater,
 div.medium.compact > div.tagger {
 	display: inline-block; *display: inline; *zoom: 1;
 	height: 16px;
-	padding: 2px 5px 2px 0;
+	padding: 1px 5px 1px 0;
 	vertical-align: middle;	
 }
 
