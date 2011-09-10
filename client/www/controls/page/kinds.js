@@ -76,7 +76,7 @@ app.controls = function (controls, $, data) {
 		//////////////////////////////
 		// Overrides
 
-		function build() {
+		self.build = function () {
 			var lookup = data.kinds.lookup,
 					kind;
 			self.clear();
@@ -86,11 +86,9 @@ app.controls = function (controls, $, data) {
 				}
 			}
 			return self;
-		}
+		};
 
 		self.html = function () {
-			build();
-			
 			var result = ['<span id="', self.id, '">'],
 					i;
 			for (i = 0; i < self.children.length; i++) {

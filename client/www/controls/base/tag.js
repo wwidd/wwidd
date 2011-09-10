@@ -55,7 +55,9 @@ app.controls = function (controls, $, jOrder, services, data) {
 			this.parent
 				.build()
 				.render();
-			controls.kinds.render();
+			controls.kinds
+				.build()
+				.render();
 		}
 		
 		// changes tag to one or more tags

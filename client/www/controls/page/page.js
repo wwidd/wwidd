@@ -62,6 +62,7 @@ app.controls = (function (controls, $, data) {
 								.build()
 								.render();
 							controls.kinds
+								.build()
 								.render();
 						});
 				})
