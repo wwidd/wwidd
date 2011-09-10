@@ -133,27 +133,27 @@ div.medium > div.check {
 FULL VIEW
 ******************************/
 
-div.medium.full > div {
+div.medium.expanded > div {
 	position: absolute;
 }
 
-div.medium.full > div.file > span {
+div.medium.expanded > div.file > span {
 	font-weight: bold;
 }
 
-div.medium.full > div.play:hover {
+div.medium.expanded > div.play:hover {
 	opacity: 0.6; *filter:alpha(opacity=60);
 }
 
-div.medium.full.playing > div.play:hover {
+div.medium.expanded.playing > div.play:hover {
 	opacity: 1.0; *filter:alpha(opacity=100);
 }
 
-div.medium.full > div.keywords {
+div.medium.expanded > div.keywords {
 	height: 96px;
 }
 
-div.medium.full > div.keywords > .details {
+div.medium.expanded > div.keywords > .details {
 	height: 76px;
 }
 
@@ -162,7 +162,7 @@ TILE / THUMBNAIL VIEW
 ******************************/
 
 div.medium.thumb,
-div.media.tile > div.medium.full {
+div.media.tile > div.medium.expanded {
 	position: relative;
 	display: inline-block; *display: inline; *zoom: 1;
 	height: 115px;
@@ -176,7 +176,7 @@ div.medium.thumb {
 	width: 128px;
 }
 
-div.media.tile > div.medium.full {
+div.media.tile > div.medium.expanded {
 	width: 558px;
 }
 
@@ -185,7 +185,7 @@ div.medium.thumb > div {
 }
 
 div.medium.thumb > div.file,
-div.media.tile > div.medium.full > div.file {
+div.media.tile > div.medium.expanded > div.file {
 	top: 96px;
 	left: 0;
 	margin: 3px 0 1px;
@@ -195,48 +195,48 @@ div.medium.thumb > div.file {
 	width: 124px;
 }
 
-div.media.tile > div.medium.full > div.file {
+div.media.tile > div.medium.expanded > div.file {
 	width: 278px;
 }
 
 div.medium.thumb > div.overlay,
-div.media.tile > div.medium.full > div.overlay {
+div.media.tile > div.medium.expanded > div.overlay {
 	top: 0;
 	left: 0;
 }
 
 div.medium.thumb > div.play,
-div.media.tile > div.medium.full > div.play {
+div.media.tile > div.medium.expanded > div.play {
 	top: 24px;
 	left: 0;
 	height: 72px;
 }
 
 div.medium.thumb > div.thumb,
-div.media.tile > div.medium.full > div.thumb {
+div.media.tile > div.medium.expanded > div.thumb {
 	top: 0;
 	left: 0;
 }
 
 div.medium.thumb > div.rater,
-div.media.tile > div.medium.full > div.rater {
+div.media.tile > div.medium.expanded > div.rater {
 	top: 3px;
 	left: 3px; 
 }
 
 div.medium.thumb > div.check,
-div.media.tile > div.medium.full > div.check {
+div.media.tile > div.medium.expanded > div.check {
 	top: 2px;
 	left: 108px;
 }
 
-div.media.tile > div.medium.full > div.keywords {
+div.media.tile > div.medium.expanded > div.keywords {
 	top: 0;
 	left: 138px;
 	width: 140px;
 }
 
-div.media.tile > div.medium.full > div.tagger {
+div.media.tile > div.medium.expanded > div.tagger {
 	top: 0;
 	left: 288px;
 	height: 115px;
@@ -247,12 +247,12 @@ LIST / COMPACT VIEW
 ******************************/
 
 div.medium.compact,
-div.media.list > div.medium.full {
+div.media.list > div.medium.expanded {
 	margin: 0 0 5px 0;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
 
-div.media.list > div.medium.full {
+div.media.list > div.medium.expanded {
 	position: relative;
 	padding: 2px 0;
 	height: 122px;
@@ -269,18 +269,18 @@ div.medium.compact > div.tagger {
 }
 
 div.medium.compact > div.check,
-div.media.list > div.medium.full > div.check {
+div.media.list > div.medium.expanded > div.check {
 	width: 16px;
 	padding-left: 4px;
 }
 
-div.media.list > div.medium.full > div.check {
+div.media.list > div.medium.expanded > div.check {
 	top: 3px;
 	left: 0;
 }
 
 div.medium.compact > div.check > input,
-div.media.list > div.medium.full > div.check > input {
+div.media.list > div.medium.expanded > div.check > input {
 	height: 16px;
 	margin: 0;
 	vertical-align: middle;
@@ -290,13 +290,13 @@ div.medium.compact > div.file {
 	width: 300px;
 }
 
-div.media.list > div.medium.full > div.file {
+div.media.list > div.medium.expanded > div.file {
 	top: 3px;
 	left: 25px;
 }
 
 div.medium.compact > div.file > span,
-div.media.list > div.medium.full > div.file > span {
+div.media.list > div.medium.expanded > div.file > span {
 	display: inline-block; *zoom: 1;
 	line-height: 16px;
 	padding: 0 20px 0 0;
@@ -308,49 +308,49 @@ div.medium.compact.playing > div.file > span {
 	background: url('/image/control_play_blue.png') no-repeat center left;
 }
 
-div.media.list > div.medium.full > div.keywords {
+div.media.list > div.medium.expanded > div.keywords {
 	top: 24px;
 	left: 163px;
 	width: 257px; /* 420 - 163 */
 }
 
-div.media.list > div.medium.full > div.keywords > span.dimensions {
+div.media.list > div.medium.expanded > div.keywords > span.dimensions {
 	left: 100px;
 }
 
-div.media.list > div.medium.full > div.overlay {
+div.media.list > div.medium.expanded > div.overlay {
 	display: none;
 }
 
-div.media.list > div.medium.full > div.play {
+div.media.list > div.medium.expanded > div.play {
 	top: 24px;
 	left: 25px;
 }
 
-div.media.list > div.medium.full > div.thumb {
+div.media.list > div.medium.expanded > div.thumb {
 	top: 24px;
 	left: 25px;
 }
 
 div.medium.compact > div.rater,
-div.media.list > div.medium.full > div.rater {
+div.media.list > div.medium.expanded > div.rater {
 	width: 85px;
 	height: 16px;
 }
 
-div.media.list > div.medium.full > div.rater {
+div.media.list > div.medium.expanded > div.rater {
 	top: 24px;
 	left: 330px;
 }
 
 div.medium.compact > div.tagger,
-div.media.list > div.medium.full > div.tagger {
+div.media.list > div.medium.expanded > div.tagger {
 	min-width: 200px;
 	height: auto;
 	margin: 0 0 0 5px;
 }
 
-div.media.list > div.medium.full > div.tagger {
+div.media.list > div.medium.expanded > div.tagger {
 	top: 24px;
 	left: 420px;
 }

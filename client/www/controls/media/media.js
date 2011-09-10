@@ -5,7 +5,7 @@
 // Available views:
 // - compact: checkbox, filename, rater, and tagger controls as a row
 // - thumb: checker, thumbnail, filename, and rater overlayed
-// - full: all controls (checkbox, thumbnail, filename, rater, keywords, tagger)
+// - expanded: all controls (checkbox, thumbnail, filename, rater, keywords, tagger)
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, window */
 var app = app || {};
@@ -16,12 +16,12 @@ app.controls = function (controls, $, services, data) {
 	VIEWS = {
 		'thumb': 'thumb',
 		'compact': 'compact',
-		'full': 'full'
+		'expanded': 'expanded'
 	},
 	
 	// static properties
 	lastWidth,			// last measured available width for compact view media entry
-	lastOpen,				// control reference to the last opened medium (thumb or compact to full)
+	lastOpen,				// control reference to the last opened medium (thumb or compact to expanded)
 	
 	// static event handlers
 	onClick,
@@ -33,7 +33,7 @@ app.controls = function (controls, $, services, data) {
 		
 		// flags
 		view = 'thumb',
-		full = null;
+		expanded = null;
 		
 		self.data.row = row;
 
@@ -55,12 +55,12 @@ app.controls = function (controls, $, services, data) {
 		};
 		
 		// true or false
-		self.full = function (value) {
+		self.expanded = function (value) {
 			if (typeof value !== 'undefined') {
-				full = value ? 'full' : null;
+				expanded = value ? 'expanded' : null;
 				return self;
 			} else {
-				return full ? true : false;
+				return expanded ? true : false;
 			}
 		};
 		
@@ -117,7 +117,7 @@ app.controls = function (controls, $, services, data) {
 				'<div id="', self.id, '" class="', 
 				['medium']
 					.concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : [])
-					.concat(VIEWS[full || view] || [])
+					.concat(VIEWS[expanded || view] || [])
 					.join(' '), '">',
 					
 				// checkbox
@@ -131,7 +131,7 @@ app.controls = function (controls, $, services, data) {
 				'</div>',
 				
 				// thumbnail
-				full || view === 'thumb' ? [
+				expanded || view === 'thumb' ? [
 					'<div class="overlay"></div>',
 					'<div class="play"></div>',
 					'<div class="thumb">',
@@ -145,12 +145,12 @@ app.controls = function (controls, $, services, data) {
 				self.rater.html(),
 				
 				// keywords
-				full ? self.keywords
+				expanded ? self.keywords
 					.compact(view !== 'compact')
 					.html() : '',
 				
 				// tagger
-				full || view === 'compact' ? self.tagger.html() : '',
+				expanded || view === 'compact' ? self.tagger.html() : '',
 				
 				'</div>'
 			].join('');
@@ -211,23 +211,23 @@ app.controls = function (controls, $, services, data) {
 	onClick = function () {
 		var media = $(this).closest('.medium'),
 				self = controls.lookup[media.attr('id')],
-				full = self.full();
+				expanded = self.expanded();
 
-		if (full) {
+		if (expanded) {
 			// starting playback
 			self.play(media);
 		} else {
 			// closing last opened entry
 			if (lastOpen) {
 				lastOpen
-					.full(false)
+					.expanded(false)
 					.render();
 				lastOpen = null;
 			}
 			
 			// flipping full state and re-rendering control
 			self
-				.full(!full)
+				.expanded(!expanded)
 				.render();
 				
 			// saving reference to last opened entry

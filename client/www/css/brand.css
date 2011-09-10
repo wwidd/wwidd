@@ -101,7 +101,7 @@ div.medium.thumb:hover {
 	background: #e0e0e0;
 }
 
-div.medium.full {
+div.medium.expanded {
 	border-color: #f0f0f0;
 	background: #f0f0f0;
 }
@@ -111,7 +111,7 @@ div.medium.compact:hover {
 }
 
 div.medium.thumb.playing,
-div.medium.full.playing {
+div.medium.expanded.playing {
 	border-color: #B1C3C9;
 	background: #B1C3C9;
 }
@@ -138,7 +138,7 @@ div.medium.compact.playing > div.file > span {
 }
 
 div.medium.thumb > div.thumb > span.spinner,
-div.medium.full > div.thumb > span.spinner {
+div.medium.expanded > div.thumb > span.spinner {
 	background: url('/image/spinner48light.gif');
 }
 
