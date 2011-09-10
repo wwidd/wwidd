@@ -86,7 +86,6 @@ app.controls = function (controls, $, services, data) {
 		// Overrides
 
 		// builds control structure
-		// TODO: controls need be added once, or, when views change
 		self.build = function () {
 			self.clear();
 			
