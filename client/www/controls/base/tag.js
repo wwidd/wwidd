@@ -15,7 +15,10 @@ app.controls = function (controls, $, jOrder, services, data) {
 				rowId = media_table.index('mediaid').lookup([row])[0];
 		
 		self.hints = controls.tag.hints;
-				
+
+		//////////////////////////////
+		// Control
+
 		// removes tag from media entry
 		function remove(before) {
 			if (before) {
@@ -49,7 +52,9 @@ app.controls = function (controls, $, jOrder, services, data) {
 			row.tags = jOrder.keys(lookup);
 			
 			// redrawing tags for media entry
-			this.parent.render();
+			this.parent
+				.build()
+				.render();
 			controls.kinds.render();
 		}
 		
@@ -68,7 +73,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		};
 		
 		// explodes a key to its components
-		self.explode = function (before, row) {
+		self.explode = function (before) {
 			// removing original tag
 			remove(before);
 			

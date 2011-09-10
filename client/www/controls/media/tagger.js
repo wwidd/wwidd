@@ -23,25 +23,32 @@ app.controls = function (controls, $, services) {
 		//////////////////////////////
 		// Overrides
 
-		function build() {
-			var i, kind;
+		self.build = function () {
 			self.clear();
+
+			// adding tag editor controls
+			var i;
 			for (i = 0; i < row.tags.length; i++) {
-				kind = row.tags[i].split(':')[1];
-				if (!controls.kinds.hidden(kind)) {
-					controls.tagedit(row, row.tags[i]).appendTo(self);
-				}
+				controls.tagedit(row, row.tags[i])
+					.appendTo(self);
 			}
-			adder = controls.tagadd(row).appendTo(self);
-		}
+			
+			// adding tag adder control
+			adder = controls.tagadd(row)
+				.appendTo(self);
+				
+			return self;
+		};
 		
 		self.html = function () {
-			build();
-			
 			var result = ['<div id="', self.id, '" class="tagger">'],
-					i;
+					i, child;
+			// adding html for tag controls of visible kinds
 			for (i = 0; i < self.children.length; i++) {
-				result.push(self.children[i].html());
+				child = self.children[i];
+				if (!child.kind || !controls.kinds.hidden(child.kind())) {
+					result.push(child.html());
+				}
 			}
 			result.push('</div>');			
 			return result.join('');

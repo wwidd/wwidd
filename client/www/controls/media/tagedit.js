@@ -18,7 +18,18 @@ app.controls = function (controls, $, jOrder, services, data) {
 		self.data.row = row;
 		self.data.tag = tag;
 		self.hints = controls.tagedit.hints;
-				
+
+		//////////////////////////////
+		// Getters / setters
+		
+		self.kind = function () {
+			return kind;
+		};
+		
+		self.name = function () {
+			return name;
+		};
+
 		//////////////////////////////
 		// Overrides
 		
