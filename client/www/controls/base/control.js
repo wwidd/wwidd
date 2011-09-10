@@ -58,7 +58,7 @@ app.controls = function (controls, $) {
 			// adds control to parent as child
 			appendTo: function (parent) {
 				this.parent = parent;
-				parent.children.push(this);
+				parent.children.push(this.build());
 				return this;
 			},
 			
@@ -99,6 +99,16 @@ app.controls = function (controls, $) {
 					}
 					return this;
 				}
+			},
+			
+			// builds the control
+			// adds child controls
+			build: function () {
+				var i;
+				for (i = 0; i < this.children.length; i++) {
+					this.children[i].build();
+				}
+				return this;
 			},
 			
 			// initializes the control
