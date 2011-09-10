@@ -10,6 +10,14 @@
 var app = app || {};
 
 app.controls = (function (controls, $, data, services) {
+	var
+	
+	// association between library views and entry views
+	VIEW_ASSOC = {
+		'list': 'compact',
+		'tile': 'thumb'
+	};
+		
 	controls.library = function () {
 		var self = controls.control.create(),
 				view = data.cookie.get('view') || 'list',
@@ -126,8 +134,19 @@ app.controls = (function (controls, $, data, services) {
 		// Getters / setters
 
 		self.view = function (value) {
+			var i, child;
 			if (typeof value !== 'undefined') {
+				// setting view for library (self)
 				view = value;
+				
+				// setting view for media controls (children)				
+				for (i = 0; i < self.children.length; i++) {
+					child = self.children[i];
+					if (child.view) {
+						child.view(VIEW_ASSOC[value]);
+					}
+				}
+				
 				return self;
 			} else {
 				return view;
@@ -166,16 +185,10 @@ app.controls = (function (controls, $, data, services) {
 			return self;
 		}
 		
-		function build() {
+		self.build = function () {
 			var page = data.media.getPage(controls.pager.page, controls.pager.items),
-					i, control,
-					
-			// association between library views and entry views
-			views = {
-				'list': 'compact',
-				'tile': 'thumb'
-			};
-			
+					i, control;
+
 			// generating thumbnails if necessary
 			thumbnails(page);
 			
@@ -184,17 +197,18 @@ app.controls = (function (controls, $, data, services) {
 			lookup = {};
 			for (i = 0; i < page.length; i++) {
 				// adding media control to library
-				control = controls.media(page[i], views[view]);
+				control = controls.media(page[i])
+					.view(VIEW_ASSOC[view]);
 				control.appendTo(self);
 				
 				// storing control reference for lookup by id
 				lookup[page[i].mediaid] = control;
 			}
-		}
+			
+			return self;
+		};
 
 		self.html = function () {
-			build();
-			
 			var result, i;
 			if (self.children.length) {
 				result = ['<div id="', self.id, '" class="', ['media', view].join(' '), '">'];

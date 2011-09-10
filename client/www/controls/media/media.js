@@ -28,7 +28,7 @@ app.controls = function (controls, $, services, data) {
 	onChecked,
 	onResize;
 	
-	controls.media = function (row, view) {
+	controls.media = function (row) {
 		var self = controls.control.create(),
 		
 		// sub-controls
@@ -37,6 +37,7 @@ app.controls = function (controls, $, services, data) {
 		keywords,
 		
 		// flags
+		view = 'thumb',
 		full = null;
 		
 		self.data.row = row;
@@ -44,8 +45,13 @@ app.controls = function (controls, $, services, data) {
 		//////////////////////////////
 		// Getters / setters
 
-		self.view = function () {
-			return view;
+		self.view = function (value) {
+			if (typeof value !== 'undefined') {
+				view = value;
+				return self;
+			} else {
+				return view;
+			}
 		};
 		
 		// true or false
@@ -81,30 +87,26 @@ app.controls = function (controls, $, services, data) {
 
 		// builds control structure
 		// TODO: controls need be added once, or, when views change
-		function build() {
+		self.build = function () {
 			self.clear();
 			
 			// adding rater control
 			rater = controls.rater(row).appendTo(self);
 			
 			// adding tagger control to non-thumb views
-			if (full || view === 'compact') {
-				tagger = controls.tagger(row).appendTo(self);
-			}
+			tagger = controls.tagger(row).appendTo(self);
 			
-			// adding keywords control to full view only
-			if (full) {
-				keywords = controls.keywords(row.keywords).appendTo(self);
-			}
-		}
+			// adding keywords control
+			keywords = controls.keywords(row.keywords).appendTo(self);
+			
+			return self;
+		};
 		
 		self.init = function (elem) {
 			controls.media.resize(true, elem);
 		};
 		
 		self.html = function () {
-			build();
-			
 			var parent, child,
 					hash = row.hash;
 

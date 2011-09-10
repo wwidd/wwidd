@@ -58,8 +58,11 @@ app.controls = (function (controls, $, data) {
 					// initializing kinds table
 					data.kinds
 						.init(data.tags, function () {
-							controls.library.render();
-							controls.kinds.render();
+							controls.library
+								.build()
+								.render();
+							controls.kinds
+								.render();
 						});
 				})
 				.load()

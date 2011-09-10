@@ -25,6 +25,7 @@ app.controls = function (controls, $, data) {
 		function refresh() {
 			controls.library
 				.reset()
+				.build()
 				.render();
 			self.render();
 			return false;
@@ -35,7 +36,7 @@ app.controls = function (controls, $, data) {
 
 		function onChange() {
 			self.page = $(this).val();
-			controls.library.render();
+			refresh();
 		}
 		function onFirst() {
 			if (self.page === 0) {
