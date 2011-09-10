@@ -129,8 +129,7 @@ div.medium.playing > div.keywords span {
 	color: #f8f8f8;
 }
 
-div.medium.thumb.playing > div.play,
-div.medium.full.playing > div.play {
+div.medium > div.play {
 	top: 22px;
 	left: 28px;
 	height: 72px;

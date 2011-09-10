@@ -89,12 +89,12 @@ div.medium > div.overlay {
 }
 
 div.medium > div.play {
-	display: none;
+	opacity: 0.0; *filter:alpha(opacity=0);
+	z-index: 2;
 }
 
 div.medium.playing > div.play {
-	display: block;
-	z-index: 2;
+	opacity: 1.0; *filter:alpha(opacity=100);
 }
 
 div.medium > div.thumb {
@@ -127,6 +127,14 @@ FULL VIEW
 
 div.medium.full > div.file > span {
 	font-weight: bold;
+}
+
+div.medium.full > div.play:hover {
+	opacity: 0.6; *filter:alpha(opacity=60);
+}
+
+div.medium.full.playing > div.play:hover {
+	opacity: 1.0; *filter:alpha(opacity=100);
 }
 
 div.medium.full > div.keywords {
