@@ -28,6 +28,7 @@ app.controls = (function (controls, $, data) {
 				
 			// adding select all
 			controls.views
+				.build()
 				.render($('#views').empty());
 				
 			// adding library switcher

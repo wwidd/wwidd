@@ -11,11 +11,21 @@ app.controls = function (controls, $, data) {
 	onClick;
 	
 	controls.views = function () {
-		var self = controls.control.create();
+		var self = controls.control.create(),
+				kinds = controls.dropdown();
 
 		//////////////////////////////
 		// Overrides
 
+		self.build = function () {
+			kinds
+				.caption("Kinds")
+				.popup(controls.kinds)
+				.appendTo(self);
+			
+			return self;
+		};
+		
 		self.init = function (elem) {
 			elem
 				.find('.tile').click(function () {
@@ -39,9 +49,6 @@ app.controls = function (controls, $, data) {
 					}
 					return false;
 				})
-				.end()
-				.find('.kinds')
-					.bind('click', onClick)
 				.end();
 		};
 
@@ -50,43 +57,13 @@ app.controls = function (controls, $, data) {
 				'<span id="', self.id, '">',
 				'<a href="#" class="tile" title="', "Tile View", '"></a>',
 				'<a href="#" class="list" title="', "List View", '"></a>',
-				'<button type="button" class="kinds">', "Kinds", '</button>',
+				kinds.html(),
 				'</span>'
 			].join('');
 		};
 		
 		return self;
 	}();
-	
-	//////////////////////////////
-	// Static event handlers
-	
-	onClick = function (event) {
-		var $this = $(this),
-				pos, height;
-		
-		// checking if popup is already up
-		if ($('body > div.popup.dropdown > div.kinds').length) {
-			// removing kinds popup
-			controls.kinds
-				.remove()
-				.render();
-		} else {
-			// displaying kinds popup
-			pos = $this.offset();
-			height = $this.outerHeight(true);
-			controls.kinds
-				.build()
-				.position({
-					pageX: pos.left,
-					pageY: pos.top + height
-				})
-				.render($('body'));
-		}
-		return false;
-	};
-		
-
 	
 	return controls;
 }(app.controls || {},
