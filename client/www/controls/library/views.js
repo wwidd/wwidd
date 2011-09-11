@@ -19,7 +19,7 @@ app.controls = function (controls, $, data) {
 
 		self.build = function () {
 			kinds
-				.caption("Kinds")
+				.caption("Categories")
 				.popup(controls.kinds)
 				.appendTo(self);
 			
