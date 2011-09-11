@@ -2,11 +2,14 @@
 KINDS
 ******************************/
 
-div#kinds span.tag.display {
-	box-shadow: 0 0 3px #aaa; -moz-box-shadow: 0 0 3px #aaa;
+div.kinds {
+	width: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	text-align: left;
 }
 
-div#kinds span.tag.display > input {
+div.kinds span.tag.display > input {
 	margin: 0 3px 0 0;
 }
 

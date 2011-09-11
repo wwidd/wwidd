@@ -5,9 +5,14 @@
 var app = app || {};
 
 app.controls = function (controls, $, data) {
+	var
+	
+	// static event handlers
+	onClick;
+	
 	controls.views = function () {
 		var self = controls.control.create();
-				
+
 		//////////////////////////////
 		// Overrides
 
@@ -22,7 +27,8 @@ app.controls = function (controls, $, data) {
 						data.cookie.set('view', 'tile');
 					}
 					return false;
-				}).end()
+				})
+				.end()
 				.find('.list').click(function () {
 					// switching to list view
 					if (controls.library.view() !== 'list') {
@@ -32,7 +38,11 @@ app.controls = function (controls, $, data) {
 						data.cookie.set('view', 'list');
 					}
 					return false;
-				}).end();
+				})
+				.end()
+				.find('.kinds')
+					.bind('click', onClick)
+				.end();
 		};
 
 		self.html = function () {
@@ -40,12 +50,43 @@ app.controls = function (controls, $, data) {
 				'<span id="', self.id, '">',
 				'<a href="#" class="tile" title="', "Tile View", '"></a>',
 				'<a href="#" class="list" title="', "List View", '"></a>',
+				'<button type="button" class="kinds">', "Kinds", '</button>',
 				'</span>'
 			].join('');
 		};
 		
 		return self;
 	}();
+	
+	//////////////////////////////
+	// Static event handlers
+	
+	onClick = function (event) {
+		var $this = $(this),
+				pos, height;
+		
+		// checking if popup is already up
+		if ($('body > div.popup.dropdown > div.kinds').length) {
+			// removing kinds popup
+			controls.kinds
+				.remove()
+				.render();
+		} else {
+			// displaying kinds popup
+			pos = $this.offset();
+			height = $this.outerHeight(true);
+			controls.kinds
+				.build()
+				.position({
+					pageX: pos.left,
+					pageY: pos.top + height
+				})
+				.render($('body'));
+		}
+		return false;
+	};
+		
+
 	
 	return controls;
 }(app.controls || {},

@@ -7,10 +7,10 @@
 var app = app || {};
 
 app.controls = function (controls, $, data) {
+	var KIND_PREFIX = 'k';
+	
 	controls.kinds = function () {
-		var	KIND_PREFIX = 'k',
-		
-		self = controls.control.create(),
+		var	self = controls.control.create(controls.popup('dropdown')),
 				hidden;
 		
 		//////////////////////////////
@@ -84,13 +84,13 @@ app.controls = function (controls, $, data) {
 			return self;
 		};
 
-		self.html = function () {
-			var result = ['<span id="', self.id, '">'],
+		self.contents = function () {
+			var result = ['<div id="', self.id, '" class="kinds">'],
 					i;
 			for (i = 0; i < self.children.length; i++) {
 				result.push(self.children[i].html());
 			}
-			result.push('</span>');
+			result.push('</div>');
 			return result.join('');
 		};
 

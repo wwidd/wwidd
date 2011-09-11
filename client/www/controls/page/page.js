@@ -15,10 +15,6 @@ app.controls = (function (controls, $, data) {
 			// initializing pager control
 			controls.pager
 				.render($('#pager').empty());
-				
-			// initializing and adding kinds control
-			controls.kinds
-				.render($('#kinds').empty());
 			
 			// adding search box to page
 			controls.search

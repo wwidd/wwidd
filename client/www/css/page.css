@@ -37,24 +37,38 @@ LIBRARY
 CONTROLS
 ******************************/
 
-#kinds,
 #controls,
 #rootadd {
 	margin: 0;
-	padding: 2px 5px;
-}
-
-#kinds {
-	margin-bottom: -1px;	/* iOS bug workaround */
-	border-top-left-radius: 3px; -moz-border-top-left-radius: 3px;
-	border-top-right-radius: 3px; -moz-border-top-right-radius: 3px;
+	padding: 5px;
 }
 
 #controls {
 	height: 24px;
-	line-height: 24px;
-	vertical-align: bottom;
+	border-top-left-radius: 3px; -moz-border-top-left-radius: 3px;
+	border-top-right-radius: 3px; -moz-border-top-right-radius: 3px;
 	border-bottom: 1px solid;
+}
+
+#controls > span {
+	display: inline-block; *zoom: 1;
+	height: 24px;
+	margin: 0 0 0 10px;
+}
+
+#controls > span:first-child {
+	margin: 0;
+}
+
+#controls span,
+#controls a {
+	line-height: 24px;
+	vertical-align: middle;		
+}
+
+#controls select,
+#controls button {
+	vertical-align: middle;		
 }
 
 /******************************
@@ -63,7 +77,6 @@ CHECKER
 
 #checker a {
 	margin: 0 10px 0 0;
-	vertical-align: middle;
 	text-decoration: none;
 }
 
@@ -87,10 +100,6 @@ LIBRARY SWITCHER
 VIEW SELECTOR
 ******************************/
 
-#views {
-	margin: 0 0 0 5px;
-}
-
 #views a {
 	display: inline-block; *zoom: 1;
 	width: 16px;
@@ -113,7 +122,6 @@ PAGER
 
 #pager {
 	position: absolute;
-	margin: 0 5px 0 0;
 	right: 5px;
 }
 
