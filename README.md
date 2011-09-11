@@ -9,8 +9,6 @@ The Wwidd Library is open, written entirely in JavaScript, and built on top of o
 
 Full packages and dependencies are nonger available from here. Check the Downloads page at [http://wwidd.com](http://wwidd.com).
 
-Current version is 0.3.
-
 Features
 --------
 
