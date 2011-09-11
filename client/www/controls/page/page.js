@@ -33,15 +33,16 @@ app.controls = (function (controls, $, data) {
 				
 			// adding library switcher
 			controls.switcher
+				.build()
 				.render($('#switcher').empty());
 				
 			// adding hints container to page
 			controls.hints
-				.render($('#hints').empty());
+				.render($('#footer').empty());
 			
-			// adding root adder to page
-			controls.rootadd
-				.render($('#rootadd').empty());
+			// adding progress indicator to page
+			controls.progress
+				.render($('#footer'));
 			
 			// initializing and adding library to page
 			controls.library

@@ -10,11 +10,6 @@ app.controls = function (controls, $, services) {
 				dirsel;
 
 		//////////////////////////////
-		// Child controls
-		
-		controls.progress.appendTo(self);
-				
-		//////////////////////////////
 		// Events
 			
 		// called on clicking the add button
@@ -75,16 +70,9 @@ app.controls = function (controls, $, services) {
 		
 		self.html = function () {
 			return [
-				'<div id="', self.id, '">',
-				'<table>',
-				'<tr>',
-				'<td class="button">', '<button type="button">', "Add folder to library", '</button>', '</td>',
-				'<td class="progress">',
-				controls.progress.html(),
-				'</td>',
-				'</tr>',
-				'</table>',
-				'</div>'
+				'<span id="', self.id, '">',
+				'<button type="button" title="', "Add folder to library", '">', "+", '</button>',
+				'</span>'
 			].join('');
 		};
 		

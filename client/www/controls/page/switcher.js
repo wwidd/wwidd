@@ -71,6 +71,11 @@ app.controls = function (controls, $, services) {
 		//////////////////////////////
 		// Overrides
 
+		self.build = function () {
+			controls.rootadd.appendTo(self);
+			return self;
+		};
+		
 		self.init = function (elem) {
 			// setting state
 			if (busy || self.disabled()) {
@@ -111,6 +116,7 @@ app.controls = function (controls, $, services) {
 			}
 			result.push([
 				'</select>',
+				controls.rootadd.html(),
 				'<span class="spinner"></span>',
 				'</span>'
 			].join(''));

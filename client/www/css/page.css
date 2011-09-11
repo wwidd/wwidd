@@ -38,7 +38,7 @@ CONTROLS
 ******************************/
 
 #controls,
-#rootadd {
+#footer {
 	margin: 0;
 	padding: 5px;
 }
@@ -165,23 +165,26 @@ PAGER
 HINTS
 ******************************/
 
-#hints {
+#footer {
 	position: relative;
 	height: 16px;
-	padding: 5px 5px 0 5px;
 	border-top: 1px solid;
+	border-bottom-left-radius: 3px; -moz-border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px;
 }
 
 div.hints {
+	position: relative;
 	padding: 0 0 0 20px;
+	z-index: 2;
 	background: url('/image/information.png') no-repeat center left;
 }
 
 div.hints > a.next {
 	display: inline-block; *zoom: 1;
 	position: absolute;
-	top: 5px;
-	right: 5px;
+	top: 0;
+	right: 0;
 	width: 16px;
 	height: 16px;
 	background: url('/image/arrow_refresh.png') no-repeat;
@@ -192,39 +195,16 @@ PROGRESS
 ******************************/
 
 div.progress {
-	height: 20px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
 	width: 100%;
+	z-index: 1;
 }
 
 div.progress > div.bar {
-	height: 20px;
-	width: 0;
-}
-
-/******************************
-ROOT ADD
-******************************/
-
-#rootadd {
-	margin-top: -1px;	/* iOS bug workaround */
-	padding: 5px;
-	vertical-align: middle;
-	border-bottom-left-radius: 3px; -moz-border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px;
-}
-
-#rootadd table {
+	height: 100%;
 	width: 100%;
-	border-collapse: collapse;
-}
-
-#rootadd table td.progress {
-	width: 100%;
-}
-
-#rootadd table td.button button {
-	margin: 0 5px 0 0;
-	white-space: nowrap;
-	vertical-align: middle;
 }
 

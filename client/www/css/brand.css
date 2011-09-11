@@ -33,12 +33,11 @@ CONTROLS
 
 #kinds,
 #controls,
-#rootadd,
-#hints {
+#footer {
 	background: #c4d2d7;
 }
 
-#rootadd div.progress > div.bar {
+#footer div.progress > div.bar {
 	background: #9ab0b7;
 }
 
@@ -48,18 +47,6 @@ CONTROLS
 
 #switcher span.spinner {
 	background: url('/image/spinner16dark.gif');
-}
-
-/******************************
-ROOT ADD
-******************************/
-
-#rootadd {
-	border-color: #303030;
-}
-
-#rootadd input {
-	border-color: #003e55;
 }
 
 /******************************
