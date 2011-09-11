@@ -7,7 +7,6 @@ div.popup {
 	z-index: 100;
 	margin: 5px;
 	padding: 3px;
-	width: 300px;
 	overflow: hidden;
 	text-align: center;
 	border: 2px solid;
@@ -21,6 +20,7 @@ CENTERED POPUP
 
 div.popup.centered {
 	position: fixed;
+	width: 300px;
 	box-shadow: 0 0 10px #444; -moz-box-shadow: 0 0 10px #444;
 }
 
