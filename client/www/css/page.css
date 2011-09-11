@@ -130,7 +130,7 @@ span.dropdown > button {
 span.dropdown > button > span {
 	display: inline-block; *zoom: 1;
 	height: 16px;
-	line-height: normal;
+	line-height: 16px;
 	margin: 0;
 	padding: 0;
 }
