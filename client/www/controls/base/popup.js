@@ -8,6 +8,7 @@ app.controls = function (controls, $) {
 	var TYPES = {
 		'centered': 'centered',		// always centered, like a modal dialog
 		'context': 'context',			// positions near mouse mask, stays there
+		'dropdown': 'dropdown',		// same ad context but doesn't bind 'click outside'
 		'follow': 'follow'				// follows mouse mask
 	};
 	
@@ -69,10 +70,11 @@ app.controls = function (controls, $) {
 					.render();
 			} else {
 				// re-binding event handler
-				$('body').one('mousedown', function (event) {
+				$('body').one(event.type, function (event) {
 					onClickOutside(event, popup);
 				});
 			}
+			return false;
 		}
 
 		self.init = function (elem) {
@@ -92,6 +94,10 @@ app.controls = function (controls, $) {
 					onMouseMove(event, elem, dims);
 				});
 				break;
+			case 'dropdown':
+				dims = getDims(elem);
+				onMouseMove(null, elem, dims);
+				break;				
 			default:
 			case 'context':
 				dims = getDims(elem);
