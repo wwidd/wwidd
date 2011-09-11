@@ -117,6 +117,38 @@ VIEW SELECTOR
 }
 
 /******************************
+DROPDOWNS
+******************************/
+
+span.dropdown {
+	display: inline-block; *zoom: 1;
+}
+
+span.dropdown > button {
+	line-height: normal;
+	margin: 0;
+	padding: 0 5px;
+}
+
+span.dropdown > button > span {
+	display: inline-block; *zoom: 1;
+	height: 16px;
+	line-height: normal !important;
+	margin: 0;
+	padding: 0;
+}
+
+span.dropdown > button > span.indicator {
+	width: 16px;
+	margin: 0 0 0 3px;
+	background: url('/image/bullet_arrow_down.png') no-repeat top left;
+}
+
+span.dropdown.open > button > span.indicator {
+	background: url('/image/bullet_arrow_up.png') no-repeat top left;
+}
+
+/******************************
 PAGER
 ******************************/
 

@@ -25,6 +25,16 @@ div.popup.centered {
 }
 
 /******************************
+DROPDOWN POPUP
+******************************/
+
+div.popup.dropdown {
+	margin: 0;
+	border-width: 1px;
+	border-radius: 2px; -moz-border-radius: 2px;
+}
+
+/******************************
 KEYWORDS POPUP
 ******************************/
 
