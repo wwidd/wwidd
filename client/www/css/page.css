@@ -44,15 +44,13 @@ CONTROLS
 }
 
 #controls {
-	height: 24px;
+	position: relative;
 	border-top-left-radius: 3px; -moz-border-top-left-radius: 3px;
 	border-top-right-radius: 3px; -moz-border-top-right-radius: 3px;
 	border-bottom: 1px solid;
 }
 
 #controls > span {
-	display: inline-block; *zoom: 1;
-	height: 24px;
 	margin: 0 0 0 10px;
 }
 
@@ -61,19 +59,20 @@ CONTROLS
 }
 
 #controls span,
-#controls a {
-	line-height: 24px;
-	vertical-align: middle;		
-}
-
+#controls a,
 #controls select,
 #controls button {
+	display: inline-block; *zoom: 1;
 	vertical-align: middle;		
 }
 
 /******************************
 CHECKER
 ******************************/
+
+#checker {
+	line-height: 24px;
+}
 
 #checker a {
 	margin: 0 10px 0 0;
@@ -133,7 +132,7 @@ span.dropdown > button {
 span.dropdown > button > span {
 	display: inline-block; *zoom: 1;
 	height: 16px;
-	line-height: normal !important;
+	line-height: normal;
 	margin: 0;
 	padding: 0;
 }
@@ -154,7 +153,12 @@ PAGER
 
 #pager {
 	position: absolute;
+	top: 5px;
 	right: 5px;
+}
+
+#pager select {
+	margin: 0;
 }
 
 /******************************
