@@ -15,7 +15,8 @@ span.warning {
 }
 	
 span.empty {
-	background: url('/image/arrow_down.png') no-repeat left center;
+	padding: 0 20px 0 0;
+	background: url('/image/arrow_up.png') no-repeat right center;
 }
 
 /******************************

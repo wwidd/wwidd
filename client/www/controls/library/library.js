@@ -242,7 +242,7 @@ app.controls = (function (controls, $, data, services) {
 			} else if (controls.search.filter.length) {
 				result = ['<span id="', self.id, '" class="warning nohits">', "No videos are matching the criteria.", '</span>'];
 			} else {
-				result = ['<span id="', self.id, '" class="warning empty">', "You have no videos in this library. Import a folder below.", '</span>'];
+				result = ['<span id="', self.id, '" class="warning empty">', "This library is empty. Import a folder above with [+].", '</span>'];
 			}
 			return result.join('');
 		};
