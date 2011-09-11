@@ -89,6 +89,10 @@ div.medium.thumb:hover {
 	background: #e0e0e0;
 }
 
+div.medium.thumb > div.thumb { 
+	background: #f8f8f8;
+}
+
 div.medium.expanded {
 	border-color: #f0f0f0;
 	background: #f0f0f0;
@@ -100,12 +104,12 @@ div.medium.compact:hover {
 
 div.medium.thumb.playing,
 div.medium.expanded.playing {
-	border-color: #B1C3C9;
-	background: #B1C3C9;
+	border-color: #b1c3c9;
+	background: #b1c3c9;
 }
 
 div.medium.compact.playing {
-	background: #B1C3C9;
+	background: #b1c3c9;
 }
 
 div.medium > div.file > span {
