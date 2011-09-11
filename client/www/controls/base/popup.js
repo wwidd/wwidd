@@ -60,6 +60,21 @@ app.controls = function (controls, $) {
 			};
 		}
 		
+		function onClickOutside(event, popup) {
+			// checking whether user actually clicked outside of popup
+			if (!$(event.target).closest('#' + self.id).length) {
+				// removing popup
+				popup
+					.remove()
+					.render();
+			} else {
+				// re-binding event handler
+				$('body').one('mousedown', function (event) {
+					onClickOutside(event, popup);
+				});
+			}
+		}
+
 		self.init = function (elem) {
 			var dims,
 					that = this;
@@ -82,9 +97,7 @@ app.controls = function (controls, $) {
 				dims = getDims(elem);
 				onMouseMove(null, elem, dims);
 				$('body').one('mousedown', function (event) {
-					that
-						.remove()
-						.render();
+					onClickOutside(event, that);
 				});
 				break;
 			}
