@@ -75,3 +75,7 @@ div.popup > div.tree > ul.root {
 	overflow-y: scroll;
 }
 
+div.popup > button {
+	margin: 5px;
+}
+

@@ -8,3 +8,8 @@ button {
 	font: normal 12px arial, sans; 
 }
 
+button,
+select {
+	margin: 0;
+	padding: 0 5px;
+}

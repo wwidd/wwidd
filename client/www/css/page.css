@@ -125,8 +125,6 @@ span.dropdown {
 
 span.dropdown > button {
 	line-height: normal;
-	margin: 0;
-	padding: 0 5px;
 }
 
 span.dropdown > button > span {
