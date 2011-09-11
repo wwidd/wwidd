@@ -3,7 +3,8 @@ span,
 a,
 p,
 input,
-select {
+select,
+button {
 	font: normal 12px arial, sans; 
 }
 
