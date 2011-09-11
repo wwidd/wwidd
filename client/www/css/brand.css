@@ -71,6 +71,7 @@ SEARCH
 ******************************/
 
 span.search > input {
+	color: #444;
 	border-color: #003e55;
 }
 

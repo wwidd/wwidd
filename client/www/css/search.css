@@ -14,7 +14,7 @@ span.search {
 	display: inline-block; *zoom: 1;
 	position: relative;
 	width: 440px;
-	height: 24px;
+	height: 32px;
 	text-align: right;
 	vertical-align: middle;
 }
@@ -25,7 +25,7 @@ span.search > a.clear {
 	top: 0;
 	right: 1px;
 	width: 16px;
-	height: 20px;
+	height: 28px;
 	background: url('/image/cross.png') no-repeat left center;
 	border: 1px solid transparent;
 	z-index: 3;
@@ -38,9 +38,9 @@ span.search > input {
 	top: 0;
 	left: 0;
 	width: 400px;
-	height: 20px;
+	height: 28px;
 	padding: 0 20px;
-	font-size: 16px;
+	font-size: 24px;
 	border: 1px solid;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
