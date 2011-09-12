@@ -11,7 +11,6 @@ parser = {
 	rowSeparator: null,			// separates rows - if null, parsed text is one row
 	fieldSeparator: '',			// separates fields  within row
 	keySeparator: '',				// separates value from key
-	keyLength: 0,						// maximum length of keys
 	rowSkip: 0,							// rows to skip
 	fieldSkip: 0,						// fields to skip within row
 	rowHandler: null,				// row evaluation
@@ -28,8 +27,7 @@ parser = {
 				first = rows[0],
 				result = [],
 				fields, row,
-				i, j,
-				tmp, key, value;
+				i, j, tmp;
 		
 		// trimming first row -
 		// the rest can be controlled from separators
@@ -41,9 +39,7 @@ parser = {
 			row = {};
 			for (i = this.fieldSkip; i < fields.length; i++) {
 				tmp = fields[i].split(this.keySeparator);
-				key = this.keyLength ? tmp[0].substr(0, this.keyLength) : tmp[0];
-				value = tmp[1];
-				row[key] = value;
+				row[tmp[0]] = tmp[1];
 			}
 			if (this.rowHandler && !this.rowHandler(row)) {
 				continue;
