@@ -5,13 +5,13 @@
 var app = app || {};
 
 app.service = function ($) {
-	var url = window.location.href;
+	var url = window.location.origin;
 	
 	return function (endpoint) {
 		var self = {
 			// calls a service
 			call: function (data, handler) {
-				$.ajax(url + endpoint, {
+				$.ajax(url + '/' + endpoint, {
 					data: data,
 					dataType: 'json',
 					success: handler,
