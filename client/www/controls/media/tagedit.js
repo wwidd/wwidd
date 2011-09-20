@@ -34,7 +34,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		// Overrides
 		
 		self.display = function () {
-			var hit = controls.search.filter().length && data.tag(controls.search().filter).match(name) ? 'hit' : null;
+			var hit = controls.search.filter().length && data.tag(controls.search.filter()).match(name) ? 'hit' : null;
 			
 			return [
 				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
