@@ -5,7 +5,7 @@
 var app = app || {};
 
 app.service = function ($) {
-	var url = window.location.origin;
+	var url = window.location.protocol + '//' + window.location.host;
 	
 	return function (endpoint) {
 		var self = {
