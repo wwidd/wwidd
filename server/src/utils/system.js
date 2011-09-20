@@ -26,7 +26,8 @@ system = {
 		if (empty) {
 			paths = {
 				'linux': ['home', 'media'],
-				'cygwin': ['cygdrive']
+				'cygwin': ['cygdrive'],
+				'darwin': ['Users', 'Volumes']
 			}[os] || ['home'];
 		}
 		
