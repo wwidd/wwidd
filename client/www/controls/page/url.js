@@ -6,7 +6,7 @@ var app = app || {};
 
 app.controls = (function (controls) {
 	function refresh(values) {
-		window.location.hash = '#/' + values.join('/') + '/';
+		window.location.hash = '#!/' + values.join('/') + '/';
 	}
 		
 	controls.url = {
