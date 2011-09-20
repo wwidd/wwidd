@@ -43,6 +43,7 @@ app.controls = function (controls, $, data) {
 				.build()
 				.render();
 			self.render();
+			controls.url.set();
 			return false;
 		}
 		

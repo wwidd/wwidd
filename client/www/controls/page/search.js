@@ -40,6 +40,7 @@ app.controls = function (controls, $, services, data) {
 			controls.library
 				.reset()
 				.load();
+			controls.url.set();
 		}
 
 		function onChange(event) {

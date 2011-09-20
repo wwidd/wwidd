@@ -62,6 +62,7 @@ app.controls = function (controls, $, services) {
 				// resetting controls
 				controls.pager.reset();
 				controls.search.reset();
+				controls.url.set();
 				
 				// loading new library contents
 				controls.library.load();
