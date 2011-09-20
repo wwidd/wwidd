@@ -8,18 +8,33 @@ var app = app || {};
 
 app.controls = function (controls, $, data) {
 	controls.pager = function () {
-		var self = controls.control.create();
+		var self = controls.control.create(),
+				page = 0,
+				items = 20,
+				max = 0;
 
-		// members
-		self.page = 0;
-		self.items = 20;
-		self.max = 0;
+		//////////////////////////////
+		// Getters, setters
+
+		self.page = function (value) {
+			if (typeof value === 'undefined') {
+				return page;
+			} else {
+				page = value;
+				return self;
+			}
+		};
+		
+		self.items = function () {
+			return items;
+		};
 		
 		//////////////////////////////
 		// Utility functions
 
 		self.reset = function () {
-			self.page = 0;
+			page = 0;
+			return self;
 		};
 		
 		function refresh() {
@@ -35,35 +50,35 @@ app.controls = function (controls, $, data) {
 		// Event handlers
 
 		function onChange() {
-			self.page = $(this).val();
+			page = $(this).val();
 			refresh();
 		}
 		function onFirst() {
-			if (self.page === 0) {
+			if (page === 0) {
 				return false;
 			}
-			self.page = 0;
+			page = 0;
 			return refresh();
 		}		
 		function onPrev() {
-			if (self.page === 0) {
+			if (page === 0) {
 				return false;
 			}
-			self.page--;
+			page--;
 			return refresh();
 		}		
 		function onNext() {
-			if (self.page >= self.max - 1) {
+			if (page >= max - 1) {
 				return false;
 			}
-			self.page++;
+			page++;
 			return refresh();
 		}
 		function onLast() {
-			if (self.page >= self.max - 1) {
+			if (page >= max - 1) {
 				return false;
 			}
-			self.page = self.max - 1;
+			page = max - 1;
 			return refresh();
 		}
 		
@@ -88,26 +103,26 @@ app.controls = function (controls, $, data) {
 		};
 		
 		self.html = function () {
-			self.max = data.media.getPages(self.items);
+			max = data.media.getPages(items);
 
 			// returning empty control on no data
-			if (self.max <= 1) {
+			if (max <= 1) {
 				return '<span id="' + self.id + '"></span>';
 			}
 			
 			// re-setting page in case pager is out of bounds
-			if (self.page > self.max) {
-				self.page = 0;
+			if (page > max) {
+				page = 0;
 			}
 
 			var options = [],
 					j, row;
 	
 			// adding options
-			for (j = 0; j < self.max; j++) {
-				row = data.media.getFirst(j, self.items)[0];
+			for (j = 0; j < max; j++) {
+				row = data.media.getFirst(j, items)[0];
 				options.push([
-					'<option value="', j, '"', j === parseInt(self.page, 10) ? ' selected="selected"' : '', '>',
+					'<option value="', j, '"', j === parseInt(page, 10) ? ' selected="selected"' : '', '>',
 					(j + 1) + " - " + row.file.substr(0, 5) + "...",
 					'</option>'
 				].join(''));

@@ -6,20 +6,34 @@ var app = app || {};
 
 app.controls = function (controls, $, services, data) {
 	controls.search = function () {
-		var self = controls.control.create();
+		var self = controls.control.create(),
+				filter = "";
 
-		self.filter = "";
+		//////////////////////////////
+		// Getters, setters
+
+		self.filter = function (value) {
+			if (typeof value === 'undefined') {
+				return filter;
+			} else {
+				filter = value;
+				return self;
+			}
+		};
 		
+		//////////////////////////////
+		// Control
+
 		self.reset = function () {
-			self.filter = "";
+			filter = "";
 			self.render();
 		};
 
 		//////////////////////////////
 		// Event handlers
 
-		function filter($this, term) {
-			self.filter = term;
+		function run($this, term) {
+			filter = term;
 			$this.siblings('.backdrop')
 				.val('');
 			controls.pager.reset();
@@ -41,7 +55,7 @@ app.controls = function (controls, $, services, data) {
 					.val(match)
 					.scrollLeft($this.scrollLeft());
 			} else {
-				filter($this, term);
+				run($this, term);
 			}
 		}
 		
@@ -54,11 +68,11 @@ app.controls = function (controls, $, services, data) {
 		
 		function onClear() {
 			var $input = $(this).siblings('.focus');
-			if (!self.filter.length) {
+			if (!filter.length) {
 				return false;
 			}
 			$input.val('');
-			filter($input, '');
+			run($input, '');
 			return false;
 		}
 		
@@ -79,7 +93,7 @@ app.controls = function (controls, $, services, data) {
 			return [
 				'<span id="' + self.id + '" class="search">',
 				'<a class="clear" href="#"></a>',
-				'<input type="text" class="focus" />',
+				'<input type="text" class="focus" value="' + filter + '" />',
 				'<input type="text" class="backdrop" />',
 				'</span>'
 			].join(' ');

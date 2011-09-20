@@ -76,7 +76,7 @@ app.controls = (function (controls, $, data, services) {
 				.render();
 			
 			// loading video data
-			data.media.init(controls.search.filter, function () {
+			data.media.init(controls.search.filter(), function () {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + controls.switcher.selected());
 				
@@ -209,7 +209,7 @@ app.controls = (function (controls, $, data, services) {
 		}
 		
 		self.build = function () {
-			var page = data.media.getPage(controls.pager.page, controls.pager.items),
+			var page = data.media.getPage(controls.pager.page(), controls.pager.items()),
 					i, control;
 
 			// generating thumbnails if necessary
@@ -239,7 +239,7 @@ app.controls = (function (controls, $, data, services) {
 					result.push(self.children[i].html());
 				}
 				result.push('</div>');
-			} else if (controls.search.filter.length) {
+			} else if (controls.search.filter().length) {
 				result = ['<span id="', self.id, '" class="warning nohits">', "No videos are matching the criteria.", '</span>'];
 			} else {
 				result = ['<span id="', self.id, '" class="warning empty">', "This library is empty. Import a folder above with [+].", '</span>'];

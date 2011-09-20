@@ -34,7 +34,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		// Overrides
 		
 		self.display = function () {
-			var hit = controls.search.filter.length && data.tag(controls.search.filter).match(name) ? 'hit' : null;
+			var hit = controls.search.filter().length && data.tag(controls.search().filter).match(name) ? 'hit' : null;
 			
 			return [
 				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
@@ -80,7 +80,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		var self = getSelf($(this)),
 				row = self.data.row,
 				tag = self.data.tag,
-				filter = controls.search.filter;
+				filter = controls.search.filter();
 		
 		if (event.shiftKey) {
 			// deleting all tags like this one
@@ -94,7 +94,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		} else if (event.ctrlKey) {
 			// deleting tags from search results
 			if (filter.length && confirm(lang.hits)) {
-				service(null, tag, controls.search.filter, null, controls.library.load);
+				service(null, tag, controls.search.filter(), null, controls.library.load);
 			}
 		} else {
 			// deleting tag from one specific video

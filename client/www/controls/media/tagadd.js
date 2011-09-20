@@ -86,7 +86,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 				}
 			} else if (event.ctrlKey) {
 				// adding tag(s) to multiple media
-				filter = controls.search.filter;
+				filter = controls.search.filter();
 				if (filter.length && confirm("Add this to SEARCH results?")) {
 					services.addtag(null, name, filter, null, controls.library.load);
 				}
