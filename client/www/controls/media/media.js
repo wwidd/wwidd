@@ -133,7 +133,7 @@ app.controls = function (controls, $, services, data) {
 				// thumbnail
 				expanded || view === 'thumb' ? [
 					'<div class="overlay"></div>',
-					'<div class="play"></div>',
+					'<div class="play"><div class="image"></div></div>',
 					'<div class="thumb">',
 					hash.length ?
 						['<img src="/cache/', hash, '.jpg">'].join('') :

@@ -121,12 +121,20 @@ div.medium.playing > div.keywords span {
 	color: #181818;
 }
 
-div.medium > div.play {
-	background: url('/image/wwidd_play_72.png') no-repeat center center;
+div.medium > div.play > div.image {
+	top: 0px;
+	left: 28px;
+	width: 72px;
+	height: 72px;
+	background: url('/image/wwidd_sprites.png') no-repeat 0 0;
+}
+
+div.media.list > div.medium.expanded > div.play > div.image {
+	top: 12px;
 }
 
 div.medium.compact.playing > div.file > span {
-	background: url('/image/wwidd_play_16.png') no-repeat bottom left;
+	background: url('/image/wwidd_sprites.png') no-repeat -80px 0;
 }
 
 div.medium.thumb > div.thumb > span.spinner,

@@ -113,6 +113,12 @@ div.medium > div.play {
 	z-index: 2;
 }
 
+div.medium > div.play > div.image {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
 div.medium.playing > div.play {
 	opacity: 1.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; *filter:alpha(opacity=100);
 }
