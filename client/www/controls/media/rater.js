@@ -28,7 +28,7 @@ app.controls = function (controls, $, services) {
 		function onClick() {
 			var rating = $('#' + self.id).find('a').index(this) + 1;
 			// calling rater service
-			services.rate(row.mediaid, rating, function () {
+			services.media.rate(row.mediaid, rating, function () {
 				row.rating = rating;
 				self.render();
 			});

@@ -33,7 +33,7 @@ app.data = function (data, jOrder, services) {
 			// initializes data object: calls service, populates table
 			init: function (filter, handler) {
 				handler = handler || function () {};
-				services.getmedia(filter, function (json) {
+				services.media.get(filter, function (json) {
 					self.table = jOrder(preprocess(json.data))
 						.index('mediaid', ['mediaid'], {ordered: true, type: jOrder.number})
 						.index('file', ['file_'], {ordered: true, grouped: true, type: jOrder.string})

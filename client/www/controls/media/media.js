@@ -72,7 +72,7 @@ app.controls = function (controls, $, services, data) {
 			elem
 				.siblings().removeClass('playing').end()
 				.addClass('playing');
-			services.play(row.mediaid);
+			services.media.play(row.mediaid);
 			data.pagestate.lastPlayed = row.mediaid;
 			return self;
 		};

@@ -36,7 +36,7 @@ app.controls = function (controls, $, services) {
 				})
 				.onOk(function () {
 					// initiating folder import on 'ok' button
-					services.addroot(dirsel.selected(), function () {
+					services.root.add(dirsel.selected(), function () {
 						self
 							.disabled({'import': false})
 							.render();

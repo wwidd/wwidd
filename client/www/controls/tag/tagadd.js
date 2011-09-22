@@ -82,17 +82,17 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (event.shiftKey) {
 				// shift + enter is handled only when entry is selected (and possibly others)
 				if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
-					services.addtag(null, name, null, jOrder.keys(controls.library.selected).join(','), controls.library.load);
+					services.tag.add(null, name, null, jOrder.keys(controls.library.selected).join(','), controls.library.load);
 				}
 			} else if (event.ctrlKey) {
 				// adding tag(s) to multiple media
 				filter = controls.search.filter();
 				if (filter.length && confirm("Add this to SEARCH results?")) {
-					services.addtag(null, name, filter, null, controls.library.load);
+					services.tag.add(null, name, filter, null, controls.library.load);
 				}
 			} else {
 				// adding tag(s) to simgle media file
-				services.addtag(row.mediaid, name, null, null, function () {
+				services.tag.add(row.mediaid, name, null, null, function () {
 					self.changetag(null, name, row);
 					self.parent.add();
 				});

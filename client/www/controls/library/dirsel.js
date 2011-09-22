@@ -39,7 +39,7 @@ app.controls = function (controls, $, services) {
 				.closest('div.popup')
 					.find('div.spinner')
 						.show();
-			services.getdirs(node.path().join('/'), function (json) {
+			services.sys.dirlist(node.path().join('/'), function (json) {
 				$spinner.hide();
 				empty = !hasOwnProperties(json.data);
 				if (empty) {
@@ -65,7 +65,7 @@ app.controls = function (controls, $, services) {
 				onCancel, onOk;
 		
 		// initial service call for root dirs
-		services.getdirs(null, function (json) {
+		services.sys.dirlist(null, function (json) {
 			// initial tree contents
 			tree
 				.json(json.data)

@@ -11,7 +11,7 @@ app.data = function (data, jOrder, services) {
 
 			// initializes data object: calls service, populates table
 			init: function (handler) {
-				services.gettags(function (json) {
+				services.tag.getall(function (json) {
 					// preprocessing tag data
 					var i, row;
 					for (i = 0; i < json.data.length; i++) {

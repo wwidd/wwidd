@@ -16,7 +16,7 @@ app.controls = function (controls, $, services) {
 		//////////////////////////////
 		// Initialization
 
-		services.getlibs(function (json) {
+		services.lib.getall(function (json) {
 			data = json.data;
 			selected = json.data.selected;
 			
@@ -56,7 +56,7 @@ app.controls = function (controls, $, services) {
 			var library = $(this).val();
 			
 			// changing library
-			services.setlib(library, function () {
+			services.lib.select(library, function () {
 				selected = library;
 				
 				// resetting controls

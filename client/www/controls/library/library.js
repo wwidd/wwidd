@@ -125,7 +125,7 @@ app.controls = (function (controls, $, data, services) {
 			disabled(true);
 			
 			// polling background processes
-			services.poll('thumbnails', function (json) {
+			services.sys.poll('thumbnails', function (json) {
 				// updating progress indicator
 				controls.progress
 					.progress(json.progress)
@@ -200,7 +200,7 @@ app.controls = (function (controls, $, data, services) {
 			
 			// calling thumbnail service
 			if (mediaids.length) {
-				services.genthumbs(mediaids.join(','), function () {
+				services.media.extract(mediaids.join(','), function () {
 					self.poll();
 				});
 			}

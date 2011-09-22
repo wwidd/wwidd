@@ -108,7 +108,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 	
 	// tag remove event handler
 	function onRemove(event) {
-		onButton.call(this, event, services.deltag, {
+		onButton.call(this, event, services.tag.del, {
 			sel: "Delete this tag from SELECTED videos?",
 			all: "Delete ALL tags of this kind?",
 			hits: "Delete this tag from SEARCH results?"
@@ -120,7 +120,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 
 	// tag explode (split) event handler
 	function onExplode(event) {
-		onButton.call(this, event, services.explodetag, {
+		onButton.call(this, event, services.tag.explode, {
 			sel: "Explode this tag in SELECTED videos?",
 			all: "Explode ALL tags of this kind?",
 			hits: "Explode this tag in SEARCH results?"
@@ -148,13 +148,13 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (event.shiftKey) {
 				// running batch tag change
 				if (confirm("Apply change to ALL tags of this kind?")) {
-					services.changetag(null, before, after, controls.library.load);
+					services.tag.set(null, before, after, controls.library.load);
 				}
 			} else if (event.ctrlKey) {
 				// ctrl + enter is not defined for editing
 			} else {
 				// running single tag change
-				services.changetag(row.mediaid, before, after, function () {
+				services.tag.set(row.mediaid, before, after, function () {
 					self.changetag(before, after, row);
 				});
 			}

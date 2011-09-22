@@ -19,7 +19,7 @@ app.poll = function (service) {
 		stopped = false;
 		
 		function next() {
-			service('poll').call({
+			service('sys/poll').call({
 				process: process
 			}, function (json) {
 				var progress = json.data.progress,
