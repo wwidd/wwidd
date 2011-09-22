@@ -240,9 +240,19 @@ app.controls = (function (controls, $, data, services) {
 				}
 				result.push('</div>');
 			} else if (controls.search.filter().length) {
-				result = ['<span id="', self.id, '" class="warning nohits">', "No videos are matching the criteria.", '</span>'];
+				result = [
+					'<span id="', self.id, '" class="warning nohits">',
+					'<span class="icon"></span>',
+					'<span>', "No videos match the criteria.", '</span>',
+					'</span>'
+				];
 			} else {
-				result = ['<span id="', self.id, '" class="warning empty">', "This library is empty. Import a folder above with [+].", '</span>'];
+				result = [
+					'<span id="', self.id, '" class="warning empty">',
+					'<span>', "This library is empty. Import a folder above with [+].", '</span>',
+					'<span class="icon"></span>',
+					'</span>'
+				];
 			}
 			return result.join('');
 		};

@@ -61,11 +61,11 @@ div.tree li > span.toggle {
 	height: 16px;
 	width: 16px;
 	cursor: pointer;
-	background: url('/image/bullet_toggle_plus.png');
+	background: url('/image/sprites.png') no-repeat 0 -160px;
 }
 
 div.tree li.expanded > span.toggle {
-	background: url('/image/bullet_toggle_minus.png');
+	background: url('/image/sprites.png') no-repeat -20px -160px;
 }
 
 div.tree li.dead > span.toggle {

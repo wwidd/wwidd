@@ -19,16 +19,25 @@ span.search {
 	vertical-align: middle;
 }
 
+span.search > span.icon,
 span.search > a.clear {
 	display: inline-block; *zoom: 1;
 	position: absolute;
-	top: 0;
-	right: 1px;
+	top: 6px;
 	width: 16px;
-	height: 28px;
-	background: url('/image/cross.png') no-repeat left center;
+	height: 16px;
 	border: 1px solid transparent;
 	z-index: 3;
+}
+
+span.search > span.icon {
+	left: 3px;
+	background: transparent url('/image/sprites.png') no-repeat 0 -20px;
+}
+
+span.search > a.clear {
+	right: 1px;
+	background: url('/image/sprites.png') no-repeat -20px -20px;
 }
 
 /* identical input boxes for input & backdrop */
@@ -47,7 +56,6 @@ span.search > input {
 
 /* search input box */
 span.search > input.focus {
-	background: transparent url('/image/magnifier.png') no-repeat 3px center;
 	z-index: 2;
 }
 

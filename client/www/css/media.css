@@ -4,19 +4,30 @@ EMPTY LIBRARY
 
 span.warning {
 	display: inline-block; *zoom: 1;
+	margin: 0 0 0 5px;
+}
+
+span.warning > span {
+	display: inline-block; *zoom: 1;
 	height: 20px;
 	line-height: 20px;
-	margin: 0 0 0 5px;
-	padding: 0 0 0 20px;
+	margin: 0 4px 0 0;
 	vertical-align: middle;
 	font-weight: bold;
 	color: yellow;
-	background: url('/image/error.png') no-repeat left center;
 }
-	
-span.empty {
-	padding: 0 20px 0 0;
-	background: url('/image/arrow_up.png') no-repeat right center;
+
+span.warning > span.icon {
+	width: 16px;
+	height: 16px;
+}
+
+span.warning > span.icon {
+	background: url('/image/sprites.png') no-repeat -20px -60px;
+}
+
+span.empty > span.icon {
+	background: url('/image/sprites.png') no-repeat 0 -100px;
 }
 
 /******************************
@@ -306,7 +317,7 @@ div.media.list > div.medium.expanded > div.file > span {
 
 div.medium.compact.playing > div.file > span {
 	padding: 0 0 0 20px;
-	background: url('/image/control_play_blue.png') no-repeat center left;
+	background: url('/image/sprites.png') no-repeat -20px -80px;
 }
 
 div.media.list > div.medium.expanded > div.keywords {
@@ -374,10 +385,10 @@ div.rater > a {
 	padding: 0;
 	color: transparent;
 	text-decoration: none;
-	background: url('/image/bullet_white.png') no-repeat;
+	background: url('/image/sprites.png') no-repeat -20px -120px;
 }
 
 div.rater > a.star {
-	background: url('/image/star.png') no-repeat;
+	background: url('/image/sprites.png') no-repeat 0 -120px;
 }
 

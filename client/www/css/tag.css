@@ -206,11 +206,11 @@ span.tag > a.button {
 }
 
 span.tag > a.button.remove {
-	background: url('/image/delete.png') no-repeat;
+	background: url('/image/sprites.png') no-repeat 0 -140px;
 }
 
 span.tag > a.button.explode {
-	background: url('/image/bomb.png') no-repeat;
+	background: url('/image/sprites.png') no-repeat -20px -140px;
 }
 
 /******************************

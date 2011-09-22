@@ -94,6 +94,7 @@ app.controls = function (controls, $, services, data) {
 			return [
 				'<span id="' + self.id + '" class="search">',
 				'<a class="clear" href="#"></a>',
+				'<span class="icon"></span>',
 				'<input type="text" class="focus" value="' + filter + '" />',
 				'<input type="text" class="backdrop" />',
 				'</span>'

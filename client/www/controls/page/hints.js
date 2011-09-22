@@ -50,6 +50,7 @@ app.controls = function (controls, $) {
 			return [
 				'<div id="', self.id, '" class="hints">',
 				'<span class="text">', hints[current], '</span>',
+				'<span class="icon"></span>',
 				'<a class="next" href="#" title="', "Next hint", '"></a>',
 				'</div>'
 			].join('');
