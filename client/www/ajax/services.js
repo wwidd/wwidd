@@ -8,45 +8,45 @@ app.services = function ($, window, service, poll) {
 	return {
 		// adds a root path to library (w/ import)
 		addroot: function (path, handler) {
-			service('addroot').call({
+			service('root/add').call({
 				path: path
 			}, handler);
 		},
 		
 		// retrieves a list of available libraries
 		getlibs: function (handler) {
-			service('getlibs').call(null, handler);
+			service('lib/getall').call(null, handler);
 		},
 		
 		// retrieves a list of available libraries
 		setlib: function (name, handler) {
-			service('setlib').call({
+			service('lib/select').call({
 				name: name
 			}, handler);
 		},
 		
 		// retrieves all media (matching the filter) from library
 		getmedia: function (filter, handler) {
-			service('getmedia').call({
+			service('media/get').call({
 				filter: filter
 			}, handler);
 		},
 		
 		// retrieves all tags from library
 		gettags: function (handler) {
-			service('gettags').call(null, handler);
+			service('tag/getall').call(null, handler);
 		},
 		
 		// starts playback of a file
 		play: function (mediaid, handler) {
-			service('play').call({
+			service('media/play').call({
 				mediaid: mediaid
 			}, handler);
 		},
 		
 		// rates a file
 		rate: function (mediaid, rating, handler) {
-			service('rate').call({
+			service('media/rate').call({
 				mediaid: mediaid,
 				at: rating
 			}, handler);
@@ -54,7 +54,7 @@ app.services = function ($, window, service, poll) {
 		
 		// adds tag to a file
 		addtag: function (mediaid, tag, filter, mediaids, handler) {
-			service('addtag').unary(mediaid, tag, filter, mediaids, handler);			
+			service('tag/add').unary(mediaid, tag, filter, mediaids, handler);			
 		},
 
 		// changes tag on a file
@@ -66,17 +66,17 @@ app.services = function ($, window, service, poll) {
 			if (mediaid) {
 				data.mediaid = mediaid;
 			}
-			service('changetag').call(data, handler);
+			service('tag/set').call(data, handler);
 		},
 		
 		// explodes tag(s)
 		explodetag: function (mediaid, tag, filter, mediaids, handler) {
-			service('explodetag').unary(mediaid, tag, filter, mediaids, handler);			
+			service('tag/explode').unary(mediaid, tag, filter, mediaids, handler);			
 		},
 		
 		// deletes tag(s)
 		deltag: function (mediaid, tag, filter, mediaids, handler) {
-			service('deltag').unary(mediaid, tag, filter, mediaids, handler);
+			service('tag/del').unary(mediaid, tag, filter, mediaids, handler);
 		},
 		
 		// gets directory tree for given root path(s)
@@ -86,7 +86,7 @@ app.services = function ($, window, service, poll) {
 			if (root) {
 				data.root = root;
 			}
-			service('getdirs').call(data, handler);
+			service('sys/dirlist').call(data, handler);
 		},
 		
 		// generates thumbs for a set of video files
@@ -95,7 +95,7 @@ app.services = function ($, window, service, poll) {
 			var data = {
 				mediaids: mediaids
 			};
-			service('genthumbs').call(data, handler);			
+			service('media/extract').call(data, handler);			
 		},
 		
 		poll: function (process, handler) {

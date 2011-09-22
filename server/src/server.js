@@ -53,7 +53,7 @@ server = $http.createServer(function (req, res) {
 
   // executing command
 	switch (endpoint) {
-	case '/getlibs':
+	case '/lib/getall':
 		// retrieves library list and information on selected library
 		envelope(res, true, function (ok) {
 			library.list(function (data) {
@@ -62,8 +62,9 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 		
-	case '/setlib':
-		ok = envelope(res, true, function () {
+	case '/lib/select':
+		// sets the selected library
+		envelope(res, true, function (ok) {
 			if (!query.name) {
 				throw "Missing parameters";
 			}
@@ -74,25 +75,25 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 		
-	case '/getmedia':
-		ok = envelope(res, true, function () {
+	case '/media/get':
+		envelope(res, true, function (ok) {
 			library.getMedia(query.filter, function (data) {
 				ok(data);
 			});
 		});
 		break;
 		
-	case '/gettags':
-		ok = envelope(res, true, function () {
+	case '/tag/getall':
+		envelope(res, true, function (ok) {
 			library.getTags(function (data) {
 				ok(data);
 			});
 		});
 		break;
 		
-	case '/addroot':
+	case '/root/add':
 		// adding path to root collection or library
-		ok = envelope(res, true, function () {
+		envelope(res, true, function (ok) {
 			if (!query.path) {
 				throw "Missing parameters";
 			}
@@ -103,7 +104,7 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 	
-	case '/play':
+	case '/media/play':
 		// playing back media file
 		envelope(res, false, function () {
 			if (!query.mediaid) {
@@ -113,9 +114,9 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 		
-	case '/rate':
+	case '/media/rate':
 		// rating a media file
-		ok = envelope(res, true, function () {
+		envelope(res, true, function (ok) {
 			if (!query.mediaid || !query.at) {
 				throw "Missing parameters";
 			}
@@ -125,9 +126,9 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 	
-	case '/addtag':
+	case '/tag/add':
 		// deleting tag
-		ok = envelope(res, true, function () {
+		envelope(res, true, function (ok) {
 			if (!(query.mediaid || query.filter || query.mediaids) || !query.tag) {
 				throw "Missing parameters";
 			}
@@ -137,9 +138,9 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 
-	case '/changetag':
+	case '/tag/set':
 		// updating tag
-		ok = envelope(res, true, function () {
+		envelope(res, true, function (ok) {
 			if (!query.before || !query.after) {
 				throw "Missing parameters";
 			}
@@ -153,9 +154,9 @@ server = $http.createServer(function (req, res) {
 		});
 		break;		
 		
-	case '/explodetag':
+	case '/tag/explode':
 		// exploding tag
-		ok = envelope(res, true, function () {
+		envelope(res, true, function (ok) {
 			if (!query.tag) {
 				throw "Missing parameters";
 			}
@@ -165,9 +166,9 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 
-	case '/deltag':
+	case '/tag/del':
 		// deleting tag
-		ok = envelope(res, true, function () {
+		envelope(res, true, function (ok) {
 			if (!query.tag) {
 				throw "Missing parameters";
 			}
@@ -177,14 +178,14 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 		
-	case '/getdirs':
+	case '/sys/dirlist':
 		// querying directory structure
 		envelope(res, false, function () {
 			return system.tree(query.root ? query.root.split(',') : null);
 		});
 		break;
 	
-	case '/poll':
+	case '/sys/poll':
 		// polling processes
 		envelope(res, true, function (ok) {
 			if (!query.process) {
@@ -196,9 +197,9 @@ server = $http.createServer(function (req, res) {
 		});
 		break;
 	
-	case '/genthumbs':
+	case '/media/extract':
 		// generates thumbnails
-		ok = envelope(res, true, function () {
+		envelope(res, true, function (ok) {
 			if (!query.mediaids) {
 				throw "Missing parameters";
 			}
