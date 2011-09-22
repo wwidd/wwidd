@@ -13,19 +13,20 @@ app.controls = (function (controls) {
 		get: function () {
 			// obtaining URL hash values
 			var tmp = window.location.hash.split('/'),
-					filter = tmp[1] || "",
-					page = parseInt(tmp[2], 10) || 1;
+					library = '',		// placeholder for library name
+					filter = tmp[2] || '',
+					page = parseInt(tmp[3], 10) || 1;
 			
 			// updating controls' state
 			controls.search.filter(filter);
 			controls.pager.page(page - 1);
 			
 			// sanitizing URL
-			refresh([filter, page]);
+			refresh([library, filter, page]);
 		},
 		
 		set: function () {
-			refresh([controls.search.filter() || '', (parseInt(controls.pager.page(), 10) || 0) + 1]);
+			refresh(['', controls.search.filter() || '', (parseInt(controls.pager.page(), 10) || 0) + 1]);
 		}
 	};
 	
