@@ -18,13 +18,36 @@ var	$http = require('http'),
 		browser = require('tools/browser').browser,	
 		ifconfig = require('tools/ifconfig').ifconfig,
 		system = require('utils/system').system,
-		port = 8124,
+		
+		// environmental variables
+		PORT = 8124,
+		DEBUG = false,
+		
+		// server object
+		server;
+		
+// processing command line arguments
+(function () {
+	var argv = process.argv,
+			i;
+	for (i = 0; i < argv.length; i++) {
+		switch (argv[i]) {
+		case 'debug':
+			DEBUG = true;
+			console.log("'DEBUG' set to " + DEBUG);
+			break;
+		case 'port':
+			PORT = parseInt(argv[i + 1], 10) || 8124;
+			console.log("'PORT' set to " + PORT);
+			break;
+		}
+	}
+}());
 
 // creating server object
 server = $http.createServer(function (req, res) {
 	var	url = $url.parse(req.url, true),
 			endpoint = url.pathname,
-			filePath,
 			query = url.query,
 			ok;
 
@@ -184,58 +207,81 @@ server = $http.createServer(function (req, res) {
 			});
 		});
 		break;
+	
+	case '/pack':
+		// packs css of js files together in one request
+		(function () {
+			var type = {'css': 'css', 'js': 'js'}[query.type] || 'js',
+					ext = '.' + type,
+					files = query.files.split(','),
+					i, filePath;
+			res.writeHead(200, {"Content-Type": "text/" + {'css': 'css', 'js': 'javascript'}[type]});
+			for (i = 0; i < files.length; i++) {
+				filePath = $path.join(process.cwd(), 'client/www/' + files[i] + ext);
+				if ($path.existsSync(filePath)) {
+					res.write($fs.readFileSync(filePath), "binary");
+				}
+			}
+			res.end();
+		}());
+		break;
 		
 	default:
 		// acting as static file server
-		if (endpoint.split('/')[1] === 'cache') {
-			filePath = $path.join(process.cwd(), 'server' + endpoint);
-		} else {
-			filePath = $path.join(process.cwd(), 'client/www' + endpoint);
-		}
-		$path.exists(filePath, function (exists) {
-			if (!exists) {
-				res.writeHead(404, {"Content-Type": "text/plain"});
-				res.end("404 Not Found\n");
-				return;
+		(function () {
+			var	filePath;
+				
+			if (endpoint.split('/')[1] === 'cache') {
+				filePath = $path.join(process.cwd(), 'server' + endpoint);
+			} else {
+				filePath = $path.join(process.cwd(), 'client/www' + endpoint);
 			}
-
-			if ($fs.statSync(filePath).isDirectory()) {
-				filePath += '/index.html';
-			}
-
-			$fs.readFile(filePath, "binary", function (err, file) {
-				if (err) {        
-					res.writeHead(400, {"Content-Type": "text/plain"});
-					res.end(err + "\n");
+			
+			$path.exists(filePath, function (exists) {
+				if (!exists) {
+					res.writeHead(404, {"Content-Type": "text/plain"});
+					res.end("404 Not Found\n");
 					return;
 				}
-				switch ($path.extname(filePath))
-				{
-				case '.html':
-					res.writeHead(200, {"Content-Type": "text/html"});
-					break;
-				case '.js':
-					res.writeHead(200, {"Content-Type": "text/javascript"});
-					break;
-				case '.css':
-					res.writeHead(200, {"Content-Type": "text/css"});
-					break;
-				case '.png':
-					res.writeHead(200, {"Content-Type": "image/png"});
-					break;
-				default:
-					res.writeHead(200, {"Content-Type": "text/plain"});
-					break;
+	
+				if ($fs.statSync(filePath).isDirectory()) {
+					filePath += DEBUG ? '/debug.html' : '/index.html';
 				}
-				res.end(file, "binary");
+	
+				$fs.readFile(filePath, "binary", function (err, file) {
+					if (err) {        
+						res.writeHead(400, {"Content-Type": "text/plain"});
+						res.end(err + "\n");
+						return;
+					}
+					switch ($path.extname(filePath))
+					{
+					case '.html':
+						res.writeHead(200, {"Content-Type": "text/html"});
+						break;
+					case '.js':
+						res.writeHead(200, {"Content-Type": "text/javascript"});
+						break;
+					case '.css':
+						res.writeHead(200, {"Content-Type": "text/css"});
+						break;
+					case '.png':
+						res.writeHead(200, {"Content-Type": "image/png"});
+						break;
+					default:
+						res.writeHead(200, {"Content-Type": "text/plain"});
+						break;
+					}
+					res.end(file, "binary");
+				});
 			});
-		});
+		}());
 	}
 });
 
 ifconfig.exec(function (ip) {
-	var url = 'http://' + ip + ':' + port;
-	server.listen(port, ip, function () {
+	var url = 'http://' + ip + ':' + PORT;
+	server.listen(PORT, ip, function () {
 		console.log("Server running at " + url);
 		browser.exec(url, function () {
 			console.log("Browser started.");
