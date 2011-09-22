@@ -1,2 +1,2 @@
-node server/src/server.js
+node server/src/server.js > error.txt
 
