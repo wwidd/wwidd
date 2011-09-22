@@ -129,13 +129,14 @@ app.controls = function (controls, $) {
 
 				// adding control to dom
 				if (target.length) {
-					if (controls.lookup.hasOwnProperty(this.id)) {
-						// replacing when already exists
-						target.replaceWith(elem);
-					} else {
+					if (!controls.lookup.hasOwnProperty(this.id) || parent === null) {
 						// removing it when destroyed at control level
+						// or want to remove explicitly
 						target.remove();
 						return;
+					} else {
+						// replacing when already exists
+						target.replaceWith(elem);
 					}
 				} else if (parent) {
 					// appending to parent when doesn't exist yet
