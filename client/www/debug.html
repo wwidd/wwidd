@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Video Library</title>
+	<link rel="stylesheet" href="css/common.css" />
+	<link rel="stylesheet" href="css/page.css" />
+	<link rel="stylesheet" href="css/pager.css" />
+	<link rel="stylesheet" href="css/search.css" />
+	<link rel="stylesheet" href="css/tree.css" />
+	<link rel="stylesheet" href="css/media.css" />
+	<link rel="stylesheet" href="css/tag.css" />
+	<link rel="stylesheet" href="css/kinds.css" />
+	<link rel="stylesheet" href="css/popup.css" />
+	<link rel="stylesheet" href="css/brand.css" />
+	<script src="jquery/jquery-1.6.1.js"></script>
+	<script src="jorder/jorder-1.2.js"></script>
+	<script src="common/create.js"></script>
+	<script src="ajax/service.js"></script>
+	<script src="ajax/poll.js"></script>
+	<script src="ajax/services.js"></script>
+	<script src="data/cookie.js"></script>
+	<script src="data/media.js"></script>
+	<script src="data/tag.js"></script>
+	<script src="data/tags.js"></script>
+	<script src="data/kinds.js"></script>
+	<script src="data/pagestate.js"></script>
+	<script src="controls/base/control.js"></script>
+	<script src="controls/base/editable.js"></script>
+	<script src="controls/base/popup.js"></script>
+	<script src="controls/common/dropdown.js"></script>
+	<script src="controls/tag/tag.js"></script>
+	<script src="controls/tag/tagadd.js"></script>
+	<script src="controls/tag/tagedit.js"></script>
+	<script src="controls/media/rater.js"></script>
+	<script src="controls/media/tagger.js"></script>
+	<script src="controls/media/keywords.js"></script>
+	<script src="controls/media/media.js"></script>
+	<script src="controls/tree/node.js"></script>
+	<script src="controls/tree/tree.js"></script>
+	<script src="controls/library/checker.js"></script>
+	<script src="controls/library/switcher.js"></script>
+	<script src="controls/library/dirsel.js"></script>
+	<script src="controls/library/rootadd.js"></script>
+	<script src="controls/library/views.js"></script>
+	<script src="controls/library/kind.js"></script>
+	<script src="controls/library/kinds.js"></script>
+	<script src="controls/library/search.js"></script>
+	<script src="controls/library/pager.js"></script>
+	<script src="controls/library/url.js"></script>
+	<script src="controls/library/library.js"></script>
+	<script src="controls/page/progress.js"></script>
+	<script src="controls/page/hints.js"></script>
+	<script src="controls/page/page.js"></script>
+	<script>
+		/*global jOrder, jQuery, app */
+		jOrder.logging = false;
+		(function ($, controls) {
+			$(function () {
+				controls.page.init();
+			});
+		})(jQuery, app.controls);
+	</script>
+</head>
+<body>
+	<span id="search"></span>
+	<div id="library" class="tab">
+		<div id="header">
+			<span id="checker"></span>
+			<span id="switcher"></span>
+			<span id="views"></span>			
+			<span id="pager"></span>
+		</div>
+		<div id="media"></div>
+		<div id="footer"></div>
+	</div>
+</body>
+</html>
