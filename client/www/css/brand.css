@@ -46,7 +46,7 @@ CONTROLS
 }
 
 #switcher span.spinner {
-	background: url('/image/spinner16dark.gif');
+	background: url('/image/wwidd_spinners.gif') no-repeat -60px -20px;
 }
 
 /******************************
@@ -63,7 +63,7 @@ div.popup > div.tree li > span.name {
 }
 
 div.popup > div.spinner {
-	background: url('/image/spinner16light.gif');
+	background: url('/image/wwidd_spinners.gif') no-repeat -60px 0;
 }
 
 /******************************
@@ -139,7 +139,7 @@ div.medium.compact.playing > div.file > span {
 
 div.medium.thumb > div.thumb > span.spinner,
 div.medium.expanded > div.thumb > span.spinner {
-	background: url('/image/spinner48light.gif');
+	background: url('/image/wwidd_spinners.gif') no-repeat 0 0;
 }
 
 div.medium > div.keywords {
