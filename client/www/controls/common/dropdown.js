@@ -34,7 +34,9 @@ app.controls = function (controls, $) {
 		self.init = function (elem) {
 			elem.find('button')
 				.click(function (event) {
-					onClick.call(this, event, popup);
+					if (popup) {
+						onClick.call(this, event, popup);
+					}
 					return false;
 				});
 		};
