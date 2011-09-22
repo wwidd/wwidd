@@ -29,6 +29,14 @@ app.controls = function (controls, $) {
 		};
 
 		//////////////////////////////
+		// Control
+		
+		self.collapse = function () {
+			popup.render(null);
+			return self;
+		};
+
+		//////////////////////////////
 		// Overrides
 
 		self.init = function (elem) {
@@ -56,19 +64,17 @@ app.controls = function (controls, $) {
 	};
 	
 	//////////////////////////////
-	// Getters / setters
+	// Static event handlers
 	
 	onClick = function (event, popup) {
 		var $this = $(this).closest('span.dropdown'),
+				self = controls.lookup[$this.attr('id')],
 				pos, height;
 		
 		// checking if popup is already up
 		if ($('#' + popup.id).length) {
 			$this.removeClass('open');
-			// removing popup
-			popup
-				.remove()
-				.render();
+			self.collapse();
 		} else {
 			$this.addClass('open');
 			// initializing and displaying popup
