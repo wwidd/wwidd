@@ -78,7 +78,7 @@ app.controls = (function (controls, $, data, services) {
 			// loading video data
 			data.media.init(controls.search.filter(), function () {
 				// setting active library in page title
-				$document.attr('title', title + ' - ' + controls.switcher.selected());
+				$document.attr('title', title + ' - ' + controls.libs.selected());
 				
 				// initializing tag data buffer
 				data.tags.init(function () {

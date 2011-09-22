@@ -9,29 +9,17 @@ var app = app || {};
 app.controls = function (controls, $, services) {
 	controls.switcher = function () {
 		var self = controls.control.create(),
+				libs = controls.dropdown(),
 				busy = false,
-				selected = '',
 				data = {names: []};
-				
-		//////////////////////////////
-		// Initialization
-
-		services.lib.getall(function (json) {
-			data = json.data;
-			selected = json.data.selected;
-			
-			// detecting in-progress processes
-			var processes = json.data.processes,
-					progress = processes.thumbnails.progress;
-			
-			if (progress > 0) {
-				controls.library
-					.poll();
-			} else {
-				self.render();
-			}
+		
+		controls.libs.onChange(function (selected) {
+			libs
+				.caption(selected)
+				.collapse()
+				.render();
 		});
-
+				
 		//////////////////////////////
 		// Getters, setters
 		
@@ -40,50 +28,27 @@ app.controls = function (controls, $, services) {
 			return self;
 		};
 		
-		self.selected = function (value) {
-			if (typeof value !== 'undefined') {
-				selected = value;
-				return self;
-			} else {
-				return selected;
-			}
-		};
-
-		//////////////////////////////
-		// Event handlers
-
-		function onChange() {
-			var library = $(this).val();
-			
-			// changing library
-			services.lib.select(library, function () {
-				selected = library;
-				
-				// resetting controls
-				controls.pager.reset();
-				controls.search.reset();
-				controls.url.set();
-				
-				// loading new library contents
-				controls.library.load();
-			});
-		}
-
 		//////////////////////////////
 		// Overrides
 
 		self.build = function () {
-			controls.rootadd.appendTo(self);
+			controls.rootadd
+				.appendTo(self);
+
+			libs
+				.popup(controls.libs)
+				.appendTo(self);
+
 			return self;
 		};
 		
 		self.init = function (elem) {
 			// setting state
 			if (busy || self.disabled()) {
-				elem.find('select')
+				elem.find('button')
 					.attr('disabled', 'disabled');
 			} else {
-				elem.find('select')
+				elem.find('button')
 					.removeAttr('disabled');
 			}
 			
@@ -94,34 +59,19 @@ app.controls = function (controls, $, services) {
 				elem.find('.spinner')
 					.hide();
 			}
-			
-			// adding events
-			elem.find('select')
-				.change(onChange);
 		};
 
 		self.html = function () {
 			var names = data.names,
-					i,
-			result = [
+					i;
+			return [
 				'<span class="switcher" id="', self.id, '">',
 				'<span>Library:</span>',
-				'<select>'
-			];
-			for (i = 0; i < names.length; i++) {
-				result.push([
-					'<option value="', names[i], '"', names[i] === selected ? ' selected="selected"' : '', '">',
-					names[i],
-					'</option>'
-				].join(''));
-			}
-			result.push([
-				'</select>',
+				libs.html(),
 				controls.rootadd.html(),
 				'<span class="spinner"></span>',
 				'</span>'
-			].join(''));
-			return result.join('');
+			].join('');
 		};
 		
 		return self;

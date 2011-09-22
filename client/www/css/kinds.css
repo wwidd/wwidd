@@ -6,7 +6,6 @@ div.kinds {
 	width: 200px;
 	overflow-x: hidden;
 	overflow-y: auto;
-	text-align: left;
 }
 
 div.kinds span.tag.display > input {

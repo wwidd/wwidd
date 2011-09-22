@@ -32,18 +32,35 @@ div.popup.dropdown {
 	margin: 0;
 	border-width: 1px;
 	border-radius: 2px; -moz-border-radius: 2px;
+	text-align: left;
 }
 
 /******************************
-KEYWORDS POPUP
+LIBRARY SELECTOR POPUP
 ******************************/
 
-div.popup > table.keywords td {
-	text-align: left;
-	vertical-align: top;
+div.popup > div.libs {
+	min-width: 100px;
+	padding: 2px;
 }
 
-div.popup > table.keywords td.key {
+div.popup > div.libs > div.lib {
+	margin: 2px 0 0 0;
+}
+
+div.popup > div.libs > div.lib:first-child {
+	margin: 0;
+}
+
+div.popup > div.libs a {
+	text-decoration: none;
+}
+
+div.popup > div.libs span {
+	color: grey;
+}
+
+div.popup > div.libs > div.lib:hover a {
 	font-weight: bold;
 }
 
