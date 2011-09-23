@@ -116,18 +116,18 @@ VIEW SELECTOR
 }
 
 /******************************
-DROPDOWNS
+BUTTONS
 ******************************/
 
-span.dropdown {
+span.button {
 	display: inline-block; *zoom: 1;
 }
 
-span.dropdown > button {
+span.button > button {
 	line-height: normal;
 }
 
-span.dropdown > button > span {
+span.button > button > span {
 	display: inline-block; *zoom: 1;
 	height: 16px;
 	line-height: 16px;
@@ -135,13 +135,13 @@ span.dropdown > button > span {
 	padding: 0;
 }
 
-span.dropdown > button > span.indicator {
+span.button.dropdown > button > span.indicator {
 	width: 16px;
 	margin: 0 0 0 3px;
 	background: url('/image/sprites.png') no-repeat -20px -180px;
 }
 
-span.dropdown.open > button > span.indicator {
+span.button.dropdown.open > button > span.indicator {
 	background: url('/image/sprites.png') no-repeat 0 -180px;
 }
 

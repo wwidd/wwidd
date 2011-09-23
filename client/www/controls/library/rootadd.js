@@ -68,8 +68,8 @@ app.controls = function (controls, $, services) {
 		
 		self.html = function () {
 			return [
-				'<span id="', self.id, '">',
-				'<button type="button" title="', "Add folder to library", '">', "+", '</button>',
+				'<span id="', self.id, '" class="button">',
+				'<button type="button" title="', "Add folder to library", '"><span>', "+", '</span></button>',
 				'</span>'
 			].join('');
 		};

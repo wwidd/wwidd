@@ -51,7 +51,7 @@ app.controls = function (controls, $) {
 		
 		self.html = function () {
 			return [
-				'<span id="', self.id, '" class="dropdown">',
+				'<span id="', self.id, '" class="button dropdown">',
 				'<button type="button">',
 				'<span class="caption">', caption, '</span>',
 				'<span class="indicator"></span>',
