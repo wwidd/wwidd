@@ -77,7 +77,7 @@ server = $http.createServer(function (req, res) {
 		(function () {
 			var type = {'css': 'css', 'js': 'js'}[query.type] || 'js',
 					ext = '.' + type,
-					files = query.files.split(','),
+					files = query.files.split(/\s*,\s*/),
 					i, filePath;
 			res.writeHead(200, {"Content-Type": "text/" + {'css': 'css', 'js': 'javascript'}[type]});
 			for (i = 0; i < files.length; i++) {
