@@ -85,7 +85,7 @@ app.controls = function (controls, $, data) {
 		};
 
 		self.contents = function () {
-			var result = ['<div id="', self.id, '" class="kinds">'],
+			var result = ['<div class="kinds">'],
 					i;
 			for (i = 0; i < self.children.length; i++) {
 				result.push(self.children[i].html());
