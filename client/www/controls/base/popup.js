@@ -65,9 +65,7 @@ app.controls = function (controls, $) {
 			// checking whether user actually clicked outside of popup
 			if (!$(event.target).closest('#' + self.id).length) {
 				// removing popup
-				popup
-					.remove()
-					.render();
+				popup.render(null);
 			} else {
 				// re-binding event handler
 				$('body').one(event.type, function (event) {

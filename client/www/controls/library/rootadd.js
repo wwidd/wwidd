@@ -25,9 +25,7 @@ app.controls = function (controls, $, services) {
 			dirsel
 				.onCancel(function () {
 					// removing dialog on 'cancel'
-					dirsel
-						.remove()
-						.render();
+					dirsel.render(null);
 						
 					// re-enabling 'add folder' button
 					self
