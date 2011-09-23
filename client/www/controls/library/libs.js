@@ -31,6 +31,7 @@ app.controls = function (controls, $, services) {
 			for (i = 0; i < names.length; i++) {
 				options.push(names[i]);
 			}
+			options.sort();
 			
 			// detecting in-progress processes
 			if (progress > 0) {
