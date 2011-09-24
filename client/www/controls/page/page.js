@@ -27,12 +27,12 @@ app.controls = (function (controls, $, data) {
 				.render($('#checker').empty());
 				
 			// adding select all
-			controls.views
+			controls.view
 				.build()
 				.render($('#views').empty());
 				
 			// adding library switcher
-			controls.switcher
+			controls.library
 				.build()
 				.render($('#switcher').empty());
 				
@@ -45,7 +45,7 @@ app.controls = (function (controls, $, data) {
 				.render($('#footer'));
 			
 			// initializing and adding library to page
-			controls.library
+			controls.media
 				.load()
 				.render($('#media').empty());
 

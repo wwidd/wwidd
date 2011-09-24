@@ -122,7 +122,7 @@ app.controls = function (controls, $, services, data) {
 					
 				// checkbox
 				'<div class="check">',
-				'<input type="checkbox" ', row.mediaid in controls.library.selected ? 'checked="checked" ' : '', '/>',
+				'<input type="checkbox" ', row.mediaid in controls.media.selected ? 'checked="checked" ' : '', '/>',
 				'</div>',
 				
 				// file name
@@ -242,9 +242,9 @@ app.controls = function (controls, $, services, data) {
 				media = $this.closest('.medium'),
 				self = controls.lookup[media.attr('id')];
 		if ($this.is(':checked')) {
-			controls.library.selected[self.data.row.mediaid] = true;
+			controls.media.selected[self.data.row.mediaid] = true;
 		} else {
-			delete controls.library.selected[self.data.row.mediaid];
+			delete controls.media.selected[self.data.row.mediaid];
 		}
 	};
 	

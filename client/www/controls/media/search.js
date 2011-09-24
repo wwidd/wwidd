@@ -37,7 +37,7 @@ app.controls = function (controls, $, services, data) {
 			$this.siblings('.backdrop')
 				.val('');
 			controls.pager.reset();
-			controls.library
+			controls.media
 				.reset()
 				.load();
 			controls.url.set();

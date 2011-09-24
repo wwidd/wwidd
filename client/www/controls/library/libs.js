@@ -35,7 +35,7 @@ app.controls = function (controls, $, services) {
 			
 			// detecting in-progress processes
 			if (progress > 0) {
-				controls.library
+				controls.media
 					.poll();
 			} else {
 				self.render();
@@ -128,7 +128,7 @@ app.controls = function (controls, $, services) {
 			self.selected(name);
 
 			// loading new library contents
-			controls.library.load();
+			controls.media.load();
 		});
 		
 		return false;

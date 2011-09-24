@@ -10,7 +10,7 @@ app.controls = function (controls, $, data) {
 	// static event handlers
 	onClick;
 	
-	controls.views = function () {
+	controls.view = function () {
 		var self = controls.control.create(),
 				kinds = controls.dropdown();
 
@@ -30,8 +30,8 @@ app.controls = function (controls, $, data) {
 			elem
 				.find('.tile').click(function () {
 					// switching to tile view
-					if (controls.library.view() !== 'tile') {
-						controls.library
+					if (controls.media.view() !== 'tile') {
+						controls.media
 							.view('tile')
 							.render();
 						data.cookie.set('view', 'tile');
@@ -41,8 +41,8 @@ app.controls = function (controls, $, data) {
 				.end()
 				.find('.list').click(function () {
 					// switching to list view
-					if (controls.library.view() !== 'list') {
-						controls.library
+					if (controls.media.view() !== 'list') {
+						controls.media
 							.view('list')
 							.render();
 						data.cookie.set('view', 'list');

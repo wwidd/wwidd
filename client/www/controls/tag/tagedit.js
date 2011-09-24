@@ -86,15 +86,15 @@ app.controls = function (controls, $, jOrder, services, data) {
 			// deleting all tags like this one
 			if (self.parent.parent.selected()) {
 				if (confirm(lang.sel)) {
-					service(null, tag, null, jOrder.keys(controls.library.selected).join(','), controls.library.load);
+					service(null, tag, null, jOrder.keys(controls.media.selected).join(','), controls.media.load);
 				}
 			} else if (confirm(lang.all)) {
-				service(null, tag, null, null, controls.library.load);
+				service(null, tag, null, null, controls.media.load);
 			}
 		} else if (event.ctrlKey) {
 			// deleting tags from search results
 			if (filter.length && confirm(lang.hits)) {
-				service(null, tag, controls.search.filter(), null, controls.library.load);
+				service(null, tag, controls.search.filter(), null, controls.media.load);
 			}
 		} else {
 			// deleting tag from one specific video
@@ -148,7 +148,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (event.shiftKey) {
 				// running batch tag change
 				if (confirm("Apply change to ALL tags of this kind?")) {
-					services.tag.set(null, before, after, controls.library.load);
+					services.tag.set(null, before, after, controls.media.load);
 				}
 			} else if (event.ctrlKey) {
 				// ctrl + enter is not defined for editing

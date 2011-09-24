@@ -45,7 +45,7 @@ app.controls = function (controls, $, services) {
 							.render();
 						
 						// reloading library
-						controls.library.load();
+						controls.media.load();
 					});
 				})
 				.render($('body'));

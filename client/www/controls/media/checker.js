@@ -14,11 +14,11 @@ app.controls = function (controls, $) {
 		self.init = function (elem) {
 			elem
 				.find('.all').click(function () {
-					controls.library.selectAll();
+					controls.media.selectAll();
 					return false;
 				}).end()
 				.find('.none').click(function () {
-					controls.library.selectNone();
+					controls.media.selectNone();
 					return false;
 				}).end();
 		};

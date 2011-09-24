@@ -49,7 +49,7 @@ app.controls = function (controls, $, data) {
 			data.cookie.set('hiddenkinds', toArray(hidden).join(','));
 			
 			// custom callback
-			controls.library
+			controls.media
 				.render();
 			
 			return self;
