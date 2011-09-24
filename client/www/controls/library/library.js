@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Library Switcher
+// Library Control Panel
 //
-// Lists available libraries and switches between them.
+// Encloses controls that have to do with libraries:
+// - library switcher
+// - root folder adder
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
 var app = app || {};
@@ -13,7 +15,7 @@ app.controls = function (controls, $, services) {
 				busy = false,
 				data = {names: []};
 		
-		controls.libs.onChange(function (selected) {
+		controls.libsel.onChange(function (selected) {
 			libs
 				.caption(selected)
 				.collapse()
@@ -36,7 +38,7 @@ app.controls = function (controls, $, services) {
 				.appendTo(self);
 
 			libs
-				.popup(controls.libs)
+				.popup(controls.libsel)
 				.appendTo(self);
 
 			return self;

@@ -1,13 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Library Selector Control
 //
-// Lets the user control what kind of tags are visible
+// Lists available libraries, with download link
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery, window */
 var app = app || {};
 
 app.controls = function (controls, $, services) {
-	controls.libs = function () {
+	controls.libsel = function () {
 		var	self = controls.control.create(controls.popup('dropdown')),
 				options = [],
 				selected = '',
