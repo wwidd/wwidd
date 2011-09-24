@@ -28,7 +28,7 @@ app.controls = function (controls, $, services, data) {
 	onChecked,
 	onResize;
 	
-	controls.media = function (row) {
+	controls.medium = function (row) {
 		var self = controls.control.create(),
 		
 		// flags
@@ -106,7 +106,7 @@ app.controls = function (controls, $, services, data) {
 		};
 		
 		self.init = function (elem) {
-			controls.media.resize(true, elem);
+			controls.medium.resize(true, elem);
 		};
 		
 		self.html = function () {
@@ -163,7 +163,7 @@ app.controls = function (controls, $, services, data) {
 	// Static methods
 	
 	// resizes tagger 'column' to fit screen width
-	controls.media.resize = function (force, elem) {
+	controls.medium.resize = function (force, elem) {
 		var $list = elem || $('div.media.list'),
 				width, full = $list.width(),
 				$media, $model, $tagger,
@@ -249,7 +249,7 @@ app.controls = function (controls, $, services, data) {
 	};
 	
 	onResize = function (elem) {
-		controls.media.resize();
+		controls.medium.resize();
 	};
 	
 	//////////////////////////////

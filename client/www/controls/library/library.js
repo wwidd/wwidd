@@ -220,7 +220,7 @@ app.controls = (function (controls, $, data, services) {
 			lookup = {};
 			for (i = 0; i < page.length; i++) {
 				// adding media control to library
-				control = controls.media(page[i])
+				control = controls.medium(page[i])
 					.view(VIEW_ASSOC[view]);
 				control.appendTo(self);
 				
