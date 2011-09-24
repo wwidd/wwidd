@@ -7,9 +7,9 @@ require.paths.unshift('server/src');
 var	$http = require('http'),
 		$url = require('url'),
 		$path = require('path'),
-		$fs = require('fs'),
 		browser = require('tools/browser').browser,	
-		ifconfig = require('tools/ifconfig').ifconfig,
+		ifconfig = require('tools/ifconfig').ifconfig,		
+		file = require('ajax/file'),
 		
 		// modlules
 		library = require('ajax/library'),
@@ -82,9 +82,7 @@ server = $http.createServer(function (req, res) {
 			res.writeHead(200, {"Content-Type": "text/" + {'css': 'css', 'js': 'javascript'}[type]});
 			for (i = 0; i < files.length; i++) {
 				filePath = $path.join(process.cwd(), 'client/www/' + files[i] + ext);
-				if ($path.existsSync(filePath)) {
-					res.write($fs.readFileSync(filePath), "binary");
-				}
+				file.add(filePath, res);
 			}
 			res.end();
 		}());
@@ -101,44 +99,7 @@ server = $http.createServer(function (req, res) {
 				filePath = $path.join(process.cwd(), 'client/www' + endpoint);
 			}
 			
-			$path.exists(filePath, function (exists) {
-				if (!exists) {
-					res.writeHead(404, {"Content-Type": "text/plain"});
-					res.end("404 Not Found\n");
-					return;
-				}
-	
-				if ($fs.statSync(filePath).isDirectory()) {
-					filePath += DEBUG ? '/debug.html' : '/index.html';
-				}
-	
-				$fs.readFile(filePath, "binary", function (err, file) {
-					if (err) {        
-						res.writeHead(400, {"Content-Type": "text/plain"});
-						res.end(err + "\n");
-						return;
-					}
-					switch ($path.extname(filePath))
-					{
-					case '.html':
-						res.writeHead(200, {"Content-Type": "text/html"});
-						break;
-					case '.js':
-						res.writeHead(200, {"Content-Type": "text/javascript"});
-						break;
-					case '.css':
-						res.writeHead(200, {"Content-Type": "text/css"});
-						break;
-					case '.png':
-						res.writeHead(200, {"Content-Type": "image/png"});
-						break;
-					default:
-						res.writeHead(200, {"Content-Type": "text/plain"});
-						break;
-					}
-					res.end(file, "binary");
-				});
-			});
+			file.fetch(filePath, res, DEBUG);
 		}());
 	}
 });
