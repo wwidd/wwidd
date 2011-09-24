@@ -56,30 +56,42 @@ LIBRARY SELECTOR POPUP
 div.popup > div.libs {
 	min-width: 100px;
 	max-height: 200px;
-	padding: 2px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 
 div.popup > div.libs > div.lib {
-	margin: 2px 0 0 0;
-}
-
-div.popup > div.libs > div.lib:first-child {
-	margin: 0;
+	position: relative;
+	height: 16px;
+	padding: 4px 48px 4px 4px;
 }
 
 div.popup > div.libs a {
+	display: inline-block; *zoom: 1;
+	height: 16px;
 	white-space: nowrap;
 	text-decoration: none;
+	vertical-align: middle;
+}
+
+div.popup > div.libs a.save {
+	display: none;
+	position: absolute;
+	top: 4px;
+	width: 16px;
+}
+
+div.popup > div.libs > div.lib:hover a.save {
+	display: inline-block; *zoom: 1;
+}
+
+div.popup > div.libs a.save {
+	right: 4px;
+	background: url('/image/sprites.png') no-repeat -40px -140px;
 }
 
 div.popup > div.libs span {
 	color: grey;
-}
-
-div.popup > div.libs > div.lib a:hover {
-	font-weight: bold;
 }
 
 /******************************

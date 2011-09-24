@@ -17,7 +17,12 @@ app.services = function ($, window, service, poll) {
 				service('lib/select').call({
 					name: name
 				}, handler);
-			}		
+			},
+			
+			// downloads a library database file
+			save: function (name, iframe) {
+				iframe.attr('src', '/lib/save?name=' + name);
+			}
 		},
 		
 		media: {

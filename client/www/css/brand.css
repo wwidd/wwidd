@@ -67,6 +67,14 @@ div.popup > div.spinner {
 }
 
 /******************************
+LIB SELECTOR POPUP
+******************************/
+
+div.popup > div.libs > div.lib:hover {
+	background: #e0e0e0;
+}
+
+/******************************
 SEARCH
 ******************************/
 

@@ -3,7 +3,7 @@
 //
 // Lets the user control what kind of tags are visible
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, window */
 var app = app || {};
 
 app.controls = function (controls, $, services) {
@@ -64,19 +64,29 @@ app.controls = function (controls, $, services) {
 				return selected;
 			}
 		};
+		
+		self.options = function () {
+			return options;
+		};
 
 		//////////////////////////////
 		// Overrides
 
 		self.contents = function () {
-			var result = ['<div class="libs">'],
-					i;
+			var i,
+			
+			result = [
+				'<iframe class="download" style="display:none;"></iframe>',
+				'<div class="libs">'
+			];
+			
 			for (i = 0; i < options.length; i++) {
 				result.push([
 					'<div class="lib">',
 					options[i] === selected ?
 						'<span class="name">' + options[i] + '</span>' :					
 						'<a href="#!" class="name">' + options[i] + '</a>',
+					'<a href="#!" class="save" title="' + "Download" + '"></a>',
 					'</div>'
 				].join(''));
 			}
@@ -90,15 +100,24 @@ app.controls = function (controls, $, services) {
 	//////////////////////////////
 	// Static event handlers
 
+	// returns libs control object
+	// and name of currently selected library
 	function getSelf(elem) {
-		return controls.lookup[elem.closest('.dropdown').attr('id')];
+		var self = controls.lookup[elem.closest('.dropdown').attr('id')],
+				lib = elem.closest('.lib'),
+				name = self.options()[lib.index()];
+		return {
+			self: self,
+			name: name
+		};
 	}
 	
 	function onSelect(event) {
 		var $this = $(this),
-				self = getSelf($this),
-				name = $this.text();
-
+				tmp = getSelf($this),
+				self = tmp.self,
+				name = tmp.name;
+				
 		// changing library
 		services.lib.select(name, function () {
 			// resetting controls
@@ -115,7 +134,20 @@ app.controls = function (controls, $, services) {
 		return false;
 	}
 	
-	$('div.lib > a').live('click', onSelect);
+	function onSave(event) {
+		var $this = $(this),
+				tmp = getSelf($this),
+				name = tmp.name;
+		
+		// saving library
+		services.lib.save(name, $this.closest('.popup').find('iframe.download'));
+		
+		return false;
+	}
+	
+	var context = $('div.lib');
+	$('a.name', context).live('click', onSelect);
+	$('a.save', context).live('click', onSave);
 	
 	return controls;
 }(app.controls || {},
