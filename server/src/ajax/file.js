@@ -46,6 +46,12 @@ fetch = function (filePath, res, debug) {
 			case '.png':
 				res.writeHead(200, {"Content-Type": "image/png"});
 				break;
+			case '.sqlite':
+				res.writeHead(200, {
+					"Content-Type": "application/x-sqlite",
+					"Content-Disposition": "attachment; filename=" + $path.basename(filePath)
+				});
+				break;
 			default:
 				res.writeHead(200, {"Content-Type": "text/plain"});
 				break;

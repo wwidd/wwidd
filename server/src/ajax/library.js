@@ -1,8 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Library Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
-/*global require, console, exports */
-var	envelope = require('ajax/envelope').envelope,
+/*global require, console, process, exports */
+var	$path = require('path'),
+		file = require('ajax/file'),
+		envelope = require('ajax/envelope').envelope,
 		library = require('logic/library').library;
 
 // runs the endpoint
@@ -32,6 +34,17 @@ function run(endpoint, query, res) {
 				ok(data);
 			});
 		});
+		break;
+
+	case '/lib/save':
+		// saves library
+		if (!query.name) {
+			throw "Missing parameters";
+		}
+		(function () {
+			var filePath = $path.join(process.cwd(), 'server/db/' + query.name + '.sqlite');
+			file.fetch(filePath, res);
+		}());
 		break;
 		
 	default:
