@@ -8,7 +8,8 @@ var	system = require('../utils/system').system,
 
 ifconfig = function () {
 	var LOOPBACK = '127.0.0.1',
-			IP4 = /\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}/,
+			IP4 = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/g,
+			IP4EX = /(127\.0\.0\.1|255\.\d{1,3}\.\d{1,3}\.\d{1,3}|\d{1,3}\.\d{1,3}\.\d{1,3}\.255)/,
 	
 	executable = {'cygwin': 'ipconfig', 'windows': 'ipconfig'}[system.os] || 'ifconfig',
 	
@@ -20,15 +21,19 @@ ifconfig = function () {
 	self.exec = function (handler) {
 		tool.exec.call(self, null, function (code, stdout) {
 			var result = LOOPBACK,
-					i, ip;
+					i, ip, tmp;
 
 			// acquiring IP address
 			if (code === 0) {
-				ip = IP4.exec(stdout);
-				if (result) {
-					result = ip;
-					console.log("IFCONFIG - detected IP: " + result);
-				} else {
+				tmp = stdout.match(IP4);
+				for (i = 0; i < tmp.length; i++) {
+					if (!IP4EX.test(tmp[i])) {
+						result = tmp[i];
+						console.log("IFCONFIG - detected IP: " + result);
+						break;
+					}
+				}
+				if (result === LOOPBACK) {
 					console.log("IFCONFIG - no IP detected, using loopback IP");					
 				}
 			} else {
