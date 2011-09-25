@@ -43,7 +43,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 	// hints associated with this control
 	controls.tagadd.hints = [
 		"SHIFT + ENTER to add tag to checked videos.",
-		"CTRL + ENTER to add tag to search results."
+		"CTRL + ENTER to add tag to search results.",
+		"Hit ENTER mid-word to add suggested tag."
 	].concat(controls.tag.hints);
 	
 	//////////////////////////////
