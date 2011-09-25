@@ -57,6 +57,7 @@ span.search > input {
 /* search input box */
 span.search > input.focus {
 	z-index: 2;
+	background: transparent;
 }
 
 /* search backdrop displaying best match */
