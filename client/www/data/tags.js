@@ -40,8 +40,9 @@ app.data = function (data, jOrder, services) {
 				// preparing tags
 				var tag = name + '\t' + kind,
 						ltag = tag.toLowerCase();
+				
 				// adding new tag (lookup key must be escaped)
-				if (self.table.index('tag').count(escape(ltag)) === 0) {
+				if (data.media.countTag(name + ':' + kind) === 0) {
 					self.table.insert([{
 						tag: tag,
 						ltag: ltag,
@@ -57,8 +58,9 @@ app.data = function (data, jOrder, services) {
 			remove: function (tag) {
 				// preparing lookup key
 				var ltag = tag.replace(':', '\t').toLowerCase();
+				
 				// removing tag (key must be escaped)
-				if (self.table.index('tag').count(escape(ltag)) === 1) {
+				if (data.media.countTag(tag) === 1) {
 					self.table.remove(self.table.where([{ltag: ltag}], {renumber: true}));
 				}
 				return self;

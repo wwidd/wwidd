@@ -94,7 +94,7 @@ app.controls = function (controls, $, services, data) {
 				.appendTo(self);
 			
 			// adding tagger control to non-thumb views
-			self.tagger = controls.tagger(row)
+			self.tagger = controls.tagger(row.mediaid)
 				.appendTo(self);
 			
 			// adding keywords control

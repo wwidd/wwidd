@@ -6,13 +6,8 @@ var app = app || {};
 
 app.controls = function (controls, $, jOrder, services, data) {
 	// - row: media data record
-	// - handler: callback redrawing parent
 	controls.tag = function (row) {
-		var	self = controls.control.create(controls.editable()),
-				lookup = jOrder.join(row.tags, []),
-				media_table = data.media.table,
-				index_tags = media_table.index('tags'),
-				rowId = media_table.index('mediaid').lookup([row])[0];
+		var	self = controls.control.create(controls.editable());
 		
 		self.hints = controls.tag.hints;
 
@@ -24,9 +19,9 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (before) {
 				// removing reference from tags table
 				data.tags.remove(before);
+
 				// removing reference from media table
-				delete lookup[before];
-				index_tags.remove({tags: [before]}, rowId);
+				data.media.removeTag(row.mediaid, before);
 			}
 		}
 		
@@ -39,18 +34,15 @@ app.controls = function (controls, $, jOrder, services, data) {
 					// adding reference to tags table
 					tmp = names[i].split(':');
 					data.tags.add(tmp[0], tmp[1]);
-					// adding reference to media table
-					lookup[names[i]] = true;
-					index_tags.add({tags: [names[i]]}, rowId);
+
+					// adding tag to media table
+					data.media.addTag(row.mediaid, names[i]);
 				}
 			}
 		}
 		
-		// refreshes lookup buffer and UI
+		// refreshes UI
 		function refresh() {
-			// re-writing tags from lookup (data integrity)
-			row.tags = jOrder.keys(lookup);
-			
 			// redrawing tags for media entry
 			this.parent
 				.build()

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Data
 ////////////////////////////////////////////////////////////////////////////////
-/*global jOrder */
+/*global jOrder, escape */
 var app = app || {};
 
 app.data = function (data, jOrder, services) {
@@ -43,6 +43,43 @@ app.data = function (data, jOrder, services) {
 				return self;
 			},
 
+			// counts the number of tag occurrences in the whole library
+			countTag: function (tag) {
+				return self.table.index('tags').count(tag);
+			},
+			
+			// retrieves a reference to the data associated with a media entry
+			getRow: function (mediaid) {
+				return self.table.where([{mediaid: mediaid}], {renumber: true})[0] || {};
+			},
+			
+			// adds a tag to media entry
+			addTag: function (mediaid, tag) {
+				var before = self.table.where([{mediaid: mediaid}], {renumber: true})[0],
+						after = jOrder.deep(before),
+						lookup = jOrder.join(before.tags, []);
+
+				// adding tag to medium when not already present
+				if (!lookup.hasOwnProperty(tag)) {
+					after.tags.push(tag);
+					self.table.update(before, after);
+				}
+			},
+			
+			// removes tag from media entry
+			removeTag: function (mediaid, tag) {
+				var before = self.table.where([{mediaid: mediaid}], {renumber: true})[0],
+						after = jOrder.deep(before),
+						lookup = jOrder.join(before.tags, []);
+				
+				// removing tag from medium if present
+				if (lookup.hasOwnProperty(tag)) {
+					delete lookup[tag];
+					after.tags = jOrder.keys(lookup);
+					self.table.update(before, after);
+				}
+			},
+			
 			// retrieves one page from the table
 			getPage: function (page, items) {
 				return self.table ? 

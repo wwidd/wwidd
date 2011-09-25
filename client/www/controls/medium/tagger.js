@@ -6,12 +6,10 @@
 /*global jQuery */
 var app = app || {};
 
-app.controls = function (controls, $, services) {
-	controls.tagger = function (row) {
+app.controls = function (controls, $, data) {
+	controls.tagger = function (mediaid) {
 		var	self = controls.control.create(),
 				adder;
-		
-		self.data.row = row;
 		
 		//////////////////////////////
 		// Utility functions
@@ -27,7 +25,8 @@ app.controls = function (controls, $, services) {
 			self.clear();
 
 			// adding tag editor controls
-			var i;
+			var row = data.media.getRow(mediaid),
+					i;
 			for (i = 0; i < row.tags.length; i++) {
 				controls.tagedit(row, row.tags[i])
 					.appendTo(self);
@@ -60,5 +59,5 @@ app.controls = function (controls, $, services) {
 	return controls;
 }(app.controls || {},
 	jQuery,
-	app.services);
+	app.data);
 
