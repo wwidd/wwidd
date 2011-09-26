@@ -28,14 +28,14 @@ app.controls = function (controls, $, services, data) {
 	onChecked,
 	onResize;
 	
-	controls.medium = function (row) {
+	controls.medium = function (mediaid) {
 		var self = controls.control.create(),
 		
 		// flags
 		view = 'thumb',
 		expanded = null;
 		
-		self.data.row = row;
+		self.data.mediaid = mediaid;
 
 		// sub-controls
 		self.rater = null;
@@ -72,8 +72,8 @@ app.controls = function (controls, $, services, data) {
 			elem
 				.siblings().removeClass('playing').end()
 				.addClass('playing');
-			services.media.play(row.mediaid);
-			data.pagestate.lastPlayed = row.mediaid;
+			services.media.play(mediaid);
+			data.pagestate.lastPlayed = mediaid;
 			return self;
 		};
 
@@ -90,15 +90,15 @@ app.controls = function (controls, $, services, data) {
 			self.clear();
 			
 			// adding rater control
-			self.rater = controls.rater(row.mediaid)
+			self.rater = controls.rater(mediaid)
 				.appendTo(self);
 			
 			// adding tagger control to non-thumb views
-			self.tagger = controls.tagger(row.mediaid)
+			self.tagger = controls.tagger(mediaid)
 				.appendTo(self);
 			
 			// adding keywords control
-			self.keywords = controls.keywords(row.mediaid)
+			self.keywords = controls.keywords(mediaid)
 				.appendTo(self);
 			
 			return self;
@@ -110,18 +110,18 @@ app.controls = function (controls, $, services, data) {
 		
 		self.html = function () {
 			var parent, child,
-					hash = row.hash;
+					row = data.media.getRow(mediaid);
 
 			return [
 				'<div id="', self.id, '" class="', 
 				['medium']
-					.concat(data.pagestate.lastPlayed === row.mediaid ? ['playing'] : [])
+					.concat(data.pagestate.lastPlayed === mediaid ? ['playing'] : [])
 					.concat(VIEWS[expanded || view] || [])
 					.join(' '), '">',
 					
 				// checkbox
 				'<div class="check">',
-				'<input type="checkbox" ', row.mediaid in controls.media.selected ? 'checked="checked" ' : '', '/>',
+				'<input type="checkbox" ', mediaid in controls.media.selected ? 'checked="checked" ' : '', '/>',
 				'</div>',
 				
 				// file name
@@ -134,8 +134,8 @@ app.controls = function (controls, $, services, data) {
 					'<div class="overlay"></div>',
 					'<div class="play"><div class="image"></div></div>',
 					'<div class="thumb">',
-					hash.length ?
-						['<img src="/cache/', hash, '.jpg">'].join('') :
+					row.hash.length ?
+						['<img src="/cache/', row.hash, '.jpg">'].join('') :
 						'<span class="spinner"></span>',
 					'</div>'
 				].join('') : '',
@@ -241,9 +241,9 @@ app.controls = function (controls, $, services, data) {
 				media = $this.closest('.medium'),
 				self = controls.lookup[media.attr('id')];
 		if ($this.is(':checked')) {
-			controls.media.selected[self.data.row.mediaid] = true;
+			controls.media.selected[self.data.mediaid] = true;
 		} else {
-			delete controls.media.selected[self.data.row.mediaid];
+			delete controls.media.selected[self.data.mediaid];
 		}
 	};
 	

@@ -53,7 +53,8 @@ app.controls = (function (controls, $, data, services) {
 			self.reset();
 			checkboxes().attr('checked', 'checked');
 			media().each(function () {
-				self.selected[controls.lookup[$(this).attr('id')].data.row.mediaid] = true;
+				var medium = controls.lookup[$(this).attr('id')];
+				self.selected[medium.data.mediaid] = true;
 			});
 			return self;
 		};
@@ -138,12 +139,8 @@ app.controls = (function (controls, $, data, services) {
 				var mediaid, medium;
 				for (mediaid in json.load) {
 					if (json.load.hasOwnProperty(mediaid) && lookup.hasOwnProperty(mediaid)) {
+						// looking up control
 						medium = lookup[mediaid];
-						
-						// updating keywords in keywords control
-						medium.keywords
-							.keywords(json.load[mediaid].keywords)
-							.render();
 						
 						// rendering media entry
 						medium.render();
@@ -220,7 +217,7 @@ app.controls = (function (controls, $, data, services) {
 			lookup = {};
 			for (i = 0; i < page.length; i++) {
 				// adding media control to library
-				control = controls.medium(page[i])
+				control = controls.medium(page[i].mediaid)
 					.view(VIEW_ASSOC[view]);
 				control.appendTo(self);
 				
