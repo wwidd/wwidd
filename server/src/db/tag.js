@@ -13,7 +13,15 @@ tag = function () {
 
 	// retrieves all tags
 	self.getTags = function (handler) {
-		var statement = "SELECT MIN(name) AS name, CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS kind FROM tags GROUP BY lower(name)";
+		var statement = [
+			"SELECT",
+			"MIN(name) AS name,",
+			"CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS kind,",
+			"COUNT(*) AS count",
+			"FROM tags",
+			"GROUP BY lower(name)",
+			"ORDER BY count DESC"
+		].join(' ');
 		
 		console.log(statement);
 		db.query(statement, handler);
