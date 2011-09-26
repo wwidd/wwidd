@@ -6,8 +6,8 @@
 /*global jQuery */
 var app = app || {};
 
-app.controls = function (controls, $, services) {
-	controls.rater = function (row) {
+app.controls = function (controls, $, data, services) {
+	controls.rater = function (mediaid) {
 		var self = controls.control.create();
 
 		//////////////////////////////
@@ -28,8 +28,8 @@ app.controls = function (controls, $, services) {
 		function onClick() {
 			var rating = $('#' + self.id).find('a').index(this) + 1;
 			// calling rater service
-			services.media.rate(row.mediaid, rating, function () {
-				row.rating = rating;
+			services.media.rate(mediaid, rating, function () {
+				data.media.setRating(mediaid, rating);
 				self.render();
 			});
 			return false;
@@ -49,13 +49,14 @@ app.controls = function (controls, $, services) {
 		};
 		
 		self.html = function () {
-			var i,
+			var row = data.media.getRow(mediaid),
+					i,
 			
 			result = [
 				'<div id="', self.id, '" class="rater">'
 			];
 			
-			for (i = 0; i < row.rating; i++) {
+			for (i = 0; i < row.rating || 0; i++) {
 				result.push('<a href="#" class="star"></a>');
 			}
 			for (; i < 5; i++) {
@@ -72,5 +73,6 @@ app.controls = function (controls, $, services) {
 	return controls;
 }(app.controls || {},
 	jQuery,
+	app.data,
 	app.services);
 

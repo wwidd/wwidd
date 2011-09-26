@@ -80,6 +80,18 @@ app.data = function (data, jOrder, services) {
 				}
 			},
 			
+			// sets rating on media entry
+			setRating: function (mediaid, rating) {
+				var before = self.table.where([{mediaid: mediaid}], {renumber: true})[0],
+						after = jOrder.deep(before);
+				
+				// removing tag from medium if present
+				if (after.rating !== rating) {
+					after.rating = rating;
+					self.table.update(before, after);
+				}			
+			},
+			
 			// retrieves one page from the table
 			getPage: function (page, items) {
 				return self.table ? 

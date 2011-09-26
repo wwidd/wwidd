@@ -90,7 +90,7 @@ app.controls = function (controls, $, services, data) {
 			self.clear();
 			
 			// adding rater control
-			self.rater = controls.rater(row)
+			self.rater = controls.rater(row.mediaid)
 				.appendTo(self);
 			
 			// adding tagger control to non-thumb views
