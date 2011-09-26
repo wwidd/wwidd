@@ -43,11 +43,6 @@ app.data = function (data, jOrder, services) {
 				return self;
 			},
 
-			// counts the number of tag occurrences in the whole library
-			countTag: function (tag) {
-				return self.table.index('tags').count(tag);
-			},
-			
 			// retrieves a reference to the data associated with a media entry
 			getRow: function (mediaid) {
 				return self.table.where([{mediaid: mediaid}], {renumber: true})[0] || {};
@@ -63,6 +58,12 @@ app.data = function (data, jOrder, services) {
 				if (!lookup.hasOwnProperty(tag)) {
 					after.tags.push(tag);
 					self.table.update(before, after);
+					
+					// tag was added
+					return true;
+				} else {
+					// tag was not added
+					return false;
 				}
 			},
 			
@@ -77,6 +78,12 @@ app.data = function (data, jOrder, services) {
 					delete lookup[tag];
 					after.tags = jOrder.keys(lookup);
 					self.table.update(before, after);
+					
+					// tag was removed
+					return true;
+				} else {
+					// tag was not removed
+					return false;
 				}
 			},
 			
@@ -89,7 +96,13 @@ app.data = function (data, jOrder, services) {
 				if (after.rating !== rating) {
 					after.rating = rating;
 					self.table.update(before, after);
-				}			
+					
+					// rating was cahnged
+					return true;
+				} else {
+					// rating was not changed
+					return false;
+				}
 			},
 			
 			// retrieves one page from the table

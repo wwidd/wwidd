@@ -17,11 +17,11 @@ app.controls = function (controls, $, jOrder, services, data) {
 		// removes tag from media entry
 		function remove(before) {
 			if (before) {
-				// removing reference from tags table
-				data.tags.remove(before);
-
 				// removing reference from media table
-				data.media.removeTag(row.mediaid, before);
+				if (data.media.removeTag(row.mediaid, before)) {
+					// removing reference from tags table
+					data.tags.remove(before);
+				}
 			}
 		}
 		
@@ -31,12 +31,12 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (after) {
 				names = data.tag(after).split();
 				for (i = 0; i < names.length; i++) {
-					// adding reference to tags table
-					tmp = names[i].split(':');
-					data.tags.add(tmp[0], tmp[1]);
-
 					// adding tag to media table
-					data.media.addTag(row.mediaid, names[i]);
+					if (data.media.addTag(row.mediaid, names[i])) {
+						// adding reference to tags table
+						tmp = names[i].split(':');
+						data.tags.add(tmp[0], tmp[1]);
+					}
 				}
 			}
 		}

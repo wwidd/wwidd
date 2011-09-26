@@ -39,30 +39,40 @@ app.data = function (data, jOrder, services) {
 			add: function (name, kind) {
 				// preparing tags
 				var tag = name + '\t' + kind,
-						ltag = tag.toLowerCase();
+						ltag = tag.toLowerCase(),
+						row = self.table.where([{ltag: ltag}], {renumber: true})[0];
 				
 				// adding new tag (lookup key must be escaped)
-				if (data.media.countTag(name + ':' + kind) === 0) {
+				if (typeof row === 'undefined') {
 					self.table.insert([{
 						tag: tag,
 						ltag: ltag,
 						name: name,
 						lname: name.toLowerCase(),
-						kind: kind
+						kind: kind,
+						count: 1
 					}]);
+				} else {
+					row.count++;
 				}
+				
 				return self;
 			},
 			
 			// removes an existing tag
 			remove: function (tag) {
 				// preparing lookup key
-				var ltag = tag.replace(':', '\t').toLowerCase();
+				var ltag = tag.replace(':', '\t').toLowerCase(),
+						row = self.table.where([{ltag: ltag}], {renumber: true})[0];
 				
 				// removing tag (key must be escaped)
-				if (data.media.countTag(tag) === 1) {
-					self.table.remove(self.table.where([{ltag: ltag}], {renumber: true}));
-				}
+				if (row.count === 1) {
+					self.table.remove([row]);
+				} else {
+					// count is not indexed, no need for .update()
+					row.count--;
+				}				
+				
 				return self;
 			},
 			
