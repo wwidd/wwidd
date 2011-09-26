@@ -98,8 +98,7 @@ app.controls = function (controls, $, services, data) {
 				.appendTo(self);
 			
 			// adding keywords control
-			self.keywords = controls.keywords()
-				.keywords(row.keywords)
+			self.keywords = controls.keywords(row.mediaid)
 				.appendTo(self);
 			
 			return self;

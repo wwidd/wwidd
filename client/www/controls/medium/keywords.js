@@ -7,15 +7,14 @@
 /*global jQuery */
 var app = app || {};
 
-app.controls = function (controls, $, services) {
-	controls.keywords = function () {
+app.controls = function (controls, $, data) {
+	controls.keywords = function (mediaid) {
 		var self = controls.control.create(),
 				keywords = [],
 				special = {},
 				rest = {},
 				compact = true;
 
-				
 		//////////////////////////////
 		// Setters / getters
 		
@@ -24,9 +23,12 @@ app.controls = function (controls, $, services) {
 			return self;
 		};
 
-		// initializing lookup
-		self.keywords = function (value) {
-			keywords = value;
+		//////////////////////////////
+		// Overrides
+
+		// initializes lookup buffers
+		function prepare() {
+			keywords = (data.media.getRow(mediaid) || {keywords: []}).keywords;
 			var i, keyword, key;
 			for (i = 0; i < keywords.length; i++) {
 				keyword = keywords[i].split(':');
@@ -40,15 +42,15 @@ app.controls = function (controls, $, services) {
 			delete rest.duration;
 			delete rest.dimensions;
 			return self;
-		};
+		}
 		
-		//////////////////////////////
-		// Overrides
-
 		self.html = function () {
 			var result = ['<div id="' + self.id + '" class="keywords">'],
 					key;
 
+			// initializing buffers
+			prepare();
+					
 			// adding duration and dimensions
 			result.push([
 				'<span class="duration" title="', "duration", '">', special.duration || "N/A", '</span>'
@@ -87,5 +89,5 @@ app.controls = function (controls, $, services) {
 	return controls;
 }(app.controls || {},
 	jQuery,
-	app.services);
+	app.data);
 
