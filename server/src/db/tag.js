@@ -19,8 +19,7 @@ tag = function () {
 			"CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS kind,",
 			"COUNT(*) AS count",
 			"FROM tags",
-			"GROUP BY lower(name)",
-			"ORDER BY count DESC"
+			"GROUP BY lower(name)"
 		].join(' ');
 		
 		console.log(statement);
