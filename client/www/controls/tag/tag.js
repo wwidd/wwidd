@@ -5,8 +5,8 @@
 var app = app || {};
 
 app.controls = function (controls, $, jOrder, services, data) {
-	// - row: media data record
-	controls.tag = function (row) {
+	// - mediaid: media identifier
+	controls.tag = function (mediaid) {
 		var	self = controls.control.create(controls.editable());
 		
 		self.hints = controls.tag.hints;
@@ -16,11 +16,13 @@ app.controls = function (controls, $, jOrder, services, data) {
 
 		// removes tag from media entry
 		function remove(before) {
+			var tmp;
 			if (before) {
 				// removing reference from media table
-				if (data.media.removeTag(row.mediaid, before)) {
+				if (data.media.removeTag(mediaid, before)) {
 					// removing reference from tags table
-					data.tags.remove(before);
+					tmp = before.split(':');
+					data.tags.remove(tmp[0], tmp[1] || '');
 				}
 			}
 		}
@@ -32,10 +34,10 @@ app.controls = function (controls, $, jOrder, services, data) {
 				names = data.tag(after).split();
 				for (i = 0; i < names.length; i++) {
 					// adding tag to media table
-					if (data.media.addTag(row.mediaid, names[i])) {
+					if (data.media.addTag(mediaid, names[i])) {
 						// adding reference to tags table
 						tmp = names[i].split(':');
-						data.tags.add(tmp[0], tmp[1]);
+						data.tags.add(tmp[0], tmp[1] || '');
 					}
 				}
 			}

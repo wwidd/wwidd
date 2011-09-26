@@ -28,12 +28,12 @@ app.controls = function (controls, $, data) {
 			var row = data.media.getRow(mediaid),
 					i;
 			for (i = 0; i < row.tags.length; i++) {
-				controls.tagedit(row, row.tags[i])
+				controls.tagedit(mediaid, row.tags[i])
 					.appendTo(self);
 			}
 			
 			// adding tag adder control
-			adder = controls.tagadd(row)
+			adder = controls.tagadd(mediaid)
 				.appendTo(self);
 				
 			return self;

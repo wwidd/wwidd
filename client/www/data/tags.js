@@ -60,9 +60,10 @@ app.data = function (data, jOrder, services) {
 			},
 			
 			// removes an existing tag
-			remove: function (tag) {
+			remove: function (name, kind) {
 				// preparing lookup key
-				var ltag = tag.replace(':', '\t').toLowerCase(),
+				var tag = name + '\t' + kind,
+						ltag = tag.toLowerCase(),
 						row = self.table.where([{ltag: ltag}], {renumber: true})[0];
 				
 				// removing tag (key must be escaped)

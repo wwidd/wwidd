@@ -7,11 +7,11 @@
 var app = app || {};
 
 app.controls = function (controls, $, jOrder, services, data) {
-	// - row: media data record
-	controls.tagadd = function (row) {
-		var	self = controls.control.create(controls.tag(row));
+	// - mediaid: media identifier
+	controls.tagadd = function (mediaid) {
+		var	self = controls.control.create(controls.tag(mediaid));
 
-		self.data.row = row;
+		self.data.mediaid = mediaid;
 		self.hints = controls.tagadd.hints;
 
 		//////////////////////////////
@@ -65,7 +65,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 	function onChange(event) {
 		var $this = $(this),
 				self = getSelf($this),
-				row = self.data.row,
+				mediaid = self.data.mediaid,
 				term = $this.val(),
 				match = !term.length ? "" :
 					term +
@@ -93,8 +93,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 				}
 			} else {
 				// adding tag(s) to simgle media file
-				services.tag.add(row.mediaid, name, null, null, function () {
-					self.changetag(null, name, row);
+				services.tag.add(mediaid, name, null, null, function () {
+					self.changetag(null, name);
 					self.parent.add();
 				});
 			}

@@ -7,15 +7,15 @@
 var app = app || {};
 
 app.controls = function (controls, $, jOrder, services, data) {
-	// - row: media data record
+	// - mediaid: media identifier
 	// - tag: tag string "name:kind"
-	controls.tagedit = function (row, tag) {
-		var	self = controls.control.create(controls.tag(row)),
+	controls.tagedit = function (mediaid, tag) {
+		var	self = controls.control.create(controls.tag(mediaid)),
 				tmp = tag.split(':'),
 				name = tmp[0] || '',
 				kind = tmp[1] || '';
 
-		self.data.row = row;
+		self.data.mediaid = mediaid;
 		self.data.tag = tag;
 		self.hints = controls.tagedit.hints;
 
@@ -78,7 +78,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 	// general button handler
 	function onButton(event, service, lang, handler) {
 		var self = getSelf($(this)),
-				row = self.data.row,
+				mediaid = self.data.mediaid,
 				tag = self.data.tag,
 				filter = controls.search.filter();
 		
@@ -98,9 +98,9 @@ app.controls = function (controls, $, jOrder, services, data) {
 			}
 		} else {
 			// deleting tag from one specific video
-			service(row.mediaid, tag, null, null, function () {
+			service(mediaid, tag, null, null, function () {
 				if (handler) {
-					handler.call(self, tag, row);
+					handler.call(self, tag);
 				}
 			});
 		}
@@ -112,8 +112,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 			sel: "Delete this tag from SELECTED videos?",
 			all: "Delete ALL tags of this kind?",
 			hits: "Delete this tag from SEARCH results?"
-		}, function (tag, row) {
-			this.changetag(tag, null, row);
+		}, function (tag) {
+			this.changetag(tag, null);
 		});
 		return false;
 	}
@@ -124,8 +124,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 			sel: "Explode this tag in SELECTED videos?",
 			all: "Explode ALL tags of this kind?",
 			hits: "Explode this tag in SEARCH results?"
-		}, function (tag, row) {
-			this.explode(tag, row);
+		}, function (tag) {
+			this.explode(tag);
 		});
 		return false;
 	}
@@ -134,7 +134,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 	function onChange(event) {
 		var $this = $(this),
 				self = getSelf($this),
-				row = self.data.row,
+				mediaid = self.data.mediaid,
 				tag = self.data.tag,
 				before = tag,
 				after = data.tag($this.val()).sanitize();
@@ -154,8 +154,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 				// ctrl + enter is not defined for editing
 			} else {
 				// running single tag change
-				services.tag.set(row.mediaid, before, after, function () {
-					self.changetag(before, after, row);
+				services.tag.set(mediaid, before, after, function () {
+					self.changetag(before, after);
 				});
 			}
 		}
