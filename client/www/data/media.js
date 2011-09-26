@@ -122,7 +122,7 @@ app.data = function (data, jOrder, services) {
 			// returns total number of pages in dataset
 			getPages: function (items) {
 				return self.table ? 
-					Math.ceil(self.table.flat().length / items) :
+					Math.ceil(self.table.count() / items) :
 					0;
 			},
 			
