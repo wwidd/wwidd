@@ -5,6 +5,25 @@
 var app = app || {};
 
 app.data = function (data, jOrder, services) {
+	// selects best hit from an array of hits passed
+	// every entry in hits must have a numeric column 'count'
+	function bestHit(hits) {
+		if (hits.length < 1) {
+			// no hits
+			return null;
+		} else if (hits.length < 10) {
+			// sufficiently low amount of hits
+			// obtaining one with highest count
+			// TODO: change to multiple colum sorting as soon as jOrder supports it
+			return jOrder(hits)
+				.index('count', ['count'], {ordered: true, grouped: true, type: jOrder.number})
+				.orderby(['count'], jOrder.desc, {offset: 0, limit: 1})[0];
+		} else {
+			// obtaining first available hit
+			return hits[0];
+		}
+	}
+	
 	data.tags = function () {
 		var self = {
 			table: null,
@@ -19,6 +38,7 @@ app.data = function (data, jOrder, services) {
 						row.lname = row.name.toLowerCase();
 						row.tag = row.name + '\t' + row.kind;
 						row.ltag = row.tag.toLowerCase();
+						row.count = parseInt(row.count, 10);
 					}
 					
 					// building table
@@ -79,12 +99,16 @@ app.data = function (data, jOrder, services) {
 			
 			// retrieves the first matching tag to a search term
 			searchTag: function (term) {
-				return (self.table.where([{ltag: term.replace(':', '\t')}], {mode: jOrder.startof, renumber: true})[0] || {tag: ""}).tag.replace('\t', ':');
+				var hits = self.table.where([{ltag: term.replace(':', '\t')}], {mode: jOrder.startof, renumber: true}),
+						hit = bestHit(hits) || {tag: ""};
+				return hit.tag.replace('\t', ':');
 			},
 			
 			// retrieves the first matching name (kind is ignored)
 			searchName: function (term) {
-				return (self.table.where([{lname: term}], {mode: jOrder.startof, renumber: true})[0] || {name: ""}).name;
+				var hits = self.table.where([{lname: term}], {mode: jOrder.startof, renumber: true}),
+						hit = bestHit(hits) || {name: ""};
+				return hit.name;
 			}
 		};
 
