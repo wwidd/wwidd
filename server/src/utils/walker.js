@@ -17,7 +17,7 @@ walker = function (dirHandler, fileHandler, options) {
 	// defaults
 	dirHandler = dirHandler || function () { };
 	fileHandler = fileHandler || function () { };
-	options = options || { filter: new RegExp('^.+\\.(wmv|avi|mov|mp4)$', 'ig'), hidden: false };
+	options = options || { filter: new RegExp('^.+\\.(wmv|avi|mov|mp4|mkv)$', 'ig'), hidden: false };
 
 	var self = {
 		// synchronous directory walking
