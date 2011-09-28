@@ -48,6 +48,10 @@ Installation
 
 Dependency list:
 
+- JavaScript libs (all bundled in a ZIP file under 'downloads')
+	- jQuery 1.6.1
+	- jOrder 1.2
+	- QUnit (for unit tests)
 - Node.js 0.4.x:
 	- You might want to build it yourself: [source](http://nodejs.org/#download)
 	- [Debian package](http://packages.debian.org/search?keywords=nodejs)
