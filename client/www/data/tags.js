@@ -86,13 +86,17 @@ app.data = function (data, jOrder, services) {
 						ltag = tag.toLowerCase(),
 						row = self.table.where([{ltag: ltag}], {renumber: true})[0];
 				
-				// removing tag (key must be escaped)
-				if (row.count === 1) {
-					self.table.remove([row]);
-				} else {
-					// count is not indexed, no need for .update()
-					row.count--;
-				}				
+				// removing tag
+				// NOTE: because the 'tags' service returns only one tag per kind,
+				// certain tags may not be on index and can return undefined on search
+				if (typeof row !== 'undefined') {
+					if (row.count === 1) {
+						self.table.remove([row]);
+					} else {
+						// count is not indexed, no need for .update()
+						row.count--;
+					}
+				}
 				
 				return self;
 			},
