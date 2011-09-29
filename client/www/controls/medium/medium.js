@@ -161,6 +161,11 @@ app.controls = function (controls, $, services, data) {
 	//////////////////////////////
 	// Static methods
 	
+	// resets medium memory
+	controls.medium.reset = function () {
+		lastOpen = null;
+	};
+
 	// resizes tagger 'column' to fit screen width
 	controls.medium.resize = function (force, elem) {
 		var $list = elem || $('div.media.list'),

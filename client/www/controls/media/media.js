@@ -43,14 +43,24 @@ app.controls = (function (controls, $, data, services) {
 		}
 
 		// resets registry of selected entries
-		self.reset = function () {
+		function resetSelected() {
 			self.selected = {};
+		}
+		
+		// resets media state
+		self.reset = function () {
+			// emptying registry of selected entries
+			resetSelected();
+			
+			// re-setting common medium state
+			controls.medium.reset();
+			
 			return self;
 		};
 		
 		// selects all elements in visible library
 		self.selectAll = function () {
-			self.reset();
+			resetSelected();
 			checkboxes().attr('checked', 'checked');
 			media().each(function () {
 				var medium = controls.lookup[$(this).attr('id')];
@@ -61,7 +71,7 @@ app.controls = (function (controls, $, data, services) {
 		
 		// deselects all elements in visible library
 		self.selectNone = function () {
-			self.reset();
+			resetSelected();
 			checkboxes().removeAttr('checked', 'checked');
 			return self;
 		};
