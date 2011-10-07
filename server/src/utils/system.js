@@ -6,7 +6,7 @@
 /*global require, exports, console */
 var	$os = require('os'),
 		walker = require('utils/walker').walker,
-		datastore = require('utils/datastore').datastore,
+		flock = require('../../../common/flock/flock-0.1').flock,
 
 os = $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
 		
@@ -20,7 +20,7 @@ system = {
 	tree: function (paths) {
 		var i, root,
 				empty = !paths || !paths.length,
-				dirs = {};
+				dirs = flock();
 
 		// default root paths
 		if (empty) {
@@ -33,7 +33,7 @@ system = {
 		
 		// walker handler
 		function handler(relative, stats) {
-			datastore.set.call(dirs, (root + relative).split('/').slice(1), {});
+			dirs.set((root + relative).split('/').slice(1), {});
 		}
 		
 		// gathering directory structure
@@ -44,10 +44,10 @@ system = {
 		
 		if (empty) {
 			// returning absolute tree on dafault root
-			return dirs;
+			return dirs.root();
 		} else {
 			// returning relative tree when only one root was given
-			return datastore.get.call(dirs, paths[0].split('/'));
+			return dirs.get(paths[0].split('/'));
 		}
 	}
 };
