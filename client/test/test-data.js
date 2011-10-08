@@ -6,8 +6,7 @@ var test = function (test, data, services) {
 	test.data = function () {
 		var tag1 = 'test, abc,de:fg',
 				tag2 = 'whatever/it /, is',
-				media_bak = services.media.get,
-				tags_bak = services.tag.getall;
+				media_bak = services.media.get;
 				
 		module("Data");
 		
@@ -112,21 +111,6 @@ var test = function (test, data, services) {
 
 		////////////////////////////////////////////////////////////////////////////////
 		
-		services.tag.getall = function (handler) {
-			handler({
-				status: 'OK',
-				data: [
-					{name: "lots", kind: ""},
-					{name: "sure", kind: "actor"},
-					{name: "test", kind: ""},
-					{name: "abc", kind: ""},
-					{name: "what", kind: ""}
-				]
-			});
-		};
-		
-		data.tags.init();
-		
 		test("[tags] Searching for tag (name and kind)", function () {
 			equal(data.tags.searchTag('lo'), 'lots:', "First tag starting with 'lo'");
 			equal(data.tags.searchTag('sur'), 'sure:actor', "First tag starting with 'sur'");
@@ -137,8 +121,6 @@ var test = function (test, data, services) {
 			equal(data.tags.searchName('sur'), 'sure', "First tag name starting with 'sur'");
 			equal(data.tags.searchName('te'), 'test', "First tag name starting with 'te'");
 		});
-		
-		services.gettags = tags_bak;
 	};
 	
 	return test;
