@@ -81,7 +81,11 @@ server = $http.createServer(function (req, res) {
 					i, filePath;
 			res.writeHead(200, {"Content-Type": "text/" + {'css': 'css', 'js': 'javascript'}[type]});
 			for (i = 0; i < files.length; i++) {
-				filePath = $path.join(process.cwd(), 'client/www/' + files[i] + ext);
+				if (files[i].split('/')[0] === 'common') {
+					filePath = $path.join(process.cwd(), files[i] + ext);
+				} else {
+					filePath = $path.join(process.cwd(), 'client/www/' + files[i] + ext);
+				}
 				file.add(filePath, res);
 			}
 			res.end();
@@ -93,10 +97,16 @@ server = $http.createServer(function (req, res) {
 		(function () {
 			var	filePath;
 				
-			if (endpoint.split('/')[1] === 'cache') {
+			switch (endpoint.split('/')[1]) {
+			case 'cache':
 				filePath = $path.join(process.cwd(), 'server' + endpoint);
-			} else {
+				break;
+			case 'common':
+				filePath = $path.join(process.cwd(), endpoint);
+				break;
+			default:
 				filePath = $path.join(process.cwd(), 'client/www' + endpoint);
+				break;
 			}
 			
 			file.fetch(filePath, res, DEBUG);
