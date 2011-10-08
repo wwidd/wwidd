@@ -59,11 +59,6 @@ app.services = function ($, window, service, poll) {
 		},
 		
 		tag: {
-			// retrieves all tags from library
-			getall: function (handler) {
-				service('tag/getall').call(null, handler);
-			},
-			
 			// adds tag to a file
 			add: function (mediaid, tag, filter, mediaids, handler) {
 				service('tag/add').unary(mediaid, tag, filter, mediaids, handler);			
