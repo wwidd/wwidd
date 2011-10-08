@@ -67,12 +67,6 @@ library = function () {
 			return self;
 		},
 		
-		// queries all tags
-		getTags: function (handler) {
-			tag.getTags(handler);
-			return self;
-		},
-		
 		// adds a root path to the library
 		addRoot: function (path, handler) {
 			if (system.os === 'cygwin') {

@@ -13,14 +13,6 @@ var	envelope = require('ajax/envelope').envelope,
 function run(endpoint, query, res) {
 	// executing command
 	switch (endpoint) {
-	case '/tag/getall':
-		envelope(res, true, function (ok) {
-			library.getTags(function (data) {
-				ok(data);
-			});
-		});
-		break;
-		
 	case '/tag/add':
 		// deleting tag
 		envelope(res, true, function (ok) {

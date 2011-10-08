@@ -11,21 +11,6 @@ tag = function () {
 	var base = Object.create(entity, {kind: {value: 'tags'}}),
 			self = Object.create(base);
 
-	// retrieves all tags
-	self.getTags = function (handler) {
-		var statement = [
-			"SELECT",
-			"MIN(name) AS name,",
-			"CASE WHEN kind IS NOT NULL THEN kind ELSE '' END AS kind,",
-			"COUNT(*) AS count",
-			"FROM tags",
-			"GROUP BY lower(name)"
-		].join(' ');
-		
-		console.log(statement);
-		db.query(statement, handler);
-	};
-	
 	// adds one tag to the file
 	self.add = function (after, filter, mediaids, where, handler) {
 		var tmp = after.tag.split(':'),
