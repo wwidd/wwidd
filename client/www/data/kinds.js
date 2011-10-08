@@ -1,10 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Kinds Data
 ////////////////////////////////////////////////////////////////////////////////
-/*global jOrder */
 var app = app || {};
 
-app.data = function (data, jOrder, services) {
+app.data = function (data, services) {
 	data.kinds = function () {
 		var self = {
 			lookup: {},
@@ -42,6 +41,5 @@ app.data = function (data, jOrder, services) {
 	
 	return data;
 }(app.data || {},
-	jOrder,
 	app.services);
 
