@@ -26,10 +26,12 @@ app.controls = function (controls, $, data) {
 
 			// adding tag editor controls
 			var row = data.media.getRow(mediaid),
-					i;
-			for (i = 0; i < row.tags.length; i++) {
-				controls.tagedit(mediaid, row.tags[i])
-					.appendTo(self);
+					tag;
+			for (tag in row.tags) {
+				if (row.tags.hasOwnProperty(tag)) {
+					controls.tagedit(mediaid, tag)
+						.appendTo(self);
+				}
 			}
 			
 			// adding tag adder control
