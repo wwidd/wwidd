@@ -45,6 +45,7 @@ app.controls = function (controls, $, data) {
 			} else {
 				hidden[kind] = true;
 			}
+
 			// saving cookie
 			data.cookie.set('hiddenkinds', toArray(hidden).join(','));
 			
@@ -73,7 +74,7 @@ app.controls = function (controls, $, data) {
 		// Overrides
 
 		self.build = function () {
-			var lookup = data.kinds.lookup,
+			var lookup = data.cache.get('kind'),
 					kind;
 			self.clear();
 			for (kind in lookup) {

@@ -97,19 +97,15 @@ app.controls = (function (controls, $, data, services) {
 					controls.pager
 						.render();
 
-					// initializing kinds table
-					data.kinds
-						.init(data.tags, function () {
-							// finalizing library
-							controls.media
-								.build()
-								.render();
+					// finalizing library
+					controls.media
+						.build()
+						.render();
 
-							// finalizing kinds
-							controls.kinds
-								.build()
-								.render();
-						});
+					// finalizing kinds
+					controls.kinds
+						.build()
+						.render();
 				});
 
 				// removing busy state
