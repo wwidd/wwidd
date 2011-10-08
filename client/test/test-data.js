@@ -48,41 +48,43 @@ var test = function (test, data, services) {
 		
 		test("[media] Page retrieval", function () {
 			deepEqual(data.media.getPage(0, 1), [{
-					"mediaid": 2,
-					"path": "test/1.wmv",
-					"tags": {
-						"test:": {
-							"tag": "test:",
-							"name": "test",
-							"kind": "",
-							"media": {
-								"1": 1,
-								"2": 2
-							}
+				"mediaid": 2,
+				"path": "test/1.wmv",
+				"tags": {
+					"test:": {
+						"tag": "test:",
+						"name": "test",
+						"kind": "",
+						"media": {
+							"1": 1,
+							"2": 2
 						},
-						"abc:": {
-							"tag": "abc:",
-							"name": "abc",
-							"kind": "",
-							"media": {
-								"2": 2
-							}
-						},
-						"what:": {
-							"tag": "what:",
-							"name": "what",
-							"kind": "",
-							"media": {
-								"2": 2
-							}
-						}
+						"count": 2
 					},
-					"rating": 5,
-					"file": "1.wmv",
-					"file_": "1.wmv",
-					"ext": undefined
-				}
-			], "FIRST page of length 1");
+					"abc:": {
+						"tag": "abc:",
+						"name": "abc",
+						"kind": "",
+						"media": {
+							"2": 2
+						},
+						"count": 1
+					},
+					"what:": {
+						"tag": "what:",
+						"name": "what",
+						"kind": "",
+						"media": {
+							"2": 2
+						},
+						"count": 1
+					}
+				},
+				"rating": 5,
+				"file": "1.wmv",
+				"file_": "1.wmv",
+				"ext": undefined
+			}], "FIRST page of length 1");
 		});
 		
 		test("[media] Page count", function () {
