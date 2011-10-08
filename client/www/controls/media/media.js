@@ -61,7 +61,7 @@ app.controls = (function (controls, $, data, services) {
 		// selects all elements in visible library
 		self.selectAll = function () {
 			resetSelected();
-			checkboxes().attr('checked', 'checked');
+			checkboxes().prop('checked', true);
 			media().each(function () {
 				var medium = controls.lookup[$(this).attr('id')];
 				self.selected[medium.data.mediaid] = true;

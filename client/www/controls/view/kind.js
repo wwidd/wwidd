@@ -40,7 +40,7 @@ app.controls = function (controls, $, data) {
 				control = controls.lookup[$this.parent().attr('id')],
 				kind = control.data.kind,
 				handler = control.data.handler,
-				checked = $this.attr('checked');
+				checked = $this.prop('checked');
 		handler(kind, checked);
 	}
 	
@@ -52,8 +52,8 @@ app.controls = function (controls, $, data) {
 					kind = control.data.kind,
 					handler = control.data.handler,
 					$checkbox = $this.find(':checkbox'),
-					checked = !$checkbox.attr('checked');
-			$checkbox.attr('checked', checked);
+					checked = !$checkbox.prop('checked');
+			$checkbox.prop('checked', checked);
 			handler(kind, checked);
 		}
 	}

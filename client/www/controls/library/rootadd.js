@@ -58,10 +58,10 @@ app.controls = function (controls, $, services) {
 			// setting state
 			if (self.disabled()) {
 				elem.find('button')
-					.attr('disabled', 'disabled');
+					.prop('disabled', true);
 			} else {
 				elem.find('button')
-					.removeAttr('disabled')
+					.prop('disabled', false)
 					.click(onAdd);
 			}
 		};
