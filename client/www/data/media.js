@@ -84,7 +84,6 @@ app.data = function (data, jOrder, flock, services) {
 					// setting up jOrder table
 					// required for paging
 					self.table = jOrder(preprocess(json))
-						.index('mediaid', ['mediaid'], {ordered: true, type: jOrder.number})
 						.index('file', ['file_'], {ordered: true, grouped: true, type: jOrder.string});
 						
 					handler();
