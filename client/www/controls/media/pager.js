@@ -39,7 +39,6 @@ app.controls = function (controls, $, data) {
 		
 		function refresh() {
 			controls.media
-				.reset()
 				.build()
 				.render();
 			self.render();

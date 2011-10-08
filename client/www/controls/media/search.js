@@ -38,7 +38,6 @@ app.controls = function (controls, $, services, data) {
 				.val('');
 			controls.pager.reset();
 			controls.media
-				.reset()
 				.load();
 			controls.url.set();
 		}

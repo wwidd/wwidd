@@ -97,6 +97,7 @@ app.controls = (function (controls, $, data, services) {
 
 				// finalizing library
 				controls.media
+					.reset()
 					.build()
 					.render();
 
