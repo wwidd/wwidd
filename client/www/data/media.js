@@ -116,12 +116,13 @@ app.data = function (data, jOrder, flock, services) {
 						cache.set(['tag', tag], ref);
 						cache.set(['name', tmp[0], tmp[1]], ref);
 						cache.set(['kind', tmp[1], tmp[0]], ref);
+						cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
 					}
 					
 					// setting references
 					cache.set(['media', mediaid, 'tags', tag], ref);
 					cache.set(['tag', tag, 'media', mediaid], mediaid);
-					cache.set(['search'].concat(tag.toLowerCase().split('')), ref);
+					cache.set(['tag', tag, 'count'], (cache.get(['tag', tag, 'count']) || 0) + 1);
 					
 					// tag was added
 					return true;
@@ -141,6 +142,7 @@ app.data = function (data, jOrder, flock, services) {
 					// removing direct references
 					cache.unset(['media', mediaid, 'tags', tag]);
 					cache.unset(['tag', tag, 'media', mediaid]);
+					cache.set(['tag', tag, 'count'], cache.get(['tag', tag, 'count']) - 1);
 					
 					// removing tag altogether
 					if (isEmpty(cache.get(['tag', tag, 'media']))) {
@@ -148,6 +150,7 @@ app.data = function (data, jOrder, flock, services) {
 						cache.unset(['tag', tag]);
 						cache.unset(['name', tmp[0], tmp[1]]);
 						cache.unset(['kind', tmp[1], tmp[0]]);
+						cache.unset(['search'].concat(tag.toLowerCase().split('')).concat(['tag']));
 
 						// removing name altogether
 						if (isEmpty(cache.get(['name', tmp[0]]))) {
