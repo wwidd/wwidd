@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Unit tests for client controls
 ////////////////////////////////////////////////////////////////////////////////
-/*global yalp, jQuery, document, module, ok, equal, equals, deepEqual, notEqual, raises, expect */
+/*global app, jQuery, document, module, ok, equal, equals, deepEqual, notEqual, raises, expect */
 var test = function (test, $, controls) {
 	// counts number of controls in lookup
 	function count_controls() {
@@ -152,5 +152,5 @@ var test = function (test, $, controls) {
 	return test;
 }(test || {},
 	jQuery,
-	yalp.controls);
+	app.controls);
 

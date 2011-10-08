@@ -1,13 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Unit tests for the data component
 ////////////////////////////////////////////////////////////////////////////////
-/*global yalp, document, module, ok, equal, equals, deepEqual, notEqual */
+/*global app, document, module, ok, equal, equals, deepEqual, notEqual */
 var test = function (test, data, services) {
 	test.data = function () {
 		var tag1 = 'test, abc,de:fg',
 				tag2 = 'whatever/it /, is',
-				media_bak = services.getmedia,
-				tags_bak = services.gettags;
+				media_bak = services.media.get,
+				tags_bak = services.tag.getall;
 				
 		module("Data");
 		
@@ -30,7 +30,7 @@ var test = function (test, data, services) {
 		////////////////////////////////////////////////////////////////////////////////
 
 		// mock method
-		services.getmedia = function (filter, handler) {
+		services.media.get = function (filter, handler) {
 			handler({
 				status: 'OK',
 				data: [
@@ -85,7 +85,7 @@ var test = function (test, data, services) {
 
 		////////////////////////////////////////////////////////////////////////////////
 		
-		services.gettags = function (handler) {
+		services.tag.getall = function (handler) {
 			handler({
 				status: 'OK',
 				data: [
@@ -116,6 +116,6 @@ var test = function (test, data, services) {
 	
 	return test;
 }(test || {},
-	yalp.data,
-	yalp.services);
+	app.data,
+	app.services);
 
