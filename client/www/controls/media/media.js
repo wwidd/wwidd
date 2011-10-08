@@ -91,22 +91,19 @@ app.controls = (function (controls, $, data, services) {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + controls.libsel.selected());
 				
-				// initializing tag data buffer
-				data.tags.init(function () {
-					// redrawing controls
-					controls.pager
-						.render();
+				// redrawing controls
+				controls.pager
+					.render();
 
-					// finalizing library
-					controls.media
-						.build()
-						.render();
+				// finalizing library
+				controls.media
+					.build()
+					.render();
 
-					// finalizing kinds
-					controls.kinds
-						.build()
-						.render();
-				});
+				// finalizing kinds
+				controls.kinds
+					.build()
+					.render();
 
 				// removing busy state
 				controls.library

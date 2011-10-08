@@ -63,6 +63,7 @@ app.data = function (data, jOrder, flock, services) {
 					cache.set('name', {});
 					cache.set('rating', {});
 					cache.set('field', {});
+					cache.set('search', {});
 					
 					// loading media data into cache
 					for (i = 0; i < json.length; i++) {
@@ -81,6 +82,7 @@ app.data = function (data, jOrder, flock, services) {
 					}
 					
 					// setting up jOrder table
+					// required for paging
 					self.table = jOrder(preprocess(json))
 						.index('mediaid', ['mediaid'], {ordered: true, type: jOrder.number})
 						.index('file', ['file_'], {ordered: true, grouped: true, type: jOrder.string});
@@ -119,6 +121,7 @@ app.data = function (data, jOrder, flock, services) {
 					// setting references
 					cache.set(['media', mediaid, 'tags', tag], ref);
 					cache.set(['tag', tag, 'media', mediaid], mediaid);
+					cache.set(['search'].concat(tag.toLowerCase().split('')), ref);
 					
 					// tag was added
 					return true;

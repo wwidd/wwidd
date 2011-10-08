@@ -18,12 +18,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		function remove(before) {
 			var tmp;
 			if (before) {
-				// removing reference from media table
-				if (data.media.removeTag(mediaid, before)) {
-					// removing reference from tags table
-					tmp = before.split(':');
-					data.tags.remove(tmp[0], tmp[1] || '');
-				}
+				data.media.removeTag(mediaid, before);
 			}
 		}
 		
@@ -33,12 +28,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (after) {
 				names = data.tag(after).split();
 				for (i = 0; i < names.length; i++) {
-					// adding tag to media table
-					if (data.media.addTag(mediaid, names[i])) {
-						// adding reference to tags table
-						tmp = names[i].split(':');
-						data.tags.add(tmp[0], tmp[1] || '');
-					}
+					data.media.addTag(mediaid, names[i]);
 				}
 			}
 		}

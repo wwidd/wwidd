@@ -8,8 +8,7 @@ var app = app || {};
 
 app.controls = function (controls, $, data) {
 	controls.kind = function (kind, handler) {
-		var self = controls.control.create(),
-				count = data.tags.table.index('kind').count(kind);	// no. of tags associated w/ kind
+		var self = controls.control.create();
 		
 		self.data.kind = kind;
 		self.data.handler = handler || function () {};
@@ -20,7 +19,7 @@ app.controls = function (controls, $, data) {
 		self.html = function () {
 			var id = 'kind' + kind;
 			return [
-				'<span id="', self.id, '" class="kind tag display ', data.kinds.getNumber(kind), '" title="', count, count > 1 ? ' tags' : ' tag', '">',
+				'<span id="', self.id, '" class="kind tag display ', data.kinds.getNumber(kind), '" >',
 				'<input type="checkbox" id="', id, '"', !self.parent || !self.parent.hidden(kind) ? ' checked="checked"' : '', '/>',
 				'<label for="', id, '">', kind ? kind : "[default]", '</label>',
 				'</span>'
