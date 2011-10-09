@@ -1,5 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Media Data
+//
+// Based on Flock (https://github.com/wwidd/flock).
+// Until the server stores data in a NoSQL way, the client
+// has to build the NoSQL cache in this class. This makes page initialization
+// on high media and tag count a bit slow (2-3s on netbooks, tablets).
+// Once SQLite is ditched on the server, the JSON can come unaltered and
+// there would be no need to use Flock for building the cache.
 ////////////////////////////////////////////////////////////////////////////////
 /*global jOrder, flock, escape */
 var app = app || {};
@@ -34,8 +41,7 @@ app.data = function (data, jOrder, flock, services) {
 			row = json[i];
 			fileInfo = splitPath(row.path);
 			row.file = fileInfo.file;
-			row.file_ = fileInfo.file.toLowerCase();
-			row.ext = fileInfo.ext;
+			row.lfile = fileInfo.file.toLowerCase();
 		}
 		return json;
 	}
@@ -84,7 +90,7 @@ app.data = function (data, jOrder, flock, services) {
 					// setting up jOrder table
 					// required for paging
 					self.table = jOrder(preprocess(json))
-						.index('file', ['file_'], {ordered: true, grouped: true, type: jOrder.string});
+						.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string});
 						
 					handler();
 				});
@@ -99,29 +105,32 @@ app.data = function (data, jOrder, flock, services) {
 			// adds a tag to media entry
 			addTag: function (mediaid, tag) {
 				var cache = data.cache,
-						ref = cache.get(['tag', tag]),
-						tmp;
+						ref, tmp,
+						path_media_tag = ['media', mediaid, 'tags', tag],
+						path_tag = ['tag', tag];
 
-				if (cache.get(['media', mediaid, 'tags', tag]) !== tag) {
+				if (cache.get(path_media_tag) !== tag) {
 					// creating new tag
-					ref = cache.get(['tag', tag]);
+					ref = cache.get(path_tag);
 					if (typeof ref === 'undefined') {
 						tmp = tag.split(':');
 						ref = {
 							tag: tag,
 							name: tmp[0],
-							kind: tmp[1]
+							kind: tmp[1],
+							media: {},
+							count: 0
 						};
-						cache.set(['tag', tag], ref);
+						cache.set(path_tag, ref);
 						cache.set(['name', tmp[0], tmp[1]], ref);
 						cache.set(['kind', tmp[1], tmp[0]], ref);
 						cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
 					}
 					
 					// setting references
-					cache.set(['media', mediaid, 'tags', tag], ref);
-					cache.set(['tag', tag, 'media', mediaid], mediaid);
-					cache.set(['tag', tag, 'count'], (cache.get(['tag', tag, 'count']) || 0) + 1);
+					cache.set(path_media_tag, ref);
+					ref.media[mediaid] = mediaid;
+					ref.count = ref.count + 1;
 					
 					// tag was added
 					return true;
@@ -189,14 +198,14 @@ app.data = function (data, jOrder, flock, services) {
 			// retrieves one page from the table
 			getPage: function (page, items) {
 				return self.table ? 
-					self.table.orderby(['file_'], jOrder.asc, {offset: page * items, limit: items, renumber: true}) :
+					self.table.orderby(['lfile'], jOrder.asc, {offset: page * items, limit: items, renumber: true}) :
 					[];
 			},
 			
 			// returns first row of page
 			getFirst: function (page, items) {
 				return self.table ?
-					self.table.orderby(['file_'], jOrder.asc, {offset: page * items, limit: 1, renumber: true}) :
+					self.table.orderby(['lfile'], jOrder.asc, {offset: page * items, limit: 1, renumber: true}) :
 					[{}];
 			},
 			
