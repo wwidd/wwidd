@@ -82,8 +82,7 @@ var test = function (test, data, services) {
 				},
 				"rating": 5,
 				"file": "1.wmv",
-				"file_": "1.wmv",
-				"ext": undefined
+				"lfile": "1.wmv"
 			}], "FIRST page of length 1");
 		});
 		
