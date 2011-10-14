@@ -28,7 +28,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (after) {
 				names = data.tag(after).split();
 				for (i = 0; i < names.length; i++) {
-					data.media.addTag(mediaid, names[i]);
+					data.media.addTag(data.media.getRow(mediaid), names[i]);
 				}
 			}
 		}
