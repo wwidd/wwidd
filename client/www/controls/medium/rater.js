@@ -29,7 +29,7 @@ app.controls = function (controls, $, data, services) {
 			var rating = $('#' + self.id).find('a').index(this) + 1;
 			// calling rater service
 			services.media.rate(mediaid, rating, function () {
-				data.media.setRating(mediaid, rating);
+				data.media.setRating(data.media.getRow(mediaid), rating);
 				self.render();
 			});
 			return false;

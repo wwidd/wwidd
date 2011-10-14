@@ -81,9 +81,9 @@ app.data = function (data, jOrder, flock, services) {
 						cache.set(['media', row.mediaid], row);
 						
 						// setting properties
-						self.setRating(row.mediaid, row.rating);
+						self.setRating(row);
 						for (j = 0; j < tags.length; j++) {
-							self.addTag(row.mediaid, tags[j]);
+							self.addTag(row, tags[j]);
 						}
 					}
 					
@@ -103,8 +103,9 @@ app.data = function (data, jOrder, flock, services) {
 			},
 			
 			// adds a tag to media entry
-			addTag: function (mediaid, tag) {
+			addTag: function (row, tag) {
 				var cache = data.cache,
+						mediaid = row.mediaid,
 						ref, tmp,
 						path_media_tag = ['media', mediaid, 'tags', tag],
 						path_tag = ['tag', tag];
@@ -129,7 +130,7 @@ app.data = function (data, jOrder, flock, services) {
 					
 					// setting references
 					cache.set(path_media_tag, ref);
-					ref.media[mediaid] = mediaid;
+					ref.media[mediaid] = row;
 					ref.count = ref.count + 1;
 					
 					// tag was added
@@ -179,13 +180,22 @@ app.data = function (data, jOrder, flock, services) {
 			},
 			
 			// sets rating on media entry
-			setRating: function (mediaid, rating) {
+			setRating: function (row, rating) {
 				var cache = data.cache,
-						current = cache.get(['media', mediaid, 'rating']);
+						mediaid = row.mediaid,
+						rate_path = ['media', mediaid, 'rating'],
+						current = cache.get(rate_path);
+
+				// new rating value
+				rating = rating || row.rating;
 				
 				if (rating !== current.rating) {
-					cache.set(['media', mediaid, 'rating'], rating);	// on media node
-					cache.set(['rating', rating, mediaid], mediaid);	// rating lookup
+					// on media node
+					cache.set(rate_path, rating);
+					
+					// rating lookup
+					cache.unset(['rating', current.rating, mediaid]);
+					cache.set(['rating', rating, mediaid], row);
 					
 					// rating was changed
 					return true;
