@@ -46,46 +46,6 @@ var test = function (test, data, services) {
 			equal(data.media.getFirst(1, 1)[0].mediaid, 1, "SECOND page");
 		});
 		
-		test("[media] Page retrieval", function () {
-			deepEqual(data.media.getPage(0, 1), [{
-				"mediaid": 2,
-				"path": "test/1.wmv",
-				"tags": {
-					"test:": {
-						"tag": "test:",
-						"name": "test",
-						"kind": "",
-						"media": {
-							"1": 1,
-							"2": 2
-						},
-						"count": 2
-					},
-					"abc:": {
-						"tag": "abc:",
-						"name": "abc",
-						"kind": "",
-						"media": {
-							"2": 2
-						},
-						"count": 1
-					},
-					"what:": {
-						"tag": "what:",
-						"name": "what",
-						"kind": "",
-						"media": {
-							"2": 2
-						},
-						"count": 1
-					}
-				},
-				"rating": 5,
-				"file": "1.wmv",
-				"lfile": "1.wmv"
-			}], "FIRST page of length 1");
-		});
-		
 		test("[media] Page count", function () {
 			equal(data.media.getPages(1), 2, "Size 1");
 			equal(data.media.getPages(2), 1, "Size 2");
