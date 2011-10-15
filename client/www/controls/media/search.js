@@ -5,7 +5,8 @@
 var app = app || {};
 
 app.controls = function (controls, $, services, data) {
-	var RE_FILTER_CROP = /[^\s,].*[^\s,]/;
+	var RE_FILTER_CROP = /[^\s,].*[^\s,]/,
+			RE_FILTER_SPLIT = /,/;
 	
 	controls.search = function () {
 		var self = controls.control.create(),
@@ -34,13 +35,27 @@ app.controls = function (controls, $, services, data) {
 		//////////////////////////////
 		// Event handlers
 
-		function run($this, term) {
+		// performs search, filters list of media entries by search terms
+		// - elem: input element intercepting events
+		// - term: search term as string
+		//	 (comma separated list of terms in logical AND relation)
+		// - complete: whether the search expression is complete. the last term in an
+		//	 incomplete expression is discarded
+		function run(elem, term, complete) {
+			var tmp = term;
+			
+			// cutting last term from incomplete expression
+			if (!complete) {
+				tmp = tmp.split(RE_FILTER_SPLIT);
+				tmp = tmp.slice(0, tmp.length - 1).join(',');
+			}
+			
 			// filtreing out leading and trailing commas and spaces
-			filter = (RE_FILTER_CROP.exec(term) || [''])[0];
+			filter = (RE_FILTER_CROP.exec(tmp) || [''])[0];
 			
 			if (data.media.filter(filter)) {
 				// result set changed
-				$this.siblings('.backdrop').val('');				
+				elem.siblings('.backdrop').val('');				
 				controls.pager.reset();
 				controls.media.refresh();
 				controls.url.set();
@@ -54,7 +69,7 @@ app.controls = function (controls, $, services, data) {
 			
 			if (event.which === 188 ||
 					event.which === 13) {
-				run($this, term);
+				run($this, term, true);
 			} else {
 				match = !term.length ? "" : [
 					term,
@@ -63,6 +78,7 @@ app.controls = function (controls, $, services, data) {
 				$this.siblings('.backdrop')
 					.val(match)
 					.scrollLeft($this.scrollLeft());
+				run($this, term);
 			}
 		}
 		

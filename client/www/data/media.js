@@ -123,9 +123,16 @@ app.data = function (data, jOrder, flock, services) {
 			// - expression: filter expression, comma-separated
 			// returns a flag indicating if the result set changed
 			filter: function (expression) {
+				// handling empty search expression
 				if (!expression.length) {
-					stack.splice(0, stack.length - 1);
-					return true;
+					if (stack.length > 1) {
+						// clearing stack
+						stack.splice(0, stack.length - 1);
+						return true;
+					} else {
+						// stack was already empty, nothing happens
+						return false;
+					}
 				}
 				
 				var terms = (',' + expression).split(','), term,
