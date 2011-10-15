@@ -75,7 +75,34 @@ app.controls = (function (controls, $, data, services) {
 			checkboxes().removeAttr('checked', 'checked');
 			return self;
 		};
-				
+		
+		self.refresh = function () {
+			// indicating busy state
+			controls.library
+				.busy(true)
+				.render();
+
+			// redrawing controls
+			controls.pager
+				.render();
+
+			// finalizing library
+			controls.media
+				.reset()
+				.build()
+				.render();
+
+			// finalizing kinds
+			controls.kinds
+				.build()
+				.render();
+
+			// removing busy state
+			controls.library
+				.busy(false)
+				.render();
+		};
+		
 		// (re-)loads library contents
 		self.load = function () {
 			var $document = $(document),
@@ -87,29 +114,11 @@ app.controls = (function (controls, $, data, services) {
 				.render();
 			
 			// loading video data
-			data.media.init(controls.search.filter(), function () {
+			data.media.init(function () {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + controls.libsel.selected());
-				
-				// redrawing controls
-				controls.pager
-					.render();
-
-				// finalizing library
-				controls.media
-					.reset()
-					.build()
-					.render();
-
-				// finalizing kinds
-				controls.kinds
-					.build()
-					.render();
-
-				// removing busy state
-				controls.library
-					.busy(false)
-					.render();
+				data.media.filter(controls.search.filter());
+				self.refresh();				
 			});
 			return self;
 		};

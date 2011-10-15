@@ -5,6 +5,8 @@
 var app = app || {};
 
 app.controls = function (controls, $, services, data) {
+	var RE_FILTER_CROP = /[^\s,].*[^\s,]/;
+	
 	controls.search = function () {
 		var self = controls.control.create(),
 				filter = "";
@@ -33,20 +35,27 @@ app.controls = function (controls, $, services, data) {
 		// Event handlers
 
 		function run($this, term) {
-			filter = term;
-			$this.siblings('.backdrop')
-				.val('');
-			controls.pager.reset();
-			controls.media
-				.load();
-			controls.url.set();
+			// filtreing out leading and trailing commas and spaces
+			filter = (RE_FILTER_CROP.exec(term) || [''])[0];
+			
+			if (data.media.filter(filter)) {
+				// result set changed
+				$this.siblings('.backdrop').val('');				
+				controls.pager.reset();
+				controls.media.refresh();
+				controls.url.set();
+			}
 		}
 
 		function onChange(event) {
 			var $this = $(this),
 					term = $this.val(),
 					match, name;
-			if (event.which !== 13) {
+			
+			if (event.which === 188 ||
+					event.which === 13) {
+				run($this, term);
+			} else {
 				match = !term.length ? "" : [
 					term,
 					data.tags.searchName(term.toLowerCase()).substr(term.length)
@@ -54,8 +63,6 @@ app.controls = function (controls, $, services, data) {
 				$this.siblings('.backdrop')
 					.val(match)
 					.scrollLeft($this.scrollLeft());
-			} else {
-				run($this, term);
 			}
 		}
 		

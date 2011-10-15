@@ -47,19 +47,32 @@ app.data = function (data, jOrder, flock, services) {
 	}
 	
 	data.media = function () {
-		var self = {
-			table: null,
+		var
+		
+		// FIFO stack search results
+		stack = [{
+			term: '',
+			data: {}
+		}],
+		
+		self = {
+			stack: function () {
+				return stack;
+			},
 
-			// initializes data object: calls service, populates table
-			init: function (filter, handler) {
+			// initializes data object: calls service, populates cache
+			init: function (handler) {
 				handler = handler || function () {};
-				services.media.get(filter, function (json) {
+				
+				// calling service
+				services.media.get('', function (json) {
 					json = preprocess(json.data);
 					
 					var cache = data.cache,
 							i, row,
 							j, tag,
-							tags;
+							tags,
+							table;
 					
 					// setting up datastore roots
 					cache.set('tag', {});
@@ -89,14 +102,88 @@ app.data = function (data, jOrder, flock, services) {
 					
 					// setting up jOrder table
 					// required for paging
-					self.table = jOrder(preprocess(json))
+					table = jOrder(preprocess(json))
 						.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string});
 						
+					// initializing stack
+					stack = [{
+						term: '',
+						data: {
+							cache: cache,
+							table: table
+						}
+					}];
+					
 					handler();
 				});
 				return self;
 			},
 
+			// filters current state further
+			// - expression: filter expression, comma-separated
+			// returns a flag indicating if the result set changed
+			filter: function (expression) {
+				if (!expression.length) {
+					stack.splice(0, stack.length - 1);
+					return true;
+				}
+				
+				var terms = (',' + expression).split(','), term,
+						tstack = jOrder.shallow(stack).reverse(),
+						tags, matches, hits,
+						i,
+						result = false;
+
+				// stack can't be longer than terms
+				if (stack.length > terms.length) {
+					stack.splice(0, stack.length - terms.length);
+					result = true;
+				}
+				
+				// skipping already processed search terms
+				skipper:
+				for (i = 1; i < terms.length; i++) {
+					if (i >= stack.length) {
+						// stack is shorter than terms, continuing below
+						result = true;
+						break skipper;
+					} else if (terms[i] !== tstack[i].term) {
+						// cutting stack at first non-matching term
+						stack.splice(0, stack.length - i);
+						result = true;
+						break skipper;
+					}
+				}
+				
+				for (; i < terms.length; i++) {
+					// taking next term
+					term = terms[i];
+					
+					// tags matching the entered string
+					tags = data.cache.multiget(['search'].concat(term.toLowerCase().split('')).concat(['', 'tag', 'tag']));
+					
+					// ids of media entries having one or more of the matched tags
+					matches = data.cache.multiget(['tag', tags, 'media', '*'], {mode: flock.keys});
+					
+					// intersection of tag matches and previous hits
+					hits = stack[0].data.cache.multiget(['media', matches], {mode: flock.both});
+	
+					// adding search hits to stack
+					stack.unshift({
+						term: term,
+						data: {
+							cache: flock({
+								media: hits
+							}),
+							table: jOrder(jOrder.values(hits))
+								.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string})
+						}
+					});
+				}
+				
+				return result;
+			},
+			
 			// retrieves a reference to the data associated with a media entry
 			getRow: function (mediaid) {
 				return data.cache.get(['media', mediaid]) || {};
@@ -207,22 +294,25 @@ app.data = function (data, jOrder, flock, services) {
 			
 			// retrieves one page from the table
 			getPage: function (page, items) {
-				return self.table ? 
-					self.table.orderby(['lfile'], jOrder.asc, {offset: page * items, limit: items, renumber: true}) :
+				var table = stack[0].data.table;
+				return table ? 
+					table.orderby(['lfile'], jOrder.asc, {offset: page * items, limit: items, renumber: true}) :
 					[];
 			},
 			
 			// returns first row of page
 			getFirst: function (page, items) {
-				return self.table ?
-					self.table.orderby(['lfile'], jOrder.asc, {offset: page * items, limit: 1, renumber: true}) :
+				var table = stack[0].data.table;
+				return table ?
+					table.orderby(['lfile'], jOrder.asc, {offset: page * items, limit: 1, renumber: true}) :
 					[{}];
 			},
 			
 			// returns total number of pages in dataset
 			getPages: function (items) {
-				return self.table ? 
-					Math.ceil(self.table.count() / items) :
+				var table = stack[0].data.table;
+				return table ? 
+					Math.ceil(table.count() / items) :
 					0;
 			},
 			
