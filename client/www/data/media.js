@@ -155,18 +155,25 @@ app.data = function (data, jOrder, flock, services) {
 					}
 				}
 				
+				// processing terms that differ from what's already on the stack
 				for (; i < terms.length; i++) {
 					// taking next term
 					term = terms[i];
 					
-					// tags matching the entered string
+					// acquiring tags matching the entered string
 					tags = data.cache.multiget(['search'].concat(term.toLowerCase().split('')).concat(['', 'tag', 'tag']));
 					
-					// ids of media entries having one or more of the matched tags
-					matches = data.cache.multiget(['tag', tags, 'media', '*'], {mode: flock.keys});
-					
-					// intersection of tag matches and previous hits
-					hits = stack[0].data.cache.multiget(['media', matches], {mode: flock.both});
+					// acquiring search hits
+					if (stack.length === 1) {
+						// performing direct query on first search term
+						hits = data.cache.multiget(['tag', tags, 'media', '*'], {mode: flock.both});
+					} else {
+						// performing two-stage query on subsequent terms
+						// first, taking _all_ media ids where tags match, then
+						// matching them against previous search results
+						matches = data.cache.multiget(['tag', tags, 'media', '*'], {mode: flock.keys});
+						hits = stack[0].data.cache.multiget(['media', matches], {mode: flock.both});
+					}
 	
 					// adding search hits to stack
 					stack.unshift({
