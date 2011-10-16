@@ -43,8 +43,15 @@ fetch = function (filePath, res, debug) {
 			case '.css':
 				res.writeHead(200, {"Content-Type": "text/css"});
 				break;
+			case '.jpg':
+			case '.jpeg':
+				res.writeHead(200, {"Content-Type": "image/jpeg"});
+				break;
 			case '.png':
 				res.writeHead(200, {"Content-Type": "image/png"});
+				break;
+			case '.gif':
+				res.writeHead(200, {"Content-Type": "image/gif"});
 				break;
 			case '.sqlite':
 				res.writeHead(200, {
