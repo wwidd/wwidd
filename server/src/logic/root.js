@@ -55,16 +55,28 @@ root = function (path) {
 							}
 							return;
 						}
-						
-						var result = {};
-						result[rootid] = metadata;
-						
-						// filling library with pure names (auto tags)
-						// when this is done, the HTTP response ends: the rest is async
-						library.fill(result, {keywords: false}, function () {
-							if (handler) {
-								handler(metadata);
+
+						// acquiring existing media entries
+						library.getPaths(rootid, function (data) {
+							var result,
+									i;
+							
+							// filtering out existing media ids from metadata
+							for (i = 0; i < data.length; i++) {
+								delete metadata[data[i].path];
 							}
+							
+							// initializing input for library.fill()
+							result = {};
+							result[rootid] = metadata;
+							
+							// filling library with pure names (auto tags)
+							// when this is done, the HTTP response ends: the rest is async
+							library.fill(result, {keywords: false}, function () {
+								if (handler) {
+									handler(metadata);
+								}
+							});
 						});
 					});
 				});
