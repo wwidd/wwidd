@@ -3,10 +3,10 @@
 //
 // Lets the user control what kind of tags are visible
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, flock */
 var app = app || {};
 
-app.controls = function (controls, $, data) {
+app.controls = function (controls, $, flock, data) {
 	var KIND_PREFIX = 'k';
 	
 	controls.kinds = function () {
@@ -74,13 +74,12 @@ app.controls = function (controls, $, data) {
 		// Overrides
 
 		self.build = function () {
-			var lookup = data.cache.get('kind'),
-					kind;
+			var kinds = data.cache.multiget(['kind', '*'], {mode: flock.keys}).sort(),
+					i, kind;
 			self.clear();
-			for (kind in lookup) {
-				if (lookup.hasOwnProperty(kind)) {
-					controls.kind(kind, handler).appendTo(self);
-				}
+			for (i = 0; i < kinds.length; i++) {
+				kind = kinds[i];
+				controls.kind(kind, handler).appendTo(self);
 			}
 			return self;
 		};
@@ -101,5 +100,6 @@ app.controls = function (controls, $, data) {
 	return controls;
 }(app.controls || {},
 	jQuery,
+	flock,
 	app.data);
 
