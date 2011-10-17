@@ -9,6 +9,18 @@ var	$path = require('path'),
 
 library = function () {
 	var self = {
+		// queries all media ids under a root
+		getPaths: function (rootid, handler) {
+			var statement = [
+				"SELECT path",
+				"FROM media",
+				"WHERE rootid =", rootid
+			].join(" ");
+			
+			console.log(statement);
+			db.query(statement, handler);
+		},
+		
 		// queries the entire library
 		getMedia: function (filter, handler) {
 			var statement = [
