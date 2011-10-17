@@ -92,7 +92,7 @@ entity = {
 		var pair = split(after),
 
 		statement = [
-			"INSERT OR REPLACE INTO",
+			"INSERT OR IGNORE INTO",
 			this.kind,
 			["(", pair.keys.join(","), ")"].join(""),
 			"VALUES",
