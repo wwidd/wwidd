@@ -1,18 +1,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 // URL
+//
+// Gets or sets browser URL according to search terms
 ////////////////////////////////////////////////////////////////////////////////
 /*global window */
 var app = app || {};
 
 app.controls = (function (controls) {
+	// sets ajax URL in browser
 	function refresh(values) {
 		window.location.hash = '#!/' + values.join('/') + '/';
 	}
-		
+	
 	controls.url = {
 		get: function () {
 			// obtaining URL hash values
-			var tmp = window.location.hash.split('/'),
+			var tmp = decodeURI(window.location.hash).split('/'),
 					library = '',		// placeholder for library name
 					filter = tmp[2] || '',
 					page = parseInt(tmp[3], 10) || 1;
