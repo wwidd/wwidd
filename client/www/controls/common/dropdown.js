@@ -11,7 +11,8 @@ app.controls = function (controls, $) {
 	onClick;
 	
 	controls.dropdown = function (caption, popup) {
-		var self = controls.control.create(controls.button(caption));
+		var self = controls.control.create(controls.button(caption)),
+				expanded = false;
 		
 		//////////////////////////////
 		// Initialization
@@ -31,11 +32,22 @@ app.controls = function (controls, $) {
 			return self;
 		};
 
+		self.expanded = function (value) {
+			if (typeof value !== 'undefined') {
+				expanded = value;
+				return self;				
+			} else {
+				return expanded;
+			}
+		};
+
 		//////////////////////////////
 		// Control
 		
 		self.collapse = function () {
+			expanded = false;
 			popup.render(null);
+			self.render();
 			return self;
 		};
 		
@@ -44,6 +56,11 @@ app.controls = function (controls, $) {
 
 		self.init = function (elem) {
 			elem.addClass('w_dropdown');
+			if (expanded) {
+				elem.addClass('open');
+			} else {
+				elem.removeClass('open');
+			}
 		};
 		
 		self.contents = function () {
@@ -65,14 +82,17 @@ app.controls = function (controls, $) {
 				pos, height;
 		
 		// checking if popup is already up
-		if ($('#' + popup.id).length) {
-			$this.removeClass('open');
-			self.collapse();
+		if (self.expanded()) {
+			self
+				.expanded(false)
+				.collapse();
 		} else {
-			$this.addClass('open');
 			// initializing and displaying popup
 			pos = $this.offset();
 			height = $this.outerHeight(true);
+			self
+				.expanded(true)
+				.render();
 			popup
 				.build()
 				.position({
