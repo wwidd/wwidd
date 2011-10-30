@@ -12,11 +12,13 @@ span.w_button {
 	background: #e0e0e0 -webkit-gradient(linear, left bottom, left top, from(#E0E0E0), to(#F3F3F3));
 	border: 1px solid #808080;
 	border-radius: 2px; -moz-border-radius: 2px;
+	overflow: hidden;
 }
 
 span.w_button span.caption {
 	vertical-align: middle;
 	line-height: 18px;
+	white-space: nowrap;
 }
 
 span.w_button[disabled="disabled"] {
