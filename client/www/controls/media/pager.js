@@ -10,6 +10,7 @@ app.controls = function (controls, $, data) {
 	controls.pager = function () {
 		var self = controls.control.create(),
 				pages = controls.dropdown(),
+				pagesel = controls.select(),
 				page = 0,
 				items = 20,
 				max = 0;
@@ -35,6 +36,7 @@ app.controls = function (controls, $, data) {
 
 		self.reset = function () {
 			page = 0;
+			pagesel.selected(page);
 			return self;
 		};
 		
@@ -54,7 +56,7 @@ app.controls = function (controls, $, data) {
 				.build()
 				.render();
 			self.render();
-			controls.pagesel
+			pagesel
 				.selected(page)
 				.render();
 			controls.url.set();
@@ -105,7 +107,7 @@ app.controls = function (controls, $, data) {
 		// Overrides
 
 		self.build = function () {
-			controls.pagesel
+			pagesel
 				.onChange(function (i) {
 					// collapsing dropdown
 					pages
@@ -120,7 +122,7 @@ app.controls = function (controls, $, data) {
 				.appendTo(self);
 				
 			pages
-				.popup(controls.pagesel)
+				.popup(pagesel)
 				.appendTo(self);
 				
 			return self;
@@ -135,16 +137,18 @@ app.controls = function (controls, $, data) {
 		};
 		
 		self.html = function () {
-			controls.pagesel
-				.options(getOptions());
+			// re-rendering the select dropdown
+			pagesel
+				.options(getOptions())
+				.render();
 			
 			// returning empty control on no data
-			if (controls.pagesel.options().length <= 1) {
+			if (pagesel.options().length <= 1) {
 				return '<span id="' + self.id + '"></span>';
 			}
 
 			pages
-				.caption(controls.pagesel.options()[page]);
+				.caption(pagesel.options()[page]);
 			
 			// re-setting page in case pager is out of bounds
 			if (page > max) {
