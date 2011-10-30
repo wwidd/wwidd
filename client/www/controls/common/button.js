@@ -39,7 +39,7 @@ app.controls = function (controls, $) {
 				'<span id="', self.id, '" class="w_button" ', self.disabled() ? 'disabled="disabled"' : '', '>',
 				this.contents ?
 					this.contents() :
-					'<span class="caption">' + caption || '' + '</span>',
+					'<span class="caption">' + (caption || '') + '</span>',
 				'</span>'
 			].join('');
 		};
