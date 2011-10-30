@@ -9,6 +9,7 @@ var app = app || {};
 app.controls = function (controls, $, data) {
 	controls.pager = function () {
 		var self = controls.control.create(),
+				pages = controls.dropdown(),
 				page = 0,
 				items = 20,
 				max = 0;
@@ -37,11 +38,25 @@ app.controls = function (controls, $, data) {
 			return self;
 		};
 		
+		function getOptions() {
+			var result = [],
+					row, i;
+			max = data.media.getPages(items);
+			for (i = 0; i < max; i++) {
+				row = data.media.getFirst(i, items)[0];
+				result.push((i + 1) + " - " + row.file.substr(0, 8) + "...");
+			}
+			return result;
+		}
+		
 		function refresh() {
 			controls.media
 				.build()
 				.render();
 			self.render();
+			controls.pagesel
+				.selected(page)
+				.render();
 			controls.url.set();
 			return false;
 		}
@@ -49,10 +64,6 @@ app.controls = function (controls, $, data) {
 		//////////////////////////////
 		// Event handlers
 
-		function onChange() {
-			page = $(this).val();
-			refresh();
-		}
 		function onFirst() {
 			if (page === 0) {
 				return false;
@@ -93,46 +104,58 @@ app.controls = function (controls, $, data) {
 		//////////////////////////////
 		// Overrides
 
+		self.build = function () {
+			controls.pagesel
+				.onChange(function (i) {
+					// collapsing dropdown
+					pages
+						.collapse()
+						.render();
+						
+					// adjusting page number
+					page = i;
+					refresh();
+				})
+				.selected(page)
+				.appendTo(self);
+				
+			pages
+				.popup(controls.pagesel)
+				.appendTo(self);
+				
+			return self;
+		};
+				
 		self.init = function (elem) {
 			elem
 				.find('a.first').click(onFirst).end()
 				.find('a.prev').click(onPrev).end()
 				.find('a.next').click(onNext).end()
-				.find('a.last').click(onLast).end()
-				.find('select').change(onChange).end();
+				.find('a.last').click(onLast).end();
 		};
 		
 		self.html = function () {
-			max = data.media.getPages(items);
-
+			controls.pagesel
+				.options(getOptions());
+			
 			// returning empty control on no data
-			if (max <= 1) {
+			if (controls.pagesel.options().length <= 1) {
 				return '<span id="' + self.id + '"></span>';
 			}
+
+			pages
+				.caption(controls.pagesel.options()[page]);
 			
 			// re-setting page in case pager is out of bounds
 			if (page > max) {
 				page = 0;
 			}
 
-			var options = [],
-					j, row;
-	
-			// adding options
-			for (j = 0; j < max; j++) {
-				row = data.media.getFirst(j, items)[0];
-				options.push([
-					'<option value="', j, '"', j === parseInt(page, 10) ? ' selected="selected"' : '', '>',
-					(j + 1) + " - " + row.file.substr(0, 5) + "...",
-					'</option>'
-				].join(''));
-			}
-
 			return [
 				'<span class="pager" id="' + self.id + '">',
 				'<a class="first" href="#" title="First"></a>',
 				'<a class="prev" href="#" title="Previous"></a>',
-				'<select>', options.join(''), '</select>',
+				pages.html(),
 				'<a class="next" href="#" title="Next"></a>',
 				'<a class="last" href="#" title="Last"></a>',
 				'</span>'

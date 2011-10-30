@@ -42,3 +42,36 @@ span.pager > a.last {
 	background: url('/image/sprites.png') no-repeat -60px -40px;
 }
 
+/******************************
+DROPDOWN
+******************************/
+
+span.pager > span.w_dropdown {
+	width: 80px;
+}
+
+ul.w_pagesel {
+	width: 120px;
+	max-height: 200px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-y: hidden;
+	overflow-y: auto;
+}
+
+ul.w_pagesel > li {
+	padding: 4px;
+	cursor: default;
+	color: #003E55;
+}
+
+ul.w_pagesel > li:hover {
+	background: #E0E0E0;
+}
+
+ul.w_pagesel > li.selected {
+	color: white;
+	background: #003E55;
+}
+

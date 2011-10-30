@@ -14,6 +14,7 @@ app.controls = (function (controls, $, data) {
 		self.init = function () {
 			// initializing pager control
 			controls.pager
+				.build()
 				.render($('#pager').empty());
 			
 			// adding search box to page
