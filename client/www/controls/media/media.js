@@ -116,9 +116,9 @@ app.controls = (function (controls, $, data, services) {
 			// loading video data
 			data.media.init(function () {
 				// setting active library in page title
-				$document.attr('title', title + ' - ' + controls.libsel.selected());
+				$document.attr('title', title + ' - ' + controls.library.name());
 				data.media.filter(controls.search.filter());
-				self.refresh();				
+				self.refresh();
 			});
 			return self;
 		};

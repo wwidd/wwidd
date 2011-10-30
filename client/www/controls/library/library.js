@@ -12,18 +12,28 @@ app.controls = function (controls, $, services) {
 	controls.library = function () {
 		var self = controls.control.create(),
 				libs = controls.dropdown(),
-				busy = false,
-				data = {names: []};
+				busy = false;
 		
-		controls.libsel.onChange(function (selected) {
+		controls.libsel.onChange(function (i) {
+			var selected = controls.libsel.options()[i];
+			
 			libs
 				.caption(selected)
 				.collapse()
 				.render();
+
+			return false;
 		});
 				
 		//////////////////////////////
 		// Getters, setters
+		
+		self.name = function (value) {
+			if (typeof value !== 'undefined') {
+			
+			}
+			return libs.caption();
+		};
 		
 		self.busy = function (value) {
 			busy = value;
@@ -64,8 +74,6 @@ app.controls = function (controls, $, services) {
 		};
 
 		self.html = function () {
-			var names = data.names,
-					i;
 			return [
 				'<span class="switcher" id="', self.id, '">',
 				'<span>Library:</span>',
