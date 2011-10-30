@@ -2,11 +2,18 @@
 GENERAL
 ******************************/
 
+span.w_button.w_dropdown {
+	position: relative;
+	padding-right: 18px;
+}
+
 span.w_button.w_dropdown span.indicator {
 	display: inline-block;
+	position: absolute;
+	top: 1px;
+	right: 2px;
 	width: 16px;
-	height: 18px;
-	margin: 0 0 0 3px;
+	height: 16px;
 	background: url('/image/sprites.png') no-repeat -20px -180px;
 }
 
