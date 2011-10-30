@@ -2,6 +2,10 @@
 // General Selector Popup Control
 //
 // Selector list part of a dropdown.
+// Behavior:
+// - There must be a .caption element inside each item.
+//	 That will intercept select events.
+// - Selected items don't trigger events.
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
 var app = app || {};
@@ -20,7 +24,7 @@ app.controls = function (controls, $, services) {
 				onChange = value;
 				return self;
 			} else {
-				return onChange;
+				return onChange || function () {};
 			}
 		};
 		
@@ -49,14 +53,15 @@ app.controls = function (controls, $, services) {
 		
 		self.contents = function () {
 			var i,
-					result = ['<ul class="w_select">'];			
+					result = ['<ul class="w_select">'];
+					
 			if (options) {
 				for (i = 0; i < options.length; i++) {
 					result.push([
 						'<li', i === selected ? ' class="selected"' : '', '>',
-						typeof self.item === 'function' ?
-							self.item(i, options[i]) :
-							options[i],
+						typeof this.item === 'function' ?
+							this.item(i, options[i], i === selected) :
+							'<span class="caption">' + options[i] + '</span>',
 						'</li>'
 					].join(''));
 				}
@@ -73,15 +78,16 @@ app.controls = function (controls, $, services) {
 
 	function onSelect(event) {
 		var $this = $(this),
-				i = $this.index(),
-				self = controls.lookup[$this.closest('.w_popup').attr('id')];
+				$item = $this.closest('li'),
+				i = $item.index(),
+				self = controls.lookup[$item.closest('.w_popup').attr('id')];
 
 		return self
 			.selected(i)
-			.onChange()(i) || false;
+			.onChange()(i, event);
 	}
 	
-	$('ul.w_select > li').live('click', onSelect);
+	$('ul.w_select > li:not(.selected) > .caption').live('click', onSelect);
 	
 	return controls;
 }(app.controls || {},
