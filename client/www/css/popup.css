@@ -122,7 +122,7 @@ div.popup > div.tree > ul.root {
 	overflow-y: scroll;
 }
 
-div.popup > button {
+div.popup > span.w_button {
 	margin: 5px;
 }
 

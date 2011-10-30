@@ -16,14 +16,14 @@ app.controls = function (controls, $, services) {
 			}
 		}
 		return false;
-	}				
+	}
 
 	// directory selection handler
 	function onSelect($node, node) {
-		var $dirsel = $node.closest('div.popup');
-		$dirsel
-			.find('button.ok')
-				.removeAttr('disabled');
+		var self = controls.lookup[$node.closest('div.popup').attr('id')];
+		self.btnOk()
+			.disabled({self: false})
+			.render();
 	}
 	
 	// directory expand / collapse handler
@@ -62,7 +62,8 @@ app.controls = function (controls, $, services) {
 		var self = controls.control.create(controls.popup('centered')),
 				base_init = self.init,
 				tree = controls.tree(onSelect, onExpandCollapse),
-				onCancel, onOk;
+				btnCancel = controls.button("Cancel"),
+				btnOk = controls.button("OK").disabled({self: true});
 		
 		// initial service call for root dirs
 		services.sys.dirlist(null, function (json) {
@@ -82,12 +83,16 @@ app.controls = function (controls, $, services) {
 		// Setters / getters
 
 		self.onCancel = function (value) {
-			onCancel = value;
+			btnCancel.onClick(value);
 			return self;
 		};
 		
+		self.btnOk = function () {
+			return btnOk;
+		};
+		
 		self.onOk = function (value) {
-			onOk = value;
+			btnOk.onClick(value);
 			return self;
 		};
 		
@@ -98,6 +103,12 @@ app.controls = function (controls, $, services) {
 		//////////////////////////////
 		// Overrides
 
+		self.build = function () {
+			btnOk.appendTo(self);
+			btnCancel.appendTo(self);
+			return self;
+		};
+		
 		self.init = function (elem) {
 			base_init.call(self, elem);
 			elem
@@ -106,13 +117,6 @@ app.controls = function (controls, $, services) {
 				.end()
 				.find('table.status')
 					.insertAfter(elem.find('ul.root'));
-			elem
-				.find('button.cancel')
-					.click(onCancel)
-				.end()
-				.find('button.ok')
-					.click(onOk)
-				.end();
 		};
 		
 		self.contents = function () {
@@ -120,8 +124,8 @@ app.controls = function (controls, $, services) {
 				'<div class="spinner"></div>',
 				'<span class="title">', "Add folder to library", '</span>',
 				tree.html(),
-				'<button type="button" class="ok" disabled="disabled">', "OK", '</button>',
-				'<button type="button" class="cancel">', "Cancel", '</button>'
+				btnOk.html(),
+				btnCancel.html()
 			].join('');
 		};
 		
