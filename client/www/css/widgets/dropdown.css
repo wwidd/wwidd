@@ -1,0 +1,16 @@
+/******************************
+GENERAL
+******************************/
+
+span.w_button.w_dropdown span.indicator {
+	display: inline-block;
+	width: 16px;
+	height: 18px;
+	margin: 0 0 0 3px;
+	background: url('/image/sprites.png') no-repeat -20px -180px;
+}
+
+span.w_button.w_dropdown.open span.indicator {
+	background: url('/image/sprites.png') no-repeat 0 -180px;
+}
+

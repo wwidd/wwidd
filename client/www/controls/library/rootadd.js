@@ -6,7 +6,7 @@ var app = app || {};
 
 app.controls = function (controls, $, services) {
 	controls.rootadd = function () {
-		var self = controls.control.create(),
+		var self = controls.control.create(controls.button("+")),
 				dirsel;
 
 		//////////////////////////////
@@ -57,20 +57,15 @@ app.controls = function (controls, $, services) {
 		self.init = function (elem) {
 			// setting state
 			if (self.disabled()) {
-				elem.find('button')
-					.prop('disabled', true);
+				self.onClick(null);
 			} else {
-				elem.find('button')
-					.prop('disabled', false)
-					.click(onAdd);
+				self.onClick(onAdd);
 			}
 		};
-		
-		self.html = function () {
+
+		self.contents = function () {
 			return [
-				'<span id="', self.id, '" class="button">',
-				'<button type="button" title="', "Add folder to library", '"><span>', "+", '</span></button>',
-				'</span>'
+				'<span class="caption" title="', "Add folder to library", '">', self.caption(), '</span>'
 			].join('');
 		};
 		

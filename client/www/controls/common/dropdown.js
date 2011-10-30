@@ -10,18 +10,22 @@ app.controls = function (controls, $) {
 	// static event handlers
 	onClick;
 	
-	controls.dropdown = function () {
-		var self = controls.control.create(),
-				popup = null,
-				caption = '';
-			
+	controls.dropdown = function (caption) {
+		var self = controls.control.create(controls.button(caption)),
+				popup = null;
+		
+		//////////////////////////////
+		// Initialization
+
+		self.onClick(function (event) {
+			if (popup) {
+				onClick.call(this, event, popup);
+			}
+			return false;
+		});
+
 		//////////////////////////////
 		// Getters / setters
-
-		self.caption = function (value) {
-			caption = value;
-			return self;
-		};
 
 		self.popup = function (value) {
 			popup = value;
@@ -35,28 +39,18 @@ app.controls = function (controls, $) {
 			popup.render(null);
 			return self;
 		};
-
+		
 		//////////////////////////////
 		// Overrides
 
 		self.init = function (elem) {
-			elem.find('button')
-				.click(function (event) {
-					if (popup) {
-						onClick.call(this, event, popup);
-					}
-					return false;
-				});
+			elem.addClass('w_dropdown');
 		};
 		
-		self.html = function () {
+		self.contents = function () {
 			return [
-				'<span id="', self.id, '" class="button dropdown">',
-				'<button type="button">',
-				'<span class="caption">', caption, '</span>',
-				'<span class="indicator"></span>',
-				'</button>',
-				'</span>'
+				'<span class="caption">', self.caption(), '</span>',
+				'<span class="indicator"></span>'
 			].join('');
 		};
 		
@@ -67,7 +61,7 @@ app.controls = function (controls, $) {
 	// Static event handlers
 	
 	onClick = function (event, popup) {
-		var $this = $(this).closest('span.dropdown'),
+		var $this = $(this).closest('.w_dropdown'),
 				self = controls.lookup[$this.attr('id')],
 				pos, height;
 		

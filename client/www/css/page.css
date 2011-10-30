@@ -83,8 +83,7 @@ CHECKER
 LIBRARY SWITCHER
 ******************************/
 
-#switcher > span > span,
-#switcher > span > select {
+#switcher > span.switcher > span {
 	margin: 0 5px 0 0;
 	vertical-align: middle;
 }
@@ -133,16 +132,6 @@ span.button > button > span {
 	line-height: 16px;
 	margin: 0;
 	padding: 0;
-}
-
-span.button.dropdown > button > span.indicator {
-	width: 16px;
-	margin: 0 0 0 3px;
-	background: url('/image/sprites.png') no-repeat -20px -180px;
-}
-
-span.button.dropdown.open > button > span.indicator {
-	background: url('/image/sprites.png') no-repeat 0 -180px;
 }
 
 /******************************
