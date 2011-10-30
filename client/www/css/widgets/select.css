@@ -13,6 +13,8 @@ ul.w_select {
 }
 
 ul.w_select > li {
+	position: relative;
+	height: 16px;
 	padding: 4px;
 	cursor: default;
 	color: #003E55;

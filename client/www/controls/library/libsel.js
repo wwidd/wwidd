@@ -77,20 +77,20 @@ app.controls = function (controls, $, services) {
 			
 			result = [
 				'<iframe class="download" style="display:none;"></iframe>',
-				'<div class="libs">'
+				'<ul class="libs w_select">'
 			];
 			
 			for (i = 0; i < options.length; i++) {
 				result.push([
-					'<div class="lib">',
+					'<li class="lib">',
 					options[i] === selected ?
 						'<span class="name">' + options[i] + '</span>' :					
 						'<a href="#!" class="name">' + options[i] + '</a>',
 					'<a href="#!" class="save" title="' + "Download" + '"></a>',
-					'</div>'
+					'</li>'
 				].join(''));
 			}
-			result.push('</div>');
+			result.push('</ul>');
 			return result.join('');
 		};
 
@@ -145,7 +145,7 @@ app.controls = function (controls, $, services) {
 		return false;
 	}
 	
-	var context = $('div.lib');
+	var context = $('li.lib');
 	$('a.name', context).live('click', onSelect);
 	$('a.save', context).live('click', onSave);
 	

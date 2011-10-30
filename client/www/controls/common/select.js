@@ -76,11 +76,9 @@ app.controls = function (controls, $, services) {
 				i = $this.index(),
 				self = controls.lookup[$this.closest('.w_popup').attr('id')];
 
-		self
+		return self
 			.selected(i)
-			.onChange()(i);
-				
-		return false;
+			.onChange()(i) || false;
 	}
 	
 	$('ul.w_select > li').live('click', onSelect);

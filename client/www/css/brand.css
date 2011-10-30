@@ -70,7 +70,7 @@ div.w_popup > div.spinner {
 LIB SELECTOR POPUP
 ******************************/
 
-div.w_popup > div.libs > div.lib:hover {
+div.w_popup > ul.libs > li.lib:hover {
 	background: #e0e0e0;
 }
 

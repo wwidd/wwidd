@@ -53,20 +53,18 @@ div.w_popup > div.kinds span.tag.display > input {
 LIBRARY SELECTOR POPUP
 ******************************/
 
-div.w_popup > div.libs {
+div.w_popup > ul.libs {
 	min-width: 100px;
 	max-height: 200px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 
-div.w_popup > div.libs > div.lib {
-	position: relative;
-	height: 16px;
-	padding: 4px 48px 4px 4px;
+div.w_popup > ul.libs > li.lib {
+	padding-right: 48px;
 }
 
-div.w_popup > div.libs a {
+div.w_popup > ul.libs a {
 	display: inline-block; *zoom: 1;
 	height: 16px;
 	white-space: nowrap;
@@ -74,23 +72,22 @@ div.w_popup > div.libs a {
 	vertical-align: middle;
 }
 
-div.w_popup > div.libs a.save {
-	display: none;
+div.w_popup > ul.libs a.save {
 	position: absolute;
 	top: 4px;
 	width: 16px;
 }
 
-div.w_popup > div.libs > div.lib:hover a.save {
+div.w_popup > ul.libs > div.lib:hover a.save {
 	display: inline-block; *zoom: 1;
 }
 
-div.w_popup > div.libs a.save {
+div.w_popup > ul.libs a.save {
 	right: 4px;
 	background: url('/image/sprites.png') no-repeat -40px -140px;
 }
 
-div.w_popup > div.libs span {
+div.w_popup > ul.libs span {
 	color: grey;
 }
 
