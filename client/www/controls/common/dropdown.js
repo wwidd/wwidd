@@ -10,9 +10,8 @@ app.controls = function (controls, $) {
 	// static event handlers
 	onClick;
 	
-	controls.dropdown = function (caption) {
-		var self = controls.control.create(controls.button(caption)),
-				popup = null;
+	controls.dropdown = function (caption, popup) {
+		var self = controls.control.create(controls.button(caption));
 		
 		//////////////////////////////
 		// Initialization
