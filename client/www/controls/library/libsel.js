@@ -140,7 +140,7 @@ app.controls = function (controls, $, services) {
 				name = tmp.name;
 		
 		// saving library
-		services.lib.save(name, $this.closest('.popup').find('iframe.download'));
+		services.lib.save(name, $this.closest('.w_popup').find('iframe.download'));
 		
 		return false;
 	}

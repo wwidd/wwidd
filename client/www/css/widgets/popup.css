@@ -2,7 +2,7 @@
 GENERAL POPUP
 ******************************/
 
-div.popup {
+div.w_popup {
 	position: absolute;
 	z-index: 100;
 	margin: 5px;
@@ -18,7 +18,7 @@ div.popup {
 CENTERED POPUP
 ******************************/
 
-div.popup.centered {
+div.w_popup.centered {
 	position: fixed;
 	width: 300px;
 	box-shadow: 0 0 10px #444; -moz-box-shadow: 0 0 10px #444;
@@ -28,7 +28,7 @@ div.popup.centered {
 DROPDOWN POPUP
 ******************************/
 
-div.popup.dropdown {
+div.w_popup.dropdown {
 	margin: 0;
 	border-width: 1px;
 	border-radius: 2px; -moz-border-radius: 2px;
@@ -39,13 +39,13 @@ div.popup.dropdown {
 KINDS (CATEGORIES) POPUP
 ******************************/
 
-div.popup > div.kinds {
+div.w_popup > div.kinds {
 	width: 200px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
 
-div.popup > div.kinds span.tag.display > input {
+div.w_popup > div.kinds span.tag.display > input {
 	margin: 0 3px 0 0;
 }
 
@@ -53,20 +53,20 @@ div.popup > div.kinds span.tag.display > input {
 LIBRARY SELECTOR POPUP
 ******************************/
 
-div.popup > div.libs {
+div.w_popup > div.libs {
 	min-width: 100px;
 	max-height: 200px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 
-div.popup > div.libs > div.lib {
+div.w_popup > div.libs > div.lib {
 	position: relative;
 	height: 16px;
 	padding: 4px 48px 4px 4px;
 }
 
-div.popup > div.libs a {
+div.w_popup > div.libs a {
 	display: inline-block; *zoom: 1;
 	height: 16px;
 	white-space: nowrap;
@@ -74,23 +74,23 @@ div.popup > div.libs a {
 	vertical-align: middle;
 }
 
-div.popup > div.libs a.save {
+div.w_popup > div.libs a.save {
 	display: none;
 	position: absolute;
 	top: 4px;
 	width: 16px;
 }
 
-div.popup > div.libs > div.lib:hover a.save {
+div.w_popup > div.libs > div.lib:hover a.save {
 	display: inline-block; *zoom: 1;
 }
 
-div.popup > div.libs a.save {
+div.w_popup > div.libs a.save {
 	right: 4px;
 	background: url('/image/sprites.png') no-repeat -40px -140px;
 }
 
-div.popup > div.libs span {
+div.w_popup > div.libs span {
 	color: grey;
 }
 
@@ -98,7 +98,7 @@ div.popup > div.libs span {
 DIRECTORY SELECTOR POPUP
 ******************************/
 
-div.popup > div.spinner {
+div.w_popup > div.spinner {
 	position: absolute;
 	top: 3px;
 	right: 3px;
@@ -106,23 +106,23 @@ div.popup > div.spinner {
 	height: 16px;
 }
 
-div.popup > span.title {
+div.w_popup > span.title {
 	font-size: 14px;
 	font-weight: bold;
 }
 
-div.popup > table.status {
+div.w_popup > table.status {
 	margin: 5px 0 0;
 }
 
-div.popup > div.tree > ul.root {
+div.w_popup > div.tree > ul.root {
 	height: 200px;
 	margin: 5px 0;
 	background: white;
 	overflow-y: scroll;
 }
 
-div.popup > span.w_button {
+div.w_popup > span.w_button {
 	margin: 5px;
 }
 

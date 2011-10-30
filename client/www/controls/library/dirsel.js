@@ -20,7 +20,7 @@ app.controls = function (controls, $, services) {
 
 	// directory selection handler
 	function onSelect($node, node) {
-		var self = controls.lookup[$node.closest('div.popup').attr('id')];
+		var self = controls.lookup[$node.closest('.w_popup').attr('id')];
 		self.btnOk()
 			.disabled({self: false})
 			.render();
@@ -36,8 +36,8 @@ app.controls = function (controls, $, services) {
 		// acquiring sub-nodes when expanding an empty node
 		if (expanded && empty) {
 			$spinner = $node
-				.closest('div.popup')
-					.find('div.spinner')
+				.closest('.w_popup')
+					.find('.spinner')
 						.show();
 			services.sys.dirlist(node.path().join('/'), function (json) {
 				$spinner.hide();

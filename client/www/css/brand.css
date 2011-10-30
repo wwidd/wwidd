@@ -53,16 +53,16 @@ CONTROLS
 GENERAL POPUP
 ******************************/
 
-div.popup {
+div.w_popup {
 	border-color: #616c71;
 	background: #f3f3f3;
 }
 
-div.popup > div.tree li > span.name {
+div.w_popup > div.tree li > span.name {
 	color: #444;
 }
 
-div.popup > div.spinner {
+div.w_popup > div.spinner {
 	background: url('/image/wwidd_spinners.gif') no-repeat -60px 0;
 }
 
@@ -70,7 +70,7 @@ div.popup > div.spinner {
 LIB SELECTOR POPUP
 ******************************/
 
-div.popup > div.libs > div.lib:hover {
+div.w_popup > div.libs > div.lib:hover {
 	background: #e0e0e0;
 }
 

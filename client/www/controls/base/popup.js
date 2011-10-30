@@ -109,7 +109,7 @@ app.controls = function (controls, $) {
 
 		self.html = function () {
 			return [
-				'<div id="', self.id, '" class="', ['popup', TYPES[type] || 'follow'].join(' '), '">',
+				'<div id="', self.id, '" class="', ['w_popup', TYPES[type] || 'follow'].join(' '), '">',
 				this.contents(),
 				'</div>'
 			].join('');
