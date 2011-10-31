@@ -56,7 +56,7 @@ app.controls = function (controls, $) {
 				onClick = self.onClick();
 
 		// calling handler
-		if (onClick) {
+		if (onClick && !self.disabled()) {
 			return onClick.call(this);
 		}
 	});
