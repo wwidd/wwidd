@@ -70,13 +70,14 @@ CONTROLS
 CHECKER
 ******************************/
 
-#checker {
-	line-height: 24px;
+#checker .w_checker > input {
+	height: 14px;
+	margin: 4px 0;
+	padding: 0;
 }
 
-#checker a {
-	margin: 0 10px 0 0;
-	text-decoration: none;
+#checker .w_checker > input.mixed {
+	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
 }
 
 /******************************

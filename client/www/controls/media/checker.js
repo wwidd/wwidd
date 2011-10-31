@@ -6,29 +6,46 @@ var app = app || {};
 
 app.controls = function (controls, $) {
 	controls.checker = function () {
-		var self = controls.control.create();
+		var self = controls.control.create(controls.button()),
+				state = 'none';	// checked, mixed, none
 				
 		//////////////////////////////
 		// Overrides
 
+		function onClick(event) {
+			var $this = $(this),
+					checked = $this.is(':checked') && state !== 'mixed';
+					
+			if (checked) {
+				controls.media.selectAll();
+			} else {
+				controls.media.selectNone();
+			}
+			
+			self.render();
+		}
+		
 		self.init = function (elem) {
 			elem
-				.find('.all').click(function () {
-					controls.media.selectAll();
-					return false;
-				}).end()
-				.find('.none').click(function () {
-					controls.media.selectNone();
-					return false;
-				}).end();
+				.addClass('w_checker')
+				.find('input').click(onClick).end();
 		};
 
-		self.html = function () {
+		self.contents = function () {
+			var $media = $('#' + controls.media.id + ' .medium'),
+					count = $media.find(':checked').length;
+					
+			// determining control state
+			if (count === $media.length && count > 0) {
+				state = 'checked';
+			} else if (count === 0) {
+				state = 'none';
+			} else {
+				state = 'mixed';
+			}
+			
 			return [
-				'<span id="', self.id, '">',
-				'<a href="#" class="all">', "Select All", '</a>',
-				'<a href="#" class="none">', "Select None", '</a>',
-				'</span>'
+				'<input type="checkbox" ', state !== 'none' ? 'checked="checked"' : '', ' class="', state, '"/>'
 			].join('');
 		};
 		

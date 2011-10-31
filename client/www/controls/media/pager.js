@@ -60,6 +60,8 @@ app.controls = function (controls, $, data) {
 				.selected(page)
 				.render();
 			controls.url.set();
+			controls.checker
+				.render();
 			return false;
 		}
 		

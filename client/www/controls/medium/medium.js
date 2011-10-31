@@ -243,13 +243,18 @@ app.controls = function (controls, $, services, data) {
 	
 	onChecked = function () {
 		var $this = $(this),
-				media = $this.closest('.medium'),
-				self = controls.lookup[media.attr('id')];
+				$medium = $this.closest('.medium'),
+				self = controls.lookup[$medium.attr('id')];
+		
+		// registering (un)checked item
 		if ($this.is(':checked')) {
 			controls.media.selected[self.data.mediaid] = true;
 		} else {
 			delete controls.media.selected[self.data.mediaid];
 		}
+
+		// refreshing main checker control
+		controls.checker.render();
 	};
 	
 	onResize = function (elem) {
