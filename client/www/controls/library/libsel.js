@@ -10,14 +10,13 @@ app.controls = function (controls, $, flock, services) {
 	controls.libsel = function () {
 		var	self = controls.control.create(controls.select()),
 				base_contents = self.contents,
-				base_onChange = self.onChange,
 				base_init = self.init,
 				onChange;
 		
 		//////////////////////////////
 		// Initialization
 
-		base_onChange(function (i) {
+		self.onChange(function (i) {
 			var selected = self.options()[i];
 			
 			services.lib.select(selected, function () {
@@ -29,8 +28,11 @@ app.controls = function (controls, $, flock, services) {
 				// loading new library contents
 				controls.media.load();
 				
-				// calling custom handler
-				self.onChange()(i);
+				// setting caption
+				controls.library.dropdown()
+					.caption(selected)
+					.collapse()
+					.render();
 			});
 		});
 		
@@ -59,8 +61,13 @@ app.controls = function (controls, $, flock, services) {
 			// initializing list
 			self
 				.options(options)
-				.selected(selected)
-				.onChange()(selected);			
+				.selected(selected);
+				
+			// setting caption
+			controls.library.dropdown()
+				.caption(self.options()[selected])
+				.collapse()
+				.render();
 		});
 
 		//////////////////////////////
