@@ -83,6 +83,7 @@ app.controls = function (controls, $) {
 		
 		// checking if popup is already up
 		if (self.expanded()) {
+			// hiding popup
 			self
 				.expanded(false)
 				.collapse();
@@ -90,15 +91,16 @@ app.controls = function (controls, $) {
 			// initializing and displaying popup
 			pos = $this.offset();
 			height = $this.outerHeight(true);
-			self
+			
+			// re-rendering UI
+			$this = self
 				.expanded(true)
 				.render();
+			
+			// showing popup
 			popup
+				.anchor($this)
 				.build()
-				.position({
-					pageX: pos.left,
-					pageY: pos.top + height
-				})
 				.render($('body'));
 		}
 	};

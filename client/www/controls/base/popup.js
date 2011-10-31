@@ -8,7 +8,7 @@ app.controls = function (controls, $) {
 	var TYPES = {
 		'centered': 'centered',		// always centered, like a modal dialog
 		'context': 'context',			// positions near mouse mask, stays there
-		'dropdown': 'dropdown',		// same ad context but doesn't bind 'click outside'
+		'dropdown': 'dropdown',		// same as context but doesn't bind 'click outside'
 		'follow': 'follow'				// follows mouse mask
 	};
 	
@@ -16,12 +16,15 @@ app.controls = function (controls, $) {
 		type = type || 'context';
 		
 		var self = controls.control.create(),
-				$window = $(window),
-				position = {};
+				$window = $(window),		// frequently used window object
+				anchor;									// position anchor object for dropdown
 			
-		// sets static mouse position
-		self.position = function (value) {
-			position = value;
+		//////////////////////////////
+		// Getters, setters
+
+		// sets anchor jQuery elem for dropdown popup
+		self.anchor = function (value) {
+			anchor = value;
 			return this;
 		};
 		
@@ -31,20 +34,38 @@ app.controls = function (controls, $) {
 		// mouse move event handler
 		// - dims: dimensions of elem(Height / Width) and window(Height / Width)
 		function onMouseMove(event, elem, dims) {
-			// we need the top left of the mouse cursor
-			var pageX = (event ? event : position).pageX - 8,
-					pageY = (event ? event : position).pageY - 8;
-			elem.css({
-				top: dims.windowHeight > pageY + dims.elemHeight ? pageY : pageY - dims.elemHeight,
-				left: dims.windowWidth > pageX + dims.elemWidth ? pageX : pageX - dims.elemWidth
-			});
+			var offset, pos,
+					pageX, pageY;
+			
+			// obtaining element position
+			if (!event && typeof anchor !== 'undefined') {
+				offset = anchor.offset();
+				pos = {
+					pageX: offset.left,
+					pageY: offset.top + anchor.outerHeight(true)
+				};
+			} else {
+				pos = event;
+			}
+			
+			if (pos) {
+				// we need the top left of the mouse cursor
+				pageX = pos.pageX - 8;
+				pageY = pos.pageY - 8;
+				
+				elem.css({
+					top: dims.windowHeight > pageY + dims.elemHeight ? pageY : pageY - dims.elemHeight,
+					left: dims.windowWidth > pageX + dims.elemWidth ? pageX : pageX - dims.elemWidth
+				});
+			}
 		}
 		
+		// resize handler for centered popup
 		function onResize(elem) {
 			var $window = $(window);
 			elem.css({top: ($window.height() - elem.height()) / 2, left: ($window.width() - elem.width()) / 2});
 		}
-		
+
 		//////////////////////////////
 		// Overrides
 
@@ -95,7 +116,10 @@ app.controls = function (controls, $) {
 			case 'dropdown':
 				dims = getDims(elem);
 				onMouseMove(null, elem, dims);
-				break;				
+				$(window).bind('resize', function (event) {
+					onMouseMove(null, elem, dims);
+				});
+				break;
 			default:
 			case 'context':
 				dims = getDims(elem);
