@@ -8,6 +8,7 @@ span.w_button {
 	margin: 0;
 	padding: 0 5px;
 	cursor: pointer;
+	color: #444;
 	background-color: #e0e0e0;
 	background-image: -moz-linear-gradient(bottom, #E0E0E0, #F3F3F3);
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#E0E0E0), to(#F3F3F3));
