@@ -29,6 +29,17 @@ app.controls = function (controls, $) {
 			elem
 				.addClass('w_checker')
 				.find('input').click(onClick).end();
+			
+			// collapsing actions dropdown when nothing is selected
+			if (state === 'none') {
+				controls.actions
+					.collapse();
+			}
+			
+			// controlling actions dropdown state
+			controls.actions
+				.disabled({checker: state === 'none'})
+				.render();
 		};
 
 		self.contents = function () {
