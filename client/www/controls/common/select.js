@@ -1,11 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
-// General Selector Popup Control
+// General Selector Popup Widget
 //
 // Selector list part of a dropdown.
 // Behavior:
 // - There must be a .caption element inside each item.
 //	 That will intercept select events.
 // - Selected items don't trigger events.
+// - Widget can be stateful or stateless. When stateful, it
+//	 preserves information about the selected item.
 ////////////////////////////////////////////////////////////////////////////////
 /*global jQuery */
 var app = app || {};
@@ -13,12 +15,18 @@ var app = app || {};
 app.controls = function (controls, $, services) {
 	controls.select = function (options) {
 		var	self = controls.control.create(controls.popup('dropdown')),
-				selected = 0,		// selected index
-				onChange;				// custom event
+				stateful = true,	// whether widget remembers last selected item
+				selected = 0,			// selected index
+				onChange;					// custom event
 		
 		//////////////////////////////
 		// Getters, setters
 
+		self.stateful = function (value) {
+			stateful = value;
+			return self;
+		};
+		
 		self.onChange = function (value) {
 			if (typeof value !== 'undefined') {
 				onChange = value;
@@ -58,9 +66,9 @@ app.controls = function (controls, $, services) {
 			if (options) {
 				for (i = 0; i < options.length; i++) {
 					result.push([
-						'<li', i === selected ? ' class="selected"' : '', '>',
+						'<li', stateful && i === selected ? ' class="selected"' : '', '>',
 						typeof this.item === 'function' ?
-							this.item(i, options[i], i === selected) :
+							this.item(i, options[i], stateful && i === selected) :
 							'<span class="caption">' + options[i] + '</span>',
 						'</li>'
 					].join(''));
