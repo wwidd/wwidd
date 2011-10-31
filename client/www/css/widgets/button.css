@@ -8,8 +8,9 @@ span.w_button {
 	margin: 0;
 	padding: 0 5px;
 	cursor: pointer;
-	background: #e0e0e0 -moz-linear-gradient(bottom, #E0E0E0, #F3F3F3);
-	background: #e0e0e0 -webkit-gradient(linear, left bottom, left top, from(#E0E0E0), to(#F3F3F3));
+	background-color: #e0e0e0;
+	background-image: -moz-linear-gradient(bottom, #E0E0E0, #F3F3F3);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#E0E0E0), to(#F3F3F3));
 	border: 1px solid #808080;
 	border-radius: 2px; -moz-border-radius: 2px;
 	overflow: hidden;
