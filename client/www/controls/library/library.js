@@ -76,7 +76,7 @@ app.controls = function (controls, $, services) {
 		self.html = function () {
 			return [
 				'<span class="switcher" id="', self.id, '">',
-				'<span>Library:</span>',
+				'<span class="caption">Library:</span>',
 				libs.html(),
 				controls.rootadd.html(),
 				'<span class="spinner"></span>',
