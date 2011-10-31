@@ -36,7 +36,7 @@ app.controls = function (controls, $) {
 		
 		self.html = function () {
 			return [
-				'<span id="', self.id, '" class="w_button" ', self.disabled() ? 'disabled="disabled"' : '', '>',
+				'<span id="', self.id, '" class="w_button ', onClick ? '' : 'idle', '" ', self.disabled() ? 'disabled="disabled"' : '', '>',
 				this.contents ?
 					this.contents() :
 					'<span class="caption">' + (caption || '') + '</span>',

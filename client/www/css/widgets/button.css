@@ -15,12 +15,19 @@ span.w_button {
 	overflow: hidden;
 }
 
+/* button that has no click event handler */
+span.w_button.idle {
+	cursor: default;
+}
+
+/* button text */
 span.w_button span.caption {
 	vertical-align: middle;
 	line-height: 22px;
 	white-space: nowrap;
 }
 
+/* disabled button */
 span.w_button[disabled="disabled"] {
 	cursor: default;
 	border: 1px solid #c0c0c0;
