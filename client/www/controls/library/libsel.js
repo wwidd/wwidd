@@ -38,7 +38,15 @@ app.controls = function (controls, $, flock, services) {
 			var processes = json.data.processes,
 					progress = processes.thumbnails.progress,
 					options = flock(json).multiget('data.names.*').sort(),
-					selected = options.indexOf(json.data.selected);
+					selected, i;
+
+			indexOf:
+			for (i = 0; i < options.length; i++) {
+				if (options[i] === json.data.selected) {
+					selected = i;
+					break indexOf;
+				}
+			}
 			
 			// detecting in-progress processes
 			if (progress > 0) {
