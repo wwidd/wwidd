@@ -45,6 +45,25 @@ library = function () {
 			db.query(statement, handler);
 		},
 		
+		// deletes media entries from library
+		// - mediaids: comma separated list of media ids
+		delMedia: function (mediaids, handler) {
+			var 
+
+			clause = 'WHERE mediaid IN (' + mediaids + ')',
+			
+			statement = [
+				'BEGIN TRANSACTION;',
+				'DELETE FROM keywords ' + clause + ';',
+				'DELETE FROM tags ' + clause + ';',
+				'DELETE FROM media ' + clause + ';',
+				'COMMIT;'
+			].join('\n');
+			
+			console.log(statement);
+			db.nonQuery(statement, handler);			
+		},
+		
 		// inserts videos into the database
 		// - rootid: id of root for videos
 		// - data: keywords indexed by path (rel. to root)

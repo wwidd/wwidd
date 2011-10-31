@@ -52,18 +52,27 @@ library = function () {
 		},
 		
 		// sets library (sqlite db file) to use
+		// - name: library name (same as sqlite file name w/o ext.)
 		set: function (name, handler) {
 			db.name(name, handler);
 			return self;
 		},
 		
 		// queries all media entries
+		// - filter: comma separated list of tag names
 		getMedia: function (filter, handler) {
 			entity.getMedia(filter, function (data) {
 				split(data, 'tags', ',');
 				split(data, 'keywords', ',');
 				handler(data);
 			});
+			return self;
+		},
+		
+		// deletes media entries
+		// - mediaids: comma separated list of media ids
+		delMedia: function (mediaids, handler) {
+			entity.delMedia(mediaids, handler);
 			return self;
 		},
 		

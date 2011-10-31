@@ -1,22 +1,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Actions Widget
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, window */
+/*global jQuery, jOrder, window */
 var app = app || {};
 
-app.controls = function (controls, $) {
+app.controls = function (controls, $, jOrder, services) {
 	controls.actions = function () {
 		var popup = controls.select(["Delete"]).stateful(false),
 				self = controls.control.create(controls.dropdown("Actions", popup));
 
 		// deletes video entries
 		function remove() {
-			var $media = $('#' + controls.media.id + ' :checked');
+			// obtaining selected media ids
+			var mediaids = jOrder.keys(controls.media.selected);
+			
 			if (window.confirm([
-				"You're about to delete", $media.length, ($media.length > 1 ? "entries" : "entry"), "from your library.",
+				"You're about to delete", mediaids.length, (mediaids.length > 1 ? "entries" : "entry"), "from your library.",
 				"This cannot be undone. Proceed?"
 			].join(' '))) {
-				console.log("Deleting...");
+				// calling deletion service
+				// then reloading entire library
+				services.media.del(mediaids.join(','), controls.media.load);
 			}
 		}
 		
@@ -31,11 +35,13 @@ app.controls = function (controls, $) {
 				break;
 			}
 		});
-			
+		
 		return self;
 	}();
 	
 	return controls;
 }(app.controls || {},
-	jQuery);
+	jQuery,
+	jOrder,
+	app.services);
 

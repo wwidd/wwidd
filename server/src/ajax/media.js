@@ -55,6 +55,18 @@ function run(endpoint, query, res) {
 			});
 		});
 		break;
+	
+	case '/media/del':
+		// deletes media entries
+		envelope(res, true, function (ok) {
+			if (!query.mediaids) {
+				throw "Missing parameters";
+			}
+			library.delMedia(query.mediaids.split(/[^0-9]+/), function (data) {
+				ok(data);
+			});
+		});
+		break;
 		
 	default:
 		return false;

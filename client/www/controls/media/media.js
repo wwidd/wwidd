@@ -96,6 +96,10 @@ app.controls = (function (controls, $, data, services) {
 			controls.kinds
 				.build()
 				.render();
+				
+			// redrawing checker
+			controls.checker
+				.render();
 
 			// removing busy state
 			controls.library

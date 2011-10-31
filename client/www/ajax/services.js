@@ -55,7 +55,16 @@ app.services = function ($, window, service, poll) {
 					mediaids: mediaids
 				};
 				service('media/extract').call(data, handler);			
-			}		
+			},
+			
+			// deletes media entries with their keywords and tags
+			// - mediaids: comma separated list of media ids
+			del: function (mediaids, handler) {
+				var data = {
+					mediaids: mediaids
+				};
+				service('media/del').call(data, handler);			
+			}
 		},
 		
 		tag: {
