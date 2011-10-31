@@ -34,7 +34,7 @@ div.w_libsel > ul > li:hover a.save {
 
 div.w_libsel > ul a.save {
 	right: 4px;
-	background: url('/image/sprites.png') no-repeat -40px -140px;
+	background: url('/image/sprites.png') no-repeat -60px -140px;
 }
 
 div.w_libsel > ul span {
