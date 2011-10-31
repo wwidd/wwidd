@@ -18,6 +18,11 @@ a {
 	color: #003e55;
 }
 
+input[type="text"] {
+	color: #444;
+	border-color: #003e55;
+}
+
 /******************************
 LIBRARY
 ******************************/
@@ -72,15 +77,6 @@ LIB SELECTOR POPUP
 
 div.w_popup > ul.libs > li.lib:hover {
 	background: #e0e0e0;
-}
-
-/******************************
-SEARCH
-******************************/
-
-span.search > input {
-	color: #444;
-	border-color: #003e55;
 }
 
 /******************************

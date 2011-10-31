@@ -3,15 +3,15 @@
 //
 // Lists available libraries, with download link
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, window, flock */
+/*global jQuery, window, flock, jOrder */
 var app = app || {};
 
-app.controls = function (controls, $, flock, services) {
+app.controls = function (controls, $, flock, jOrder, services) {
 	controls.libsel = function () {
 		var	self = controls.control.create(controls.select()),
+				button = controls.button("Add"),
 				base_contents = self.contents,
-				base_init = self.init,
-				onChange;
+				base_init = self.init;
 		
 		//////////////////////////////
 		// Initialization
@@ -42,6 +42,9 @@ app.controls = function (controls, $, flock, services) {
 					options = flock(json).multiget('data.names.*').sort(),
 					selected, i;
 
+			// preserving library name lookup
+			controls.libsel.data = jOrder.join(options, {});
+					
 			indexOf:
 			for (i = 0; i < options.length; i++) {
 				if (options[i] === json.data.selected) {
@@ -58,6 +61,9 @@ app.controls = function (controls, $, flock, services) {
 				self.render();
 			}
 
+			// adding placeholder for new library
+			options.push(null);
+			
 			// initializing list
 			self
 				.options(options)
@@ -73,32 +79,50 @@ app.controls = function (controls, $, flock, services) {
 		//////////////////////////////
 		// Getters, setters
 
-		self.onChange = function (value) {
-			if (typeof value !== 'undefined') {
-				onChange = value;
-				return self;
-			} else {
-				return onChange || function () {};
-			}
+		self.button = function () {
+			return button;
 		};
-
+		
 		//////////////////////////////
 		// Overrides
 
+		self.build = function () {
+			button
+				.disabled({libsel: true})
+				.onClick(function () {
+					var $this = $(this),
+							name = $this.siblings('input.new').val();
+					console.log("Adding new library:", name);
+				})
+				.appendTo(self);
+		
+			return self;
+		};
+		
 		self.item = function (i, item, selected) {
-			return [
-				selected ?
-					'<span class="caption">' + item + '</span>' :					
-					'<a href="#!" class="caption">' + item + '</a>',
-				'<a href="#!" class="save" title="' + "Download" + '"></a>'
-			].join('');
+			if (item) {
+				return [
+					selected ?
+						'<span class="caption">' + item + '</span>' :					
+						'<a href="#!" class="caption">' + item + '</a>',
+					'<a href="#!" class="save" title="' + "Download" + '"></a>'
+				].join('');
+			} else {
+				return [
+					'<input type="text" class="new" />',
+					button.html()
+				].join('');
+			}
 		};
 		
 		self.init = function (elem) {
 			base_init.call(self, elem);
 			
 			// decorating class
-			elem.addClass('w_libsel');
+			elem
+				.addClass('w_libsel')
+				.find('input.new').closest('li')
+					.addClass('new');
 		};
 		
 		self.contents = function () {
@@ -127,11 +151,26 @@ app.controls = function (controls, $, flock, services) {
 		return false;
 	}
 	
-	$('div.w_libsel a.save').live('click', onSave);
+	function onChange() {
+		var $this = $(this),
+				self = controls.lookup[$this.closest('.w_libsel').attr('id')],
+				data = controls.libsel.data,
+				name = $this.val();
+				
+		// enabling add button
+		self.button()
+			.disabled({libsel: name.length <= 0 || data.hasOwnProperty(name)})
+			.render();
+	}
+	
+	var context = $('div.w_libsel');
+	$('a.save', context).live('click', onSave);
+	$('input.new', context).live('keyup', onChange);
 	
 	return controls;
 }(app.controls || {},
 	jQuery,
 	flock,
+	jOrder,
 	app.services);
 

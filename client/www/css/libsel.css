@@ -22,6 +22,10 @@ div.w_libsel > ul a {
 	vertical-align: middle;
 }
 
+/******************************
+SAVE BUTTON
+******************************/
+
 div.w_libsel > ul a.save {
 	position: absolute;
 	top: 4px;
@@ -37,7 +41,37 @@ div.w_libsel > ul a.save {
 	background: url('/image/sprites.png') no-repeat -60px -140px;
 }
 
-div.w_libsel > ul span {
+/******************************
+DISABLED ENTRY
+******************************/
+
+div.w_libsel > ul > li.selected span {
 	color: grey;
+}
+
+/******************************
+NEW LIBRARY ENTRY
+******************************/
+
+div.w_libsel > ul > li.new {
+	background: transparent;
+}
+
+div.w_libsel > ul input {
+	width: 100%;
+	height: 16px;
+	margin: 0;
+	padding: 0;
+}
+
+div.w_libsel > ul .w_button {
+	position: absolute;
+	top: 4px;
+	right: 2px;
+	height: 16px;
+}
+
+div.w_libsel > ul .w_button > span.caption {
+	line-height: 16px;
 }
 

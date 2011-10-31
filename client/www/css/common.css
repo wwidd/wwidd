@@ -16,3 +16,9 @@ button {
 button {
 	padding: 0 5px;
 }
+
+input[type="text"] {
+	border: 1px solid;
+	border-radius: 3px; -moz-border-radius: 3px;
+}
+
