@@ -95,6 +95,18 @@ LIBRARY SWITCHER
 	width: 16px;
 }
 
+#switcher span.w_rootadd > span.caption {
+	display: inline-block; *zoom: 1;
+	height: 16px;
+	width: 16px;
+	margin: 3px 0;
+	background: url('/image/sprites.png') no-repeat 0 -140px;
+}
+
+#switcher span.w_rootadd[disabled="disabled"] > span.caption {
+	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
+}
+
 /******************************
 VIEW SELECTOR
 ******************************/

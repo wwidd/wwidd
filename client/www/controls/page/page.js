@@ -28,6 +28,10 @@ app.controls = (function (controls, $, data) {
 				.render($('#checker').empty());
 				
 			// adding select all
+			controls.actions
+				.render($('#checker'));
+
+			// adding select all
 			controls.view
 				.build()
 				.render($('#views').empty());

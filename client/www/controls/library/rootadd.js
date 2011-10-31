@@ -6,7 +6,7 @@ var app = app || {};
 
 app.controls = function (controls, $, services) {
 	controls.rootadd = function () {
-		var self = controls.control.create(controls.button("+")),
+		var self = controls.control.create(controls.button()),
 				dirsel;
 
 		//////////////////////////////
@@ -55,6 +55,8 @@ app.controls = function (controls, $, services) {
 		// Overrides
 
 		self.init = function (elem) {
+			elem.addClass('w_rootadd');
+			
 			// setting state
 			if (self.disabled()) {
 				self.onClick(null);
@@ -65,7 +67,7 @@ app.controls = function (controls, $, services) {
 
 		self.contents = function () {
 			return [
-				'<span class="caption" title="', "Add folder to library", '">', self.caption(), '</span>'
+				'<span class="caption" title="', "Add folder to library", '">',	'</span>'
 			].join('');
 		};
 		
