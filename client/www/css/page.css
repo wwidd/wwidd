@@ -84,19 +84,17 @@ CHECKER
 LIBRARY SWITCHER
 ******************************/
 
-#switcher > span.switcher > span {
+#switcher > span.switcher > span.caption {
 	margin: 0 5px 0 0;
-	vertical-align: middle;
 }
 
 #switcher span.spinner {
-	display: inline-block; *zoom: 1;
+	margin: 0 0 0 5px;
 	height: 16px;
 	width: 16px;
 }
 
 #switcher span.w_rootadd > span.caption {
-	display: inline-block; *zoom: 1;
 	height: 16px;
 	width: 16px;
 	margin: 3px 0;
@@ -112,7 +110,6 @@ VIEW SELECTOR
 ******************************/
 
 #views a {
-	display: inline-block; *zoom: 1;
 	width: 16px;
 	height: 16px;
 	margin: 0 10px 0 0;
@@ -125,26 +122,6 @@ VIEW SELECTOR
 
 #views a.list {
 	background: url('/image/sprites.png') no-repeat -20px 0;
-}
-
-/******************************
-BUTTONS
-******************************/
-
-span.button {
-	display: inline-block; *zoom: 1;
-}
-
-span.button > button {
-	line-height: normal;
-}
-
-span.button > button > span {
-	display: inline-block; *zoom: 1;
-	height: 16px;
-	line-height: 16px;
-	margin: 0;
-	padding: 0;
 }
 
 /******************************
@@ -173,14 +150,14 @@ HINTS
 	border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px;
 }
 
-div.hints {
+#footer > div.hints {
 	position: relative;
 	padding: 0 0 0 20px;
 	z-index: 2;
 }
 
-div.hints > span.icon,
-div.hints > a.next {
+#footer > div.hints > span.icon,
+#footer > div.hints > a.next {
 	display: inline-block; *zoom: 1;
 	position: absolute;
 	top: 0;
@@ -188,12 +165,12 @@ div.hints > a.next {
 	height: 16px;
 }
 
-div.hints > span.icon {
+#footer > div.hints > span.icon {
 	left: 0;
 	background: url('/image/sprites.png') no-repeat 0 -60px;	
 }
 
-div.hints > a.next {
+#footer > div.hints > a.next {
 	right: 0;
 	background: url('/image/sprites.png') no-repeat -20px -100px;
 }
@@ -202,7 +179,7 @@ div.hints > a.next {
 PROGRESS
 ******************************/
 
-div.progress {
+#footer > div.progress {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -211,7 +188,7 @@ div.progress {
 	z-index: 1;
 }
 
-div.progress > div.bar {
+#footer > div.progress > div.bar {
 	height: 100%;
 	width: 100%;
 }
