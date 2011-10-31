@@ -8,7 +8,7 @@ span.w_button.w_dropdown {
 }
 
 span.w_button.w_dropdown span.indicator {
-	display: inline-block;
+	display: inline-block; *zoom: 1;
 	position: absolute;
 	top: 3px;
 	right: 3px;
