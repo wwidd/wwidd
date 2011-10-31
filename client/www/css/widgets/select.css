@@ -20,7 +20,7 @@ ul.w_select > li {
 	color: #003E55;
 }
 
-ul.w_select > li .caption {
+ul.w_select > li > .caption {
 	cursor: pointer;
 }
 
