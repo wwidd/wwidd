@@ -4,7 +4,7 @@ GENERAL
 
 span.w_button {
 	display: inline-block;
-	height: 18px;
+	height: 22px;
 	margin: 0;
 	padding: 0 5px;
 	cursor: pointer;
@@ -17,7 +17,7 @@ span.w_button {
 
 span.w_button span.caption {
 	vertical-align: middle;
-	line-height: 18px;
+	line-height: 22px;
 	white-space: nowrap;
 }
 
