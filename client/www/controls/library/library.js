@@ -25,6 +25,15 @@ app.controls = function (controls, $, services) {
 		dropdown.hints = hints;
 				
 		//////////////////////////////
+		// Routing
+		
+		// disabled method is passed on to dropdown
+		self.disabled = function (value) {
+			dropdown.disabled(value);
+			return self;
+		};
+		
+		//////////////////////////////
 		// Getters, setters
 		
 		self.dropdown = function () {
