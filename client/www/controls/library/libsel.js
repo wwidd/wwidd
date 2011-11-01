@@ -13,13 +13,10 @@ app.controls = function (controls, $, flock, jOrder, services) {
 				base_contents = self.contents,
 				base_init = self.init;
 		
-		//////////////////////////////
-		// Initialization
-
-		self.onChange(function (i) {
-			var selected = self.options()[i];
-			
-			services.lib.select(selected, function () {
+		// selects library and reloads its contents
+		// - name: name of the library to select
+		function select(name, handler) {
+			services.lib.select(name, function () {
 				// resetting control
 				controls.pager.reset();
 				controls.search.reset();
@@ -30,52 +27,71 @@ app.controls = function (controls, $, flock, jOrder, services) {
 				
 				// setting caption
 				controls.library.dropdown()
-					.caption(selected)
+					.caption(name)
+					.collapse()
+					.render();
+				
+				// calling custom handler
+				if (typeof handler === 'function') {
+					handler();
+				}
+			});
+		}
+		
+		// retrieving list of libraries
+		function reload() {
+			services.lib.getall(function (json) {
+				var processes = json.data.processes,
+						progress = processes.thumbnails.progress,
+						options = flock(json).multiget('data.names.*').sort(),
+						selected, i;
+	
+				// preserving library name lookup
+				controls.libsel.data = jOrder.join(options, {});
+				
+				indexOf:
+				for (i = 0; i < options.length; i++) {
+					if (options[i] === json.data.selected) {
+						selected = i;
+						break indexOf;
+					}
+				}
+				
+				// detecting in-progress processes
+				if (progress > 0) {
+					controls.media
+						.poll();
+				} else {
+					self.render();
+				}
+	
+				// adding placeholder for new library
+				options.push(null);
+				
+				// initializing list
+				self
+					.options(options)
+					.selected(selected);
+					
+				// setting caption
+				controls.library.dropdown()
+					.caption(self.options()[selected])
 					.collapse()
 					.render();
 			});
+		}
+
+		//////////////////////////////
+		// Initialization
+
+		// loading library list
+		reload();
+			
+		// setting change handler for list
+		self.onChange(function (i) {
+			select(self.options()[i]);
 		});
 		
-		services.lib.getall(function (json) {
-			var processes = json.data.processes,
-					progress = processes.thumbnails.progress,
-					options = flock(json).multiget('data.names.*').sort(),
-					selected, i;
-
-			// preserving library name lookup
-			controls.libsel.data = jOrder.join(options, {});
-					
-			indexOf:
-			for (i = 0; i < options.length; i++) {
-				if (options[i] === json.data.selected) {
-					selected = i;
-					break indexOf;
-				}
-			}
-			
-			// detecting in-progress processes
-			if (progress > 0) {
-				controls.media
-					.poll();
-			} else {
-				self.render();
-			}
-
-			// adding placeholder for new library
-			options.push(null);
-			
-			// initializing list
-			self
-				.options(options)
-				.selected(selected);
-				
-			// setting caption
-			controls.library.dropdown()
-				.caption(self.options()[selected])
-				.collapse()
-				.render();
-		});
-
 		//////////////////////////////
 		// Getters, setters
 
@@ -86,14 +102,17 @@ app.controls = function (controls, $, flock, jOrder, services) {
 		//////////////////////////////
 		// Overrides
 
+		// called on adding a new library
+		function onAdd() {
+			select($(this).siblings('input.new').val(), function () {
+				reload();
+			});
+		}
+		
 		self.build = function () {
 			button
 				.disabled({libsel: true})
-				.onClick(function () {
-					var $this = $(this),
-							name = $this.siblings('input.new').val();
-					console.log("Adding new library:", name);
-				})
+				.onClick(onAdd)
 				.appendTo(self);
 		
 			return self;
