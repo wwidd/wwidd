@@ -44,10 +44,41 @@ app.controls = function (controls, $) {
 		//////////////////////////////
 		// Control
 		
+		// expands the dropdown widget
+		self.expand = function () {
+			// re-rendering UI
+			var $this = self
+				.expanded(true)
+				.render();
+			
+			// showing popup
+			popup
+				.anchor($this)
+				.build()
+				.render($('body'));
+				
+			// showing hints
+			controls.hints
+				.hints(self.hints || [])
+				.render();
+		};
+		
+		// collapses the dropdown widget
 		self.collapse = function () {
-			expanded = false;
-			popup.render(null);
-			self.render();
+			// hiding hints
+			controls.hints
+				.clear()
+				.render();
+				
+			// hiding dropdown window
+			popup
+				.render(null);
+				
+			// re-drawing self (for changing the arrow)
+			self
+				.expanded(false)
+				.render();
+
 			return self;
 		};
 		
@@ -78,30 +109,13 @@ app.controls = function (controls, $) {
 	
 	onClick = function (event, popup) {
 		var $this = $(this).closest('.w_dropdown'),
-				self = controls.lookup[$this.attr('id')],
-				pos, height;
+				self = controls.lookup[$this.attr('id')];
 		
 		// checking if popup is already up
 		if (self.expanded()) {
-			// hiding popup
-			self
-				.expanded(false)
-				.collapse();
+			self.collapse();
 		} else {
-			// initializing and displaying popup
-			pos = $this.offset();
-			height = $this.outerHeight(true);
-			
-			// re-rendering UI
-			$this = self
-				.expanded(true)
-				.render();
-			
-			// showing popup
-			popup
-				.anchor($this)
-				.build()
-				.render($('body'));
+			self.expand();
 		}
 	};
 	
