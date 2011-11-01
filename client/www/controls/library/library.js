@@ -9,11 +9,21 @@
 var app = app || {};
 
 app.controls = function (controls, $, services) {
+	var hints = [
+		"Save a backup copy of your library before extensive changes.",
+		"Delete a library by deleting its database file."
+	];
+	
 	controls.library = function () {
 		var self = controls.control.create(),
 				dropdown = controls.dropdown(),
 				busy = false;
 		
+		//////////////////////////////
+		// Initialization
+		
+		dropdown.hints = hints;
+				
 		//////////////////////////////
 		// Getters, setters
 		
