@@ -12,6 +12,7 @@ app.controls = function (controls, $) {
 	
 	controls.dropdown = function (caption, popup) {
 		var self = controls.control.create(controls.button(caption)),
+				base_disabled = self.disabled,
 				expanded = false;
 		
 		//////////////////////////////
@@ -35,7 +36,7 @@ app.controls = function (controls, $) {
 		self.expanded = function (value) {
 			if (typeof value !== 'undefined') {
 				expanded = value;
-				return self;				
+				return self;
 			} else {
 				return expanded;
 			}
@@ -85,6 +86,18 @@ app.controls = function (controls, $) {
 		//////////////////////////////
 		// Overrides
 
+		self.disabled = function (value) {
+			var before = base_disabled.call(self),
+					result = base_disabled.call(self, value),
+					after = base_disabled.call(self);
+			
+			// collapsing widget when just got disabled
+			if (after && !before) {
+				self.collapse();
+			}
+			return result;
+		};
+		
 		self.init = function (elem) {
 			elem.addClass('w_dropdown');
 			if (expanded) {
