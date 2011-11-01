@@ -4,7 +4,7 @@ GENERAL
 
 span.tag {
 	display: inline-block; *zoom: 1;
-	line-height: 16px;
+	height: 12px;
 	margin: 3px 5px 3px 0;
 	vertical-align: top;
 }
@@ -221,7 +221,7 @@ EDIT - EDIT STATE
 span.tag.edit {
 	position: relative;
 	width: 122px;
-	height: 15px;
+	height: 14px;
 }
 
 span.tag.edit > div.background {
