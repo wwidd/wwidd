@@ -12,7 +12,9 @@ app.services = function ($, window, service, poll) {
 				service('lib/getall').call(null, handler);
 			},
 			
-			// retrieves a list of available libraries
+			// switches to given library
+			// creates it when not extists
+			// - name: name of the new library
 			select: function (name, handler) {
 				service('lib/select').call({
 					name: name
