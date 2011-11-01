@@ -11,7 +11,19 @@ app.controls = function (controls, $, services) {
 
 		//////////////////////////////
 		// Events
+		
+		function collapse() {
+			// removing dialog
+			dirsel
+				.remove()
+				.render();
 			
+			// re-enabling button
+			self
+				.disabled({'import': false})
+				.render();
+		}
+		
 		// called on clicking the add button
 		function onAdd() {
 			// disabling 'add folder' button
@@ -23,26 +35,12 @@ app.controls = function (controls, $, services) {
 			// creating directory selection dialog
 			dirsel = controls.dirsel();
 			dirsel
-				.onCancel(function () {
-					// removing dialog on 'cancel'
-					dirsel.render(null);
-						
-					// re-enabling 'add folder' button
-					self
-						.disabled({'import': false})
-						.render();
-				})
+				.onCancel(collapse)
 				.onOk(function () {
 					// initiating folder import on 'ok' button
 					services.root.add(dirsel.selected(), function () {
-						self
-							.disabled({'import': false})
-							.render();
-
-						// removing dialog
-						dirsel
-							.remove()
-							.render();
+						// collapsing folder selection window
+						collapse();
 						
 						// reloading library
 						controls.media.load();
@@ -52,17 +50,15 @@ app.controls = function (controls, $, services) {
 		}
 
 		//////////////////////////////
+		// Initialization
+
+		self.onClick(onAdd);
+		
+		//////////////////////////////
 		// Overrides
 
 		self.init = function (elem) {
 			elem.addClass('w_rootadd');
-			
-			// setting state
-			if (self.disabled()) {
-				self.onClick(null);
-			} else {
-				self.onClick(onAdd);
-			}
 		};
 
 		self.contents = function () {
