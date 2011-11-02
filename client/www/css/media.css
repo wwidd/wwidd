@@ -302,6 +302,7 @@ div.medium.compact > div.check > input,
 div.media.list > div.medium.expanded > div.check > input {
 	height: 14px;
 	margin: 1px 0;
+	padding: 0;
 }
 
 div.medium.compact > div.file {
