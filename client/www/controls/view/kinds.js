@@ -74,7 +74,7 @@ app.controls = function (controls, $, flock, data) {
 		// Overrides
 
 		self.build = function () {
-			var kinds = data.cache.multiget(['kind', '*'], {mode: flock.keys}).sort(),
+			var kinds = data.cache.mget(['kind', '*'], {mode: flock.keys}).sort(),
 					i, kind;
 			self.clear();
 			for (i = 0; i < kinds.length; i++) {

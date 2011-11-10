@@ -168,18 +168,18 @@ app.data = function (data, jOrder, flock, services) {
 					term = terms[i];
 					
 					// acquiring tags matching the entered string
-					tags = data.cache.multiget(['search'].concat(term.toLowerCase().split('')).concat(['', 'tag', 'tag']));
+					tags = data.cache.mget(['search'].concat(term.toLowerCase().split('')).concat(['', 'tag', 'tag']));
 					
 					// acquiring search hits
 					if (stack.length === 1) {
 						// performing direct query on first search term
-						hits = data.cache.multiget(['tag', tags, 'media', '*'], {mode: flock.both});
+						hits = data.cache.mget(['tag', tags, 'media', '*'], {mode: flock.both});
 					} else {
 						// performing two-stage query on subsequent terms
 						// first, taking _all_ media ids where tags match, then
 						// matching them against previous search results
-						matches = data.cache.multiget(['tag', tags, 'media', '*'], {mode: flock.keys});
-						hits = stack[0].data.cache.multiget(['media', matches], {mode: flock.both});
+						matches = data.cache.mget(['tag', tags, 'media', '*'], {mode: flock.keys});
+						hits = stack[0].data.cache.mget(['media', matches], {mode: flock.both});
 					}
 	
 					// adding search hits to stack

@@ -43,7 +43,7 @@ app.controls = function (controls, $, flock, jOrder, services) {
 			services.lib.getall(function (json) {
 				var processes = json.data.processes,
 						progress = processes.thumbnails.progress,
-						options = flock(json).multiget('data.names.*').sort(),
+						options = flock(json).mget('data.names.*').sort(),
 						selected, i;
 	
 				// preserving library name lookup

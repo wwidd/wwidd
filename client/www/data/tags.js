@@ -22,7 +22,7 @@ app.data = function (data, services) {
 	// searches for a tag entry associated with the term
 	// start-of-word search
 	function search(term) {
-		return bestHit(data.cache.multiget(['search'].concat(term.toLowerCase().split('')).concat(['', 'tag'])));
+		return bestHit(data.cache.mget(['search'].concat(term.toLowerCase().split('')).concat(['', 'tag'])));
 	}
 					
 	data.tags = function () {
