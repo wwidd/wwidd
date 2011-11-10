@@ -243,7 +243,7 @@ app.data = function (data, jOrder, flock, services) {
 			},
 			
 			// changes a tag across the entire library
-			setTag: function (before, after) {
+			changeAllTags: function (before, after) {
 				if (before === after) {
 					return;
 				}
@@ -263,7 +263,7 @@ app.data = function (data, jOrder, flock, services) {
 				tag.mset(['media', '*', 'tags', after], ref);
 				
 				// removing old tag from index
-				self.removeTags(before);
+				self.removeAllTags(before);
 
 				// adding new tag to index
 				cache.set(['tag', after], ref);
@@ -273,14 +273,14 @@ app.data = function (data, jOrder, flock, services) {
 			},
 			
 			// removes all occurrences of a tag from the cache
-			removeTags: function (tag) {
+			removeAllTags: function (before) {
 				var cache = data.cache,
-						tmp = tag.split(':');
+						tmp = before.split(':');
 						                             
-				cache.unset(['tag', tag]);
+				cache.unset(['tag', before]);
 				cache.unset(['name', tmp[0], tmp[1]]);
 				cache.unset(['kind', tmp[1], tmp[0]]);
-				cache.unset(['search'].concat(tag.toLowerCase().split('')).concat(['tag']));
+				cache.unset(['search'].concat(before.toLowerCase().split('')).concat(['tag']));
 
 				// removing name altogether
 				if (isEmpty(cache.get(['name', tmp[0]]))) {
@@ -306,7 +306,7 @@ app.data = function (data, jOrder, flock, services) {
 					
 					// removing tag altogether
 					if (isEmpty(cache.get(['tag', tag, 'media']))) {
-						self.removeTags(tag);
+						self.removeAllTags(tag);
 					}
 					
 					// tag was removed

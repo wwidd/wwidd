@@ -150,7 +150,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 				if (confirm("Apply change to ALL tags of this kind?")) {
 					services.tag.set(null, before, after, function () {
 						// applying changes locally
-						data.media.setTag(before, after);
+						data.media.changeAllTags(before, after);
 						// refreshing current page
 						controls.media.refresh();
 					});
