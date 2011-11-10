@@ -148,7 +148,12 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (event.shiftKey) {
 				// running batch tag change
 				if (confirm("Apply change to ALL tags of this kind?")) {
-					services.tag.set(null, before, after, controls.media.load);
+					services.tag.set(null, before, after, function () {
+						// applying changes locally
+						data.media.setTag(before, after);
+						// refreshing current page
+						controls.media.refresh();
+					});
 				}
 			} else if (event.ctrlKey) {
 				// ctrl + enter is not defined for editing

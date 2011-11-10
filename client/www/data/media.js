@@ -242,6 +242,56 @@ app.data = function (data, jOrder, flock, services) {
 				}
 			},
 			
+			// changes a tag across the entire library
+			setTag: function (before, after) {
+				if (before === after) {
+					return;
+				}
+				
+				var cache = data.cache,
+						ref = cache.get(['tag', before]),
+						tag = flock(ref),
+						tmp = after.split(':');
+				
+				// updating basic tag data
+				ref.tag = after;
+				ref.name = tmp[0];
+				ref.kind = tmp[1];
+				
+				// moving tag reference to new key
+				tag.munset(['media', '*', 'tags', before]);
+				tag.mset(['media', '*', 'tags', after], ref);
+				
+				// removing old tag from index
+				self.removeTags(before);
+
+				// adding new tag to index
+				cache.set(['tag', after], ref);
+				cache.set(['name', ref.name, ref.kind], ref);
+				cache.set(['kind', ref.kind, ref.name], ref);
+				cache.set(['search'].concat(after.toLowerCase().split('').concat(['tag'])), ref);
+			},
+			
+			// removes all occurrences of a tag from the cache
+			removeTags: function (tag) {
+				var cache = data.cache,
+						tmp = tag.split(':');
+						                             
+				cache.unset(['tag', tag]);
+				cache.unset(['name', tmp[0], tmp[1]]);
+				cache.unset(['kind', tmp[1], tmp[0]]);
+				cache.unset(['search'].concat(tag.toLowerCase().split('')).concat(['tag']));
+
+				// removing name altogether
+				if (isEmpty(cache.get(['name', tmp[0]]))) {
+					cache.unset(['name', tmp[0]]);
+				}
+				// removing kind altogether
+				if (isEmpty(cache.get(['kind', tmp[1]]))) {
+					cache.unset(['kind', tmp[1]]);
+				}						
+			},
+			
 			// removes tag from media entry
 			removeTag: function (mediaid, tag) {
 				var cache = data.cache,
@@ -256,20 +306,7 @@ app.data = function (data, jOrder, flock, services) {
 					
 					// removing tag altogether
 					if (isEmpty(cache.get(['tag', tag, 'media']))) {
-						tmp = tag.split(':');
-						cache.unset(['tag', tag]);
-						cache.unset(['name', tmp[0], tmp[1]]);
-						cache.unset(['kind', tmp[1], tmp[0]]);
-						cache.unset(['search'].concat(tag.toLowerCase().split('')).concat(['tag']));
-
-						// removing name altogether
-						if (isEmpty(cache.get(['name', tmp[0]]))) {
-							cache.unset(['name', tmp[0]]);
-						}
-						// removing kind altogether
-						if (isEmpty(cache.get(['kind', tmp[1]]))) {
-							cache.unset(['kind', tmp[1]]);
-						}						
+						self.removeTags(tag);
 					}
 					
 					// tag was removed
