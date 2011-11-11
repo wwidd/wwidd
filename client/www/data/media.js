@@ -75,14 +75,14 @@ app.data = function (data, jOrder, flock, services) {
 							table;
 					
 					// setting up datastore roots
-					cache.set('tag', {});
-					cache.set('media', {});
-					cache.set('keyword', {});
-					cache.set('kind', {});
-					cache.set('name', {});
-					cache.set('rating', {});
-					cache.set('field', {});
-					cache.set('search', {});
+					cache.set('tag');
+					cache.set('media');
+					cache.set('keyword');
+					cache.set('kind');
+					cache.set('name');
+					cache.set('rating');
+					cache.set('field');
+					cache.set('search');
 					
 					// loading media data into cache
 					for (i = 0; i < json.length; i++) {
