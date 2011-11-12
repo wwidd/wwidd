@@ -198,103 +198,24 @@ app.data = function (data, jOrder, flock, cache, services) {
 			return cache.get(['media', mediaid]) || {};
 		},
 		
-		// creates a new tag node and adds it to the index
-		// - tag: complete tag string ("name:kind")
-		createTag: function (tag) {
-			var path_tag = ['tag', tag],
-					ref = cache.get(path_tag),
-					tmp;
-
-			if (typeof ref === 'undefined') {
-				tmp = tag.split(':');
-				ref = {
-					tag: tag,
-					name: tmp[0],
-					kind: tmp[1],
-					media: {},
-					count: 0
-				};
-				cache.set(['tag', tag], ref);
-				cache.set(['name', tmp[0], tmp[1]], ref);
-				cache.set(['kind', tmp[1], tmp[0]], ref);
-				cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
-			}
-			
-			return ref;
-		},
-		
 		// adds a tag to media entry
 		addTag: function (row, tag) {
 			var mediaid = row.mediaid,
-					ref,
-					path_media_tag = ['media', mediaid, 'tags', tag];
+					path_media_tag = ['media', mediaid, 'tags', tag],
+					ref = cache.get(path_media_tag);
 
-			if (cache.get(path_media_tag) !== tag) {
+			if (ref !== tag) {
 				// media entry has no such tag yet
-				// creating new tag
-				ref = data.media.createTag(tag);
+				// getting or creating new tag
+				ref = data.tag.get(tag);
 				
 				// setting references
 				cache.set(path_media_tag, ref);
 				ref.media[mediaid] = row;
 				ref.count = ref.count + 1;
+			}
+		},
 				
-				// tag was added
-				return true;
-			} else {
-				// tag was not added
-				return false;
-			}
-		},
-		
-		// changes a tag across the entire library
-		changeAllTags: function (before, after) {
-			if (before === after) {
-				return;
-			}
-			
-			var ref = cache.get(['tag', before]),
-					tag = flock(ref),
-					tmp = after.split(':');
-			
-			// updating basic tag data
-			ref.tag = after;
-			ref.name = tmp[0];
-			ref.kind = tmp[1];
-			
-			// moving tag reference to new key
-			tag.munset(['media', '*', 'tags', before]);
-			tag.mset(['media', '*', 'tags', after], ref);
-			
-			// removing old tag from index
-			data.media.removeAllTags(before);
-
-			// adding new tag to index
-			cache.set(['tag', after], ref);
-			cache.set(['name', ref.name, ref.kind], ref);
-			cache.set(['kind', ref.kind, ref.name], ref);
-			cache.set(['search'].concat(after.toLowerCase().split('').concat(['tag'])), ref);
-		},
-		
-		// removes all occurrences of a tag from the cache
-		removeAllTags: function (before) {
-			var tmp = before.split(':');
-																			 
-			cache.unset(['tag', before]);
-			cache.unset(['name', tmp[0], tmp[1]]);
-			cache.unset(['kind', tmp[1], tmp[0]]);
-			cache.unset(['search'].concat(before.toLowerCase().split('')).concat(['tag']));
-
-			// removing name altogether
-			if (isEmpty(cache.get(['name', tmp[0]]))) {
-				cache.unset(['name', tmp[0]]);
-			}
-			// removing kind altogether
-			if (isEmpty(cache.get(['kind', tmp[1]]))) {
-				cache.unset(['kind', tmp[1]]);
-			}						
-		},
-		
 		// removes tag from media entry
 		removeTag: function (mediaid, tag) {
 			// removing tag from medium if present
@@ -306,14 +227,8 @@ app.data = function (data, jOrder, flock, cache, services) {
 				
 				// removing tag altogether
 				if (isEmpty(cache.get(['tag', tag, 'media']))) {
-					data.media.removeAllTags(tag);
+					data.tag.unset(tag);
 				}
-				
-				// tag was removed
-				return true;
-			} else {
-				// tag was not removed
-				return false;
 			}
 		},
 		
@@ -397,6 +312,6 @@ app.data = function (data, jOrder, flock, cache, services) {
 }(app.data || {},
 	jOrder,
 	flock,
-	app.data.cache = app.data.cache || flock(),
+	app.data.cache || (app.data.cache = flock()),
 	app.services);
 
