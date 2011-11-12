@@ -203,31 +203,43 @@ app.data = function (data, jOrder, flock, services) {
 				return data.cache.get(['media', mediaid]) || {};
 			},
 			
+			// creates a new tag node and adds it to the index
+			// - tag: complete tag string ("name:kind")
+			createTag: function (tag) {
+				var cache = data.cache,
+						path_tag = ['tag', tag],
+						ref = cache.get(path_tag),
+						tmp;
+
+				if (typeof ref === 'undefined') {
+					tmp = tag.split(':');
+					ref = {
+						tag: tag,
+						name: tmp[0],
+						kind: tmp[1],
+						media: {},
+						count: 0
+					};
+					cache.set(['tag', tag], ref);
+					cache.set(['name', tmp[0], tmp[1]], ref);
+					cache.set(['kind', tmp[1], tmp[0]], ref);
+					cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
+				}
+				
+				return ref;
+			},
+			
 			// adds a tag to media entry
 			addTag: function (row, tag) {
 				var cache = data.cache,
 						mediaid = row.mediaid,
-						ref, tmp,
-						path_media_tag = ['media', mediaid, 'tags', tag],
-						path_tag = ['tag', tag];
+						ref,
+						path_media_tag = ['media', mediaid, 'tags', tag];
 
 				if (cache.get(path_media_tag) !== tag) {
+					// media entry has no such tag yet
 					// creating new tag
-					ref = cache.get(path_tag);
-					if (typeof ref === 'undefined') {
-						tmp = tag.split(':');
-						ref = {
-							tag: tag,
-							name: tmp[0],
-							kind: tmp[1],
-							media: {},
-							count: 0
-						};
-						cache.set(path_tag, ref);
-						cache.set(['name', tmp[0], tmp[1]], ref);
-						cache.set(['kind', tmp[1], tmp[0]], ref);
-						cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
-					}
+					ref = self.createTag(tag);
 					
 					// setting references
 					cache.set(path_media_tag, ref);
