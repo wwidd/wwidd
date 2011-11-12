@@ -76,7 +76,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		switch (event.which) {
 		case 13:
 			// enter - saving values
-			name = data.tag(name).sanitize();
+			name = data.tag.sanitize(name);
 			if (!name.length) {
 				return;
 			}

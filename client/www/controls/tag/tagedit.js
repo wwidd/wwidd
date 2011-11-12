@@ -34,7 +34,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		// Overrides
 		
 		self.display = function () {
-			var hit = controls.search.filter().length && data.tag(controls.search.filter()).match(name) ? 'hit' : null;
+			var hit = controls.search.filter().length && data.tag.match(controls.search.filter(), name) ? 'hit' : null;
 			
 			return [
 				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
@@ -137,7 +137,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 				mediaid = self.data.mediaid,
 				tag = self.data.tag,
 				before = tag,
-				after = data.tag($this.val()).sanitize();
+				after = data.tag.sanitize($this.val());
 		
 		if (event.which === 13) {
 			// enter - saving values
