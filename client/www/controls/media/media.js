@@ -76,6 +76,17 @@ app.controls = (function (controls, $, data, services) {
 			return self;
 		};
 		
+		// redraws tags and kinds only
+		self.refreshTags = function () {
+			// finalizing kinds
+			controls.kinds
+				.build()
+				.render();
+				
+			controls.tagger
+				.render();
+		};
+		
 		self.refresh = function () {
 			// indicating busy state
 			controls.library

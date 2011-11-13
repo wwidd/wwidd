@@ -136,7 +136,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 		}, function (mediaids, tag) {
 			data.media.removeTag(mediaids, tag);
 			if (mediaids.length > 1) {
-				controls.media.refresh();
+				controls.media.refreshTags();
 			} else {
 				self.refresh();
 			}
@@ -172,7 +172,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 				data.media.addTag(mediaids, tmp[i]);
 			}
 			if (mediaids.length > 1) {
-				controls.media.refresh();
+				controls.media.refreshTags();
 			} else {
 				self.refresh();
 			}
@@ -203,7 +203,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 				if (window.confirm("Apply change to ALL tags of this kind?")) {
 					services.tag.set(null, before, after, function () {
 						data.tag.set(before, after);
-						controls.media.refresh();
+						controls.media.refreshTags();
 					});
 				}
 				break scope;

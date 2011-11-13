@@ -98,7 +98,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 					mediaids = jOrder.keys(controls.media.selected);
 					services.tag.add(null, name, null, mediaids.join(','), function () {
 						data.media.addTag(mediaids, name);
-						controls.media.refresh();
+						controls.media.refreshTags();
 					});
 				}
 				break scope;
@@ -109,7 +109,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 					mediaids = data.media.stack()[0].data.cache.mget(['media', '*'], {mode: flock.keys});
 					services.tag.add(null, name, filter, null, function () {
 						data.media.addTag(mediaids, name);
-						controls.media.refresh();
+						controls.media.refreshTags();
 					});
 				}
 				break scope;
