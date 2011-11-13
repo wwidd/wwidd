@@ -90,9 +90,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 					
 					// setting properties
 					data.media.setRating(row);
-					for (j = 0; j < tags.length; j++) {
-						data.media.addTag([row.mediaid], tags[j]);
-					}
+					data.media.addTags(row, tags);
 				}
 				
 				// setting up jOrder table
@@ -198,27 +196,58 @@ app.data = function (data, jOrder, flock, cache, services) {
 			return cache.get(['media', mediaid]) || {};
 		},
 		
-		// adds a tag to media entries
+		// adds many tags to one media entry
+		// - mediaid: media id (numeric) or media entry (object)
+		// - tags: array of tag strings to add
+		addTags: function (mediaid, tags) {
+			var media, i, tag, ref;
+			
+			if (typeof mediaid === 'object') {
+				media = mediaid;
+				mediaid = media.mediaid;
+			} else {
+				media = cache.get(['media', mediaid]);
+			}
+			
+			for (i = 0; i < tags.length; i++) {
+				tag = tags[i];
+				ref = data.tag.get(tag);
+				if (!media.tags.hasOwnProperty(tag)) {
+					// adding tag reference to media
+					media.tags[tag] = ref;
+					
+					// adding media reference to tag
+					ref.media[mediaid] = media;
+					ref.count++;
+				}
+			}
+		},
+	
+		// adds one tag to many media entries
+		// - mediaids: array of numeric media ids
+		// - tag: tag to add to entry (string)
 		addTag: function (mediaids, tag) {
 			var path = ['media', mediaids, 'tags', tag],				// path to this tag on all affected entries
-					count = cache.mget(path, {mode: flock.count}),	// number of entries already tagged
 					media = cache.mget(['media', mediaids]),				// media entries affected
 					ref = data.tag.get(tag),												// reference to tag
-					i;
+					i, mediaid;
 
 			// setting tag references on media
 			cache.mset(path, ref);
 			
 			// adding / updating media references on tag
 			for (i = 0; i < mediaids.length; i++) {
-				ref.media[mediaids[i]] = media[i];
+				mediaid = mediaids[i];
+				if (!ref.media.hasOwnProperty(mediaid)) {
+					ref.media[mediaid] = media[i];
+					ref.count++;
+				}
 			}
-			
-			// increasing count by no. of tags actually added
-			ref.count += media.length - count;
 		},
 		
 		// removes tag from media entries
+		// - mediaids: array of numeric media ids
+		// - tag: tag to remove from entry (string)
 		removeTag: function (mediaids, tag) {
 			var path = ['media', mediaids, 'tags', tag],				// path to this tag on all affected entries
 					tags = cache.mget(path),												// tags affected by removal
@@ -258,12 +287,6 @@ app.data = function (data, jOrder, flock, cache, services) {
 				// rating lookup
 				cache.unset(['rating', current.rating, mediaid]);
 				cache.set(['rating', rating, mediaid], row);
-				
-				// rating was changed
-				return true;
-			} else {
-				// rating was not changed
-				return false;
 			}
 		},
 		

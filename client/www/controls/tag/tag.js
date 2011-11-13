@@ -26,9 +26,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 			var names, i;
 			if (after) {
 				names = data.tag.split(after);
-				for (i = 0; i < names.length; i++) {
-					data.media.addTag([mediaid], names[i]);
-				}
+				data.media.addTags(mediaid, names);
 			}
 		}
 		
@@ -54,7 +52,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 			add(after);
 			
 			// integrity & UI
-			self.refresh();
+			this.refresh();
 		};
 				
 		return self;
