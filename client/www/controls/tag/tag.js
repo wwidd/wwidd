@@ -68,6 +68,13 @@ app.controls = function (controls, $, jOrder, services, data) {
 	];
 	
 	//////////////////////////////
+	// Static methods
+
+	controls.tag.scope = function (event) {
+		return event.shiftKey ? !Object.isEmpty(controls.media.selected) ? 'selected' : 'all' : event.ctrlKey ? 'search' : 'single';
+	};
+	
+	//////////////////////////////
 	// Common static event handlers
 
 	function getSelf(elem) {

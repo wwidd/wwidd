@@ -88,14 +88,13 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 		var self = getSelf($(this)),
 				tag = self.tag(),
 				mediaid = self.mediaid(),
-				mediaids, filter,
-				scope = event.shiftKey ? self.parent.parent.selected() ? 'selected' : 'all' : event.ctrlKey ? 'search' : 'single';
+				mediaids, filter;
 
 		function onSuccess() {
 			handler.call(self, mediaids, tag);
 		}
 		
-		switch (scope) {
+		switch (controls.tag.scope(event)) {
 		case 'single':
 			// affecting tag on one specific video
 			mediaids = [self.mediaid()];
@@ -188,8 +187,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 				mediaid = self.mediaid(),
 				tag = self.tag(),
 				before = tag,
-				after = data.tag.sanitize($this.val()),
-				scope = event.shiftKey ? self.parent.parent.selected() ? 'selected' : 'all' : event.ctrlKey ? 'search' : 'single';
+				after = data.tag.sanitize($this.val());
 		
 		if (event.which === 13) {
 			// enter - saving values
@@ -198,7 +196,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 				return;
 			}
 			
-			switch (scope) {
+			switch (controls.tag.scope(event)) {
 			case 'all':
 				// running batch tag change
 				if (window.confirm("Apply change to ALL tags of this kind?")) {

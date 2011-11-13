@@ -11,9 +11,15 @@ app.controls = function (controls, $, jOrder, services, data) {
 	controls.tagadd = function (mediaid) {
 		var	self = controls.control.create(controls.tag(mediaid));
 
-		self.data.mediaid = mediaid;
 		self.hints = controls.tagadd.hints;
 
+		//////////////////////////////
+		// Getters, setters
+		
+		self.mediaid = function () {
+			return mediaid;
+		};
+		
 		//////////////////////////////
 		// Overrides
 		
@@ -65,7 +71,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 	function onChange(event) {
 		var $this = $(this),
 				self = getSelf($this),
-				mediaid = self.data.mediaid,
+				mediaid = self.mediaid(),
 				term = $this.val(),
 				match = !term.length ? "" :
 					term +
@@ -80,23 +86,29 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (!name.length) {
 				return;
 			}
-			if (event.shiftKey) {
+			switch (controls.tag.scope(event)) {
+			case 'all':
+				break;
+			case 'selected':
 				// shift + enter is handled only when entry is selected (and possibly others)
 				if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
 					services.tag.add(null, name, null, jOrder.keys(controls.media.selected).join(','), controls.media.load);
 				}
-			} else if (event.ctrlKey) {
+				break;
+			case 'search':
 				// adding tag(s) to multiple media
 				filter = controls.search.filter();
 				if (filter.length && confirm("Add this to SEARCH results?")) {
 					services.tag.add(null, name, filter, null, controls.media.load);
 				}
-			} else {
-				// adding tag(s) to simgle media file
+				break;
+			case 'single':	
+				// adding tag(s) to single media file
 				services.tag.add(mediaid, name, null, null, function () {
 					self.changetag(null, name);
 					self.parent.add();
 				});
+				break;
 			}
 			break;
 		case 27:
