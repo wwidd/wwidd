@@ -12,17 +12,6 @@
 var app = app || {};
 
 app.data = function (data, jOrder, flock, cache, services) {
-	// checks whether an object has any properties
-	function isEmpty(obj) {
-		var key;
-		for (key in obj) {
-			if (obj.hasOwnProperty(key)) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
 	// extracts filename from path
 	function splitPath(path) {
 		var bits = path.split('/');
@@ -265,7 +254,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 				ref.count -= tags.length;
 				
 				// removing tag altogether
-				if (isEmpty(ref.media)) {
+				if (Object.isEmpty(ref.media)) {
 					data.tag.unset(tag);
 				}
 			}

@@ -7,17 +7,6 @@
 var app = app || {};
 
 app.data = function (data, flock, cache) {
-	// checks whether an object has any properties
-	function isEmpty(obj) {
-		var key;
-		for (key in obj) {
-			if (obj.hasOwnProperty(key)) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
 	var RE_SEPARATOR = /\s*[^A-Za-z0-9:\s]+\s*/;
 	
 	// tag collection
@@ -132,11 +121,11 @@ app.data = function (data, flock, cache) {
 			cache.unset(['search'].concat(before.toLowerCase().split('')).concat(['tag']));
 	
 			// removing name altogether
-			if (isEmpty(cache.get(['name', tmp[0]]))) {
+			if (Object.isEmpty(cache.get(['name', tmp[0]]))) {
 				cache.unset(['name', tmp[0]]);
 			}
 			// removing kind altogether
-			if (isEmpty(cache.get(['kind', tmp[1]]))) {
+			if (Object.isEmpty(cache.get(['kind', tmp[1]]))) {
 				cache.unset(['kind', tmp[1]]);
 			}						
 		}
