@@ -3,10 +3,10 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder, confirm */
+/*global jQuery, jOrder, flock, window */
 var app = app || {};
 
-app.controls = function (controls, $, jOrder, services, data) {
+app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 	// - mediaid: media identifier
 	// - tag: tag string "name:kind"
 	controls.tagedit = function (mediaid, tag) {
@@ -15,8 +15,6 @@ app.controls = function (controls, $, jOrder, services, data) {
 				name = tmp[0] || '',
 				kind = tmp[1] || '';
 
-		self.data.mediaid = mediaid;
-		self.data.tag = tag;
 		self.hints = controls.tagedit.hints;
 
 		//////////////////////////////
@@ -28,6 +26,14 @@ app.controls = function (controls, $, jOrder, services, data) {
 		
 		self.name = function () {
 			return name;
+		};
+
+		self.tag = function () {
+			return tag;
+		};
+		
+		self.mediaid = function () {
+			return mediaid;
 		};
 
 		//////////////////////////////
@@ -77,55 +83,100 @@ app.controls = function (controls, $, jOrder, services, data) {
 
 	// general button handler
 	function onButton(event, service, lang, handler) {
-		var self = getSelf($(this)),
-				mediaid = self.data.mediaid,
-				tag = self.data.tag,
-				filter = controls.search.filter();
+		handler = typeof handler === 'function' ? handler : function () {};
 		
-		if (event.shiftKey) {
-			// deleting all tags like this one
-			if (self.parent.parent.selected()) {
-				if (confirm(lang.sel)) {
-					service(null, tag, null, jOrder.keys(controls.media.selected).join(','), controls.media.load);
-				}
-			} else if (confirm(lang.all)) {
-				service(null, tag, null, null, controls.media.load);
+		var self = getSelf($(this)),
+				tag = self.tag(),
+				mediaid = self.mediaid(),
+				mediaids, filter,
+				scope = event.shiftKey ? self.parent.parent.selected() ? 'selected' : 'all' : event.ctrlKey ? 'search' : 'single';
+
+		function onSuccess() {
+			handler.call(self, mediaids, tag);
+		}
+		
+		switch (scope) {
+		case 'single':
+			// affecting tag on one specific video
+			mediaids = [self.mediaid()];
+			service(mediaid, tag, null, null, onSuccess);
+			break;
+		case 'all':
+			// affecting all tags like this one
+			if (window.confirm(lang.all)) {
+				mediaids = cache.mget(['tag', tag, 'media', '*'], {mode: flock.keys});
+				service(null, tag, null, null, onSuccess);
 			}
-		} else if (event.ctrlKey) {
-			// deleting tags from search results
-			if (filter.length && confirm(lang.hits)) {
-				service(null, tag, controls.search.filter(), null, controls.media.load);
+			break;
+		case 'search':
+			// affecting tags in search reaults
+			filter = controls.search.filter();
+			if (filter.length && window.confirm(lang.hits)) {
+				mediaids = data.media.stack()[0].data.cache.mget(['media', '*'], {mode: flock.keys});
+				service(null, tag, controls.search.filter(), null, onSuccess);
 			}
-		} else {
-			// deleting tag from one specific video
-			service(mediaid, tag, null, null, function () {
-				if (handler) {
-					handler.call(self, tag);
-				}
-			});
+			break;
+		case 'selected':
+			// affecting all tags on selected videos
+			if (window.confirm(lang.sel)) {
+				mediaids = jOrder.keys(controls.media.selected);
+				service(null, tag, null, mediaids.join(','), onSuccess);
+			}
+			break;
 		}
 	}
 	
 	// tag remove event handler
 	function onRemove(event) {
+		var self = getSelf($(this));
+
 		onButton.call(this, event, services.tag.del, {
 			sel: "Delete this tag from SELECTED videos?",
 			all: "Delete ALL tags of this kind?",
 			hits: "Delete this tag from SEARCH results?"
-		}, function (tag) {
-			this.changetag(tag, null);
+		}, function (mediaids, tag) {
+			data.media.removeTag(mediaids, tag);
+			if (mediaids.length > 1) {
+				controls.media.refresh();
+			} else {
+				self.refresh();
+			}
 		});
 		return false;
 	}
 
+	function explode(tag) {
+		var tmp = tag.split(':'),
+				names = tmp[0].split(' '),
+				kind = tmp[1] || '',
+				result = [],
+				i;
+		for (i = 0; i < names.length; i++) {
+			result.push(names[i] + ':' + kind);
+		}
+		return result;
+	}
+	
 	// tag explode (split) event handler
 	function onExplode(event) {
+		var self = getSelf($(this));
+		
 		onButton.call(this, event, services.tag.explode, {
 			sel: "Explode this tag in SELECTED videos?",
 			all: "Explode ALL tags of this kind?",
 			hits: "Explode this tag in SEARCH results?"
-		}, function (tag) {
-			this.explode(tag);
+		}, function (mediaids, tag) {
+			var tmp = explode(tag),
+					i;
+			data.media.removeTag(mediaids, tag);
+			for (i = 0; i < tmp.length; i++) {
+				data.media.addTag(mediaids, tmp[i]);
+			}
+			if (mediaids.length > 1) {
+				controls.media.refresh();
+			} else {
+				self.refresh();
+			}
 		});
 		return false;
 	}
@@ -134,10 +185,11 @@ app.controls = function (controls, $, jOrder, services, data) {
 	function onChange(event) {
 		var $this = $(this),
 				self = getSelf($this),
-				mediaid = self.data.mediaid,
-				tag = self.data.tag,
+				mediaid = self.mediaid(),
+				tag = self.tag(),
 				before = tag,
-				after = data.tag.sanitize($this.val());
+				after = data.tag.sanitize($this.val()),
+				scope = event.shiftKey ? self.parent.parent.selected() ? 'selected' : 'all' : event.ctrlKey ? 'search' : 'single';
 		
 		if (event.which === 13) {
 			// enter - saving values
@@ -145,23 +197,29 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (after === before || !after.length) {
 				return;
 			}
-			if (event.shiftKey) {
+			
+			switch (scope) {
+			case 'all':
 				// running batch tag change
-				if (confirm("Apply change to ALL tags of this kind?")) {
+				if (window.confirm("Apply change to ALL tags of this kind?")) {
 					services.tag.set(null, before, after, function () {
-						// applying changes locally
 						data.tag.set(before, after);
-						// refreshing current page
 						controls.media.refresh();
 					});
 				}
-			} else if (event.ctrlKey) {
-				// ctrl + enter is not defined for editing
-			} else {
+				break;
+			case 'search':
+				// search scope is not defined for editing
+				break;
+			case 'selected':
+				// selected scope is not defined for editing				
+				break;
+			case 'single':
 				// running single tag change
 				services.tag.set(mediaid, before, after, function () {
 					self.changetag(before, after);
 				});
+				break;
 			}
 		}
 	}
@@ -175,6 +233,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 }(app.controls || {},
 	jQuery,
 	jOrder,
+	flock,
+	app.data.cache,
 	app.services,
 	app.data);
 

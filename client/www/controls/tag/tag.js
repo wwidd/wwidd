@@ -33,7 +33,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		}
 		
 		// refreshes UI
-		function refresh() {
+		self.refresh = function () {
 			// redrawing tags for media entry
 			this.parent
 				.build()
@@ -41,7 +41,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 			controls.kinds
 				.build()
 				.render();
-		}
+		};
 		
 		// changes tag to one or more tags
 		// - before: value before change, either a string or null (insertion)
@@ -54,31 +54,9 @@ app.controls = function (controls, $, jOrder, services, data) {
 			add(after);
 			
 			// integrity & UI
-			refresh.call(this);
+			self.refresh();
 		};
-		
-		// explodes a key to its components
-		self.explode = function (before) {
-			// removing original tag
-			remove(before);
-			
-			// adding exploded bits
-			var tmp = before.split(':'),
-					names = tmp[0].split(' '),
-					kind = tmp[1],
-					i, after;
-			for (i = 0; i < names.length; i++) {
-				after = names[i];
-				if (!after.length) {
-					continue;
-				}
-				add(after + (kind ? ':' + kind : ''));
-			}
-
-			// integrity & UI
-			refresh.call(this);
-		};
-		
+				
 		return self;
 	};
 
