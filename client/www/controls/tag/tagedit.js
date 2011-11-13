@@ -196,6 +196,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 				return;
 			}
 			
+			scope:
 			switch (controls.tag.scope(event)) {
 			case 'all':
 				// running batch tag change
@@ -205,19 +206,19 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 						controls.media.refresh();
 					});
 				}
-				break;
+				break scope;
 			case 'search':
 				// search scope is not defined for editing
-				break;
+				break scope;
 			case 'selected':
 				// selected scope is not defined for editing				
-				break;
+				break scope;
 			case 'single':
 				// running single tag change
 				services.tag.set(mediaid, before, after, function () {
 					self.changetag(before, after);
 				});
-				break;
+				break scope;
 			}
 		}
 	}
