@@ -98,11 +98,7 @@ app.data = function (data, flock, cache) {
 			ref.name = tmp[0];
 			ref.kind = tmp[1];
 			
-			// moving tag reference to new key
-			tag.munset(['media', '*', 'tags', before]);
-			tag.mset(['media', '*', 'tags', after], ref);
-			
-			// removing old tag from index
+			// removing old tag
 			data.tag.unset(before);
 	
 			// adding new tag to index
@@ -112,16 +108,24 @@ app.data = function (data, flock, cache) {
 			cache.set(['name', ref.name, ref.kind], ref);
 			cache.set(['kind', ref.kind, ref.name], ref);
 			cache.set(['search'].concat(after.toLowerCase().split('').concat(['tag'])), ref);
+			
+			// moving tag reference to new key
+			tag.mset(['media', '*', 'tags', after], ref);
 		},
 		
 		// removes tag from cache altogether, updating indexes
 		// - before: current tag value (string)
 		unset: function (before) {
-			var tmp = before.split(':');
+			var ref = cache.get(['tag', before]),
+					tag = flock(ref),
+					tmp = before.split(':');
+			
+			// removing references from affected media entries
+			tag.munset(['media', '*', 'tags', before]);
 			
 			// removing tag from cache
 			cache.unset(['tag', before]);
-			
+
 			// removing references from indexes
 			cache.unset(['name', tmp[0], tmp[1]]);
 			cache.unset(['kind', tmp[1], tmp[0]]);
