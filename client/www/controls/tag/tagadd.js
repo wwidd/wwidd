@@ -3,10 +3,10 @@
 //
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder, confirm */
+/*global jQuery, jOrder, flock, confirm */
 var app = app || {};
 
-app.controls = function (controls, $, jOrder, services, data) {
+app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 	// - mediaid: media identifier
 	controls.tagadd = function (mediaid) {
 		var	self = controls.control.create(controls.tag(mediaid));
@@ -77,7 +77,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 					term +
 					data.tags.searchTag(term.toLowerCase()).substr(term.length),
 				name = match.length ? match : term,
-				filter;
+				filter, mediaids;
 		
 		key:
 		switch (event.which) {
@@ -95,17 +95,25 @@ app.controls = function (controls, $, jOrder, services, data) {
 			case 'selected':
 				// shift + enter is handled only when entry is selected (and possibly others)
 				if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
-					services.tag.add(null, name, null, jOrder.keys(controls.media.selected).join(','), controls.media.load);
+					mediaids = jOrder.keys(controls.media.selected);
+					services.tag.add(null, name, null, mediaids.join(','), function () {
+						data.media.addTag(mediaids, name);
+						controls.media.refresh();
+					});
 				}
 				break scope;
 			case 'search':
 				// adding tag(s) to multiple media
 				filter = controls.search.filter();
 				if (filter.length && confirm("Add this to SEARCH results?")) {
-					services.tag.add(null, name, filter, null, controls.media.load);
+					mediaids = data.media.stack()[0].data.cache.mget(['media', '*'], {mode: flock.keys});
+					services.tag.add(null, name, filter, null, function () {
+						data.media.addTag(mediaids, name);
+						controls.media.refresh();
+					});
 				}
 				break scope;
-			case 'single':	
+			case 'single':
 				// adding tag(s) to single media file
 				services.tag.add(mediaid, name, null, null, function () {
 					self.changetag(null, name);
@@ -134,6 +142,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 }(app.controls || {},
 	jQuery,
 	jOrder,
+	flock,
+	app.data.cache,
 	app.services,
 	app.data);
 
