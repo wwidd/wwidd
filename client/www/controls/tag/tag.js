@@ -17,7 +17,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 		// removes tag from media entry
 		function remove(before) {
 			if (before) {
-				data.media.removeTag(mediaid, before);
+				data.media.removeTag([mediaid], before);
 			}
 		}
 		
@@ -27,7 +27,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 			if (after) {
 				names = data.tag.split(after);
 				for (i = 0; i < names.length; i++) {
-					data.media.addTag(data.media.getRow(mediaid), names[i]);
+					data.media.addTag([mediaid], names[i]);
 				}
 			}
 		}

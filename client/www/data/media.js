@@ -91,7 +91,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 					// setting properties
 					data.media.setRating(row);
 					for (j = 0; j < tags.length; j++) {
-						data.media.addTag(row, tags[j]);
+						data.media.addTag([row.mediaid], tags[j]);
 					}
 				}
 				
@@ -198,35 +198,45 @@ app.data = function (data, jOrder, flock, cache, services) {
 			return cache.get(['media', mediaid]) || {};
 		},
 		
-		// adds a tag to media entry
-		addTag: function (row, tag) {
-			var mediaid = row.mediaid,
-					path_media_tag = ['media', mediaid, 'tags', tag],
-					ref = cache.get(path_media_tag);
+		// adds a tag to media entries
+		addTag: function (mediaids, tag) {
+			var path = ['media', mediaids, 'tags', tag],				// path to this tag on all affected entries
+					count = cache.mget(path, {mode: flock.count}),	// number of entries already tagged
+					media = cache.mget(['media', mediaids]),				// media entries affected
+					ref = data.tag.get(tag),												// reference to tag
+					i;
 
-			if (ref !== tag) {
-				// media entry has no such tag yet
-				// getting or creating new tag
-				ref = data.tag.get(tag);
-				
-				// setting references
-				cache.set(path_media_tag, ref);
-				ref.media[mediaid] = row;
-				ref.count = ref.count + 1;
+			// setting tag references on media
+			cache.mset(path, ref);
+			
+			// adding / updating media references on tag
+			for (i = 0; i < mediaids.length; i++) {
+				ref.media[mediaids[i]] = media[i];
 			}
+			
+			// increasing count by no. of tags actually added
+			ref.count += media.length - count;
 		},
-				
-		// removes tag from media entry
-		removeTag: function (mediaid, tag) {
+		
+		// removes tag from media entries
+		removeTag: function (mediaids, tag) {
+			var path = ['media', mediaids, 'tags', tag],				// path to this tag on all affected entries
+					tags = cache.mget(path),												// tags affected by removal
+					ref;
+			
 			// removing tag from medium if present
-			if (typeof cache.get(['media', mediaid, 'tags', tag]) !== 'undefined') {
+			if (tags.length) {
+				ref = cache.get(['tag', tag]);
+				
 				// removing direct references
-				cache.unset(['media', mediaid, 'tags', tag]);
-				cache.unset(['tag', tag, 'media', mediaid]);
-				cache.set(['tag', tag, 'count'], cache.get(['tag', tag, 'count']) - 1);
+				cache.munset(['media', mediaids, 'tags', tag]);
+				cache.munset(['tag', tag, 'media', mediaids]);
+				
+				// deducting the number of tags actually removed
+				ref.count -= tags.length;
 				
 				// removing tag altogether
-				if (isEmpty(cache.get(['tag', tag, 'media']))) {
+				if (isEmpty(ref.media)) {
 					data.tag.unset(tag);
 				}
 			}
@@ -303,8 +313,6 @@ app.data = function (data, jOrder, flock, cache, services) {
 					}
 				}
 			}
-
-			return data.media;
 		}
 	};
 	
