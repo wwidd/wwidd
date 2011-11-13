@@ -7,9 +7,14 @@
 var app = app || {};
 
 app.controls = function (controls, $, data) {
+	var lookup = {};
+	
 	controls.tagger = function (mediaid) {
 		var	self = controls.control.create(),
+				base_remove = self.remove,
 				adder;
+		
+		lookup[self.id] = self;
 		
 		//////////////////////////////
 		// Utility functions
@@ -41,6 +46,11 @@ app.controls = function (controls, $, data) {
 			return self;
 		};
 		
+		self.remove = function () {
+			delete lookup[self.id];
+			return base_remove.call(self);
+		};
+		
 		self.html = function () {
 			var result = ['<div id="', self.id, '" class="tagger">'],
 					i, child;
@@ -51,11 +61,25 @@ app.controls = function (controls, $, data) {
 					result.push(child.html());
 				}
 			}
-			result.push('</div>');			
+			result.push('</div>');
 			return result.join('');
 		};
 		
 		return self;
+	};
+	
+	//////////////////////////////
+	// Static methods
+
+	controls.tagger.render = function () {
+		var id;
+		for (id in lookup) {
+			if (lookup.hasOwnProperty(id)) {
+				lookup[id]
+					.build()
+					.render();
+			}
+		}
 	};
 	
 	return controls;
