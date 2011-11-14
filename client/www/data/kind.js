@@ -13,7 +13,7 @@ app.data = function (data, jOrder, cache, services) {
 		lookup = {};
 		var i;
 		for (i = 0; i < kinds.length; i++) {
-			lookup[kinds[i]] = i % 11 + 1;
+			lookup[kinds[i]] = i % 12 + 1;
 		}
 	}
 	
