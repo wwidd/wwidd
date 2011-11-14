@@ -4,7 +4,7 @@
 /*global jQuery, jOrder, window */
 var app = app || {};
 
-app.controls = function (controls, $, jOrder, services) {
+app.controls = function (controls, $, jOrder, data, services) {
 	controls.actions = function () {
 		var popup = controls.select(["Delete"]).stateful(false),
 				self = controls.control.create(controls.dropdown("Actions", popup));
@@ -20,7 +20,10 @@ app.controls = function (controls, $, jOrder, services) {
 			].join(' '))) {
 				// calling deletion service
 				// then reloading entire library
-				services.media.del(mediaids.join(','), controls.media.load);
+				services.media.del(mediaids.join(','), function () {
+					data.media.unset(mediaids);
+					controls.media.refresh();
+				});
 			}
 		}
 		
@@ -43,5 +46,6 @@ app.controls = function (controls, $, jOrder, services) {
 }(app.controls || {},
 	jQuery,
 	jOrder,
+	app.data,
 	app.services);
 

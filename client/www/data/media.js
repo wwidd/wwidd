@@ -85,6 +85,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 				// setting up jOrder table
 				// required for paging
 				table = jOrder(preprocess(json))
+					.index('id', ['mediaid'])
 					.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string});
 					
 				// initializing stack
@@ -172,6 +173,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 							media: hits
 						}),
 						table: jOrder(jOrder.values(hits))
+							.index('id', ['mediaid'])
 							.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string})
 					}
 				});
@@ -183,6 +185,22 @@ app.data = function (data, jOrder, flock, cache, services) {
 		// retrieves a reference to the data associated with a media entry
 		getRow: function (mediaid) {
 			return cache.get(['media', mediaid]) || {};
+		},
+		
+		// removes a set of media entries from the cache
+		// - mediaids: array of numeric media ids
+		unset: function (mediaids) {
+			var media = flock(cache.mget(['media', mediaids])),
+					i;
+			
+			// removing media references from tags
+			media.munset(['tag', '*', 'media', mediaids]);
+			
+			// removing media entries
+			for (i = 0; i < stack.length; i++) {
+				stack[i].data.table.remove(media.root(), {indexName: 'id'});
+				stack[i].data.cache.munset(['media', mediaids]);
+			}
 		},
 		
 		// adds many tags to one media entry
