@@ -6,14 +6,11 @@ var app = app || {};
 
 app.controls = function (controls, $, jOrder, data, services) {
 	controls.actions = function () {
-		var popup = controls.select(["Delete"]).stateful(false),
+		var popup = controls.select(["Refresh thumbnail", "Delete"]).stateful(false),
 				self = controls.control.create(controls.dropdown("Actions", popup));
 
 		// deletes video entries
-		function remove() {
-			// obtaining selected media ids
-			var mediaids = jOrder.keys(controls.media.selected);
-			
+		function remove(mediaids) {
 			if (window.confirm([
 				"You're about to delete", mediaids.length, (mediaids.length > 1 ? "entries" : "entry"), "from your library.",
 				"This cannot be undone. Proceed?"
@@ -27,15 +24,30 @@ app.controls = function (controls, $, jOrder, data, services) {
 			}
 		}
 		
+		// extracts thumbnails and keywords for media entries
+		function extract(mediaids) {
+			services.media.extract(mediaids.join(','), true, function () {
+				controls.media.poll();
+			});
+		}
+		
 		popup.onChange(function (i, item, selected) {
+			// obtaining selected media ids
+			var mediaids = jOrder.keys(controls.media.selected);
+			
+			action:
 			switch (i) {
 			case 0:
+				// extracting from video entries
+				extract(mediaids);
+				break action;
+			case 1:
 				// deleting video entries
-				remove();
-				break;
+				remove(mediaids);
+				break action;
 			default:
 			case 1000:
-				break;
+				break action;
 			}
 		});
 		
