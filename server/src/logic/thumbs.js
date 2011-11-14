@@ -16,7 +16,8 @@ thumbs = function () {
 		// generates thumbnails for video files
 		// identified by their mediaid's
 		// - mediaids: array of media ids to generate thumbnail for
-		generate: function (mediaids, handler) {
+		// - force: when set, extraction doesn't check hash
+		generate: function (mediaids, force, handler) {
 			media.multiGet(mediaids, function (data) {
 				var elems = [],
 						i, entry,
@@ -25,7 +26,7 @@ thumbs = function () {
 				// generating hashes and collecting process input
 				for (i = 0; i < data.length; i++) {
 					entry = data[i];
-					if (!entry.hash.length) {
+					if (!entry.hash.length || force) {
 						shasum = $crypto.createHash('md5');
 						shasum.update(entry.path);
 						entry.hash = shasum.digest('hex');
@@ -34,14 +35,16 @@ thumbs = function () {
 				}
 				
 				// ending request
-				if (handler) {
+				if (typeof handler === 'function') {
 					handler();
 				}
 
 				// passing elems to thumbnail extraction process
-				processes.thumbnails
-					.bump(elems)
-					.start(true);
+				if (elems.length) {
+					processes.thumbnails
+						.bump(elems)
+						.start(true);
+				}
 			});
 		}
 	};

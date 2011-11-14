@@ -52,9 +52,10 @@ app.services = function ($, window, service, poll) {
 		
 			// generates thumbs for a set of video files
 			// - mediaids: comma separated list of media ids
-			extract: function (mediaids, handler) {
+			extract: function (mediaids, force, handler) {
 				var data = {
-					mediaids: mediaids
+					mediaids: mediaids,
+					force: force
 				};
 				service('media/extract').call(data, handler);			
 			},

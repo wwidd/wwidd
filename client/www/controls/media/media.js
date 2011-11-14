@@ -225,7 +225,7 @@ app.controls = (function (controls, $, data, services) {
 			
 			// calling thumbnail service
 			if (mediaids.length) {
-				services.media.extract(mediaids.join(','), function () {
+				services.media.extract(mediaids.join(','), false, function () {
 					self.poll();
 				});
 			}

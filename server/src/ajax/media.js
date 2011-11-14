@@ -50,7 +50,7 @@ function run(endpoint, query, res) {
 			if (!query.mediaids) {
 				throw "Missing parameters";
 			}
-			thumbs.generate(query.mediaids.split(/[^0-9]+/), function (data) {
+			thumbs.generate(query.mediaids.split(/[^0-9]+/), query.force, function (data) {
 				ok(data);
 			});
 		});
