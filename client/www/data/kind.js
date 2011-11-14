@@ -17,7 +17,7 @@ app.data = function (data, jOrder, cache, services) {
 		}
 	}
 	
-	data.kinds = function () {
+	data.kind = function () {
 		var self = {
 			// gets or creates a new entry in the kind index
 			get: function (kind) {

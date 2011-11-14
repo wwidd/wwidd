@@ -19,7 +19,7 @@ app.controls = function (controls, $, data) {
 		self.html = function () {
 			var id = 'kind' + kind;
 			return [
-				'<span id="', self.id, '" class="kind tag display ', data.kinds.getNumber(kind), '" >',
+				'<span id="', self.id, '" class="kind tag display ', data.kind.getNumber(kind), '" >',
 				'<input type="checkbox" id="', id, '"', !self.parent || !self.parent.hidden(kind) ? ' checked="checked"' : '', '/>',
 				'<label for="', id, '">', kind ? kind : "[default]", '</label>',
 				'</span>'

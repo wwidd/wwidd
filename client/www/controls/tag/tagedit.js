@@ -43,7 +43,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 			var hit = controls.search.filter().length && data.tag.match(controls.search.filter(), name) ? 'hit' : null;
 			
 			return [
-				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kinds.getNumber(kind), hit].join(' '), '" title="', kind, '">',
+				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
 				'<span>', name.replace(' ', '&nbsp;'), '</span>',
 				'</span>'
 			].join('');
@@ -51,7 +51,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 
 		self.edit = function () {
 			return [
-				'<span id="', self.id, '" class="tag tagedit edit ' + data.kinds.getNumber(kind) + '">',
+				'<span id="', self.id, '" class="tag tagedit edit ' + data.kind.getNumber(kind) + '">',
 				'<div class="background"></div>',
 				'<input type="text" class="focus" value="', tag, '"/>',
 				'<a href="#" class="button remove" title="Remove tag"></a>',

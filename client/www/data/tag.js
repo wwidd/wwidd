@@ -62,7 +62,7 @@ app.data = function (data, flock, cache) {
 				cache.set(['tag', tag], ref);
 				
 				// adding node to kinds index
-				data.kinds.get(ref.kind)[ref.name] = ref;
+				data.kind.get(ref.kind)[ref.name] = ref;
 				
 				// adding node to basic indexes
 				cache.set(['name', ref.name, ref.kind], ref);
@@ -96,7 +96,7 @@ app.data = function (data, flock, cache) {
 			cache.set(['tag', after], ref);
 					
 			// adding node to kinds index
-			data.kinds.get(ref.kind)[ref.name] = ref;
+			data.kind.get(ref.kind)[ref.name] = ref;
 				
 			// adding new tag to index
 			cache.set(['name', ref.name, ref.kind], ref);
@@ -130,7 +130,7 @@ app.data = function (data, flock, cache) {
 			}
 			// removing kind altogether
 			if (Object.isEmpty(cache.get(['kind', tmp[1]]))) {
-				data.kinds.unset(tmp[1]);
+				data.kind.unset(tmp[1]);
 			}						
 		}
 	};
