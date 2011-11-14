@@ -29,8 +29,8 @@ app.controls = function (controls, $, jOrder, data) {
 		// compares tags
 		// - a,b: tag objects to compare
 		function compare(a, b) {
-			var akind = a.kind.toLowerCase(),
-					bkind = b.kind.toLowerCase(),
+			var akind = (a.kind || '').toLowerCase(),
+					bkind = (b.kind || '').toLowerCase(),
 					aname, bname;
 			if (akind > bkind) {
 				return 1;
