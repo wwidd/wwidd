@@ -3,10 +3,10 @@
 //
 // Displays and edits tags.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, jOrder */
 var app = app || {};
 
-app.controls = function (controls, $, data) {
+app.controls = function (controls, $, jOrder, data) {
 	var lookup = {};
 	
 	controls.tagger = function (mediaid) {
@@ -26,17 +26,39 @@ app.controls = function (controls, $, data) {
 		//////////////////////////////
 		// Overrides
 
+		// compares tags
+		// - a,b: tag objects to compare
+		function compare(a, b) {
+			var akind = a.kind.toLowerCase(),
+					bkind = b.kind.toLowerCase(),
+					aname, bname;
+			if (akind > bkind) {
+				return 1;
+			} else if (akind < bkind) {
+				return -1;
+			} else {
+				aname = a.name.toLowerCase();
+				bname = b.name.toLowerCase();
+				if (aname > bname) {
+					return 1;
+				} else if (aname < bname) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		}
+		
 		self.build = function () {
 			self.clear();
 
-			// adding tag editor controls
+			// adding tag editor controls in sorted tag order
 			var row = data.media.getRow(mediaid),
-					tag;
-			for (tag in row.tags) {
-				if (row.tags.hasOwnProperty(tag)) {
-					controls.tagedit(mediaid, tag)
-						.appendTo(self);
-				}
+					tags = jOrder.values(row.tags).sort(compare),
+					i;
+			for (i = 0; i < tags.length; i++) {
+				controls.tagedit(mediaid, tags[i].tag)
+					.appendTo(self);
 			}
 			
 			// adding tag adder control
@@ -85,5 +107,6 @@ app.controls = function (controls, $, data) {
 	return controls;
 }(app.controls || {},
 	jQuery,
+	jOrder,
 	app.data);
 
