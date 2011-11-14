@@ -61,9 +61,11 @@ app.data = function (data, flock, cache) {
 				// adding node to cache
 				cache.set(['tag', tag], ref);
 				
+				// adding node to kinds index
+				data.kinds.get(ref.kind)[ref.name] = ref;
+				
 				// adding node to basic indexes
 				cache.set(['name', ref.name, ref.kind], ref);
-				cache.set(['kind', ref.kind, ref.name], ref);
 				cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
 			}
 			
@@ -93,9 +95,11 @@ app.data = function (data, flock, cache) {
 			// adding new tag to index
 			cache.set(['tag', after], ref);
 					
+			// adding node to kinds index
+			data.kinds.get(ref.kind)[ref.name] = ref;
+				
 			// adding new tag to index
 			cache.set(['name', ref.name, ref.kind], ref);
-			cache.set(['kind', ref.kind, ref.name], ref);
 			cache.set(['search'].concat(after.toLowerCase().split('').concat(['tag'])), ref);
 			
 			// moving tag reference to new key
@@ -126,7 +130,7 @@ app.data = function (data, flock, cache) {
 			}
 			// removing kind altogether
 			if (Object.isEmpty(cache.get(['kind', tmp[1]]))) {
-				cache.unset(['kind', tmp[1]]);
+				data.kinds.unset(tmp[1]);
 			}						
 		}
 	};
