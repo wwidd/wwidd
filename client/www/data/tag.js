@@ -9,6 +9,19 @@ var app = app || {};
 app.data = function (data, flock, cache) {
 	var RE_SEPARATOR = /\s*[^A-Za-z0-9:\s]+\s*/;
 	
+	// adds tag to cache
+	function add(tag, ref) {
+		// adding node to cache
+		cache.set(['tag', tag], ref);
+		
+		// adding node to kinds index
+		data.kind.get(ref.kind)[ref.name] = ref;
+		
+		// adding node to basic indexes
+		cache.set(['name', ref.name, ref.kind], ref);
+		cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
+	}
+	
 	// tag collection
 	data.tag = {
 		// splits string along non-word parts
@@ -59,14 +72,7 @@ app.data = function (data, flock, cache) {
 				};
 				
 				// adding node to cache
-				cache.set(['tag', tag], ref);
-				
-				// adding node to kinds index
-				data.kind.get(ref.kind)[ref.name] = ref;
-				
-				// adding node to basic indexes
-				cache.set(['name', ref.name, ref.kind], ref);
-				cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
+				add(tag, ref);
 			}
 			
 			return ref;
@@ -89,20 +95,13 @@ app.data = function (data, flock, cache) {
 			ref.name = tmp[0];
 			ref.kind = tmp[1];
 			
-			// removing old tag
+			// removing reference from old tag
 			data.tag.unset(before);
 	
-			// adding new tag to index
-			cache.set(['tag', after], ref);
-					
-			// adding node to kinds index
-			data.kind.get(ref.kind)[ref.name] = ref;
-				
-			// adding new tag to index
-			cache.set(['name', ref.name, ref.kind], ref);
-			cache.set(['search'].concat(after.toLowerCase().split('').concat(['tag'])), ref);
+			// adding reference to new tag
+			add(after, ref);
 			
-			// moving tag reference to new key
+			// moving tag reference to new key under affected media entries
 			tag.mset(['media', '*', 'tags', after], ref);
 		},
 		
