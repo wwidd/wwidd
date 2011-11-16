@@ -71,8 +71,7 @@ CHECKER
 ******************************/
 
 #checker .w_checker > input {
-	height: 14px;
-	margin: 4px 0;
+	margin: 0;
 	padding: 0;
 }
 

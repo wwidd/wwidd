@@ -26,9 +26,17 @@ app.controls = function (controls, $) {
 		}
 		
 		self.init = function (elem) {
+			// positions checkbox in the middle of its parent vertically
+			function adjustMargin() {
+				return (elem.height() - $(this).outerHeight(false)) / 2;
+			}
+			
 			elem
 				.addClass('w_checker')
-				.find('input').click(onClick).end();
+				.find('input')
+					.css('margin-top', adjustMargin)
+					.click(onClick)
+				.end();
 			
 			// controlling actions dropdown state
 			controls.actions
