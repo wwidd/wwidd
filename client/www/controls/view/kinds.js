@@ -50,7 +50,7 @@ app.controls = function (controls, $, flock, data) {
 			data.cookie.set('hiddenkinds', toArray(hidden).join(','));
 			
 			// custom callback
-			controls.media
+			controls.tagger
 				.render();
 			
 			return self;
