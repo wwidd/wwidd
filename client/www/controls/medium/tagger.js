@@ -3,11 +3,12 @@
 //
 // Displays and edits tags.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder */
+/*global jQuery, jOrder, window */
 var app = app || {};
 
 app.controls = function (controls, $, jOrder, data) {
-	var lookup = {};
+	var lookup = {},		// lookup object for tagger widgets (by id)
+			lastWidth;			// last measured available width for compact view media entry
 	
 	controls.tagger = function (mediaid) {
 		var	self = controls.control.create(),
@@ -73,6 +74,10 @@ app.controls = function (controls, $, jOrder, data) {
 			return base_remove.call(self);
 		};
 		
+		self.init = function (elem) {
+			controls.tagger.resize(true, elem);
+		};
+		
 		self.html = function () {
 			var result = ['<div id="', self.id, '" class="tagger">'],
 					i, child;
@@ -93,10 +98,50 @@ app.controls = function (controls, $, jOrder, data) {
 	//////////////////////////////
 	// Static methods
 
+	// resizes tagger widgets to fit screen width
+	controls.tagger.resize = function (force, elem) {
+		var $list = $('div.media.list'),
+				$tagger = elem || $list.find('div.tagger'),
+				width, full = $list.width(),
+				$model,
+				left;
+				
+		if (force ||																// either forced, or,
+				(!lastWidth || full !== lastWidth) &&		// last width doesn't match current width, and,
+				$tagger.length) {												// there are visible tagger widgets
+			// obtaining single tagger for measurement
+			$model = $tagger.eq(0);
+			
+			if ($model.css('position') === 'absolute') {
+				// tagger absolutely positioned
+				left = $model.position().left;
+			} else if ($model.css('display') === 'inline-block') {
+				// tagger is inline-block
+				// measuring padding + border + margin + scroller
+				left = $model.outerWidth(true) - $model.width() + 15;
+				
+				// counting all previous siblings' width
+				$model.prevAll()
+					.each(function () {
+						left += $(this).outerWidth(true);
+					});
+			} else {
+				// failsafe
+				// will look ugly
+				left = full;
+			}
+			
+			// setting updated width
+			$tagger.width(full - left);
+
+			// updating state indicator
+			lastWidth = full;
+		}
+	};
+
+	// re-renders all visible tagger widgets
 	controls.tagger.render = function () {
 		var id;
-		
-		// re-building and re-rendering all tagger widgets
 		for (id in lookup) {
 			if (lookup.hasOwnProperty(id)) {
 				lookup[id]
@@ -104,10 +149,19 @@ app.controls = function (controls, $, jOrder, data) {
 					.render();
 			}
 		}
-		
-		// re-adjusting tagger widths
-		controls.medium.resize(true);
 	};
+
+	//////////////////////////////
+	// Static event handlers
+
+	function onResize(elem) {
+		controls.tagger.resize();
+	}
+	
+	//////////////////////////////
+	// Static event bindings
+
+	$(window).bind('resize', onResize);
 	
 	return controls;
 }(app.controls || {},

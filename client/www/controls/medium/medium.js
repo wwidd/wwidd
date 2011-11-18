@@ -20,7 +20,6 @@ app.controls = function (controls, $, services, data) {
 	},
 	
 	// static properties
-	lastWidth,			// last measured available width for compact view media entry
 	lastOpen,				// control reference to the last opened medium (thumb or compact to expanded)
 	
 	// static event handlers
@@ -104,10 +103,6 @@ app.controls = function (controls, $, services, data) {
 			return self;
 		};
 		
-		self.init = function (elem) {
-			controls.medium.resize(true, elem);
-		};
-		
 		self.html = function () {
 			var parent, child,
 					row = data.media.getRow(mediaid);
@@ -166,49 +161,6 @@ app.controls = function (controls, $, services, data) {
 		lastOpen = null;
 	};
 
-	// resizes tagger 'column' to fit screen width
-	controls.medium.resize = function (force, elem) {
-		var $list = elem || $('div.media.list'),
-				width, full = $list.width(),
-				$media, $model, $tagger,
-				left;
-
-		if (force || (!lastWidth || full !== lastWidth) && $list.length) {
-			$media = elem || $list.children('div.medium');
-			$tagger = $media.find('div.tagger');
-
-			if ($tagger.length) {
-				// obtaining single tagger for measurement
-				$model = $media.eq(0).find('div.tagger');
-				
-				if ($model.css('position') === 'absolute') {
-					// tagger absolutely positioned
-					left = $model.position().left;
-				} else if ($model.css('display') === 'inline-block') {
-					// tagger is inline-block
-					// measuring padding + border + margin + scroller
-					left = $model.outerWidth(true) - $model.width() + 15;
-					
-					// counting all previous siblings' width
-					$model.prevAll()
-						.each(function () {
-							left += $(this).outerWidth(true);
-						});
-				} else {
-					// failsafe
-					// will look ugly
-					left = full;
-				}
-				
-				// setting updated width
-				$tagger.width(full - left);
-
-				// updating state indicator
-				lastWidth = full;
-			}			
-		}
-	};
-	
 	//////////////////////////////
 	// Static event handlers
 	
@@ -257,10 +209,6 @@ app.controls = function (controls, $, services, data) {
 		controls.checker.render();
 	};
 	
-	onResize = function (elem) {
-		controls.medium.resize();
-	};
-	
 	//////////////////////////////
 	// Event bindings
 
@@ -268,8 +216,6 @@ app.controls = function (controls, $, services, data) {
 		.live('click', onClick);
 	$('div.check > :checkbox')
 		.live('click', onChecked);
-	$(window)
-		.bind('resize', onResize);
 	
 	return controls;
 }(app.controls || {},
