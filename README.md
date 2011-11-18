@@ -1,13 +1,13 @@
 Wwidd
 =====
 
-Wwidd is a **browser-based, desktop video library and video tagger**, for organizing, searching, and playing your collection.
+Wwidd is a **browser-based desktop video library and video tagger**, for organizing, searching, and playing your collection.
 
-Even working with thousands of videos, Wwidd is designed to be responsive and fast to work with. Having frequently used actions such as search and tagging heavily assisted, you can set up a library with meaningful, searchable tags in no time.
+Wwidd is designed to be responsive and fast to work with, even in the thousand-file range. Having frequent actions such as search and tagging heavily assisted, you can set up a library with meaningful, searchable tags in no time.
 
 Wwidd is open, written entirely in JavaScript, and built on top of other open libraries and tools such as Node.js, SQLite, ffmpeg, and VLC.
 
-Full packages and dependencies are nonger available from here. Check the Downloads page at [http://wwidd.com](http://wwidd.com).
+Full packages and dependencies are nonger available from here. Check [http://wwidd.com](http://wwidd.com).
 
 Features
 --------
@@ -25,6 +25,7 @@ Search:
 
 - Searching by multiple tags
 - Auto-complete
+- Live search
 
 Batch actions:
 
@@ -37,7 +38,7 @@ Installation
 ### Simple installation on Windows and OS X (Snow Leopard)
 
 1. Download and install [VLC](http://www.videolan.org/vlc/).
-2. Go to [http://wwidd.com](http://wwidd.com) and download the latest full package `WwiddDemoXXX.zip` (application + dependencies).
+2. Go to [http://wwidd.com](http://wwidd.com) and download the latest full package `Wwidd###OS.zip` (application + dependencies).
 3. Unzip the package into a folder of your choice. E.g. `C:\Wwidd`.
 
 ### Normal installation on Windows (Cygwin), Linux, and OS X
@@ -49,7 +50,7 @@ Installation
 Dependency list:
 
 - JavaScript libs (all bundled in a ZIP file under 'downloads')
-	- jQuery 1.6.1
+	- jQuery 1.7
 	- jOrder 1.2
 	- QUnit (for unit tests)
 - Node.js 0.4.x:
