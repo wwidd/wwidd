@@ -27,7 +27,7 @@ app.controls = (function (controls, $, data) {
 			controls.checker
 				.render($('#checker').empty());
 				
-			// adding select all
+			// adding actions
 			controls.actions
 				.render($('#checker'));
 
