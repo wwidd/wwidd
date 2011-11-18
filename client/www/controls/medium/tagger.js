@@ -95,6 +95,8 @@ app.controls = function (controls, $, jOrder, data) {
 
 	controls.tagger.render = function () {
 		var id;
+		
+		// re-building and re-rendering all tagger widgets
 		for (id in lookup) {
 			if (lookup.hasOwnProperty(id)) {
 				lookup[id]
@@ -102,6 +104,9 @@ app.controls = function (controls, $, jOrder, data) {
 					.render();
 			}
 		}
+		
+		// re-adjusting tagger widths
+		controls.medium.resize(true);
 	};
 	
 	return controls;
