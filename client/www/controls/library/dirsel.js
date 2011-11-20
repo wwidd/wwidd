@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Directory Selector Control
 //
-// Tree control designed specifically to display directories
+// Tree widget designed specifically to display directories
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, services) {
+app.widgets = function (widgets, $, wraith, services) {
 	// tells whether an object has any own propertes
 	function hasOwnProperties(obj) {
 		var prop;
@@ -20,7 +20,7 @@ app.controls = function (controls, $, services) {
 
 	// directory selection handler
 	function onSelect($node, node) {
-		var self = controls.lookup[$node.closest('.w_popup').attr('id')];
+		var self = wraith.lookup($node, '.w_popup');
 		self.btnOk()
 			.disabled({self: false})
 			.render();
@@ -58,12 +58,12 @@ app.controls = function (controls, $, services) {
 		}
 	}
 
-	controls.dirsel = function () {		
-		var self = controls.control.create(controls.popup('centered')),
+	widgets.dirsel = function () {		
+		var self = wraith.widget.create(widgets.popup('centered')),
 				base_init = self.init,
-				tree = controls.tree(onSelect, onExpandCollapse),
-				btnCancel = controls.button("Cancel"),
-				btnOk = controls.button("OK").disabled({self: true});
+				tree = widgets.tree(onSelect, onExpandCollapse),
+				btnCancel = widgets.button("Cancel"),
+				btnOk = widgets.button("OK").disabled({self: true});
 		
 		// initial service call for root dirs
 		services.sys.dirlist(null, function (json) {
@@ -72,7 +72,7 @@ app.controls = function (controls, $, services) {
 				.json(json.data)
 				.appendTo(self);
 				
-			// re-rendering full control
+			// re-rendering entire widget
 			self
 				.render()
 				.find('div.spinner')
@@ -132,8 +132,9 @@ app.controls = function (controls, $, services) {
 		return self;
 	};
 	
-	return controls;
-}(app.controls,
+	return widgets;
+}(app.widgets,
 	jQuery,
+	wraith,
 	app.services);
 

@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder, escape */
+/*global jQuery, wraith, jOrder, escape */
 var app = app || {};
 
-app.controls = function (controls, $, jOrder, services, data) {
+app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 	// - mediaid: media identifier
-	controls.tag = function (mediaid) {
-		var	self = controls.control.create(controls.editable());
+	widgets.tag = function (mediaid) {
+		var	self = wraith.widget.create(widgets.editable());
 		
-		self.hints = controls.tag.hints;
+		self.hints = widgets.tag.hints;
 
 		//////////////////////////////
 		// Control
@@ -36,7 +36,7 @@ app.controls = function (controls, $, jOrder, services, data) {
 			this.parent
 				.build()
 				.render();
-			controls.kinds
+			widgets.kinds
 				.build()
 				.render();
 		};
@@ -61,8 +61,8 @@ app.controls = function (controls, $, jOrder, services, data) {
 	//////////////////////////////
 	// Static properties
 
-	// hints associated with this control
-	controls.tag.hints = [
+	// hints associated with this widget
+	widgets.tag.hints = [
 		"Press ESC to exit edit mode.",
 		"Use TAB and SHIFT + TAB to move between tags."
 	];
@@ -70,15 +70,15 @@ app.controls = function (controls, $, jOrder, services, data) {
 	//////////////////////////////
 	// Static methods
 
-	controls.tag.scope = function (event) {
-		return event.shiftKey ? !Object.isEmpty(controls.media.selected) ? 'selected' : 'all' : event.ctrlKey ? 'search' : 'single';
+	widgets.tag.scope = function (event) {
+		return event.shiftKey ? !Object.isEmpty(widgets.media.selected) ? 'selected' : 'all' : event.ctrlKey ? 'search' : 'single';
 	};
 	
 	//////////////////////////////
 	// Common static event handlers
 
 	function getSelf(elem) {
-		return controls.lookup[elem.closest('.tag').attr('id')];
+		return wraith.lookup(elem, '.tag');
 	}
 
 	// handles navigation events
@@ -103,9 +103,10 @@ app.controls = function (controls, $, jOrder, services, data) {
 	
 	$('.tag.edit input.focus').live('keydown', onNav);
 
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	jOrder,
 	app.services,
 	app.data);

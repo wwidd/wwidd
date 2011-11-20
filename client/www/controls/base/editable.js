@@ -5,10 +5,10 @@
 // displaying (default) and one for editing its value. The latter becomes
 // available when clicking on the display state.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, app */
+/*global jQuery, wraith, app */
 var app = app || {};
 
-app.controls = function (controls, $) {
+app.widgets = function (widgets, $, wraith) {
 	var
 	
 	// event.type for clicking ('click' or 'touchend')
@@ -18,11 +18,11 @@ app.controls = function (controls, $) {
 	onClick,
 	onClickOutside;
 	
-	controls.editable = function () {
-		var self = controls.control.create(),
+	widgets.editable = function () {
+		var self = wraith.widget.create(),
 				mode = 'display';
 
-		self.hints = controls.editable.hints;
+		self.hints = widgets.editable.hints;
 		
 		//////////////////////////////
 		// Utility functions
@@ -38,7 +38,7 @@ app.controls = function (controls, $) {
 					.focus();
 				
 				// displaying hint
-				controls.hints
+				widgets.hints
 					.hints(this.hints)
 					.render();
 
@@ -51,7 +51,7 @@ app.controls = function (controls, $) {
 				$('body').unbind(click);
 
 				// hiding hint
-				controls.hints
+				widgets.hints
 					.clear()
 					.render();
 			}
@@ -86,8 +86,8 @@ app.controls = function (controls, $) {
 	//////////////////////////////
 	// Static properties
 
-	// hints associated with this control
-	controls.editable.hints = [
+	// hints associated with this widget
+	widgets.editable.hints = [
 	];
 	
 	//////////////////////////////
@@ -100,7 +100,7 @@ app.controls = function (controls, $) {
 			self.toggle('display');
 			
 			// hiding hint
-			controls.hints
+			widgets.hints
 				.clear()
 				.render();
 		} else {
@@ -116,7 +116,7 @@ app.controls = function (controls, $) {
 		click = event.type;
 		
 		// switching display w/ edit
-		var self = controls.lookup[$(this).attr('id')],
+		var self = wraith.lookup($(this)),
 				elem = self.toggle('edit');
 		
 		// emulating a 'click outside' event
@@ -131,6 +131,7 @@ app.controls = function (controls, $) {
 		.live('click', onClick)
 		.live('touchend', onClick);
 	
-	return controls;
-}(app.controls || {},
-	jQuery);
+	return widgets;
+}(app.widgets || {},
+	jQuery,
+	wraith);

@@ -3,14 +3,14 @@
 //
 // For switching between pages
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, document */
+/*global jQuery, wraith, document */
 var app = app || {};
 
-app.controls = function (controls, $, data) {
-	controls.pager = function () {
-		var self = controls.control.create(),
-				pages = controls.dropdown(),
-				pagesel = controls.select(),
+app.widgets = function (widgets, $, wraith, data) {
+	widgets.pager = function () {
+		var self = wraith.widget.create(),
+				pages = widgets.dropdown(),
+				pagesel = widgets.select(),
 				page = 0,
 				items = 20,
 				max = 0;
@@ -52,15 +52,15 @@ app.controls = function (controls, $, data) {
 		}
 		
 		function refresh() {
-			controls.media
+			widgets.media
 				.build()
 				.render();
 			self.render();
 			pagesel
 				.selected(page)
 				.render();
-			controls.url.set();
-			controls.checker
+			widgets.url.set();
+			widgets.checker
 				.render();
 			return false;
 		}
@@ -144,7 +144,7 @@ app.controls = function (controls, $, data) {
 				.options(getOptions())
 				.render();
 			
-			// returning empty control on no data
+			// returning empty widget on no data
 			if (pagesel.options().length <= 1) {
 				return '<span id="' + self.id + '"></span>';
 			}
@@ -183,22 +183,23 @@ app.controls = function (controls, $, data) {
 		// handling special keys  
 		switch (event.which) {
 		case 36:	// home
-			controls.pager.first();
+			widgets.pager.first();
 			return false;
 		case 34:	// pg down
-			controls.pager.next();
+			widgets.pager.next();
 			return false;
 		case 33:	// pg up
-			controls.pager.prev();
+			widgets.pager.prev();
 			return false;
 		case 35:	// end
-			controls.pager.last();
+			widgets.pager.last();
 			return false;
 		}
 	});
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	app.data);
 

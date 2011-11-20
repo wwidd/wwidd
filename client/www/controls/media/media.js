@@ -6,10 +6,10 @@
 // - tile: grid of thumbnails
 // - list: list of compact rows
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, document */
+/*global jQuery, wraith, document */
 var app = app || {};
 
-app.controls = (function (controls, $, data, services) {
+app.widgets = (function (widgets, $, wraith, data, services) {
 	var
 	
 	// association between library views and entry views
@@ -18,8 +18,8 @@ app.controls = (function (controls, $, data, services) {
 		'tile': 'thumb'
 	};
 		
-	controls.media = function () {
-		var self = controls.control.create(),
+	widgets.media = function () {
+		var self = wraith.widget.create(),
 				view = data.cookie.get('view') || 'list',
 				lookup = {};
 				
@@ -53,7 +53,7 @@ app.controls = (function (controls, $, data, services) {
 			resetSelected();
 			
 			// re-setting common medium state
-			controls.medium.reset();
+			widgets.medium.reset();
 			
 			return self;
 		};
@@ -63,7 +63,7 @@ app.controls = (function (controls, $, data, services) {
 			resetSelected();
 			checkboxes().prop('checked', true);
 			media().each(function () {
-				var medium = controls.lookup[$(this).attr('id')];
+				var medium = wraith.lookup($(this));
 				self.selected[medium.data.mediaid] = true;
 			});
 			return self;
@@ -79,41 +79,41 @@ app.controls = (function (controls, $, data, services) {
 		// redraws tags and kinds only
 		self.refreshTags = function () {
 			// finalizing kinds
-			controls.kinds
+			widgets.kinds
 				.build()
 				.render();
 				
-			controls.tagger
+			widgets.tagger
 				.render();
 		};
 		
 		self.refresh = function () {
 			// indicating busy state
-			controls.library
+			widgets.library
 				.busy(true)
 				.render();
 
-			// redrawing controls
-			controls.pager
+			// redrawing widgets
+			widgets.pager
 				.render();
 
 			// finalizing library
-			controls.media
+			widgets.media
 				.reset()
 				.build()
 				.render();
 
 			// finalizing kinds
-			controls.kinds
+			widgets.kinds
 				.build()
 				.render();
 				
 			// redrawing checker
-			controls.checker
+			widgets.checker
 				.render();
 
 			// removing busy state
-			controls.library
+			widgets.library
 				.busy(false)
 				.render();
 		};
@@ -124,39 +124,39 @@ app.controls = (function (controls, $, data, services) {
 					title = $document.attr('title').split(' - ')[0];
 
 			// indicating busy state
-			controls.library
+			widgets.library
 				.busy(true)
 				.render();
 			
 			// loading video data
 			data.media.init(function () {
 				// setting active library in page title
-				$document.attr('title', title + ' - ' + controls.library.name());
-				data.media.filter(controls.search.filter());
+				$document.attr('title', title + ' - ' + widgets.library.name());
+				data.media.filter(widgets.search.filter());
 				self.refresh();
 			});
 			return self;
 		};
 		
-		// sets disabled state of db controls
+		// sets disabled state of db widgets
 		function disabled(value) {
-			controls.library
+			widgets.library
 				.disabled({library: value})
 				.render();
-			controls.rootadd
+			widgets.rootadd
 				.disabled({library: value})
 				.render();
 		}
 		
 		// polls thumbnail generation process
 		self.poll = function () {
-			// disabling db controls
+			// disabling db widgets
 			disabled(true);
 			
 			// polling background processes
 			services.sys.poll('thumbnails', function (json) {
 				// updating progress indicator
-				controls.progress
+				widgets.progress
 					.progress(json.progress)
 					.render();
 
@@ -167,7 +167,7 @@ app.controls = (function (controls, $, data, services) {
 				var mediaid, medium;
 				for (mediaid in json.load) {
 					if (json.load.hasOwnProperty(mediaid) && lookup.hasOwnProperty(mediaid)) {
-						// looking up control
+						// looking up widget
 						medium = lookup[mediaid];
 						
 						// rendering media entry
@@ -177,7 +177,7 @@ app.controls = (function (controls, $, data, services) {
 				
 				// updating UI if necessary
 				if (json.progress === -1) {
-					// re-enabling db controls
+					// re-enabling db widgets
 					disabled(false);
 				}
 			});
@@ -192,7 +192,7 @@ app.controls = (function (controls, $, data, services) {
 				// setting view for library (self)
 				view = value;
 				
-				// setting view for media controls (children)				
+				// setting view for media widgets (children)				
 				for (i = 0; i < self.children.length; i++) {
 					child = self.children[i];
 					if (child.view) {
@@ -234,22 +234,22 @@ app.controls = (function (controls, $, data, services) {
 		}
 		
 		self.build = function () {
-			var page = data.media.getPage(controls.pager.page(), controls.pager.items()),
+			var page = data.media.getPage(widgets.pager.page(), widgets.pager.items()),
 					i, control;
 
 			// generating thumbnails if necessary
 			thumbnails(page);
 			
-			// attaching new controls to cleaned library
+			// attaching new widgets to cleaned library
 			self.clear();
 			lookup = {};
 			for (i = 0; i < page.length; i++) {
-				// adding media control to library
-				control = controls.medium(page[i].mediaid)
+				// adding media widget to library
+				control = widgets.medium(page[i].mediaid)
 					.view(VIEW_ASSOC[view]);
 				control.appendTo(self);
 				
-				// storing control reference for lookup by id
+				// storing widget reference for lookup by id
 				lookup[page[i].mediaid] = control;
 			}
 			
@@ -264,7 +264,7 @@ app.controls = (function (controls, $, data, services) {
 					result.push(self.children[i].html());
 				}
 				result.push('</div>');
-			} else if (controls.search.filter().length) {
+			} else if (widgets.search.filter().length) {
 				result = [
 					'<span id="', self.id, '" class="warning nohits">',
 					'<span class="icon"></span>',
@@ -285,9 +285,10 @@ app.controls = (function (controls, $, data, services) {
 		return self;
 	}();
 	
-	return controls;
-})(app.controls || {},
+	return widgets;
+})(app.widgets || {},
 	jQuery,
+	wraith,
 	app.data,
 	app.services);
 

@@ -3,14 +3,14 @@
 //
 // Single video entry.
 // Available views:
-// - compact: checkbox, filename, rater, and tagger controls as a row
+// - compact: checkbox, filename, rater, and tagger widgets as a row
 // - thumb: checker, thumbnail, filename, and rater overlayed
-// - expanded: all controls (checkbox, thumbnail, filename, rater, keywords, tagger)
+// - expanded: all widgets (checkbox, thumbnail, filename, rater, keywords, tagger)
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, window */
+/*global jQuery, wraith, window */
 var app = app || {};
 
-app.controls = function (controls, $, services, data) {
+app.widgets = function (widgets, $, wraith, services, data) {
 	var
 	
 	VIEWS = {
@@ -20,15 +20,15 @@ app.controls = function (controls, $, services, data) {
 	},
 	
 	// static properties
-	lastOpen,				// control reference to the last opened medium (thumb or compact to expanded)
+	lastOpen,				// widget reference to the last opened medium (thumb or compact to expanded)
 	
 	// static event handlers
 	onClick,
 	onChecked,
 	onResize;
 	
-	controls.medium = function (mediaid) {
-		var self = controls.control.create(),
+	widgets.medium = function (mediaid) {
+		var self = wraith.widget.create(),
 		
 		// flags
 		view = 'thumb',
@@ -36,7 +36,7 @@ app.controls = function (controls, $, services, data) {
 		
 		self.data.mediaid = mediaid;
 
-		// sub-controls
+		// child widgets
 		self.rater = null;
 		self.tagger = null;
 		self.keywords = null;
@@ -84,20 +84,20 @@ app.controls = function (controls, $, services, data) {
 		//////////////////////////////
 		// Overrides
 
-		// builds control structure
+		// builds widget structure
 		self.build = function () {
 			self.clear();
 			
-			// adding rater control
-			self.rater = controls.rater(mediaid)
+			// adding rater widget
+			self.rater = widgets.rater(mediaid)
 				.appendTo(self);
 			
-			// adding tagger control to non-thumb views
-			self.tagger = controls.tagger(mediaid)
+			// adding tagger widget to non-thumb views
+			self.tagger = widgets.tagger(mediaid)
 				.appendTo(self);
 			
-			// adding keywords control
-			self.keywords = controls.keywords(mediaid)
+			// adding keywords widget
+			self.keywords = widgets.keywords(mediaid)
 				.appendTo(self);
 			
 			return self;
@@ -116,7 +116,7 @@ app.controls = function (controls, $, services, data) {
 					
 				// checkbox
 				'<div class="check">',
-				'<input type="checkbox" ', mediaid in controls.media.selected ? 'checked="checked" ' : '', '/>',
+				'<input type="checkbox" ', mediaid in widgets.media.selected ? 'checked="checked" ' : '', '/>',
 				'</div>',
 				
 				// file name
@@ -157,7 +157,7 @@ app.controls = function (controls, $, services, data) {
 	// Static methods
 	
 	// resets medium memory
-	controls.medium.reset = function () {
+	widgets.medium.reset = function () {
 		lastOpen = null;
 	};
 
@@ -166,7 +166,7 @@ app.controls = function (controls, $, services, data) {
 	
 	onClick = function () {
 		var media = $(this).closest('.medium'),
-				self = controls.lookup[media.attr('id')],
+				self = wraith.lookup(media),
 				expanded = self.expanded();
 
 		if (expanded) {
@@ -181,7 +181,7 @@ app.controls = function (controls, $, services, data) {
 				lastOpen = null;
 			}
 			
-			// flipping full state and re-rendering control
+			// flipping full state and re-rendering widget
 			self
 				.expanded(!expanded)
 				.render();
@@ -196,17 +196,17 @@ app.controls = function (controls, $, services, data) {
 	onChecked = function () {
 		var $this = $(this),
 				$medium = $this.closest('.medium'),
-				self = controls.lookup[$medium.attr('id')];
+				self = wraith.lookup($medium);
 		
 		// registering (un)checked item
 		if ($this.is(':checked')) {
-			controls.media.selected[self.data.mediaid] = true;
+			widgets.media.selected[self.data.mediaid] = true;
 		} else {
-			delete controls.media.selected[self.data.mediaid];
+			delete widgets.media.selected[self.data.mediaid];
 		}
 
-		// refreshing main checker control
-		controls.checker.render();
+		// refreshing main checker widget
+		widgets.checker.render();
 	};
 	
 	//////////////////////////////
@@ -217,9 +217,10 @@ app.controls = function (controls, $, services, data) {
 	$('div.check > :checkbox')
 		.live('click', onChecked);
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	app.services,
 	app.data);
 

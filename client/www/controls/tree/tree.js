@@ -3,12 +3,12 @@
 //
 // Represents a tree with expandable / collapsible nodes
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $) {
-	controls.tree = function (onSelect, onExpandCollapse) {
-		var self = controls.control.create(),
+app.widgets = function (widgets, $, wraith) {
+	widgets.tree = function (onSelect, onExpandCollapse) {
+		var self = wraith.widget.create(),
 				json,
 				rootNode,
 				selected = [];
@@ -44,7 +44,7 @@ app.controls = function (controls, $) {
 		// Overrides
 
 		self.build = function () {
-			rootNode = controls.node("/", self)
+			rootNode = widgets.node("/", self)
 				.json(json)
 				.appendTo(self);
 			return self;
@@ -68,7 +68,8 @@ app.controls = function (controls, $) {
 		return self;
 	};
 	
-	return controls;
-}(app.controls,
-	jQuery);
+	return widgets;
+}(app.widgets,
+	jQuery,
+	wraith);
 

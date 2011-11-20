@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // General Progress Indicator Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $) {
-	controls.progress = function () {
-		var self = controls.control.create(),
+app.widgets = function (widgets, $, wraith) {
+	widgets.progress = function () {
+		var self = wraith.widget.create(),
 				progress = 0;
 
 		//////////////////////////////
@@ -49,7 +49,8 @@ app.controls = function (controls, $) {
 		return self;
 	}();
 	
-	return controls;
-}(app.controls || {},
-	jQuery);
+	return widgets;
+}(app.widgets || {},
+	jQuery,
+	wraith);
 

@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Search Box Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, services, data) {
+app.widgets = function (widgets, $, wraith, services, data) {
 	var RE_FILTER_CROP = /[^\s,].*[^\s,]/,
 			RE_FILTER_SPLIT = /,/;
 	
-	controls.search = function () {
-		var self = controls.control.create(),
+	widgets.search = function () {
+		var self = wraith.widget.create(),
 				filter = "";
 
 		//////////////////////////////
@@ -56,9 +56,9 @@ app.controls = function (controls, $, services, data) {
 			if (data.media.filter(filter)) {
 				// result set changed
 				elem.siblings('.backdrop').val('');				
-				controls.pager.reset();
-				controls.media.refresh();
-				controls.url.set();
+				widgets.pager.reset();
+				widgets.media.refresh();
+				widgets.url.set();
 			}
 		}
 
@@ -126,9 +126,10 @@ app.controls = function (controls, $, services, data) {
 		return self;
 	}();
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	app.services,
 	app.data);
 

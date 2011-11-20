@@ -3,15 +3,15 @@
 //
 // Displays and edits tags.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder, window */
+/*global jQuery, wraith, jOrder, window */
 var app = app || {};
 
-app.controls = function (controls, $, jOrder, data) {
+app.widgets = function (widgets, $, wraith, jOrder, data) {
 	var lookup = {},		// lookup object for tagger widgets (by id)
 			lastWidth;			// last measured available width for compact view media entry
 	
-	controls.tagger = function (mediaid) {
-		var	self = controls.control.create(),
+	widgets.tagger = function (mediaid) {
+		var	self = wraith.widget.create(),
 				base_remove = self.remove,
 				adder;
 		
@@ -53,17 +53,17 @@ app.controls = function (controls, $, jOrder, data) {
 		self.build = function () {
 			self.clear();
 
-			// adding tag editor controls in sorted tag order
+			// adding tag editor widgets in sorted tag order
 			var row = data.media.getRow(mediaid),
 					tags = jOrder.values(row.tags).sort(compare),
 					i;
 			for (i = 0; i < tags.length; i++) {
-				controls.tagedit(mediaid, tags[i].tag)
+				widgets.tagedit(mediaid, tags[i].tag)
 					.appendTo(self);
 			}
 			
-			// adding tag adder control
-			adder = controls.tagadd(mediaid)
+			// adding tag adder widget
+			adder = widgets.tagadd(mediaid)
 				.appendTo(self);
 				
 			return self;
@@ -75,16 +75,16 @@ app.controls = function (controls, $, jOrder, data) {
 		};
 		
 		self.init = function (elem) {
-			controls.tagger.resize(true, elem);
+			widgets.tagger.resize(true, elem);
 		};
 		
 		self.html = function () {
 			var result = ['<div id="', self.id, '" class="tagger">'],
 					i, child;
-			// adding html for tag controls of visible kinds
+			// adding html for tag widgets of visible kinds
 			for (i = 0; i < self.children.length; i++) {
 				child = self.children[i];
-				if (!child.kind || !controls.kinds.hidden(child.kind())) {
+				if (!child.kind || !widgets.kinds.hidden(child.kind())) {
 					result.push(child.html());
 				}
 			}
@@ -99,7 +99,7 @@ app.controls = function (controls, $, jOrder, data) {
 	// Static methods
 
 	// resizes tagger widgets to fit screen width
-	controls.tagger.resize = function (force, elem) {
+	widgets.tagger.resize = function (force, elem) {
 		var $list = $('div.media.list'),
 				$tagger = elem || $list.find('div.tagger'),
 				width, full = $list.width(),
@@ -140,7 +140,7 @@ app.controls = function (controls, $, jOrder, data) {
 	};
 
 	// re-renders all visible tagger widgets
-	controls.tagger.render = function () {
+	widgets.tagger.render = function () {
 		var id;
 		for (id in lookup) {
 			if (lookup.hasOwnProperty(id)) {
@@ -155,7 +155,7 @@ app.controls = function (controls, $, jOrder, data) {
 	// Static event handlers
 
 	function onResize(elem) {
-		controls.tagger.resize();
+		widgets.tagger.resize();
 	}
 	
 	//////////////////////////////
@@ -163,9 +163,10 @@ app.controls = function (controls, $, jOrder, data) {
 
 	$(window).bind('resize', onResize);
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	jOrder,
 	app.data);
 

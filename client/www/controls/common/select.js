@@ -9,12 +9,12 @@
 // - Widget can be stateful or stateless. When stateful, it
 //	 preserves information about the selected item.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, services) {
-	controls.select = function (options) {
-		var	self = controls.control.create(controls.popup('dropdown')),
+app.widgets = function (widgets, $, services) {
+	widgets.select = function (options) {
+		var	self = wraith.widget.create(widgets.popup('dropdown')),
 				stateful = true,	// whether widget remembers last selected item
 				selected = 0,			// selected index
 				onChange;					// custom event
@@ -88,7 +88,7 @@ app.controls = function (controls, $, services) {
 		var $this = $(this),
 				$item = $this.closest('li'),
 				i = $item.index(),
-				self = controls.lookup[$item.closest('.w_popup').attr('id')];
+				self = wraith.lookup($item, '.w_popup');
 
 		return self
 			.selected(i)
@@ -97,7 +97,8 @@ app.controls = function (controls, $, services) {
 	
 	$('ul.w_select > li:not(.selected) > .caption').live('click', onSelect);
 	
-	return controls;
-}(app.controls || {},
-	jQuery);
+	return widgets;
+}(app.widgets || {},
+	jQuery,
+	wraith);
 

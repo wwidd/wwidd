@@ -1,14 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Tree node in a tree control
+// Tree node in a tree widget
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $) {
-	controls.node = function (text, tree, path) {
+app.widgets = function (widgets, $, wraith) {
+	widgets.node = function (text, tree, path) {
 		path = path || [];
 		
-		var self = controls.control.create(),
+		var self = wraith.widget.create(),
 				json,
 				expanded = false;
 				
@@ -66,10 +66,10 @@ app.controls = function (controls, $) {
 					b = b.toLowerCase();
 					return a > b ? 1 : a < b ? -1 : 0; 
 				});
-				// adding child controls according to node names
+				// adding child widgets according to node names
 				for (i = 0; i < keys.length; i++) {
 					node = keys[i];
-					controls.node(node, tree, path.concat([node]))
+					widgets.node(node, tree, path.concat([node]))
 						.json(json[node])
 						.appendTo(self);
 				}
@@ -111,9 +111,9 @@ app.controls = function (controls, $) {
 	function onExpandCollapse() {
 		// obtaining necessary objects (current node & tree)
 		var	$node = $(this).parent(),
-				node = controls.lookup[$node.attr('id')],
+				node = wraith.lookup($node),
 				$tree = $node.closest('div.tree'),
-				tree = controls.lookup[$tree.attr('id')];
+				tree = wraith.lookup($tree);
 		
 		// toggling expanded state of current node
 		$node = node.toggle();
@@ -128,9 +128,9 @@ app.controls = function (controls, $) {
 	function onSelect() {
 		// obtaining necessary objects (current node & tree)
 		var	$node = $(this).parent(),
-				node = controls.lookup[$node.attr('id')],
+				node = wraith.lookup($node),
 				$tree = $node.closest('div.tree'),
-				tree = controls.lookup[$tree.attr('id')],
+				tree = wraith.lookup($tree),
 				path = '/' + node.path().join('/');
 
 		// setting selected status on current node
@@ -157,7 +157,8 @@ app.controls = function (controls, $) {
 	$('li.node:not(.dead) > span.toggle').live('click', onExpandCollapse);
 	$('li.node > span.name').live('click', onSelect);
 	
-	return controls;
-}(app.controls,
-	jQuery);
+	return widgets;
+}(app.widgets,
+	jQuery,
+	wraith);
 

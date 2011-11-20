@@ -3,14 +3,14 @@
 //
 // Lets the user control what kind of tags are visible
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, flock */
+/*global jQuery, wraith, flock */
 var app = app || {};
 
-app.controls = function (controls, $, flock, data) {
+app.widgets = function (widgets, $, wraith, flock, data) {
 	var KIND_PREFIX = 'k';
 	
-	controls.kinds = function () {
-		var	self = controls.control.create(controls.popup('dropdown')),
+	widgets.kinds = function () {
+		var	self = wraith.widget.create(widgets.popup('dropdown')),
 				hidden;
 		
 		//////////////////////////////
@@ -50,7 +50,7 @@ app.controls = function (controls, $, flock, data) {
 			data.cookie.set('hiddenkinds', toArray(hidden).join(','));
 			
 			// custom callback
-			controls.tagger
+			widgets.tagger
 				.render();
 			
 			return self;
@@ -79,7 +79,7 @@ app.controls = function (controls, $, flock, data) {
 			self.clear();
 			for (i = 0; i < kinds.length; i++) {
 				kind = kinds[i];
-				controls.kind(kind, handler).appendTo(self);
+				widgets.kind(kind, handler).appendTo(self);
 			}
 			return self;
 		};
@@ -97,9 +97,10 @@ app.controls = function (controls, $, flock, data) {
 		return self;
 	}();
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	flock,
 	app.data);
 

@@ -28,7 +28,7 @@
 	<script src="data/tags.js"></script>
 	<script src="data/kind.js"></script>
 	<script src="data/pagestate.js"></script>
-	<script src="controls/base/control.js"></script>
+	<script src="wraith/widget.js"></script>
 	<script src="controls/base/editable.js"></script>
 	<script src="controls/base/popup.js"></script>
 	<script src="controls/common/button.js"></script>
@@ -62,11 +62,11 @@
 	<script>
 		/*global jOrder, jQuery, app */
 		jOrder.logging = false;
-		(function ($, controls) {
+		(function ($, widgets) {
 			$(function () {
-				controls.page.init();
+				widgets.page.init();
 			});
-		})(jQuery, app.controls);
+		})(jQuery, app.widgets);
 	</script>
 </head>
 <body>

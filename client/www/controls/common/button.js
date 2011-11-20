@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // General Button Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, window */
+/*global jQuery, wraith, window */
 var app = app || {};
 
-app.controls = function (controls, $) {
-	controls.button = function (caption, onClick) {
-		var self = controls.control.create();
+app.widgets = function (widgets, $, wraith) {
+	widgets.button = function (caption, onClick) {
+		var self = wraith.widget.create();
 			
 		//////////////////////////////
 		// Getters / setters
@@ -52,7 +52,7 @@ app.controls = function (controls, $) {
 	
 	$('.w_button').live('click', function (event, popup) {
 		var $this = $(this).closest('.w_button'),
-				self = controls.lookup[$this.attr('id')],
+				self = wraith.lookup($this),
 				onClick = self.onClick();
 
 		// calling handler
@@ -61,7 +61,8 @@ app.controls = function (controls, $) {
 		}
 	});
 	
-	return controls;
-}(app.controls || {},
-	jQuery);
+	return widgets;
+}(app.widgets || {},
+	jQuery,
+	wraith);
 

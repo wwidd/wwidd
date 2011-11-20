@@ -1,13 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Actions Widget
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder, window */
+/*global jQuery, wraith, jOrder, window */
 var app = app || {};
 
-app.controls = function (controls, $, jOrder, data, services) {
-	controls.actions = function () {
-		var popup = controls.select(["Refresh thumbnail", "Delete"]).stateful(false),
-				self = controls.control.create(controls.dropdown("Actions", popup));
+app.widgets = function (widgets, $, wraith, jOrder, data, services) {
+	widgets.actions = function () {
+		var popup = widgets.select(["Refresh thumbnail", "Delete"]).stateful(false),
+				self = wraith.widget.create(widgets.dropdown("Actions", popup));
 
 		// deletes video entries
 		function remove(mediaids) {
@@ -19,7 +19,7 @@ app.controls = function (controls, $, jOrder, data, services) {
 				// then reloading entire library
 				services.media.del(mediaids.join(','), function () {
 					data.media.unset(mediaids);
-					controls.media.refresh();
+					widgets.media.refresh();
 				});
 			}
 		}
@@ -27,13 +27,13 @@ app.controls = function (controls, $, jOrder, data, services) {
 		// extracts thumbnails and keywords for media entries
 		function extract(mediaids) {
 			services.media.extract(mediaids.join(','), true, function () {
-				controls.media.poll();
+				widgets.media.poll();
 			});
 		}
 		
 		popup.onChange(function (i, item, selected) {
 			// obtaining selected media ids
-			var mediaids = jOrder.keys(controls.media.selected);
+			var mediaids = jOrder.keys(widgets.media.selected);
 			
 			action:
 			switch (i) {
@@ -54,9 +54,10 @@ app.controls = function (controls, $, jOrder, data, services) {
 		return self;
 	}();
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	jOrder,
 	app.data,
 	app.services);

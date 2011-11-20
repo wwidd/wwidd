@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // General Popup Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, window */
+/*global jQuery, wraith, window */
 var app = app || {};
 
-app.controls = function (controls, $) {
+app.widgets = function (widgets, $, wraith) {
 	var TYPES = {
 		'centered': 'centered',		// always centered, like a modal dialog
 		'context': 'context',			// positions near mouse mask, stays there
@@ -12,10 +12,10 @@ app.controls = function (controls, $) {
 		'follow': 'follow'				// follows mouse mask
 	};
 	
-	controls.popup = function (type) {
+	widgets.popup = function (type) {
 		type = type || 'context';
 		
-		var self = controls.control.create(),
+		var self = wraith.widget.create(),
 				$window = $(window),		// frequently used window object
 				anchor;									// position anchor object for dropdown
 			
@@ -142,7 +142,8 @@ app.controls = function (controls, $) {
 		return self;
 	};
 	
-	return controls;
-}(app.controls || {},
-	jQuery);
+	return widgets;
+}(app.widgets || {},
+	jQuery,
+	wraith);
 

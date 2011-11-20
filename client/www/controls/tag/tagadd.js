@@ -3,15 +3,15 @@
 //
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder, flock, confirm */
+/*global jQuery, wraith, jOrder, flock, confirm */
 var app = app || {};
 
-app.controls = function (controls, $, jOrder, flock, cache, services, data) {
+app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data) {
 	// - mediaid: media identifier
-	controls.tagadd = function (mediaid) {
-		var	self = controls.control.create(controls.tag(mediaid));
+	widgets.tagadd = function (mediaid) {
+		var	self = wraith.widget.create(widgets.tag(mediaid));
 
-		self.hints = controls.tagadd.hints;
+		self.hints = widgets.tagadd.hints;
 
 		//////////////////////////////
 		// Getters, setters
@@ -46,18 +46,18 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 	//////////////////////////////
 	// Static properties
 
-	// hints associated with this control
-	controls.tagadd.hints = [
+	// hints associated with this widget
+	widgets.tagadd.hints = [
 		"SHIFT + ENTER to add tag to checked videos.",
 		"CTRL + ENTER to add tag to search results.",
 		"Hit ENTER mid-word to add suggested tag."
-	].concat(controls.tag.hints);
+	].concat(widgets.tag.hints);
 	
 	//////////////////////////////
 	// Static event handlers
 
 	function getSelf(elem) {
-		return controls.lookup[elem.closest('.tag').attr('id')];
+		return wraith.lookup(elem, '.tag');
 	}
 	
 	// tag addition handler: do nothing
@@ -89,27 +89,27 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 			}
 			
 			scope:
-			switch (controls.tag.scope(event)) {
+			switch (widgets.tag.scope(event)) {
 			case 'all':
 				break scope;
 			case 'selected':
 				// shift + enter is handled only when entry is selected (and possibly others)
 				if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
-					mediaids = jOrder.keys(controls.media.selected);
+					mediaids = jOrder.keys(widgets.media.selected);
 					services.tag.add(null, name, null, mediaids.join(','), function () {
 						data.media.addTag(mediaids, name);
-						controls.media.refreshTags();
+						widgets.media.refreshTags();
 					});
 				}
 				break scope;
 			case 'search':
 				// adding tag(s) to multiple media
-				filter = controls.search.filter();
+				filter = widgets.search.filter();
 				if (filter.length && confirm("Add this to SEARCH results?")) {
 					mediaids = data.media.stack()[0].data.cache.mget(['media', '*'], {mode: flock.keys});
 					services.tag.add(null, name, filter, null, function () {
 						data.media.addTag(mediaids, name);
-						controls.media.refreshTags();
+						widgets.media.refreshTags();
 					});
 				}
 				break scope;
@@ -138,9 +138,10 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 	$('.tag.add.display a').live('click', onAdd);
 	$('.tag.add.edit input.focus').live('keyup', onChange);
 
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	jOrder,
 	flock,
 	app.data.cache,

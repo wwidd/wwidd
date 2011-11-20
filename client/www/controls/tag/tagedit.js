@@ -3,19 +3,19 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, jOrder, flock, window */
+/*global jQuery, wraith, jOrder, flock, window */
 var app = app || {};
 
-app.controls = function (controls, $, jOrder, flock, cache, services, data) {
+app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data) {
 	// - mediaid: media identifier
 	// - tag: tag string "name:kind"
-	controls.tagedit = function (mediaid, tag) {
-		var	self = controls.control.create(controls.tag(mediaid)),
+	widgets.tagedit = function (mediaid, tag) {
+		var	self = wraith.widget.create(widgets.tag(mediaid)),
 				tmp = tag.split(':'),
 				name = tmp[0] || '',
 				kind = tmp[1] || '';
 
-		self.hints = controls.tagedit.hints;
+		self.hints = widgets.tagedit.hints;
 
 		//////////////////////////////
 		// Getters / setters
@@ -40,7 +40,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 		// Overrides
 		
 		self.display = function () {
-			var hit = controls.search.filter().length && data.tag.match(controls.search.filter(), name) ? 'hit' : null;
+			var hit = widgets.search.filter().length && data.tag.match(widgets.search.filter(), name) ? 'hit' : null;
 			
 			return [
 				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
@@ -66,19 +66,19 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 	//////////////////////////////
 	// Static properties
 
-	// hints associated with this control
-	controls.tagedit.hints = [
+	// hints associated with this widget
+	widgets.tagedit.hints = [
 		"SHIFT + ENTER to change tag on checked videos.",
 		"SHIFT + CLICK on delete to remove all occurrences.",
 		"CTRL + ENTER to change tag on search results.",
 		"CTRL + CLICK on delete to remove from search results."	
-	].concat(controls.tag.hints);
+	].concat(widgets.tag.hints);
 	
 	//////////////////////////////
 	// Static event handlers
 
 	function getSelf(elem) {
-		return controls.lookup[elem.closest('.tag').attr('id')];
+		return wraith.lookup(elem, '.tag');
 	}
 
 	// general button handler
@@ -94,7 +94,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 			handler.call(self, mediaids, tag);
 		}
 		
-		switch (controls.tag.scope(event)) {
+		switch (widgets.tag.scope(event)) {
 		case 'single':
 			// affecting tag on one specific video
 			mediaids = [self.mediaid()];
@@ -109,16 +109,16 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 			break;
 		case 'search':
 			// affecting tags in search reaults
-			filter = controls.search.filter();
+			filter = widgets.search.filter();
 			if (filter.length && window.confirm(lang.hits)) {
 				mediaids = data.media.stack()[0].data.cache.mget(['media', '*'], {mode: flock.keys});
-				service(null, tag, controls.search.filter(), null, onSuccess);
+				service(null, tag, widgets.search.filter(), null, onSuccess);
 			}
 			break;
 		case 'selected':
 			// affecting all tags on selected videos
 			if (window.confirm(lang.sel)) {
-				mediaids = jOrder.keys(controls.media.selected);
+				mediaids = jOrder.keys(widgets.media.selected);
 				service(null, tag, null, mediaids.join(','), onSuccess);
 			}
 			break;
@@ -136,7 +136,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 		}, function (mediaids, tag) {
 			data.media.removeTag(mediaids, tag);
 			if (mediaids.length > 1) {
-				controls.media.refreshTags();
+				widgets.media.refreshTags();
 			} else {
 				self.refresh();
 			}
@@ -172,7 +172,7 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 				data.media.addTag(mediaids, tmp[i]);
 			}
 			if (mediaids.length > 1) {
-				controls.media.refreshTags();
+				widgets.media.refreshTags();
 			} else {
 				self.refresh();
 			}
@@ -197,13 +197,13 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 			}
 			
 			scope:
-			switch (controls.tag.scope(event)) {
+			switch (widgets.tag.scope(event)) {
 			case 'all':
 				// running batch tag change
 				if (window.confirm("Apply change to ALL tags of this kind?")) {
 					services.tag.set(null, before, after, function () {
 						data.tag.set(before, after);
-						controls.media.refreshTags();
+						widgets.media.refreshTags();
 					});
 				}
 				break scope;
@@ -228,9 +228,10 @@ app.controls = function (controls, $, jOrder, flock, cache, services, data) {
 	$('.explode', context).live('click', onExplode);
 	$('input', context).live('keyup', onChange);
 
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	jOrder,
 	flock,
 	app.data.cache,

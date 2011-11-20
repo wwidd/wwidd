@@ -3,13 +3,13 @@
 //
 // Lists available libraries, with download link
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, window, flock, jOrder */
+/*global jQuery, wraith, window, flock, jOrder */
 var app = app || {};
 
-app.controls = function (controls, $, flock, jOrder, services) {
-	controls.libsel = function () {
-		var	self = controls.control.create(controls.select()),
-				button = controls.button("Add"),
+app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
+	widgets.libsel = function () {
+		var	self = wraith.widget.create(widgets.select()),
+				button = widgets.button("Add"),
 				base_contents = self.contents,
 				base_init = self.init;
 		
@@ -17,16 +17,16 @@ app.controls = function (controls, $, flock, jOrder, services) {
 		// - name: name of the library to select
 		function select(name, handler) {
 			services.lib.select(name, function () {
-				// resetting control
-				controls.pager.reset();
-				controls.search.reset();
-				controls.url.set();
+				// resetting widget
+				widgets.pager.reset();
+				widgets.search.reset();
+				widgets.url.set();
 	
 				// loading new library contents
-				controls.media.load();
+				widgets.media.load();
 				
 				// setting caption
-				controls.library.dropdown()
+				widgets.library.dropdown()
 					.caption(name)
 					.collapse()
 					.render();
@@ -47,7 +47,7 @@ app.controls = function (controls, $, flock, jOrder, services) {
 						selected, i;
 	
 				// preserving library name lookup
-				controls.libsel.data = jOrder.join(options, {});
+				widgets.libsel.data = jOrder.join(options, {});
 				
 				indexOf:
 				for (i = 0; i < options.length; i++) {
@@ -59,7 +59,7 @@ app.controls = function (controls, $, flock, jOrder, services) {
 				
 				// detecting in-progress processes
 				if (progress > 0) {
-					controls.media
+					widgets.media
 						.poll();
 				} else {
 					self.render();
@@ -74,7 +74,7 @@ app.controls = function (controls, $, flock, jOrder, services) {
 					.selected(selected);
 					
 				// setting caption
-				controls.library.dropdown()
+				widgets.library.dropdown()
 					.caption(self.options()[selected])
 					.collapse()
 					.render();
@@ -159,7 +159,7 @@ app.controls = function (controls, $, flock, jOrder, services) {
 	
 	function onSave(event) {
 		var $this = $(this),
-				self = controls.lookup[$this.closest('.w_libsel').attr('id')];
+				self = wraith.lookup($this, '.w_libsel');
 		
 		// saving library
 		services.lib.save(
@@ -172,8 +172,8 @@ app.controls = function (controls, $, flock, jOrder, services) {
 	
 	function onChange() {
 		var $this = $(this),
-				self = controls.lookup[$this.closest('.w_libsel').attr('id')],
-				data = controls.libsel.data,
+				self = wraith.lookup($this, '.w_libsel'),
+				data = widgets.libsel.data,
 				name = $this.val();
 				
 		// enabling add button
@@ -186,9 +186,10 @@ app.controls = function (controls, $, flock, jOrder, services) {
 	$('a.save', context).live('click', onSave);
 	$('input.new', context).live('keyup', onChange);
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	flock,
 	jOrder,
 	app.services);

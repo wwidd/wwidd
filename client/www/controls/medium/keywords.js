@@ -4,12 +4,12 @@
 // Displays video metadata such as duration, dimensions, codecs, etc.
 // Read only.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, data) {
-	controls.keywords = function (mediaid) {
-		var self = controls.control.create(),
+app.widgets = function (widgets, $, wraith, data) {
+	widgets.keywords = function (mediaid) {
+		var self = wraith.widget.create(),
 				keywords = [],
 				special = {},
 				rest = {},
@@ -86,8 +86,9 @@ app.controls = function (controls, $, data) {
 		return self;
 	};
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith, 
 	app.data);
 

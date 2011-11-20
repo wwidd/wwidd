@@ -1,17 +1,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 // General Dropdown Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, window */
+/*global jQuery, wraith, window */
 var app = app || {};
 
-app.controls = function (controls, $) {
+app.widgets = function (widgets, $, wraith) {
 	var
 	
 	// static event handlers
 	onClick;
 	
-	controls.dropdown = function (caption, popup) {
-		var self = controls.control.create(controls.button(caption)),
+	widgets.dropdown = function (caption, popup) {
+		var self = wraith.widget.create(widgets.button(caption)),
 				base_disabled = self.disabled,
 				expanded = false;
 		
@@ -59,7 +59,7 @@ app.controls = function (controls, $) {
 				.render($('body'));
 				
 			// showing hints
-			controls.hints
+			widgets.hints
 				.hints(self.hints || [])
 				.render();
 		};
@@ -67,7 +67,7 @@ app.controls = function (controls, $) {
 		// collapses the dropdown widget
 		self.collapse = function () {
 			// hiding hints
-			controls.hints
+			widgets.hints
 				.clear()
 				.render();
 				
@@ -122,7 +122,7 @@ app.controls = function (controls, $) {
 	
 	onClick = function (event, popup) {
 		var $this = $(this).closest('.w_dropdown'),
-				self = controls.lookup[$this.attr('id')];
+				self = wraith.lookup($this);
 		
 		// checking if popup is already up
 		if (self.expanded()) {
@@ -132,7 +132,8 @@ app.controls = function (controls, $) {
 		}
 	};
 	
-	return controls;
-}(app.controls || {},
-	jQuery);
+	return widgets;
+}(app.widgets || {},
+	jQuery,
+	wraith);
 

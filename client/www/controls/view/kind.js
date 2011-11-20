@@ -3,12 +3,12 @@
 //
 // Displays and switches one tag kind on and off
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, data) {
-	controls.kind = function (kind, handler) {
-		var self = controls.control.create();
+app.widgets = function (widgets, $, wraith, data) {
+	widgets.kind = function (kind, handler) {
+		var self = wraith.widget.create();
 		
 		self.data.kind = kind;
 		self.data.handler = handler || function () {};
@@ -36,7 +36,7 @@ app.controls = function (controls, $, data) {
 	// when checkbox or label is clicked
 	function onChecked() {
 		var	$this = $(this),
-				control = controls.lookup[$this.parent().attr('id')],
+				control = wraith.lookup($this.parent()),
 				kind = control.data.kind,
 				handler = control.data.handler,
 				checked = $this.prop('checked');
@@ -47,7 +47,7 @@ app.controls = function (controls, $, data) {
 	function onClick(event) {
 		if (event.target === this) {
 			var $this = $(this),
-					control = controls.lookup[$this.attr('id')],
+					control = wraith.lookup($this),
 					kind = control.data.kind,
 					handler = control.data.handler,
 					$checkbox = $this.find(':checkbox'),
@@ -60,8 +60,9 @@ app.controls = function (controls, $, data) {
 	$('.kind').live('click', onClick);
 	$('.kind :checkbox').live('click', onChecked);
 
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	app.data);
 

@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Select All - Select None control
+// Select All - Select None widget
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $) {
-	controls.checker = function () {
-		var self = controls.control.create(controls.button()),
+app.widgets = function (widgets, $, wraith) {
+	widgets.checker = function () {
+		var self = wraith.widget.create(widgets.button()),
 				state = 'none';	// checked, mixed, none
 				
 		//////////////////////////////
@@ -17,9 +17,9 @@ app.controls = function (controls, $) {
 					checked = $this.is(':checked') && state !== 'mixed';
 					
 			if (checked) {
-				controls.media.selectAll();
+				widgets.media.selectAll();
 			} else {
-				controls.media.selectNone();
+				widgets.media.selectNone();
 			}
 			
 			self.render();
@@ -39,16 +39,16 @@ app.controls = function (controls, $) {
 				.end();
 			
 			// controlling actions dropdown state
-			controls.actions
+			widgets.actions
 				.disabled({checker: state === 'none'})
 				.render();
 		};
 
 		self.contents = function () {
-			var $media = $('#' + controls.media.id + ' .medium'),
+			var $media = $('#' + widgets.media.id + ' .medium'),
 					count = $media.find(':checked').length;
 					
-			// determining control state
+			// determining widget state
 			if (count === $media.length && count > 0) {
 				state = 'checked';
 			} else if (count === 0) {
@@ -65,7 +65,8 @@ app.controls = function (controls, $) {
 		return self;
 	}();
 	
-	return controls;
-}(app.controls || {},
-	jQuery);
+	return widgets;
+}(app.widgets || {},
+	jQuery,
+	wraith);
 

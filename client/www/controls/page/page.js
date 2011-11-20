@@ -1,56 +1,56 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Video Library - Page
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = (function (controls, $, data) {
-	controls.page = function () {
+app.widgets = (function (widgets, $, wraith, data) {
+	widgets.page = function () {
 		var self = {},
 				pager,
 				kinds;
 
 		// initializes page
 		self.init = function () {
-			// initializing pager control
-			controls.pager
+			// initializing pager widget
+			widgets.pager
 				.build()
 				.render($('#pager').empty());
 			
 			// adding search box to page
-			controls.search
+			widgets.search
 				.render($('#search')
 					.empty()
 					.append('&nbsp;'));	// helps vertical alignment
 			
 			// adding select all
-			controls.checker
+			widgets.checker
 				.render($('#checker').empty());
 				
 			// adding actions
-			controls.actions
+			widgets.actions
 				.render($('#checker'));
 
 			// adding select all
-			controls.view
+			widgets.view
 				.build()
 				.render($('#views').empty());
 				
 			// adding library switcher
-			controls.library
+			widgets.library
 				.build()
 				.render($('#switcher').empty());
 				
 			// adding hints container to page
-			controls.hints
+			widgets.hints
 				.render($('#footer').empty());
 			
 			// adding progress indicator to page
-			controls.progress
+			widgets.progress
 				.render($('#footer'));
 			
 			// initializing and adding library to page
-			controls.media
+			widgets.media
 				.load()
 				.render($('#media').empty());
 
@@ -60,8 +60,9 @@ app.controls = (function (controls, $, data) {
 		return self;
 	}();
 	
-	return controls;
-})(app.controls || {},
+	return widgets;
+})(app.widgets || {},
 	jQuery,
+	wraith,
 	app.data);
 

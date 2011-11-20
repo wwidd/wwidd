@@ -3,12 +3,12 @@
 //
 // The number of stars represent the rating. Up to five stars can be given.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, data, services) {
-	controls.rater = function (mediaid) {
-		var self = controls.control.create();
+app.widgets = function (widgets, $, wraith, data, services) {
+	widgets.rater = function (mediaid) {
+		var self = wraith.widget.create();
 
 		//////////////////////////////
 		// Event handlers
@@ -70,9 +70,10 @@ app.controls = function (controls, $, data, services) {
 		return self;
 	};
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	app.data,
 	app.services);
 

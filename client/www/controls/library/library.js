@@ -1,22 +1,22 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Library Control Panel
 //
-// Encloses controls that have to do with libraries:
+// Encloses widgets that have to do with libraries:
 // - library switcher
 // - root folder adder
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, services) {
+app.widgets = function (widgets, $, wraith, services) {
 	var hints = [
 		"Save a backup copy of your library before extensive changes.",
 		"Delete a library by deleting its database file."
 	];
 	
-	controls.library = function () {
-		var self = controls.control.create(),
-				dropdown = controls.dropdown(),
+	widgets.library = function () {
+		var self = wraith.widget.create(),
+				dropdown = widgets.dropdown(),
 				busy = false;
 		
 		//////////////////////////////
@@ -53,11 +53,11 @@ app.controls = function (controls, $, services) {
 		// Overrides
 
 		self.build = function () {
-			controls.rootadd
+			widgets.rootadd
 				.appendTo(self);
 
 			dropdown
-				.popup(controls.libsel)
+				.popup(widgets.libsel)
 				.appendTo(self);
 
 			return self;
@@ -87,7 +87,7 @@ app.controls = function (controls, $, services) {
 				'<span class="switcher" id="', self.id, '">',
 				'<span class="caption">Library:</span>',
 				dropdown.html(),
-				controls.rootadd.html(),
+				widgets.rootadd.html(),
 				'<span class="spinner"></span>',
 				'</span>'
 			].join('');
@@ -96,8 +96,9 @@ app.controls = function (controls, $, services) {
 		return self;
 	}();
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	app.services);
 

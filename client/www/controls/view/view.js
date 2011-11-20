@@ -1,18 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 // View Selector Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, data) {
+app.widgets = function (widgets, $, wraith, data) {
 	var
 	
 	// static event handlers
 	onClick;
 	
-	controls.view = function () {
-		var self = controls.control.create(),
-				kinds = controls.dropdown();
+	widgets.view = function () {
+		var self = wraith.widget.create(),
+				kinds = widgets.dropdown();
 
 		//////////////////////////////
 		// Overrides
@@ -20,7 +20,7 @@ app.controls = function (controls, $, data) {
 		self.build = function () {
 			kinds
 				.caption("Categories")
-				.popup(controls.kinds)
+				.popup(widgets.kinds)
 				.appendTo(self);
 			
 			return self;
@@ -30,8 +30,8 @@ app.controls = function (controls, $, data) {
 			elem
 				.find('.tile').click(function () {
 					// switching to tile view
-					if (controls.media.view() !== 'tile') {
-						controls.media
+					if (widgets.media.view() !== 'tile') {
+						widgets.media
 							.view('tile')
 							.render();
 						data.cookie.set('view', 'tile');
@@ -41,8 +41,8 @@ app.controls = function (controls, $, data) {
 				.end()
 				.find('.list').click(function () {
 					// switching to list view
-					if (controls.media.view() !== 'list') {
-						controls.media
+					if (widgets.media.view() !== 'list') {
+						widgets.media
 							.view('list')
 							.render();
 						data.cookie.set('view', 'list');
@@ -65,8 +65,9 @@ app.controls = function (controls, $, data) {
 		return self;
 	}();
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	app.data);
 

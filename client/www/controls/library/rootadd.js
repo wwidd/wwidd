@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Root Adder Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery */
+/*global jQuery, wraith */
 var app = app || {};
 
-app.controls = function (controls, $, services) {
-	controls.rootadd = function () {
-		var self = controls.control.create(controls.button()),
+app.widgets = function (widgets, $, wraith, services) {
+	widgets.rootadd = function () {
+		var self = wraith.widget.create(widgets.button()),
 				dirsel;
 
 		//////////////////////////////
@@ -33,7 +33,7 @@ app.controls = function (controls, $, services) {
 				.render();
 
 			// creating directory selection dialog
-			dirsel = controls.dirsel();
+			dirsel = widgets.dirsel();
 			dirsel
 				.onCancel(collapse)
 				.onOk(function () {
@@ -43,7 +43,7 @@ app.controls = function (controls, $, services) {
 						collapse();
 						
 						// reloading library
-						controls.media.load();
+						widgets.media.load();
 					});
 				})
 				.render($('body'));
@@ -70,8 +70,9 @@ app.controls = function (controls, $, services) {
 		return self;
 	}();
 	
-	return controls;
-}(app.controls || {},
+	return widgets;
+}(app.widgets || {},
 	jQuery,
+	wraith,
 	app.services);
 

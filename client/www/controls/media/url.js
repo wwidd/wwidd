@@ -6,13 +6,13 @@
 /*global window */
 var app = app || {};
 
-app.controls = (function (controls) {
+app.widgets = (function (widgets) {
 	// sets ajax URL in browser
 	function refresh(values) {
 		window.location.hash = '#!/' + values.join('/') + '/';
 	}
 	
-	controls.url = {
+	widgets.url = {
 		get: function () {
 			// obtaining URL hash values
 			var tmp = decodeURI(window.location.hash).split('/'),
@@ -20,22 +20,22 @@ app.controls = (function (controls) {
 					filter = tmp[2] || '',
 					page = parseInt(tmp[3], 10) || 1;
 			
-			// updating controls' state
-			controls.search.filter(filter);
-			controls.pager.page(page - 1);
+			// updating widget state
+			widgets.search.filter(filter);
+			widgets.pager.page(page - 1);
 			
 			// sanitizing URL
 			refresh([library, filter, page]);
 		},
 		
 		set: function () {
-			refresh(['', controls.search.filter() || '', (parseInt(controls.pager.page(), 10) || 0) + 1]);
+			refresh(['', widgets.search.filter() || '', (parseInt(widgets.pager.page(), 10) || 0) + 1]);
 		}
 	};
 	
-	// initializing controls according to URL
-	controls.url.get();
+	// initializing widgets according to URL
+	widgets.url.get();
 	
-	return controls;
-})(app.controls || {});
+	return widgets;
+})(app.widgets || {});
 
