@@ -3,10 +3,10 @@
 //
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, jOrder, flock, confirm */
+/*global jQuery, wraith, jOrder, confirm */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data) {
+app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 	// - mediaid: media identifier
 	widgets.tagadd = function (mediaid) {
 		var	self = wraith.widget.create(widgets.tag(mediaid));
@@ -104,9 +104,9 @@ app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data
 				break scope;
 			case 'search':
 				// adding tag(s) to multiple media
-				filter = widgets.search.filter();
+				filter = data.media.matchedTags().join(',');
 				if (filter.length && confirm("Add this to SEARCH results?")) {
-					mediaids = data.media.stack()[0].data.cache.mget(['media', '*'], {mode: flock.keys});
+					mediaids = data.media.matchedMedia();
 					services.tag.add(null, name, filter, null, function () {
 						data.media.addTag(mediaids, name);
 						widgets.media.refreshTags();
@@ -143,8 +143,6 @@ app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data
 	jQuery,
 	wraith,
 	jOrder,
-	flock,
-	app.data.cache,
 	app.services,
 	app.data);
 

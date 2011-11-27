@@ -35,6 +35,29 @@ app.data = function (data, services) {
 			// retrieves the first matching name (kind is ignored)
 			searchName: function (term) {
 				return (search(term) || {name: ''}).name;
+			},
+			
+			// searches matching words in order of the tags they're a part of
+			// NOTE: should be re-written when flock supports mget() with callback
+			searchWord: function (term) {
+				// obtaining matching tags
+				var hits = data.search.word(term),
+						word,
+						result = [],
+						tag, count;
+				for (word in hits) {
+					if (hits.hasOwnProperty(word)) {
+						// counting tags for word
+						count = 0;
+						for (tag in hits[word]) {
+							if (hits[word].hasOwnProperty(tag)) {
+								count += hits[word][tag].tag.count;
+							}
+						}
+						result.push({name: word, count: count});
+					}
+				}
+				return (bestHit(result) || {name: ''}).name;
 			}
 		};
 

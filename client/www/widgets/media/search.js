@@ -73,7 +73,7 @@ app.widgets = function (widgets, $, wraith, services, data) {
 			} else {
 				match = !term.length ? "" : [
 					term,
-					data.tags.searchName(term.toLowerCase()).substr(term.length)
+					data.tags.searchWord(term).substr(term.length)
 				].join('');
 				$this.siblings('.backdrop')
 					.val(match)

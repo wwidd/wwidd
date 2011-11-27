@@ -3,10 +3,10 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, jOrder, flock, window */
+/*global jQuery, wraith, jOrder, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data) {
+app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 	// - mediaid: media identifier
 	// - tag: tag string "name:kind"
 	widgets.tagedit = function (mediaid, tag) {
@@ -39,9 +39,20 @@ app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data
 		//////////////////////////////
 		// Overrides
 		
+		function isFilter(str) {
+			// get tags matched by filter
+			var matched = data.media.matchedTags(),
+					i;
+			for (i = 0; i < matched.length; i++) {
+				if (str === matched[i]) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		self.display = function () {
-			var hit = widgets.search.filter().length && data.tag.match(widgets.search.filter(), name) ? 'hit' : null;
-			
+			var hit = isFilter(tag) ? 'hit' : null;
 			return [
 				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
 				'<span>', name.replace(' ', '&nbsp;'), '</span>',
@@ -103,16 +114,16 @@ app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data
 		case 'all':
 			// affecting all tags like this one
 			if (window.confirm(lang.all)) {
-				mediaids = cache.mget(['tag', tag, 'media', '*'], {mode: flock.keys});
+				mediaids = data.media.getByTag(tag);
 				service(null, tag, null, null, onSuccess);
 			}
 			break;
 		case 'search':
 			// affecting tags in search reaults
-			filter = widgets.search.filter();
+			filter = data.media.matchedTags().join(',');
 			if (filter.length && window.confirm(lang.hits)) {
-				mediaids = data.media.stack()[0].data.cache.mget(['media', '*'], {mode: flock.keys});
-				service(null, tag, widgets.search.filter(), null, onSuccess);
+				mediaids = data.media.matchedMedia();
+				service(null, tag, filter, null, onSuccess);
 			}
 			break;
 		case 'selected':
@@ -233,8 +244,6 @@ app.widgets = function (widgets, $, wraith, jOrder, flock, cache, services, data
 	jQuery,
 	wraith,
 	jOrder,
-	flock,
-	app.data.cache,
 	app.services,
 	app.data);
 

@@ -36,25 +36,6 @@ app.data = function (data, flock, cache) {
 			return names.split(RE_SPLIT_NONTAG).join('');
 		},
 		
-		// tells if any of the tags match the submitted name
-		match: function (names, name) {
-			var tags = names.split(RE_SPLIT_NONTAG),
-					re, i;
-			
-			// no match when tags is empty
-			if (!tags.length || tags.length === 1 && !tags[0].length) {
-				return false;
-			}
-
-			for (i = 0; i < tags.length; i++) {
-				re = new RegExp('^' + tags[i] + '.*$', 'i');
-				if (name.match(re)) {
-					return true;
-				}
-			}
-			return false;
-		},
-		
 		// gets or creates a new tag node and adds it to the index
 		// - tag: complete tag string ("name:kind")
 		get: function (tag) {

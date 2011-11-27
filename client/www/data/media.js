@@ -151,7 +151,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 				term = terms[i];
 				
 				// acquiring tags matching the entered string
-				tags = data.search.get(term, ['tag', 'tag']);
+				tags = data.search.word(term, true);
 				
 				// acquiring search hits
 				if (stack.length === 1) {
@@ -168,6 +168,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 				// adding search hits to stack
 				stack.unshift({
 					term: term,
+					tags: tags,
 					data: {
 						cache: flock({
 							media: hits
@@ -180,6 +181,21 @@ app.data = function (data, jOrder, flock, cache, services) {
 			}
 			
 			return result;
+		},
+		
+		// returns a list of tags matching the filter
+		matchedTags: function () {
+			return flock(stack).mget('*.tags.*');
+		},
+		
+		// returns a list of mediaids matching the current filter
+		matchedMedia: function () {
+			return stack[0].data.cache.mget(['media', '*'], {mode: flock.keys});
+		},
+		
+		// returns all media ids
+		getByTag: function (tag) {
+			return data.cache.mget(['tag', tag, 'media', '*'], {mode: flock.keys});
 		},
 		
 		// retrieves a reference to the data associated with a media entry
