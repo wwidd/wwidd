@@ -151,7 +151,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 				term = terms[i];
 				
 				// acquiring tags matching the entered string
-				tags = cache.mget(['search'].concat(term.toLowerCase().split('')).concat(['', 'tag', 'tag']));
+				tags = data.search.get(term, ['tag', 'tag']);
 				
 				// acquiring search hits
 				if (stack.length === 1) {

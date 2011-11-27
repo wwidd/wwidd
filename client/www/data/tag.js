@@ -7,7 +7,7 @@
 var app = app || {};
 
 app.data = function (data, flock, cache) {
-	var RE_SEPARATOR = /\s*[^A-Za-z0-9:\s]+\s*/;
+	var RE_SPLIT_NONTAG = /\s*[^A-Za-z0-9:\s]+\s*/;	// non-tag characters with padding
 	
 	// adds tag to cache
 	function add(tag, ref) {
@@ -19,24 +19,26 @@ app.data = function (data, flock, cache) {
 		
 		// adding node to basic indexes
 		cache.set(['name', ref.name, ref.kind], ref);
-		cache.set(['search'].concat(tag.toLowerCase().split('').concat(['tag'])), ref);
+
+		// adding node to search index
+		data.search.setTag(tag, ref);
 	}
 	
 	// tag collection
 	data.tag = {
 		// splits string along non-word parts
 		split: function (names) {
-			return names.split(RE_SEPARATOR);
+			return names.split(RE_SPLIT_NONTAG);
 		},
 		
 		// removes separators from string
 		sanitize: function (names) {
-			return names.split(RE_SEPARATOR).join('');
+			return names.split(RE_SPLIT_NONTAG).join('');
 		},
 		
 		// tells if any of the tags match the submitted name
 		match: function (names, name) {
-			var tags = names.split(RE_SEPARATOR),
+			var tags = names.split(RE_SPLIT_NONTAG),
 					re, i;
 			
 			// no match when tags is empty
@@ -121,7 +123,9 @@ app.data = function (data, flock, cache) {
 			// removing references from indexes
 			cache.unset(['name', tmp[0], tmp[1]]);
 			cache.unset(['kind', tmp[1], tmp[0]]);
-			cache.unset(['search'].concat(before.toLowerCase().split('')).concat(['tag']));
+			
+			// removing references from search index
+			data.search.unset(before, 'tag');
 	
 			// removing name altogether
 			if (Object.isEmpty(cache.get(['name', tmp[0]]))) {
