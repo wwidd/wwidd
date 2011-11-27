@@ -21,7 +21,7 @@ app.data = function (data, flock, cache) {
 		cache.set(['name', ref.name, ref.kind], ref);
 
 		// adding node to search index
-		data.search.setTag(tag, ref);
+		data.search.set(tag, ref, ['tag']);
 	}
 	
 	// tag collection
@@ -125,7 +125,7 @@ app.data = function (data, flock, cache) {
 			cache.unset(['kind', tmp[1], tmp[0]]);
 			
 			// removing references from search index
-			data.search.unset(before, 'tag');
+			data.search.unset(before, ['tag']);
 	
 			// removing name altogether
 			if (Object.isEmpty(cache.get(['name', tmp[0]]))) {
