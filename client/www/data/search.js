@@ -28,13 +28,13 @@ app.data = function (data, flock, cache) {
 		// - orig: whether matching tags should be returned (or just matching words)
 		word: function (term, orig) {
 			var full = term.toLowerCase(),
-					hits, word, count = 0;
+					path = ROOT_WORD.concat(full.split(RE_SPLIT_CHAR)).concat(['', 'word', '*']);
 			if (typeof orig === 'undefined') {
-				hits = cache.mget(ROOT_WORD.concat(full.split(RE_SPLIT_CHAR)).concat(['', 'word', '*']), {mode: flock.both});
+				return cache.mget(path, {mode: flock.both});
 			} else {
-				hits = cache.mget(ROOT_WORD.concat(full.split(RE_SPLIT_CHAR)).concat(['', 'word', '*', '*']), {mode: flock.keys});
+				path.push('*');
+				return cache.mget(path, {mode: flock.keys});
 			}
-			return hits;
 		},
 		
 		// sets nodes on search tree
@@ -46,12 +46,12 @@ app.data = function (data, flock, cache) {
 			
 			var full = term.toLowerCase(),
 					tmp = full.split(RE_SPLIT_COLON),
-					names = tmp[0].split(RE_SPLIT_WHITE),
-					chars = full.split(RE_SPLIT_CHAR),
+					name = tmp[0],
+					names = name.split(RE_SPLIT_WHITE),
 					i;
 			
 			// adding string prefix index
-			cache.set(ROOT_FULL.concat(chars).concat(path), node);
+			cache.set(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat(path), node);
 			
 			// inclusion of full tag (w/o kind)
 			if (names.length > 1) {
@@ -61,7 +61,7 @@ app.data = function (data, flock, cache) {
 			// adding word prefix index
 			for (i = 0; i < names.length; i++) {
 				cache.set(ROOT_WORD
-					.concat(chars)
+					.concat(names[i].split(RE_SPLIT_CHAR))
 					.concat(['word', names[i], term])
 					.concat(path), node);
 			}
@@ -75,12 +75,12 @@ app.data = function (data, flock, cache) {
 			
 			var	full = term.toLowerCase(),
 					tmp = full.split(RE_SPLIT_COLON),
-					names = tmp[0].split(RE_SPLIT_WHITE),
-					chars = full.split(RE_SPLIT_CHAR),
+					name = tmp[0],
+					names = name.split(RE_SPLIT_WHITE),
 					i;
 			
 			// removing string prefix nodes
-			cache.unset(ROOT_FULL.concat(chars).concat(path));
+			cache.unset(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat(path));
 			
 			// inclusion of full search term (w/o kind)
 			if (names.length > 1) {
@@ -90,7 +90,7 @@ app.data = function (data, flock, cache) {
 			// removing word prefix nodes
 			for (i = 0; i < names.length; i++) {
 				cache.unset(ROOT_WORD
-					.concat(chars)
+					.concat(names[i].split(RE_SPLIT_CHAR))
 					.concat(['word', names[i], term])
 					.concat(path));
 			}
