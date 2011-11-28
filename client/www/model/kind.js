@@ -57,6 +57,6 @@ app.model = function (model, jOrder, cache, services) {
 	return model;
 }(app.model || {},
 	jOrder,
-	app.model.cache || (app.model.cache = flock()),
+	app.cache || (app.cache = flock()),
 	app.services);
 

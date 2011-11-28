@@ -6,7 +6,7 @@
 /*global jQuery, wraith, flock */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, flock, model) {
+app.widgets = function (widgets, $, wraith, flock, model, cache) {
 	var KIND_PREFIX = 'k';
 	
 	widgets.kinds = function () {
@@ -74,7 +74,7 @@ app.widgets = function (widgets, $, wraith, flock, model) {
 		// Overrides
 
 		self.build = function () {
-			var kinds = model.cache.mget(['kind', '*'], {mode: flock.keys}).sort(),
+			var kinds = cache.mget(['kind', '*'], {mode: flock.keys}).sort(),
 					i, kind;
 			self.clear();
 			for (i = 0; i < kinds.length; i++) {
@@ -102,5 +102,6 @@ app.widgets = function (widgets, $, wraith, flock, model) {
 	jQuery,
 	wraith,
 	flock,
-	app.model);
+	app.model,
+	app.cache || (app.cache = flock()));
 

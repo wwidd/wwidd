@@ -195,7 +195,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 		
 		// returns all media ids
 		getByTag: function (tag) {
-			return model.cache.mget(['tag', tag, 'media', '*'], {mode: flock.keys});
+			return cache.mget(['tag', tag, 'media', '*'], {mode: flock.keys});
 		},
 		
 		// retrieves a reference to the data associated with a media entry
@@ -366,6 +366,6 @@ app.model = function (model, jOrder, flock, cache, services) {
 }(app.model || {},
 	jOrder,
 	flock,
-	app.model.cache || (app.model.cache = flock()),
+	app.cache || (app.cache = flock()),
 	app.services);
 
