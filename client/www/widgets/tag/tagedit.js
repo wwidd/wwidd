@@ -99,7 +99,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		var self = getSelf($(this)),
 				tag = self.tag(),
 				mediaid = self.mediaid(),
-				mediaids, filter;
+				mediaids;
 
 		function onSuccess() {
 			handler.call(self, mediaids, tag);
@@ -108,29 +108,28 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		switch (widgets.tag.scope(event)) {
 		case 'single':
 			// affecting tag on one specific video
-			mediaids = [self.mediaid()];
-			service(mediaid, tag, null, null, onSuccess);
+			mediaids = [mediaid];
+			service(mediaid, tag, null, onSuccess);
 			break;
 		case 'all':
 			// affecting all tags like this one
 			if (window.confirm(lang.all)) {
 				mediaids = data.media.getByTag(tag);
-				service(null, tag, null, null, onSuccess);
+				service(null, tag, null, onSuccess);
 			}
 			break;
 		case 'search':
 			// affecting tags in search reaults
-			filter = data.media.matchedTags().join(',');
-			if (filter.length && window.confirm(lang.hits)) {
-				mediaids = data.media.matchedMedia();
-				service(null, tag, filter, null, onSuccess);
+			mediaids = data.media.matchedMedia();
+			if (mediaids.length && window.confirm(lang.hits)) {
+				service(null, tag, mediaids.join(','), onSuccess);
 			}
 			break;
 		case 'selected':
 			// affecting all tags on selected videos
 			if (window.confirm(lang.sel)) {
 				mediaids = jOrder.keys(widgets.media.selected);
-				service(null, tag, null, mediaids.join(','), onSuccess);
+				service(null, tag, mediaids.join(','), onSuccess);
 			}
 			break;
 		}

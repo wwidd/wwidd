@@ -12,7 +12,7 @@ tag = function () {
 			self = Object.create(base);
 
 	// adds one tag to the file
-	self.add = function (after, filter, mediaids, where, handler) {
+	self.add = function (after, mediaids, where, handler) {
 		var tmp = after.tag.split(':'),
 				name = "'" + tmp[0] + "'",
 				kind = tmp[1] ? "'" + tmp[1] + "'" : "NULL",
@@ -31,9 +31,7 @@ tag = function () {
 			"WHERE 1",
 			mediaids ?
 				$media.selection(mediaids) :
-				filter ?
-					$media.filter(filter) : 
-					"",
+				"",
 			where ?
 				"AND " + where :
 				""
@@ -96,15 +94,13 @@ tag = function () {
 	};
 	
 	// removes tag from file(s)
-	self.remove = function (before, filter, mediaids, where, handler) {
+	self.remove = function (before, mediaids, where, handler) {
 		var mediaid = before.mediaid,
 				tmp = before.tag.split(':'),
 				name = tmp[0],
 				clause = mediaids ?
 					$media.selection(mediaids) :
-					filter ?
-						$media.filter(filter) :
-						"",
+					"",
 
 		statement = [
 			"DELETE FROM", self.kind,

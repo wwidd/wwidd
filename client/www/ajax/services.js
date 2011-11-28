@@ -72,8 +72,8 @@ app.services = function ($, window, service, poll) {
 		
 		tag: {
 			// adds tag to a file
-			add: function (mediaid, tag, filter, mediaids, handler) {
-				service('tag/add').unary(mediaid, tag, filter, mediaids, handler);			
+			add: function (mediaid, tag, mediaids, handler) {
+				service('tag/add').unary(mediaid, tag, mediaids, handler);			
 			},
 	
 			// changes tag on a file
@@ -89,13 +89,13 @@ app.services = function ($, window, service, poll) {
 			},
 			
 			// explodes tag(s)
-			explode: function (mediaid, tag, filter, mediaids, handler) {
-				service('tag/explode').unary(mediaid, tag, filter, mediaids, handler);			
+			explode: function (mediaid, tag, mediaids, handler) {
+				service('tag/explode').unary(mediaid, tag, mediaids, handler);			
 			},
 			
 			// deletes tag(s)
-			del: function (mediaid, tag, filter, mediaids, handler) {
-				service('tag/del').unary(mediaid, tag, filter, mediaids, handler);
+			del: function (mediaid, tag, mediaids, handler) {
+				service('tag/del').unary(mediaid, tag, mediaids, handler);
 			}
 		},
 		

@@ -27,13 +27,10 @@ app.service = function ($) {
 			},
 			
 			// calls a unary tag transformation service
-			unary: function (mediaid, tag, filter, mediaids, handler) {
+			unary: function (mediaid, tag, mediaids, handler) {
 				var data = {
 					tag: tag
 				};
-				if (filter) {
-					data.filter = filter;
-				}
 				if (typeof mediaid !== 'undefined' && mediaid !== null) {
 					data.mediaid = mediaid;
 				}

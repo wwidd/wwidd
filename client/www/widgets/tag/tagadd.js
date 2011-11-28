@@ -77,7 +77,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 					term +
 					data.tags.searchTag(term.toLowerCase()).substr(term.length),
 				name = match.length ? match : term,
-				filter, mediaids;
+				mediaids;
 		
 		key:
 		switch (event.which) {
@@ -96,7 +96,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 				// shift + enter is handled only when entry is selected (and possibly others)
 				if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
 					mediaids = jOrder.keys(widgets.media.selected);
-					services.tag.add(null, name, null, mediaids.join(','), function () {
+					services.tag.add(null, name, mediaids.join(','), function () {
 						data.media.addTag(mediaids, name);
 						widgets.media.refreshTags();
 					});
@@ -104,10 +104,9 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 				break scope;
 			case 'search':
 				// adding tag(s) to multiple media
-				filter = data.media.matchedTags().join(',');
-				if (filter.length && confirm("Add this to SEARCH results?")) {
-					mediaids = data.media.matchedMedia();
-					services.tag.add(null, name, filter, null, function () {
+				mediaids = data.media.matchedMedia();
+				if (mediaids.length && confirm("Add this to SEARCH results?")) {
+					services.tag.add(null, name, mediaids.join(','), function () {
 						data.media.addTag(mediaids, name);
 						widgets.media.refreshTags();
 					});
@@ -115,7 +114,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 				break scope;
 			case 'single':
 				// adding tag(s) to single media file
-				services.tag.add(mediaid, name, null, null, function () {
+				services.tag.add(mediaid, name, null, function () {
 					self.changetag(null, name);
 					self.parent.add();
 				});

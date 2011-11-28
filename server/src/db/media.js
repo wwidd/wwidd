@@ -6,29 +6,6 @@ var	entity = require('../db/entity').entity,
 		db = require('../db/db').db,
 
 // constructs a where clause that will retrieve
-// media records filtered by tags
-filter = function (tags, table) {
-	var names = tags.split(/\s*,\s*/),
-			clause = [],
-			i;
-	for (i = 0; i < names.length; i++) {
-		clause.push("tag LIKE '%," + names[i] + ",%'");
-	}
-	return [
-		"AND",
-		(table ? table + '.' : '') + "mediaid IN (",
-		"SELECT mediaid FROM (",
-		"SELECT mediaid, ',' || group_concat(name || ':' || CASE WHEN kind IS NULL THEN '' ELSE kind END) || ',' as tag",
-		"FROM tags",
-		"GROUP BY mediaid",
-		"HAVING",
-		clause.join(" AND "),
-		")",
-		")"
-	].join(" ");
-},
-
-// constructs a where clause that will retrieve
 // media records by their id
 selection = function (mediaids) {
 	var tmp = mediaids.split(/[^0-9]+/);
@@ -71,7 +48,6 @@ media = function (mediaid) {
 	return self;
 };
 
-exports.filter = filter;
 exports.selection = selection;
 exports.media = media;
 

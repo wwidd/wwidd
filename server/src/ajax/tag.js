@@ -16,10 +16,10 @@ function run(endpoint, query, res) {
 	case '/tag/add':
 		// deleting tag
 		envelope(res, true, function (ok) {
-			if (!(query.mediaid || query.filter || query.mediaids) || !query.tag) {
+			if (!(query.mediaid || query.mediaids) || !query.tag) {
 				throw "Missing parameters";
 			}
-			tag.add(query, query.filter, query.mediaids, null, function () {
+			tag.add(query, query.mediaids, null, function () {
 				ok(query);
 			});
 		});
@@ -47,7 +47,7 @@ function run(endpoint, query, res) {
 			if (!query.tag) {
 				throw "Missing parameters";
 			}
-			tag.explode(query, query.filter, query.mediaids, function () {
+			tag.explode(query, query.mediaids, function () {
 				ok(query);
 			});
 		});
@@ -59,7 +59,7 @@ function run(endpoint, query, res) {
 			if (!query.tag) {
 				throw "Missing parameters";
 			}
-			tag.remove(query, query.filter, query.mediaids, null, function () {
+			tag.remove(query, query.mediaids, null, function () {
 				ok(query);
 			});
 		});
