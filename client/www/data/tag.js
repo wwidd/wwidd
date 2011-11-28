@@ -6,7 +6,7 @@
 /*global flock */
 var app = app || {};
 
-app.data = function (data, flock, cache) {
+app.model = function (model, flock, cache) {
 	var RE_SPLIT_NONTAG = /\s*[^A-Za-z0-9:\s]+\s*/;	// non-tag characters with padding
 	
 	// adds tag to cache
@@ -15,17 +15,17 @@ app.data = function (data, flock, cache) {
 		cache.set(['tag', tag], ref);
 		
 		// adding node to kinds index
-		data.kind.get(ref.kind)[ref.name] = ref;
+		model.kind.get(ref.kind)[ref.name] = ref;
 		
 		// adding node to basic indexes
 		cache.set(['name', ref.name, ref.kind], ref);
 
 		// adding node to search index
-		data.search.set(tag, ref, ['tag']);
+		model.search.set(tag, ref, ['tag']);
 	}
 	
 	// tag collection
-	data.tag = {
+	model.tag = {
 		// splits string along non-word parts
 		split: function (names) {
 			return names.split(RE_SPLIT_NONTAG);
@@ -79,7 +79,7 @@ app.data = function (data, flock, cache) {
 			ref.kind = tmp[1];
 			
 			// removing reference from old tag
-			data.tag.unset(before);
+			model.tag.unset(before);
 	
 			// adding reference to new tag
 			add(after, ref);
@@ -106,7 +106,7 @@ app.data = function (data, flock, cache) {
 			cache.unset(['kind', tmp[1], tmp[0]]);
 			
 			// removing references from search index
-			data.search.unset(before, ['tag']);
+			model.search.unset(before, ['tag']);
 	
 			// removing name altogether
 			if (Object.isEmpty(cache.get(['name', tmp[0]]))) {
@@ -114,13 +114,13 @@ app.data = function (data, flock, cache) {
 			}
 			// removing kind altogether
 			if (Object.isEmpty(cache.get(['kind', tmp[1]]))) {
-				data.kind.unset(tmp[1]);
+				model.kind.unset(tmp[1]);
 			}						
 		}
 	};
 	
-	return data;
-}(app.data || {},
+	return model;
+}(app.model || {},
 	flock,
-	app.data.cache || (app.data.cache = flock()));
+	app.model.cache || (app.model.cache = flock()));
 

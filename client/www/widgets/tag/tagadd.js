@@ -6,7 +6,7 @@
 /*global jQuery, wraith, jOrder, confirm */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, jOrder, services, data) {
+app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	// - mediaid: media identifier
 	widgets.tagadd = function (mediaid) {
 		var	self = wraith.widget.create(widgets.tag(mediaid));
@@ -75,7 +75,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 				term = $this.val(),
 				match = !term.length ? "" :
 					term +
-					data.tags.searchTag(term.toLowerCase()).substr(term.length),
+					model.tags.searchTag(term.toLowerCase()).substr(term.length),
 				name = match.length ? match : term,
 				mediaids;
 		
@@ -83,7 +83,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		switch (event.which) {
 		case 13:
 			// enter - saving values
-			name = data.tag.sanitize(name);
+			name = model.tag.sanitize(name);
 			if (!name.length) {
 				return;
 			}
@@ -97,17 +97,17 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 				if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
 					mediaids = jOrder.keys(widgets.media.selected);
 					services.tag.add(null, name, mediaids.join(','), function () {
-						data.media.addTag(mediaids, name);
+						model.media.addTag(mediaids, name);
 						widgets.media.refreshTags();
 					});
 				}
 				break scope;
 			case 'search':
 				// adding tag(s) to multiple media
-				mediaids = data.media.matchedMedia();
+				mediaids = model.media.matchedMedia();
 				if (mediaids.length && confirm("Add this to SEARCH results?")) {
 					services.tag.add(null, name, mediaids.join(','), function () {
-						data.media.addTag(mediaids, name);
+						model.media.addTag(mediaids, name);
 						widgets.media.refreshTags();
 					});
 				}
@@ -143,5 +143,5 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 	wraith,
 	jOrder,
 	app.services,
-	app.data);
+	app.model);
 

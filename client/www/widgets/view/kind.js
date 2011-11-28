@@ -6,7 +6,7 @@
 /*global jQuery, wraith */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, data) {
+app.widgets = function (widgets, $, wraith, model) {
 	widgets.kind = function (kind, handler) {
 		var self = wraith.widget.create();
 		
@@ -19,7 +19,7 @@ app.widgets = function (widgets, $, wraith, data) {
 		self.html = function () {
 			var id = 'kind' + kind;
 			return [
-				'<span id="', self.id, '" class="kind tag display ', data.kind.getNumber(kind), '" >',
+				'<span id="', self.id, '" class="kind tag display ', model.kind.getNumber(kind), '" >',
 				'<input type="checkbox" id="', id, '"', !self.parent || !self.parent.hidden(kind) ? ' checked="checked"' : '', '/>',
 				'<label for="', id, '">', kind ? kind : "[default]", '</label>',
 				'</span>'
@@ -64,5 +64,5 @@ app.widgets = function (widgets, $, wraith, data) {
 }(app.widgets || {},
 	jQuery,
 	wraith,
-	app.data);
+	app.model);
 

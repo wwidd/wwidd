@@ -6,7 +6,7 @@
 /*global jQuery, wraith, jOrder, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, jOrder, data) {
+app.widgets = function (widgets, $, wraith, jOrder, model) {
 	var lookup = {},		// lookup object for tagger widgets (by id)
 			lastWidth;			// last measured available width for compact view media entry
 	
@@ -54,7 +54,7 @@ app.widgets = function (widgets, $, wraith, jOrder, data) {
 			self.clear();
 
 			// adding tag editor widgets in sorted tag order
-			var row = data.media.getRow(mediaid),
+			var row = model.media.getRow(mediaid),
 					tags = jOrder.values(row.tags).sort(compare),
 					i;
 			for (i = 0; i < tags.length; i++) {
@@ -168,5 +168,5 @@ app.widgets = function (widgets, $, wraith, jOrder, data) {
 	jQuery,
 	wraith,
 	jOrder,
-	app.data);
+	app.model);
 

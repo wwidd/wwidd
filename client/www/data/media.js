@@ -11,7 +11,7 @@
 /*global jOrder, flock, escape */
 var app = app || {};
 
-app.data = function (data, jOrder, flock, cache, services) {
+app.model = function (model, jOrder, flock, cache, services) {
 	// extracts filename from path
 	function splitPath(path) {
 		var bits = path.split('/');
@@ -40,7 +40,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 		data: {}
 	}];
 	
-	data.media = {
+	model.media = {
 		stack: function () {
 			return stack;
 		},
@@ -78,8 +78,8 @@ app.data = function (data, jOrder, flock, cache, services) {
 					cache.set(['media', row.mediaid], row);
 					
 					// setting properties
-					data.media.setRating(row);
-					data.media.addTags(row, tags);
+					model.media.setRating(row);
+					model.media.addTags(row, tags);
 				}
 				
 				// setting up jOrder table
@@ -99,7 +99,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 				
 				handler();
 			});
-			return data.media;
+			return model.media;
 		},
 
 		// filters current state further
@@ -151,7 +151,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 				term = terms[i];
 				
 				// acquiring tags matching the entered string
-				tags = data.search.word(term, true);
+				tags = model.search.word(term, true);
 				
 				// acquiring search hits
 				if (stack.length === 1) {
@@ -195,7 +195,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 		
 		// returns all media ids
 		getByTag: function (tag) {
-			return data.cache.mget(['tag', tag, 'media', '*'], {mode: flock.keys});
+			return model.cache.mget(['tag', tag, 'media', '*'], {mode: flock.keys});
 		},
 		
 		// retrieves a reference to the data associated with a media entry
@@ -234,7 +234,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 			
 			for (i = 0; i < tags.length; i++) {
 				tag = tags[i];
-				ref = data.tag.get(tag);
+				ref = model.tag.get(tag);
 				if (!media.tags.hasOwnProperty(tag)) {
 					// adding tag reference to media
 					media.tags[tag] = ref;
@@ -252,7 +252,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 		addTag: function (mediaids, tag) {
 			var path = ['media', mediaids, 'tags', tag],				// path to this tag on all affected entries
 					media = cache.mget(['media', mediaids]),				// media entries affected
-					ref = data.tag.get(tag),												// reference to tag
+					ref = model.tag.get(tag),												// reference to tag
 					i, mediaid;
 
 			// setting tag references on media
@@ -289,7 +289,7 @@ app.data = function (data, jOrder, flock, cache, services) {
 				
 				// removing tag altogether
 				if (Object.isEmpty(ref.media)) {
-					data.tag.unset(tag);
+					model.tag.unset(tag);
 				}
 			}
 		},
@@ -362,10 +362,10 @@ app.data = function (data, jOrder, flock, cache, services) {
 		}
 	};
 	
-	return data;
-}(app.data || {},
+	return model;
+}(app.model || {},
 	jOrder,
 	flock,
-	app.data.cache || (app.data.cache = flock()),
+	app.model.cache || (app.model.cache = flock()),
 	app.services);
 

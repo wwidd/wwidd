@@ -6,7 +6,7 @@
 /*global jQuery, wraith */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, data, services) {
+app.widgets = function (widgets, $, wraith, model, services) {
 	widgets.rater = function (mediaid) {
 		var self = wraith.widget.create();
 
@@ -29,7 +29,7 @@ app.widgets = function (widgets, $, wraith, data, services) {
 			var rating = $('#' + self.id).find('a').index(this) + 1;
 			// calling rater service
 			services.media.rate(mediaid, rating, function () {
-				data.media.setRating(data.media.getRow(mediaid), rating);
+				model.media.setRating(model.media.getRow(mediaid), rating);
 				self.render();
 			});
 			return false;
@@ -49,7 +49,7 @@ app.widgets = function (widgets, $, wraith, data, services) {
 		};
 		
 		self.html = function () {
-			var row = data.media.getRow(mediaid),
+			var row = model.media.getRow(mediaid),
 					i,
 			
 			result = [
@@ -74,6 +74,6 @@ app.widgets = function (widgets, $, wraith, data, services) {
 }(app.widgets || {},
 	jQuery,
 	wraith,
-	app.data,
+	app.model,
 	app.services);
 

@@ -4,7 +4,7 @@
 /*global jQuery, wraith */
 var app = app || {};
 
-app.widgets = (function (widgets, $, wraith, data) {
+app.widgets = (function (widgets, $, wraith) {
 	widgets.page = function () {
 		var self = {},
 				pager,
@@ -63,6 +63,5 @@ app.widgets = (function (widgets, $, wraith, data) {
 	return widgets;
 })(app.widgets || {},
 	jQuery,
-	wraith,
-	app.data);
+	wraith);
 

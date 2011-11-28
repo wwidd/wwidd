@@ -6,7 +6,7 @@
 /*global jQuery, wraith, jOrder, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, jOrder, services, data) {
+app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	// - mediaid: media identifier
 	// - tag: tag string "name:kind"
 	widgets.tagedit = function (mediaid, tag) {
@@ -41,7 +41,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		
 		function isFilter(str) {
 			// get tags matched by filter
-			var matched = data.media.matchedTags(),
+			var matched = model.media.matchedTags(),
 					i;
 			for (i = 0; i < matched.length; i++) {
 				if (str === matched[i]) {
@@ -54,7 +54,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		self.display = function () {
 			var hit = isFilter(tag) ? 'hit' : null;
 			return [
-				'<span id="', self.id, '" class="', ['tag background tagedit editable display', data.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
+				'<span id="', self.id, '" class="', ['tag background tagedit editable display', model.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
 				'<span>', name.replace(' ', '&nbsp;'), '</span>',
 				'</span>'
 			].join('');
@@ -62,7 +62,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 
 		self.edit = function () {
 			return [
-				'<span id="', self.id, '" class="tag tagedit edit ' + data.kind.getNumber(kind) + '">',
+				'<span id="', self.id, '" class="tag tagedit edit ' + model.kind.getNumber(kind) + '">',
 				'<div class="background"></div>',
 				'<input type="text" class="focus" value="', tag, '"/>',
 				'<a href="#" class="button remove" title="Remove tag"></a>',
@@ -114,13 +114,13 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		case 'all':
 			// affecting all tags like this one
 			if (window.confirm(lang.all)) {
-				mediaids = data.media.getByTag(tag);
+				mediaids = model.media.getByTag(tag);
 				service(null, tag, null, onSuccess);
 			}
 			break;
 		case 'search':
 			// affecting tags in search reaults
-			mediaids = data.media.matchedMedia();
+			mediaids = model.media.matchedMedia();
 			if (mediaids.length && window.confirm(lang.hits)) {
 				service(null, tag, mediaids.join(','), onSuccess);
 			}
@@ -144,7 +144,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 			all: "Delete ALL tags of this kind?",
 			hits: "Delete this tag from SEARCH results?"
 		}, function (mediaids, tag) {
-			data.media.removeTag(mediaids, tag);
+			model.media.removeTag(mediaids, tag);
 			if (mediaids.length > 1) {
 				widgets.media.refreshTags();
 			} else {
@@ -177,9 +177,9 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		}, function (mediaids, tag) {
 			var tmp = explode(tag),
 					i;
-			data.media.removeTag(mediaids, tag);
+			model.media.removeTag(mediaids, tag);
 			for (i = 0; i < tmp.length; i++) {
-				data.media.addTag(mediaids, tmp[i]);
+				model.media.addTag(mediaids, tmp[i]);
 			}
 			if (mediaids.length > 1) {
 				widgets.media.refreshTags();
@@ -197,7 +197,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 				mediaid = self.mediaid(),
 				tag = self.tag(),
 				before = tag,
-				after = data.tag.sanitize($this.val());
+				after = model.tag.sanitize($this.val());
 		
 		if (event.which === 13) {
 			// enter - saving values
@@ -212,7 +212,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 				// running batch tag change
 				if (window.confirm("Apply change to ALL tags of this kind?")) {
 					services.tag.set(null, before, after, function () {
-						data.tag.set(before, after);
+						model.tag.set(before, after);
 						widgets.media.refreshTags();
 					});
 				}
@@ -244,5 +244,5 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 	wraith,
 	jOrder,
 	app.services,
-	app.data);
+	app.model);
 

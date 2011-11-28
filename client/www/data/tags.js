@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var app = app || {};
 
-app.data = function (data, services) {
+app.model = function (model, services) {
 	// selects best hit from an array of hits passed
 	// simple maximum search
 	function bestHit(hits) {
@@ -22,10 +22,10 @@ app.data = function (data, services) {
 	// searches for a tag entry associated with the term
 	// start-of-word search
 	function search(term) {
-		return bestHit(data.search.get(term, ['tag']));
+		return bestHit(model.search.get(term, ['tag']));
 	}
 					
-	data.tags = function () {
+	model.tags = function () {
 		var self = {
 			// retrieves the first matching tag to a search term
 			searchTag: function (term) {
@@ -41,7 +41,7 @@ app.data = function (data, services) {
 			// NOTE: should be re-written when flock supports mget() with callback
 			searchWord: function (term) {
 				// obtaining matching tags
-				var hits = data.search.word(term),
+				var hits = model.search.word(term),
 						word,
 						result = [],
 						tag, count;
@@ -64,7 +64,7 @@ app.data = function (data, services) {
 		return self;
 	}();
 	
-	return data;
-}(app.data,
+	return model;
+}(app.model,
 	app.services);
 

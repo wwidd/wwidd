@@ -4,7 +4,7 @@
 /*global jQuery, wraith, jOrder, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, jOrder, data, services) {
+app.widgets = function (widgets, $, wraith, jOrder, model, services) {
 	widgets.actions = function () {
 		var popup = widgets.select(["Refresh thumbnail", "Delete"]).stateful(false),
 				self = wraith.widget.create(widgets.dropdown("Actions", popup));
@@ -18,7 +18,7 @@ app.widgets = function (widgets, $, wraith, jOrder, data, services) {
 				// calling deletion service
 				// then reloading entire library
 				services.media.del(mediaids.join(','), function () {
-					data.media.unset(mediaids);
+					model.media.unset(mediaids);
 					widgets.media.refresh();
 				});
 			}
@@ -59,6 +59,6 @@ app.widgets = function (widgets, $, wraith, jOrder, data, services) {
 	jQuery,
 	wraith,
 	jOrder,
-	app.data,
+	app.model,
 	app.services);
 

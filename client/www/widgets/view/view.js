@@ -4,7 +4,7 @@
 /*global jQuery, wraith */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, data) {
+app.widgets = function (widgets, $, wraith, model) {
 	var
 	
 	// static event handlers
@@ -34,7 +34,7 @@ app.widgets = function (widgets, $, wraith, data) {
 						widgets.media
 							.view('tile')
 							.render();
-						data.cookie.set('view', 'tile');
+						model.cookie.set('view', 'tile');
 					}
 					return false;
 				})
@@ -45,7 +45,7 @@ app.widgets = function (widgets, $, wraith, data) {
 						widgets.media
 							.view('list')
 							.render();
-						data.cookie.set('view', 'list');
+						model.cookie.set('view', 'list');
 					}
 					return false;
 				})
@@ -69,5 +69,5 @@ app.widgets = function (widgets, $, wraith, data) {
 }(app.widgets || {},
 	jQuery,
 	wraith,
-	app.data);
+	app.model);
 

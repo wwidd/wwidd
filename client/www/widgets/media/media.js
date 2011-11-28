@@ -9,7 +9,7 @@
 /*global jQuery, wraith, document */
 var app = app || {};
 
-app.widgets = (function (widgets, $, wraith, data, services) {
+app.widgets = (function (widgets, $, wraith, model, services) {
 	var
 	
 	// association between library views and entry views
@@ -20,7 +20,7 @@ app.widgets = (function (widgets, $, wraith, data, services) {
 		
 	widgets.media = function () {
 		var self = wraith.widget.create(),
-				view = data.cookie.get('view') || 'list',
+				view = model.cookie.get('view') || 'list',
 				lookup = {};
 				
 		self.selected = {};
@@ -129,10 +129,10 @@ app.widgets = (function (widgets, $, wraith, data, services) {
 				.render();
 			
 			// loading video data
-			data.media.init(function () {
+			model.media.init(function () {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + widgets.library.name());
-				data.media.filter(widgets.search.filter());
+				model.media.filter(widgets.search.filter());
 				self.refresh();
 			});
 			return self;
@@ -161,7 +161,7 @@ app.widgets = (function (widgets, $, wraith, data, services) {
 					.render();
 
 				// updating media data
-				data.media.update(json.load);
+				model.media.update(json.load);
 				
 				// updating thumbnails
 				var mediaid, medium;
@@ -234,7 +234,7 @@ app.widgets = (function (widgets, $, wraith, data, services) {
 		}
 		
 		self.build = function () {
-			var page = data.media.getPage(widgets.pager.page(), widgets.pager.items()),
+			var page = model.media.getPage(widgets.pager.page(), widgets.pager.items()),
 					i, control;
 
 			// generating thumbnails if necessary
@@ -289,6 +289,6 @@ app.widgets = (function (widgets, $, wraith, data, services) {
 })(app.widgets || {},
 	jQuery,
 	wraith,
-	app.data,
+	app.model,
 	app.services);
 

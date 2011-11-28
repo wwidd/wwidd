@@ -4,7 +4,7 @@
 /*global document */
 var app = app || {};
 
-app.data = function (data, services) {
+app.model = function (model, services) {
 	// parses the entire cookie string
 	function parse() {
 		var cookies = document.cookie.split('; '),
@@ -17,7 +17,7 @@ app.data = function (data, services) {
 		return result;
 	}
 	
-	data.cookie = function () {
+	model.cookie = function () {
 		var self = {
 			// sets a cookie
 			// optionally w/ expiration (days) and path
@@ -49,7 +49,7 @@ app.data = function (data, services) {
 		return self;
 	}();
 	
-	return data;
-}(app.data || {},
+	return model;
+}(app.model || {},
 	app.services);
 

@@ -4,7 +4,7 @@
 /*global jQuery, wraith */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, services, data) {
+app.widgets = function (widgets, $, wraith, services, model) {
 	var RE_FILTER_CROP = /[^\s,].*[^\s,]/,
 			RE_FILTER_SPLIT = /,/;
 	
@@ -53,7 +53,7 @@ app.widgets = function (widgets, $, wraith, services, data) {
 			// filtreing out leading and trailing commas and spaces
 			filter = (RE_FILTER_CROP.exec(tmp) || [''])[0];
 			
-			if (data.media.filter(filter)) {
+			if (model.media.filter(filter)) {
 				// result set changed
 				elem.siblings('.backdrop').val('');				
 				widgets.pager.reset();
@@ -73,7 +73,7 @@ app.widgets = function (widgets, $, wraith, services, data) {
 			} else {
 				match = !term.length ? "" : [
 					term,
-					data.tags.searchWord(term).substr(term.length)
+					model.tags.searchWord(term).substr(term.length)
 				].join('');
 				$this.siblings('.backdrop')
 					.val(match)
@@ -131,5 +131,5 @@ app.widgets = function (widgets, $, wraith, services, data) {
 	jQuery,
 	wraith,
 	app.services,
-	app.data);
+	app.model);
 

@@ -4,7 +4,7 @@
 /*global jQuery, wraith, jOrder, escape */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, jOrder, services, data) {
+app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	// - mediaid: media identifier
 	widgets.tag = function (mediaid) {
 		var	self = wraith.widget.create(widgets.editable());
@@ -17,7 +17,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		// removes tag from media entry
 		function remove(before) {
 			if (before) {
-				data.media.removeTag([mediaid], before);
+				model.media.removeTag([mediaid], before);
 			}
 		}
 		
@@ -25,8 +25,8 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 		function add(after) {
 			var names, i;
 			if (after) {
-				names = data.tag.split(after);
-				data.media.addTags(mediaid, names);
+				names = model.tag.split(after);
+				model.media.addTags(mediaid, names);
 			}
 		}
 		
@@ -109,5 +109,5 @@ app.widgets = function (widgets, $, wraith, jOrder, services, data) {
 	wraith,
 	jOrder,
 	app.services,
-	app.data);
+	app.model);
 

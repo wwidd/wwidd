@@ -6,7 +6,7 @@
 /*global flock */
 var app = app || {};
 
-app.data = function (data, flock, cache) {
+app.model = function (model, flock, cache) {
 	var ROOT_FULL = ['search', 'full'],		// cache root for string prefix search
 			ROOT_WORD = ['search', 'word'],		// cache root for word prefix search
 			RE_SPLIT_COLON = /\s*:\s*/,				// regex that splits along padded colons
@@ -14,7 +14,7 @@ app.data = function (data, flock, cache) {
 			RE_SPLIT_WHITE = /\s+/;						// regex that splits along whitespace
 	
 	// tag collection
-	data.search = {
+	model.search = {
 		// gets nodes fitting search criteria
 		// - term: string to search for
 		// - path: relative node path
@@ -97,8 +97,8 @@ app.data = function (data, flock, cache) {
 		}
 	};
 	
-	return data;
-}(app.data || {},
+	return model;
+}(app.model || {},
 	flock,
-	app.data.cache || (app.data.cache = flock()));
+	app.model.cache || (app.model.cache = flock()));
 

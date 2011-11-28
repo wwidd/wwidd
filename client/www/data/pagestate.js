@@ -6,13 +6,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 var app = app || {};
 
-app.data = function (data) {
+app.model = function (model) {
 	// tag collection
-	data.pagestate = {
+	model.pagestate = {
 		// mediaid for the last played video
 		lastPlayed: null
 	};
 	
-	return data;
-}(app.data || {});
+	return model;
+}(app.model || {});
 

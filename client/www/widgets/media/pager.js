@@ -6,7 +6,7 @@
 /*global jQuery, wraith, document */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, data) {
+app.widgets = function (widgets, $, wraith, model) {
 	widgets.pager = function () {
 		var self = wraith.widget.create(),
 				pages = widgets.dropdown(),
@@ -43,9 +43,9 @@ app.widgets = function (widgets, $, wraith, data) {
 		function getOptions() {
 			var result = [],
 					row, i;
-			max = data.media.getPages(items);
+			max = model.media.getPages(items);
 			for (i = 0; i < max; i++) {
-				row = data.media.getFirst(i, items)[0];
+				row = model.media.getFirst(i, items)[0];
 				result.push((i + 1) + " - " + row.file.substr(0, 8) + "...");
 			}
 			return result;
@@ -201,5 +201,5 @@ app.widgets = function (widgets, $, wraith, data) {
 }(app.widgets || {},
 	jQuery,
 	wraith,
-	app.data);
+	app.model);
 

@@ -10,7 +10,7 @@
 /*global jQuery, wraith, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, services, data) {
+app.widgets = function (widgets, $, wraith, services, model) {
 	var
 	
 	VIEWS = {
@@ -72,7 +72,7 @@ app.widgets = function (widgets, $, wraith, services, data) {
 				.siblings().removeClass('playing').end()
 				.addClass('playing');
 			services.media.play(mediaid);
-			data.pagestate.lastPlayed = mediaid;
+			model.pagestate.lastPlayed = mediaid;
 			return self;
 		};
 
@@ -105,12 +105,12 @@ app.widgets = function (widgets, $, wraith, services, data) {
 		
 		self.html = function () {
 			var parent, child,
-					row = data.media.getRow(mediaid);
+					row = model.media.getRow(mediaid);
 
 			return [
 				'<div id="', self.id, '" class="', 
 				['medium']
-					.concat(data.pagestate.lastPlayed === mediaid ? ['playing'] : [])
+					.concat(model.pagestate.lastPlayed === mediaid ? ['playing'] : [])
 					.concat(VIEWS[expanded || view] || [])
 					.join(' '), '">',
 					
@@ -222,5 +222,5 @@ app.widgets = function (widgets, $, wraith, services, data) {
 	jQuery,
 	wraith,
 	app.services,
-	app.data);
+	app.model);
 

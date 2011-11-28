@@ -6,7 +6,7 @@
 /*global jQuery, wraith, flock */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, flock, data) {
+app.widgets = function (widgets, $, wraith, flock, model) {
 	var KIND_PREFIX = 'k';
 	
 	widgets.kinds = function () {
@@ -47,7 +47,7 @@ app.widgets = function (widgets, $, wraith, flock, data) {
 			}
 
 			// saving cookie
-			data.cookie.set('hiddenkinds', toArray(hidden).join(','));
+			model.cookie.set('hiddenkinds', toArray(hidden).join(','));
 			
 			// custom callback
 			widgets.tagger
@@ -60,7 +60,7 @@ app.widgets = function (widgets, $, wraith, flock, data) {
 		// Initialization
 
 		// initializing hidden kinds
-		hidden = toLookup((data.cookie.get('hiddenkinds') || '').split(','));
+		hidden = toLookup((model.cookie.get('hiddenkinds') || '').split(','));
 				
 		//////////////////////////////
 		// Getters / setters
@@ -74,7 +74,7 @@ app.widgets = function (widgets, $, wraith, flock, data) {
 		// Overrides
 
 		self.build = function () {
-			var kinds = data.cache.mget(['kind', '*'], {mode: flock.keys}).sort(),
+			var kinds = model.cache.mget(['kind', '*'], {mode: flock.keys}).sort(),
 					i, kind;
 			self.clear();
 			for (i = 0; i < kinds.length; i++) {
@@ -102,5 +102,5 @@ app.widgets = function (widgets, $, wraith, flock, data) {
 	jQuery,
 	wraith,
 	flock,
-	app.data);
+	app.model);
 

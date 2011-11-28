@@ -4,7 +4,7 @@
 /*global flock, jOrder */
 var app = app || {};
 
-app.data = function (data, jOrder, cache, services) {
+app.model = function (model, jOrder, cache, services) {
 	var kinds,
 			lookup;
 	
@@ -17,7 +17,7 @@ app.data = function (data, jOrder, cache, services) {
 		}
 	}
 	
-	data.kind = function () {
+	model.kind = function () {
 		var self = {
 			// gets or creates a new entry in the kind index
 			get: function (kind) {
@@ -54,9 +54,9 @@ app.data = function (data, jOrder, cache, services) {
 		return self;
 	}();
 	
-	return data;
-}(app.data || {},
+	return model;
+}(app.model || {},
 	jOrder,
-	app.data.cache || (app.data.cache = flock()),
+	app.model.cache || (app.model.cache = flock()),
 	app.services);
 
