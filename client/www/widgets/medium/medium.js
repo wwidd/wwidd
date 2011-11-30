@@ -185,6 +185,10 @@ app.widgets = function (widgets, $, wraith, services, model) {
 			self
 				.expanded(!expanded)
 				.render();
+			
+			// notifying media collection of change
+			widgets.media
+				.onChange();
 				
 			// saving reference to last opened entry
 			lastOpen = self;

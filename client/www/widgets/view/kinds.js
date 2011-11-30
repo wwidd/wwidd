@@ -53,6 +53,10 @@ app.widgets = function (widgets, $, wraith, flock, model, cache) {
 			widgets.tagger
 				.render();
 			
+			// notifying media collection of change
+			widgets.media
+				.onChange();
+				
 			return self;
 		}
 

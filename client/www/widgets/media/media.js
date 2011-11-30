@@ -21,10 +21,25 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 	widgets.media = function () {
 		var self = wraith.widget.create(),
 				view = model.cookie.get('view') || 'list',
-				lookup = {};
+				lookup = {},
+				onChange;
 				
 		self.selected = {};
 		
+		//////////////////////////////
+		// Getters, setters
+		
+		self.onChange = function (value) {
+			if (typeof value === 'function') {
+				onChange = value;
+				return self;
+			} else if (typeof onChange === 'function') {
+				return onChange();
+			} else {
+				return onChange;
+			}
+		};
+
 		//////////////////////////////
 		// Control
 
@@ -85,6 +100,10 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 				
 			widgets.tagger
 				.render();
+
+			if (typeof onChange === 'function') {
+				onChange();
+			}
 		};
 		
 		self.refresh = function () {
@@ -116,6 +135,10 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 			widgets.library
 				.busy(false)
 				.render();
+				
+			if (typeof onChange === 'function') {
+				onChange();
+			}
 		};
 		
 		// (re-)loads library contents
@@ -256,6 +279,12 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 			return self;
 		};
 
+		self.init = function () {
+			if (typeof onChange === 'function') {
+				onChange();
+			}
+		};
+		
 		self.html = function () {
 			var result, i;
 			if (self.children.length) {
