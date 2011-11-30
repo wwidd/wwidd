@@ -50,6 +50,10 @@ CONTROLS
 	border-color: #303030;
 }
 
+#discovery {
+	background: #c4d2d7;
+}
+
 #switcher span.spinner {
 	background: url('/image/wwidd_spinners.gif') no-repeat -60px -20px;
 }
