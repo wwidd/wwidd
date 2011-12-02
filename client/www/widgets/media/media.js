@@ -288,7 +288,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 		self.html = function () {
 			var result, i;
 			if (self.children.length) {
-				result = ['<div id="', self.id, '" class="', ['media', view].join(' '), '">'];
+				result = ['<div id="', self.id, '" class="', ['w_media', view].join(' '), '">'];
 				for (i = 0; i < self.children.length; i++) {
 					result.push(self.children[i].html());
 				}

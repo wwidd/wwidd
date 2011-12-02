@@ -100,7 +100,7 @@ TILE / THUMBNAIL VIEW
 ******************************/
 
 div.w_medium.thumb,
-div.media.tile > div.w_medium.expanded {
+div.w_media.tile > div.w_medium.expanded {
 	position: relative;
 	display: inline-block; *display: inline; *zoom: 1;
 	height: 115px;
@@ -114,7 +114,7 @@ div.w_medium.thumb {
 	width: 128px;
 }
 
-div.media.tile > div.w_medium.expanded {
+div.w_media.tile > div.w_medium.expanded {
 	width: 558px;
 }
 
@@ -123,7 +123,7 @@ div.w_medium.thumb > div {
 }
 
 div.w_medium.thumb > div.file,
-div.media.tile > div.w_medium.expanded > div.file {
+div.w_media.tile > div.w_medium.expanded > div.file {
 	top: 96px;
 	left: 0;
 	margin: 3px 0 1px;
@@ -133,48 +133,48 @@ div.w_medium.thumb > div.file {
 	width: 124px;
 }
 
-div.media.tile > div.w_medium.expanded > div.file {
+div.w_media.tile > div.w_medium.expanded > div.file {
 	width: 278px;
 }
 
 div.w_medium.thumb > div.overlay,
-div.media.tile > div.w_medium.expanded > div.overlay {
+div.w_media.tile > div.w_medium.expanded > div.overlay {
 	top: 0;
 	left: 0;
 }
 
 div.w_medium.thumb > div.play,
-div.media.tile > div.w_medium.expanded > div.play {
+div.w_media.tile > div.w_medium.expanded > div.play {
 	top: 24px;
 	left: 0;
 	height: 72px;
 }
 
 div.w_medium.thumb > div.thumb,
-div.media.tile > div.w_medium.expanded > div.thumb {
+div.w_media.tile > div.w_medium.expanded > div.thumb {
 	top: 0;
 	left: 0;
 }
 
 div.w_medium.thumb > div.w_rater,
-div.media.tile > div.w_medium.expanded > div.w_rater {
+div.w_media.tile > div.w_medium.expanded > div.w_rater {
 	top: 3px;
 	left: 3px; 
 }
 
 div.w_medium.thumb > div.check,
-div.media.tile > div.w_medium.expanded > div.check {
+div.w_media.tile > div.w_medium.expanded > div.check {
 	top: 2px;
 	left: 105px;
 }
 
-div.media.tile > div.w_medium.expanded > div.w_keywords {
+div.w_media.tile > div.w_medium.expanded > div.w_keywords {
 	top: 0;
 	left: 138px;
 	width: 140px;
 }
 
-div.media.tile > div.w_medium.expanded > div.tagger {
+div.w_media.tile > div.w_medium.expanded > div.tagger {
 	top: 0;
 	left: 288px;
 	height: 115px;
@@ -185,12 +185,12 @@ LIST / COMPACT VIEW
 ******************************/
 
 div.w_medium.compact,
-div.media.list > div.w_medium.expanded {
+div.w_media.list > div.w_medium.expanded {
 	margin: 0 0 5px 0;
 	border-radius: 3px; -moz-border-radius: 3px;
 }
 
-div.media.list > div.w_medium.expanded {
+div.w_media.list > div.w_medium.expanded {
 	position: relative;
 	padding: 2px 0;
 	height: 122px;
@@ -204,19 +204,19 @@ div.w_medium.compact > div {
 }
 
 div.w_medium.compact > div.check,
-div.media.list > div.w_medium.expanded > div.check {
+div.w_media.list > div.w_medium.expanded > div.check {
 	padding: 1px 5px;
 	border-left: 1px solid transparent;
 	border-right: 1px solid transparent;
 }
 
-div.media.list > div.w_medium.expanded > div.check {
+div.w_media.list > div.w_medium.expanded > div.check {
 	top: 2px;
 	left: 0;
 }
 
 div.w_medium.compact > div.check > input,
-div.media.list > div.w_medium.expanded > div.check > input {
+div.w_media.list > div.w_medium.expanded > div.check > input {
 	height: 14px;
 	margin: 1px 0;
 	padding: 0;
@@ -226,14 +226,14 @@ div.w_medium.compact > div.file {
 	width: 300px;
 }
 
-div.media.list > div.w_medium.expanded > div.file {
+div.w_media.list > div.w_medium.expanded > div.file {
 	top: 2px;
 	left: 25px;
 	padding: 1px 5px 1px 0;
 }
 
 div.w_medium.compact > div.file > span,
-div.media.list > div.w_medium.expanded > div.file > span {
+div.w_media.list > div.w_medium.expanded > div.file > span {
 	display: inline-block; *zoom: 1;
 	line-height: 16px;
 	padding: 0 20px 0 0;
@@ -245,49 +245,49 @@ div.w_medium.compact.playing > div.file > span {
 	background: url('/image/sprites.png') no-repeat -20px -80px;
 }
 
-div.media.list > div.w_medium.expanded > div.w_keywords {
+div.w_media.list > div.w_medium.expanded > div.w_keywords {
 	top: 24px;
 	left: 163px;
 	width: 257px; /* 420 - 163 */
 }
 
-div.media.list > div.w_medium.expanded > div.w_keywords > span.dimensions {
+div.w_media.list > div.w_medium.expanded > div.w_keywords > span.dimensions {
 	left: 100px;
 }
 
-div.media.list > div.w_medium.expanded > div.overlay {
+div.w_media.list > div.w_medium.expanded > div.overlay {
 	display: none;
 }
 
-div.media.list > div.w_medium.expanded > div.play {
+div.w_media.list > div.w_medium.expanded > div.play {
 	top: 24px;
 	left: 25px;
 }
 
-div.media.list > div.w_medium.expanded > div.thumb {
+div.w_media.list > div.w_medium.expanded > div.thumb {
 	top: 24px;
 	left: 25px;
 }
 
 div.w_medium.compact > div.w_rater,
-div.media.list > div.w_medium.expanded > div.w_rater {
+div.w_media.list > div.w_medium.expanded > div.w_rater {
 	width: 85px;
 	height: 16px;
 }
 
-div.media.list > div.w_medium.expanded > div.w_rater {
+div.w_media.list > div.w_medium.expanded > div.w_rater {
 	top: 24px;
 	left: 330px;
 }
 
 div.w_medium.compact > div.tagger,
-div.media.list > div.w_medium.expanded > div.tagger {
+div.w_media.list > div.w_medium.expanded > div.tagger {
 	min-width: 200px;
 	height: auto;
 	margin: 0 0 0 5px;
 }
 
-div.media.list > div.w_medium.expanded > div.tagger {
+div.w_media.list > div.w_medium.expanded > div.tagger {
 	top: 24px;
 	left: 420px;
 }

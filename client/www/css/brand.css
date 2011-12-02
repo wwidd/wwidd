@@ -87,7 +87,7 @@ div.w_popup > ul.libs > li.lib:hover {
 MEDIA ENTRY
 ******************************/
 
-div.media,
+div.w_media,
 div.w_medium {
 	background: #f8f8f8;
 }
@@ -137,7 +137,7 @@ div.w_medium > div.play > div.image {
 	background: url('/image/wwidd_sprites.png') no-repeat 0 0;
 }
 
-div.media.list > div.w_medium.expanded > div.play > div.image {
+div.w_media.list > div.w_medium.expanded > div.play > div.image {
 	top: 12px;
 }
 
