@@ -1,0 +1,45 @@
+/******************************
+KEYWORDS
+******************************/
+
+div.w_keywords > .details {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+div.w_keywords ul {
+	list-style: none;
+}
+
+div.w_keywords table {
+	border-collapse: collapse;
+}
+
+div.w_keywords tr > td:first-child {
+	padding: 0 5px 0 0;
+	white-space: nowrap;
+}
+
+div.w_keywords > span {
+	position: absolute;
+}
+
+div.w_keywords > span.duration {
+	top: 0;
+	left: 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.w_keywords > span.dimensions {
+	top: 0;
+	right: 0;
+}
+
+

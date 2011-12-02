@@ -31,50 +31,6 @@ span.empty > span.icon {
 }
 
 /******************************
-KEYWORDS
-******************************/
-
-div.keywords > .details {
-	position: absolute;
-	top: 20px;
-	left: 0;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-div.keywords ul {
-	list-style: none;
-}
-
-div.keywords table {
-	border-collapse: collapse;
-}
-
-div.keywords tr > td:first-child {
-	padding: 0 5px 0 0;
-	white-space: nowrap;
-}
-
-div.keywords > span {
-	position: absolute;
-}
-
-div.keywords > span.duration {
-	top: 0;
-	left: 0;
-	font-size: 14px;
-	font-weight: bold;
-}
-
-div.keywords > span.dimensions {
-	top: 0;
-	right: 0;
-}
-
-/******************************
 MEDIA ENTRY
 ******************************/
 

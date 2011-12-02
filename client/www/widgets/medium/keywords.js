@@ -45,7 +45,7 @@ app.widgets = function (widgets, $, wraith, model) {
 		}
 		
 		self.html = function () {
-			var result = ['<div id="' + self.id + '" class="keywords">'],
+			var result = ['<div id="' + self.id + '" class="w_keywords">'],
 					key;
 
 			// initializing buffers

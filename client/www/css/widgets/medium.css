@@ -87,11 +87,11 @@ div.w_medium.expanded.playing > div.play:hover {
 	opacity: 1.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; *filter:alpha(opacity=100);
 }
 
-div.w_medium.expanded > div.keywords {
+div.w_medium.expanded > div.w_keywords {
 	height: 96px;
 }
 
-div.w_medium.expanded > div.keywords > .details {
+div.w_medium.expanded > div.w_keywords > .details {
 	height: 76px;
 }
 
@@ -168,7 +168,7 @@ div.media.tile > div.w_medium.expanded > div.check {
 	left: 105px;
 }
 
-div.media.tile > div.w_medium.expanded > div.keywords {
+div.media.tile > div.w_medium.expanded > div.w_keywords {
 	top: 0;
 	left: 138px;
 	width: 140px;
@@ -245,13 +245,13 @@ div.w_medium.compact.playing > div.file > span {
 	background: url('/image/sprites.png') no-repeat -20px -80px;
 }
 
-div.media.list > div.w_medium.expanded > div.keywords {
+div.media.list > div.w_medium.expanded > div.w_keywords {
 	top: 24px;
 	left: 163px;
 	width: 257px; /* 420 - 163 */
 }
 
-div.media.list > div.w_medium.expanded > div.keywords > span.dimensions {
+div.media.list > div.w_medium.expanded > div.w_keywords > span.dimensions {
 	left: 100px;
 }
 

@@ -125,7 +125,7 @@ div.w_medium > div.file > span {
 }
 
 div.w_medium.playing > div.file > span,
-div.w_medium.playing > div.keywords span {
+div.w_medium.playing > div.w_keywords span {
 	color: #181818;
 }
 
@@ -150,7 +150,7 @@ div.w_medium.expanded > div.thumb > span.spinner {
 	background: url('/image/wwidd_spinners.gif') no-repeat 0 0;
 }
 
-div.w_medium > div.keywords {
+div.w_medium > div.w_keywords {
 	color: #444;
 }
 
