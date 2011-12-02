@@ -89,7 +89,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	// Static event handlers
 
 	function getSelf(elem) {
-		return wraith.lookup(elem, '.tag');
+		return wraith.lookup(elem, '.w_tagedit');
 	}
 
 	// general button handler
@@ -233,7 +233,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		}
 	}
 	
-	var context = $('.tagedit.edit');
+	var context = $('.w_tagedit.edit');
 	$('.remove', context).live('click', onRemove);
 	$('.explode', context).live('click', onExplode);
 	$('input', context).live('keyup', onChange);
