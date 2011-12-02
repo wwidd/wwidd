@@ -54,7 +54,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		self.display = function () {
 			var hit = isFilter(tag) ? 'hit' : null;
 			return [
-				'<span id="', self.id, '" class="', ['tag background tagedit editable display', model.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
+				'<span id="', self.id, '" class="', ['w_tagedit background', model.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
 				'<span>', name.replace(' ', '&nbsp;'), '</span>',
 				'</span>'
 			].join('');
@@ -62,7 +62,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 
 		self.edit = function () {
 			return [
-				'<span id="', self.id, '" class="tag tagedit edit ' + model.kind.getNumber(kind) + '">',
+				'<span id="', self.id, '" class="w_tagedit ' + model.kind.getNumber(kind) + '">',
 				'<div class="background"></div>',
 				'<input type="text" class="focus" value="', tag, '"/>',
 				'<a href="#" class="button remove" title="Remove tag"></a>',

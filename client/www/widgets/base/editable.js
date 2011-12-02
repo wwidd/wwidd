@@ -70,7 +70,13 @@ app.widgets = function (widgets, $, wraith) {
 		self.edit = function () {
 			throw "Abstract";
 		};
-				
+		
+		self.init = function (elem) {
+			elem
+				.addClass('w_editable')
+				.addClass(mode);
+		};
+		
 		self.html = function () {
 			// generating html according to mode
 			if (mode === 'edit') {
@@ -127,7 +133,7 @@ app.widgets = function (widgets, $, wraith) {
 		return false;
 	};
 
-	$('.editable')
+	$('.w_editable')
 		.live('click', onClick)
 		.live('touchend', onClick);
 	

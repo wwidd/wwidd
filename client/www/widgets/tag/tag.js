@@ -7,7 +7,8 @@ var app = app || {};
 app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	// - mediaid: media identifier
 	widgets.tag = function (mediaid) {
-		var	self = wraith.widget.create(widgets.editable());
+		var	self = wraith.widget.create(widgets.editable()),
+				base_init = self.init;
 		
 		self.hints = widgets.tag.hints;
 
@@ -55,6 +56,14 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 			this.refresh();
 		};
 				
+		//////////////////////////////
+		// Overrides
+		
+		self.init = function (elem) {
+			base_init.call(self, elem);
+			elem.addClass('w_tag');
+		};
+
 		return self;
 	};
 
@@ -78,7 +87,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	// Common static event handlers
 
 	function getSelf(elem) {
-		return wraith.lookup(elem, '.tag');
+		return wraith.lookup(elem, '.w_tag');
 	}
 
 	// handles navigation events
@@ -88,7 +97,9 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		switch (event.which) {
 		case 9:
 			// tab - jump to next tag
-			$next = event.shiftKey ? $this.closest('.tag').prev() : $this.closest('.tag').next();
+			$next = event.shiftKey ?
+				$this.closest('.w_tag').prev() :
+				$this.closest('.w_tag').next();
 			if ($next.length) {
 				getSelf($this).toggle('display');
 				getSelf($next).toggle('edit');
@@ -101,7 +112,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		}
 	}
 	
-	$('.tag.edit input.focus').live('keydown', onNav);
+	$('.w_tag.edit input.focus').live('keydown', onNav);
 
 	return widgets;
 }(app.widgets || {},

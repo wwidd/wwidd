@@ -19,7 +19,7 @@ app.widgets = function (widgets, $, wraith, model) {
 		self.html = function () {
 			var id = 'kind' + kind;
 			return [
-				'<span id="', self.id, '" class="kind tag display ', model.kind.getNumber(kind), '" >',
+				'<span id="', self.id, '" class="kind w_tag display ', model.kind.getNumber(kind), '" >',
 				'<input type="checkbox" id="', id, '"', !self.parent || !self.parent.hidden(kind) ? ' checked="checked"' : '', '/>',
 				'<label for="', id, '">', kind ? kind : "[default]", '</label>',
 				'</span>'

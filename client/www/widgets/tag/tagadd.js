@@ -25,7 +25,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		
 		self.display = function () {
 			return [
-				'<span id="', self.id, '" class="tag editable display add">',
+				'<span id="', self.id, '" class="w_tagadd">',
 				'<a href="#">', "+", '</a>',
 				'</span>'
 			].join('');
@@ -33,7 +33,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 
 		self.edit = function () {
 			return [
-				'<span id="', self.id, '" class="tag edit add">',
+				'<span id="', self.id, '" class="w_tagadd">',
 				'<input type="text" class="focus" />',
 				'<input type="text" class="backdrop" />',
 				'</span>'
@@ -57,7 +57,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	// Static event handlers
 
 	function getSelf(elem) {
-		return wraith.lookup(elem, '.tag');
+		return wraith.lookup(elem, '.w_tagadd');
 	}
 	
 	// tag addition handler: do nothing
@@ -134,8 +134,8 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		}
 	}
 
-	$('.tag.add.display a').live('click', onAdd);
-	$('.tag.add.edit input.focus').live('keyup', onChange);
+	$('.w_tagadd.display a').live('click', onAdd);
+	$('.w_tagadd.edit input.focus').live('keyup', onChange);
 
 	return widgets;
 }(app.widgets || {},
