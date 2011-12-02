@@ -88,48 +88,48 @@ MEDIA ENTRY
 ******************************/
 
 div.media,
-div.medium {
+div.w_medium {
 	background: #f8f8f8;
 }
 
-div.medium.thumb:hover { 
+div.w_medium.thumb:hover { 
 	border-color: #e0e0e0;
 	background: #e0e0e0;
 }
 
-div.medium.thumb > div.thumb { 
+div.w_medium.thumb > div.thumb { 
 	background: #f8f8f8;
 }
 
-div.medium.expanded {
+div.w_medium.expanded {
 	border-color: #f0f0f0;
 	background: #f0f0f0;
 }
 
-div.medium.compact:hover {
+div.w_medium.compact:hover {
 	background: #f0f0f0;
 }
 
-div.medium.thumb.playing,
-div.medium.expanded.playing {
+div.w_medium.thumb.playing,
+div.w_medium.expanded.playing {
 	border-color: #b1c3c9;
 	background: #b1c3c9;
 }
 
-div.medium.compact.playing {
+div.w_medium.compact.playing {
 	background: #b1c3c9;
 }
 
-div.medium > div.file > span {
+div.w_medium > div.file > span {
 	color: #444;
 }
 
-div.medium.playing > div.file > span,
-div.medium.playing > div.keywords span {
+div.w_medium.playing > div.file > span,
+div.w_medium.playing > div.keywords span {
 	color: #181818;
 }
 
-div.medium > div.play > div.image {
+div.w_medium > div.play > div.image {
 	top: 0px;
 	left: 28px;
 	width: 72px;
@@ -137,20 +137,20 @@ div.medium > div.play > div.image {
 	background: url('/image/wwidd_sprites.png') no-repeat 0 0;
 }
 
-div.media.list > div.medium.expanded > div.play > div.image {
+div.media.list > div.w_medium.expanded > div.play > div.image {
 	top: 12px;
 }
 
-div.medium.compact.playing > div.file > span {
+div.w_medium.compact.playing > div.file > span {
 	background: url('/image/wwidd_sprites.png') no-repeat -80px 0;
 }
 
-div.medium.thumb > div.thumb > span.spinner,
-div.medium.expanded > div.thumb > span.spinner {
+div.w_medium.thumb > div.thumb > span.spinner,
+div.w_medium.expanded > div.thumb > span.spinner {
 	background: url('/image/wwidd_spinners.gif') no-repeat 0 0;
 }
 
-div.medium > div.keywords {
+div.w_medium > div.keywords {
 	color: #444;
 }
 

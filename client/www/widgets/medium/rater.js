@@ -53,7 +53,7 @@ app.widgets = function (widgets, $, wraith, model, services) {
 					i,
 			
 			result = [
-				'<div id="', self.id, '" class="rater">'
+				'<div id="', self.id, '" class="w_rater">'
 			];
 			
 			for (i = 0; i < row.rating || 0; i++) {

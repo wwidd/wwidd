@@ -45,7 +45,7 @@ app.widgets = function (widgets, $, wraith) {
 		};
 
 		self.contents = function () {
-			var $media = $('#' + widgets.media.id + ' .medium'),
+			var $media = $('#' + widgets.media.id + ' .w_medium'),
 					count = $media.find(':checked').length;
 					
 			// determining widget state

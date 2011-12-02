@@ -158,7 +158,7 @@ app.widgets = function (widgets, $, wraith, model) {
 			}
 
 			return [
-				'<span class="pager" id="' + self.id + '">',
+				'<span class="w_pager" id="' + self.id + '">',
 				'<a class="first" href="#" title="First"></a>',
 				'<a class="prev" href="#" title="Previous"></a>',
 				pages.html(),

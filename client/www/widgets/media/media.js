@@ -49,7 +49,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 		}
 		
 		function media() {
-			return $('#' + self.id + ' .medium');
+			return $('#' + self.id + ' .w_medium');
 		}
 		
 		// returns a jQuery object with CHECKED checkboxes

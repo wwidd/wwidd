@@ -109,10 +109,10 @@ app.widgets = function (widgets, $, wraith, services, model) {
 
 			return [
 				'<div id="', self.id, '" class="', 
-				['medium']
+				['w_medium']
 					.concat(model.pagestate.lastPlayed === mediaid ? ['playing'] : [])
 					.concat(VIEWS[expanded || view] || [])
-					.join(' '), '">',
+				.join(' '), '">',
 					
 				// checkbox
 				'<div class="check">',
@@ -165,7 +165,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
 	// Static event handlers
 	
 	onClick = function () {
-		var media = $(this).closest('.medium'),
+		var media = $(this).closest('.w_medium'),
 				self = wraith.lookup(media),
 				expanded = self.expanded();
 
@@ -199,7 +199,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
 	
 	onChecked = function () {
 		var $this = $(this),
-				$medium = $this.closest('.medium'),
+				$medium = $this.closest('.w_medium'),
 				self = wraith.lookup($medium);
 		
 		// registering (un)checked item
@@ -216,7 +216,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
 	//////////////////////////////
 	// Event bindings
 
-	$('div.thumb, div.file, div.play', $('div.medium'))
+	$('div.thumb, div.file, div.play', $('div.w_medium'))
 		.live('click', onClick);
 	$('div.check > :checkbox')
 		.live('click', onChecked);

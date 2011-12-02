@@ -114,7 +114,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
 		
 		self.html = function () {
 			return [
-				'<span id="' + self.id + '" class="search">',
+				'<span id="' + self.id + '" class="w_search">',
 				'<a class="clear" href="#"></a>',
 				'<span class="icon"></span>',
 				'<input type="text" class="focus" value="' + filter + '" />',

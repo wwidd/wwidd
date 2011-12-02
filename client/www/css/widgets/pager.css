@@ -2,14 +2,14 @@
 GENERAL
 ******************************/
 
-span.pager {
+span.w_pager {
 	display: inline-block; *zoom: 1;
 	margin: 0 5px;
 }
 
 /* alignment */
-span.pager > a,
-span.pager > select {
+span.w_pager > a,
+span.w_pager > select {
 	vertical-align: middle;
 }
 
@@ -17,7 +17,7 @@ span.pager > select {
 BUTTONS
 ******************************/
 
-span.pager > a {
+span.w_pager > a {
 	display: inline-block; *zoom: 1;
 	width: 16px;
 	height: 16px;
@@ -26,19 +26,19 @@ span.pager > a {
 	color: transparent;
 }
 
-span.pager > a.first {
+span.w_pager > a.first {
 	background: url('/image/sprites.png') no-repeat 0 -40px;
 }
 
-span.pager > a.prev {
+span.w_pager > a.prev {
 	background: url('/image/sprites.png') no-repeat -20px -40px;
 }
 
-span.pager > a.next {
+span.w_pager > a.next {
 	background: url('/image/sprites.png') no-repeat -40px -40px;
 }
 
-span.pager > a.last {
+span.w_pager > a.last {
 	background: url('/image/sprites.png') no-repeat -60px -40px;
 }
 
@@ -46,7 +46,7 @@ span.pager > a.last {
 DROPDOWN
 ******************************/
 
-span.pager > span.w_dropdown {
+span.w_pager > span.w_dropdown {
 	width: 80px;
 }
 

@@ -2,16 +2,7 @@
 GENERAL
 ******************************/
 
-#search {
-	display: inline-block; *zoom: 1;
-	width: 100%;
-	height: 72px;
-	margin: 0 0 5px 0;
-	line-height: 72px;
-	text-align: center;
-}
-
-span.search {
+span.w_search {
 	display: inline-block; *zoom: 1;
 	position: relative;
 	width: 440px;
@@ -20,8 +11,8 @@ span.search {
 	vertical-align: middle;
 }
 
-span.search > span.icon,
-span.search > a.clear {
+span.w_search > span.icon,
+span.w_search > a.clear {
 	display: inline-block; *zoom: 1;
 	position: absolute;
 	top: 6px;
@@ -31,18 +22,18 @@ span.search > a.clear {
 	z-index: 3;
 }
 
-span.search > span.icon {
+span.w_search > span.icon {
 	left: 3px;
 	background: transparent url('/image/sprites.png') no-repeat 0 -20px;
 }
 
-span.search > a.clear {
+span.w_search > a.clear {
 	right: 1px;
 	background: url('/image/sprites.png') no-repeat -20px -20px;
 }
 
 /* identical input boxes for input & backdrop */
-span.search > input {
+span.w_search > input {
 	display: inline-block; *zoom: 1;
 	position: absolute;
 	top: 0;
@@ -54,13 +45,13 @@ span.search > input {
 }
 
 /* search input box */
-span.search > input.focus {
+span.w_search > input.focus {
 	z-index: 2;
 	background: transparent;
 }
 
 /* search backdrop displaying best match */
-span.search > input.backdrop {
+span.w_search > input.backdrop {
 	z-index: 1;
 	color: silver;
 	background: white;
