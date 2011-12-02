@@ -49,35 +49,3 @@ div.w_popup > div.kinds span.tag.display > input {
 	margin: 0 3px 0 0;
 }
 
-/******************************
-DIRECTORY SELECTOR POPUP
-******************************/
-
-div.w_popup > div.spinner {
-	position: absolute;
-	top: 3px;
-	right: 3px;
-	width: 16px;
-	height: 16px;
-}
-
-div.w_popup > span.title {
-	font-size: 14px;
-	font-weight: bold;
-}
-
-div.w_popup > table.status {
-	margin: 5px 0 0;
-}
-
-div.w_popup > div.tree > ul.root {
-	height: 200px;
-	margin: 5px 0;
-	background: white;
-	overflow-y: scroll;
-}
-
-div.w_popup > span.w_button {
-	margin: 5px;
-}
-

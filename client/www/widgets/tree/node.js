@@ -84,7 +84,7 @@ app.widgets = function (widgets, $, wraith) {
 		
 		self.html = function () {
 			return [
-				'<li id="', self.id, '" class="', ['node', expanded ? 'expanded' : '', selected() ? 'selected' : ''].join(' '), '">',
+				'<li id="', self.id, '" class="', ['w_node', expanded ? 'expanded' : '', selected() ? 'selected' : ''].join(' '), '">',
 				'<span class="toggle"></span>',
 				'<span class="name">', text, '</span>',
 				'<ul>',
@@ -112,7 +112,7 @@ app.widgets = function (widgets, $, wraith) {
 		// obtaining necessary objects (current node & tree)
 		var	$node = $(this).parent(),
 				node = wraith.lookup($node),
-				$tree = $node.closest('div.tree'),
+				$tree = $node.closest('div.w_tree'),
 				tree = wraith.lookup($tree);
 		
 		// toggling expanded state of current node
@@ -129,7 +129,7 @@ app.widgets = function (widgets, $, wraith) {
 		// obtaining necessary objects (current node & tree)
 		var	$node = $(this).parent(),
 				node = wraith.lookup($node),
-				$tree = $node.closest('div.tree'),
+				$tree = $node.closest('div.w_tree'),
 				tree = wraith.lookup($tree),
 				path = '/' + node.path().join('/');
 
@@ -151,11 +151,13 @@ app.widgets = function (widgets, $, wraith) {
 		return false;
 	}
 	
-	// applying handlers
+	//////////////////////////////
+	// Static event bindings
+
 	// any non-dead folder can be expanded
 	// any folder can be selected
-	$('li.node:not(.dead) > span.toggle').live('click', onExpandCollapse);
-	$('li.node > span.name').live('click', onSelect);
+	$('li.w_node:not(.dead) > span.toggle').live('click', onExpandCollapse);
+	$('li.w_node > span.name').live('click', onSelect);
 	
 	return widgets;
 }(app.widgets,

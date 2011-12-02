@@ -1,0 +1,32 @@
+/******************************
+DIRECTORY SELECTOR POPUP
+******************************/
+
+div.w_dirsel > div.spinner {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	width: 16px;
+	height: 16px;
+}
+
+div.w_dirsel > span.title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.w_dirsel > table.status {
+	margin: 5px 0 0;
+}
+
+div.w_dirsel > div.w_tree > ul.root {
+	height: 200px;
+	margin: 5px 0;
+	background: white;
+	overflow-y: scroll;
+}
+
+div.w_dirsel > span.w_button {
+	margin: 5px;
+}
+

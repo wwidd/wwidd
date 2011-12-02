@@ -52,7 +52,7 @@ app.widgets = function (widgets, $, wraith) {
 		
 		self.html = function () {
 			return [
-				'<div id="', self.id, '" class="tree">',
+				'<div id="', self.id, '" class="w_tree">',
 				'<table class="status">',
 				'<colgroup>',
 				'<col class="key">',

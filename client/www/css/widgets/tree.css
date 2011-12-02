@@ -8,55 +8,55 @@
 GENERAL
 ******************************/
 
-div.tree {
+div.w_tree {
 	text-align: left;
 }
 
-div.tree > table.status {
+div.w_tree > table.status {
 	width: 100%;
 	margin: 0 auto;
 	border-collapse: separate;
 }
 
-div.tree > table.status col.key {
+div.w_tree > table.status col.key {
 	width: auto;
 }
 
-div.tree > table.status col.value {
+div.w_tree > table.status col.value {
 	width: 100%;
 }
 
-div.tree > table.status span.selected {
+div.w_tree > table.status span.selected {
 	display: inline-block; *zoom: 1;
 	width: 100%;
 	font-weight: bold;
 	background: white;
 }
 
-div.tree ul {
+div.w_tree ul {
 	margin: 0;
 	padding: 0 0 0 10px;
 	list-style: none;
 }
 
-div.tree > ul.root {
+div.w_tree > ul.root {
 	padding: 0;
 }
 
-div.tree li > span {
+div.w_tree li > span {
 	line-height: 16px;
 	vertical-align: middle;
 }
 
-div.tree li > span.name {
+div.w_tree li > span.name {
 	cursor: pointer;
 }
 
-div.tree li.selected > span.name {
+div.w_tree li.selected > span.name {
 	font-weight: bold;
 }
 
-div.tree li > span.toggle {
+div.w_tree li > span.toggle {
 	display: inline-block; *zoom: 1;
 	height: 16px;
 	width: 16px;
@@ -64,11 +64,11 @@ div.tree li > span.toggle {
 	background: url('/image/sprites.png') no-repeat 0 -160px;
 }
 
-div.tree li.expanded > span.toggle {
+div.w_tree li.expanded > span.toggle {
 	background: url('/image/sprites.png') no-repeat -20px -160px;
 }
 
-div.tree li.dead > span.toggle {
+div.w_tree li.dead > span.toggle {
 	cursor: inherit;
 	background: none;
 }

@@ -67,7 +67,7 @@ div.w_popup {
 	background: #f3f3f3;
 }
 
-div.w_popup > div.tree li > span.name {
+div.w_popup > div.w_tree li > span.name {
 	color: #444;
 }
 

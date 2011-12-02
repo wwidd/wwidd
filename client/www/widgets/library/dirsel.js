@@ -112,6 +112,7 @@ app.widgets = function (widgets, $, wraith, services) {
 		self.init = function (elem) {
 			base_init.call(self, elem);
 			elem
+				.addClass('w_dirsel')
 				.find('div.spinner')
 					.show()
 				.end()
