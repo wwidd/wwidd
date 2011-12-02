@@ -19,7 +19,7 @@ app.widgets = function (widgets, $, wraith, model) {
 		self.html = function () {
 			var id = 'kind' + kind;
 			return [
-				'<span id="', self.id, '" class="kind w_tag display ', model.kind.getNumber(kind), '" >',
+				'<span id="', self.id, '" class="w_kind w_tag display ', model.kind.getNumber(kind), '" >',
 				'<input type="checkbox" id="', id, '"', !self.parent || !self.parent.hidden(kind) ? ' checked="checked"' : '', '/>',
 				'<label for="', id, '">', kind ? kind : "[default]", '</label>',
 				'</span>'
@@ -57,8 +57,8 @@ app.widgets = function (widgets, $, wraith, model) {
 		}
 	}
 
-	$('.kind').live('click', onClick);
-	$('.kind :checkbox').live('click', onChecked);
+	$('.w_kind').live('click', onClick);
+	$('.w_kind :checkbox').live('click', onChecked);
 
 	return widgets;
 }(app.widgets || {},
