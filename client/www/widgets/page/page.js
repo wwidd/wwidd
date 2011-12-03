@@ -42,6 +42,11 @@ app.widgets = (function (widgets, $, wraith) {
 				.render($('#views').empty());
 				
 			// adding library switcher
+			widgets.discovery
+				.build()
+				.render($('#discovery').empty());
+
+			// adding library switcher
 			widgets.library
 				.build()
 				.render($('#switcher').empty());

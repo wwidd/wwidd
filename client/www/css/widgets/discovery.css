@@ -1,0 +1,16 @@
+/******************************
+DISCOVERY WIDGET
+******************************/
+
+div.w_discovery {
+	height: 100%;
+}
+
+div.w_discovery div.w_tree {
+	padding: 5px;
+}
+
+div.w_discovery li.w_node.selected {
+	background: white;
+}
+

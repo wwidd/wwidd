@@ -131,6 +131,10 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 			widgets.checker
 				.render();
 
+			widgets.discovery
+				.build()
+				.render();
+				
 			// removing busy state
 			widgets.library
 				.busy(false)
