@@ -7,21 +7,37 @@
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
-	widgets.tree = function (onSelect, onExpandCollapse) {
-		var self = wraith.widget.create(),
+	widgets.tree = function () {
+		var that = arguments.callee,
+				self = wraith.widget.create(),
 				json,
 				rootNode,
-				selected = [];
+				simple = false,
+				selected = [],
+		
+		// custome event handlers
+		onDisplay,
+		onSelect,
+		onExpandCollapse;
 		
 		//////////////////////////////
 		// Setters / getters
 		
 		self.json = function (value) {
-			if (typeof value !== 'undefined') {
+			if (typeof value === 'object') {
 				json = value;
 				return self;
 			} else {
 				return json;
+			}
+		};
+		
+		self.simple = function (value) {
+			if (typeof value === 'boolean') {
+				simple = value;
+				return self;
+			} else {
+				return simple;
 			}
 		};
 		
@@ -34,17 +50,38 @@ app.widgets = function (widgets, $, wraith) {
 			}
 		};
 		
-		//////////////////////////////
-		// Custom events
+		self.onDisplay = function (value) {			
+			if (typeof value === 'function') {
+				onDisplay = value;
+				return self;
+			} else if (typeof onDisplay === 'function') {
+				return onDisplay.apply(self, arguments);
+			}
+		};
 		
-		self.onSelect = onSelect || function ($node, node) {};
-		self.onExpandCollapse = onExpandCollapse || function ($node, node) {};		
+		self.onSelect = function (value) {			
+			if (typeof value === 'function') {
+				onSelect = value;
+				return self;
+			} else if (typeof onSelect === 'function') {
+				return onSelect.apply(self, arguments);
+			}
+		};
+		
+		self.onExpandCollapse = function (value) {
+			if (typeof value === 'function') {
+				onExpandCollapse = value;
+				return self;
+			} else if (typeof onExpandCollapse === 'function') {
+				return onExpandCollapse.apply(self, arguments);
+			}
+		};
 
 		//////////////////////////////
 		// Overrides
 
 		self.build = function () {
-			rootNode = widgets.node("/", self)
+			rootNode = widgets.node(onDisplay ? onDisplay([]) || '/' : '/', self)
 				.json(json)
 				.appendTo(self);
 			return self;
@@ -53,13 +90,15 @@ app.widgets = function (widgets, $, wraith) {
 		self.html = function () {
 			return [
 				'<div id="', self.id, '" class="w_tree">',
-				'<table class="status">',
-				'<colgroup>',
-				'<col class="key">',
-				'<col class="value">',
-				'</colgroup>',
-				'<tr>', '<td><span>', "Selected:", '</span></td>', '<td><span class="selected">&nbsp;</span></td>', '</tr>',
-				'</table>',
+				simple ? '' : [
+					'<table class="status">',
+					'<colgroup>',
+					'<col class="key">',
+					'<col class="value">',
+					'</colgroup>',
+					'<tr>', '<td><span>', "Selected:", '</span></td>', '<td><span class="selected">&nbsp;</span></td>', '</tr>',
+					'</table>'
+				].join(''),
 				rootNode ? '<ul class="root">' + rootNode.html() + '</ul>' : '',
 				'</div>'
 			].join('');

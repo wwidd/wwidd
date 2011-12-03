@@ -15,17 +15,18 @@ app.widgets = function (widgets, $, wraith) {
 		//////////////////////////////
 		// Getters, setters
 		
-		// returns path to current node
 		self.path = function () {
 			return path;
 		};
 
-		// returns expanded state
+		self.text = function () {
+			return text;
+		};
+		
 		self.expanded = function () {
 			return expanded;
 		};
 		
-		// sets json
 		self.json = function (value) {
 			if (typeof value !== 'undefined') {
 				json = value;
@@ -52,7 +53,8 @@ app.widgets = function (widgets, $, wraith) {
 
 		// builds the node with subnodes as specified by json
 		self.build = function () {
-			var node, keys, i;
+			var node, keys, i, tmp;
+			
 			if (json && expanded) {
 				// obtaining sorted array of node names
 				keys = [];
@@ -66,12 +68,16 @@ app.widgets = function (widgets, $, wraith) {
 					b = b.toLowerCase();
 					return a > b ? 1 : a < b ? -1 : 0; 
 				});
+				
 				// adding child widgets according to node names
 				for (i = 0; i < keys.length; i++) {
 					node = keys[i];
-					widgets.node(node, tree, path.concat([node]))
-						.json(json[node])
-						.appendTo(self);
+					tmp = tree.onDisplay(path.concat([node]));
+					if (typeof tmp === 'undefined' || tmp !== false) {
+						widgets.node(tmp || node, tree, path.concat([node]))
+							.json(json[node])
+							.appendTo(self);
+					}
 				}
 			}
 			return self;

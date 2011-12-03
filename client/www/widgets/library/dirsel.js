@@ -61,7 +61,9 @@ app.widgets = function (widgets, $, wraith, services) {
 	widgets.dirsel = function () {		
 		var self = wraith.widget.create(widgets.popup('centered')),
 				base_init = self.init,
-				tree = widgets.tree(onSelect, onExpandCollapse),
+				tree = widgets.tree()
+					.onSelect(onSelect)
+					.onExpandCollapse(onExpandCollapse),
 				btnCancel = widgets.button("Cancel"),
 				btnOk = widgets.button("OK").disabled({self: true});
 		
