@@ -6,12 +6,33 @@ var app = app || {};
 
 app.widgets = function (widgets, $, wraith, model, cache) {
 	function onSelect($node, node) {
+		var path = node.path(),
+				depth = path.length,
+				main = path[0];
+				
+		if (depth === 0 ||
+			depth < 2 && path[0] === 'rating' ||
+			depth < 2 && path[0] === 'kind') {
+			return false;
+		}
 	}
 	
-	function onDisplay(path) {
+	function order(path) {
+		var depth = path.length,
+				key = path[depth - 1],
+				count = cache.get(path.concat(['count']));
+				
+		if (typeof count === 'number') {
+			return 0 - count;
+		} else {
+			return key;
+		}
+	}
+	
+	function display(path) {
 		var depth = path.length,
 				text = path[depth - 1],
-				data;
+				count;
 				
 		switch (depth) {
 		case 0:
@@ -19,7 +40,7 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		case 1:
 			return {
 				'rating': "by rating",
-				'kind': "by category"
+				'kind': "by tags"
 			}[text] || false;
 		case 2:
 			switch (path[0]) {
@@ -44,9 +65,9 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		}
 
 		// assessing count
-		data = cache.get(path);
-		if (typeof data.count === 'number') {
-			return text + ' (' + data.count + ')';
+		count = cache.get(path.concat(['count']));
+		if (typeof count === 'number') {
+			return text + ' (' + count + ')';
 		}
 	}
 	
@@ -54,7 +75,8 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		var self = wraith.widget.create(),
 				tree = widgets.tree()
 					.onSelect(onSelect)
-					.onDisplay(onDisplay)
+					.display(display)
+					.order(order)
 					.simple(true);
 			
 		//////////////////////////////

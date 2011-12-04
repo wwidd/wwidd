@@ -53,29 +53,46 @@ app.widgets = function (widgets, $, wraith) {
 
 		// builds the node with subnodes as specified by json
 		self.build = function () {
-			var node, keys, i, tmp;
-			
+			var keys, i, key,
+					lookup, order,		// temp buffers
+					tmp;
+
 			if (json && expanded) {
 				// obtaining sorted array of node names
 				keys = [];
-				for (node in json) {
-					if (json.hasOwnProperty(node)) {
-						keys.push(node);
+				for (key in json) {
+					if (json.hasOwnProperty(key)) {
+						keys.push(key);
 					}
 				}
+				
+				// adding child widgets according to node names
+				lookup = {};
+				order = {};
+				for (i = 0; i < keys.length; i++) {
+					key = keys[i];
+					tmp = tree.display(path.concat([key]));
+					order[key] = tree.order(path.concat([key])) || key;
+					if (typeof tmp === 'undefined') {
+						lookup[key] = key;
+					} else if (tmp !== false) {
+						lookup[key] = tmp;
+					}
+				}
+				
 				keys.sort(function (a, b) {
-					a = a.toLowerCase();
-					b = b.toLowerCase();
+					a = order[a];
+					b = order[b];
 					return a > b ? 1 : a < b ? -1 : 0; 
 				});
 				
 				// adding child widgets according to node names
 				for (i = 0; i < keys.length; i++) {
-					node = keys[i];
-					tmp = tree.onDisplay(path.concat([node]));
-					if (typeof tmp === 'undefined' || tmp !== false) {
-						widgets.node(tmp || node, tree, path.concat([node]))
-							.json(json[node])
+					key = keys[i];
+					tmp = lookup[key];
+					if (typeof tmp !== 'undefined') {
+						widgets.node(tmp, tree, path.concat([key]))
+							.json(json[key])
 							.appendTo(self);
 					}
 				}
@@ -91,8 +108,10 @@ app.widgets = function (widgets, $, wraith) {
 		self.html = function () {
 			return [
 				'<li id="', self.id, '" class="', ['w_node', expanded ? 'expanded' : '', selected() ? 'selected' : ''].join(' '), '">',
+				'<span>',
 				'<span class="toggle"></span>',
 				'<span class="name">', text, '</span>',
+				'</span>',
 				'<ul>',
 				function () {
 					var result = [],
@@ -116,9 +135,9 @@ app.widgets = function (widgets, $, wraith) {
 	// expand / collapse button handler
 	function onExpandCollapse() {
 		// obtaining necessary objects (current node & tree)
-		var	$node = $(this).parent(),
+		var	$node = $(this).closest('.w_node'),
 				node = wraith.lookup($node),
-				$tree = $node.closest('div.w_tree'),
+				$tree = $node.closest('.w_tree'),
 				tree = wraith.lookup($tree);
 		
 		// toggling expanded state of current node
@@ -133,26 +152,28 @@ app.widgets = function (widgets, $, wraith) {
 	// directory selection button
 	function onSelect() {
 		// obtaining necessary objects (current node & tree)
-		var	$node = $(this).parent(),
+		var	$node = $(this).closest('.w_node'),
 				node = wraith.lookup($node),
-				$tree = $node.closest('div.w_tree'),
+				$tree = $node.closest('.w_tree'),
 				tree = wraith.lookup($tree),
 				path = '/' + node.path().join('/');
 
-		// setting selected status on current node
-		$tree
-			.find('span.selected')
-				.text(path)
-				.attr('title', path)
-			.end()
-			.find('li')
-				.removeClass('selected')
-			.end();
-		$node.addClass('selected');
+		// calling custom handler
+		if (tree.onSelect($node, node) !== false) {
+			// setting selected status on current node
+			$tree
+				.find('span.selected')
+					.text(path)
+					.attr('title', path)
+				.end()
+				.find('li')
+					.removeClass('selected')
+				.end();
+			$node.addClass('selected');
 		
-		// storing selected path and calling tree's handler
-		tree.selected(node.path());
-		tree.onSelect($node, node);
+			// storing selected path
+			tree.selected(node.path());
+		}
 
 		return false;
 	}
@@ -162,8 +183,8 @@ app.widgets = function (widgets, $, wraith) {
 
 	// any non-dead folder can be expanded
 	// any folder can be selected
-	$('li.w_node:not(.dead) > span.toggle').live('click', onExpandCollapse);
-	$('li.w_node > span.name').live('click', onSelect);
+	$('li.w_node:not(.dead) span.toggle').live('click', onExpandCollapse);
+	$('li.w_node span.name').live('click', onSelect);
 	
 	return widgets;
 }(app.widgets,

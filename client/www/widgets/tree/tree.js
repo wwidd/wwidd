@@ -14,9 +14,12 @@ app.widgets = function (widgets, $, wraith) {
 				rootNode,
 				simple = false,
 				selected = [],
+
+		// transormation functions
+		display,	// determines what to display
+		order,		// determines the order of sub-nodes
 		
 		// custome event handlers
-		onDisplay,
 		onSelect,
 		onExpandCollapse;
 		
@@ -50,12 +53,21 @@ app.widgets = function (widgets, $, wraith) {
 			}
 		};
 		
-		self.onDisplay = function (value) {			
+		self.display = function (value) {			
 			if (typeof value === 'function') {
-				onDisplay = value;
+				display = value;
 				return self;
-			} else if (typeof onDisplay === 'function') {
-				return onDisplay.apply(self, arguments);
+			} else if (typeof display === 'function') {
+				return display.apply(self, arguments);
+			}
+		};
+		
+		self.order = function (value) {			
+			if (typeof value === 'function') {
+				order = value;
+				return self;
+			} else if (typeof order === 'function') {
+				return order.apply(self, arguments);
 			}
 		};
 		
@@ -81,7 +93,7 @@ app.widgets = function (widgets, $, wraith) {
 		// Overrides
 
 		self.build = function () {
-			rootNode = widgets.node(onDisplay ? onDisplay([]) || '/' : '/', self)
+			rootNode = widgets.node(display ? display([]) || '/' : '/', self)
 				.json(json)
 				.appendTo(self);
 			return self;
