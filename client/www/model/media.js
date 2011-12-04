@@ -105,7 +105,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 		// filters current state further
 		// - expression: filter expression, comma-separated
 		// returns a flag indicating if the result set changed
-		filter: function (expression) {
+		search: function (expression) {
 			// handling empty search expression
 			if (!expression.length) {
 				if (stack.length > 1) {

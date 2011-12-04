@@ -159,7 +159,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 			model.media.init(function () {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + widgets.library.name());
-				model.media.filter(widgets.search.filter());
+				model.media.search(widgets.search.text());
 				self.refresh();
 			});
 			return self;
@@ -297,7 +297,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 					result.push(self.children[i].html());
 				}
 				result.push('</div>');
-			} else if (widgets.search.filter().length) {
+			} else if (widgets.search.text().length) {
 				result = [
 					'<span id="', self.id, '" class="warning nohits">',
 					'<span class="icon"></span>',

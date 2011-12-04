@@ -21,7 +21,7 @@ app.widgets = (function (widgets) {
 					page = parseInt(tmp[3], 10) || 1;
 			
 			// updating widget state
-			widgets.search.filter(filter);
+			widgets.search.text(filter);
 			widgets.pager.page(page - 1);
 			
 			// sanitizing URL
@@ -29,7 +29,7 @@ app.widgets = (function (widgets) {
 		},
 		
 		set: function () {
-			refresh(['', widgets.search.filter() || '', (parseInt(widgets.pager.page(), 10) || 0) + 1]);
+			refresh(['', widgets.search.text() || '', (parseInt(widgets.pager.page(), 10) || 0) + 1]);
 		}
 	};
 	

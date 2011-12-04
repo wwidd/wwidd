@@ -10,16 +10,16 @@ app.widgets = function (widgets, $, wraith, services, model) {
 	
 	widgets.search = function () {
 		var self = wraith.widget.create(),
-				filter = "";
+				text = "";
 
 		//////////////////////////////
 		// Getters, setters
 
-		self.filter = function (value) {
+		self.text = function (value) {
 			if (typeof value === 'undefined') {
-				return filter;
+				return text;
 			} else {
-				filter = value;
+				text = value;
 				return self;
 			}
 		};
@@ -28,7 +28,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
 		// Control
 
 		self.reset = function () {
-			filter = "";
+			text = "";
 			self.render();
 		};
 
@@ -51,9 +51,9 @@ app.widgets = function (widgets, $, wraith, services, model) {
 			}
 			
 			// filtreing out leading and trailing commas and spaces
-			filter = (RE_FILTER_CROP.exec(tmp) || [''])[0];
+			term = (RE_FILTER_CROP.exec(tmp) || [''])[0];
 			
-			if (model.media.filter(filter)) {
+			if (model.media.search(term)) {
 				// result set changed
 				elem.siblings('.backdrop').val('');				
 				widgets.pager.reset();
@@ -91,7 +91,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
 		
 		function onClear() {
 			var $input = $(this).siblings('.focus');
-			if (!filter.length) {
+			if (!text.length) {
 				return false;
 			}
 			$input.val('');
@@ -117,7 +117,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
 				'<span id="' + self.id + '" class="w_search">',
 				'<a class="clear" href="#"></a>',
 				'<span class="icon"></span>',
-				'<input type="text" class="focus" value="' + filter + '" />',
+				'<input type="text" class="focus" value="' + text + '" />',
 				'<input type="text" class="backdrop" />',
 				'</span>'
 			].join(' ');
