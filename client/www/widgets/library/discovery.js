@@ -5,6 +5,9 @@
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, model, cache) {
+	// selection event handler
+	// prohibits selection of non-filtering nodes
+	// TODO: filtering library on filtering nodes
 	function onSelect($node, node) {
 		var path = node.path(),
 				depth = path.length,
@@ -17,18 +20,22 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		}
 	}
 	
+	// specifies how sub-nodes should be ordered
 	function order(path) {
 		var depth = path.length,
 				key = path[depth - 1],
 				count = cache.get(path.concat(['count']));
 				
 		if (typeof count === 'number') {
+			// ordering by count desc when node has count
 			return 0 - count;
 		} else {
+			// ordering by node key in any other case
 			return key;
 		}
 	}
 	
+	// specifies what to display depending on node keys
 	function display(path) {
 		var depth = path.length,
 				text = path[depth - 1],
@@ -36,8 +43,10 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 				
 		switch (depth) {
 		case 0:
+			// topmost node
 			return "full library";
 		case 1:
+			// first-level node "by ..."
 			return {
 				'rating': "by rating",
 				'kind': "by tags"
@@ -57,7 +66,8 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 			}
 			break;
 		default:
-			// where to cut tree
+			// third or lower level
+			// cutting branches
 			if (depth > 2 && path[0] === 'rating' ||
 				depth > 3 && path[0] === 'kind') {
 				return false;
