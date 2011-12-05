@@ -52,12 +52,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		}
 		
 		self.display = function () {
-			var hit = isFilter(tag) ? 'hit' : null;
-			return [
-				'<span id="', self.id, '" class="', ['w_tagedit background', model.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
-				'<span>', name.replace(' ', '&nbsp;'), '</span>',
-				'</span>'
-			].join('');
+			return widgets.tagedit.html(name, kind, self.id, isFilter(tag));
 		};
 
 		self.edit = function () {
@@ -72,6 +67,18 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		};
 		
 		return self;
+	};
+	
+	//////////////////////////////
+	// Static methods
+
+	widgets.tagedit.html = function (name, kind, id, hit) {
+		hit = hit ? 'hit' : null;
+		return [
+			'<span ', id ? 'id="' + id + '" ' : '', 'class="', ['w_tagedit background', model.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
+			'<span>', name.replace(' ', '&nbsp;'), '</span>',
+			'</span>'
+		].join('');
 	};
 	
 	//////////////////////////////

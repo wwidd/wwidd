@@ -3,12 +3,12 @@ ADD - DISPLAY STATE
 ******************************/
 
 /* tag adder */
-span.w_tagadd.display {
+span.w_tagadd {
 	background: #a5c414;
 }
 
 /* add button in add tag */
-span.w_tagadd.display > a {
+span.w_tagadd > a {
 	margin: 0;
 	color: #f9ffef;
 	text-decoration: none;
@@ -20,6 +20,7 @@ ADD - EDIT STATE
 
 /* add tag editor */
 span.w_tagadd.edit {
+	padding: 0;
 	width: 122px;
 }
 span.w_tagadd.edit > input.focus {

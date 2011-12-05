@@ -2,14 +2,16 @@
 GENERAL
 ******************************/
 
-span.w_tag {
+span.w_tagedit,
+span.w_tagadd {
 	display: inline-block; *zoom: 1;
 	height: 12px;
 	margin: 3px 5px 3px 0;
 	vertical-align: top;
 }
 
-span.w_tag.display,
+span.w_tagedit,
+span.w_tagadd,
 span.w_tag > input {
 	padding: 1px 3px 1px;
 	border-radius: 3px; -moz-border-radius: 3px;
@@ -19,175 +21,175 @@ span.w_tag > input {
 EDIT - DISPLAY STATE
 ******************************/
 
-span.w_tag.display {
+span.w_tagedit.display {
 	color: #888;
 	background: #eee;
 }
 
 /* highlighted tag (search hit) */
-span.w_tag.display.hit {
+span.w_tagedit.display.hit {
 	margin: 1px 5px 1px 0;
 	border-width: 2px;
 	border-style: solid;
 }
 
 /* tag with kind */
-span.w_tag.kind0,
-span.w_tag.kind0 > div.background {
+span.w_tagedit.kind0,
+span.w_tagedit.kind0 > div.background {
 	color: #888;
 	border-color: #888;
 	background: #eee;
 }
-span.w_tag.kind1,
-span.w_tag.kind1 > div.background {
+span.w_tagedit.kind1,
+span.w_tagedit.kind1 > div.background {
 	color: #5a6986;
 	border-color: #5a6986;
 	background: #dee5f2;
 }
-span.w_tag.kind2,
-span.w_tag.kind2 > div.background {
+span.w_tagedit.kind2,
+span.w_tagedit.kind2 > div.background {
 	color: #206cff;
 	border-color: #206cff;
 	background: #e0ecff;
 }
-span.w_tag.kind3,
-span.w_tag.kind3 > div.background {
+span.w_tagedit.kind3,
+span.w_tagedit.kind3 > div.background {
 	color: #00c;
 	border-color: #00c;
 	background: #dfe2ff;
 }
-span.w_tag.kind4,
-span.w_tag.kind4 > div.background {
+span.w_tagedit.kind4,
+span.w_tagedit.kind4 > div.background {
 	color: #5229a3;
 	border-color: #5229a3;
 	background: #e0d5f9;
 }
-span.w_tag.kind5,
-span.w_tag.kind5 > div.background {
+span.w_tagedit.kind5,
+span.w_tagedit.kind5 > div.background {
 	color: #854f61;
 	border-color: #854f61;
 	background: #fde9f4;
 }
-span.w_tag.kind6,
-span.w_tag.kind6 > div.background {
+span.w_tagedit.kind6,
+span.w_tagedit.kind6 > div.background {
 	color: #c00;
 	border-color: #c00;
 	background: #ffe3e3;
 }
-span.w_tag.kind7,
-span.w_tag.kind7 > div.background {
+span.w_tagedit.kind7,
+span.w_tagedit.kind7 > div.background {
 	color: #ec7000;
 	border-color: #ec7000;
 	background: #fff0e1;
 }
-span.w_tag.kind8,
-span.w_tag.kind8 > div.background {
+span.w_tagedit.kind8,
+span.w_tagedit.kind8 > div.background {
 	color: #b36d00;
 	border-color: #b36d00;
 	background: #fadcb3;
 }
-span.w_tag.kind9,
-span.w_tag.kind9 > div.background {
+span.w_tagedit.kind9,
+span.w_tagedit.kind9 > div.background {
 	color: #ab8b00;
 	border-color: #ab8b00;
 	background: #f3e7b3;
 }
-span.w_tag.kind10,
-span.w_tag.kind10 > div.background {
+span.w_tagedit.kind10,
+span.w_tagedit.kind10 > div.background {
 	color: #636330;
 	border-color: #636330;
 	background: #ffffd4;
 }
-span.w_tag.kind11,
-span.w_tag.kind11 > div.background {
+span.w_tagedit.kind11,
+span.w_tagedit.kind11 > div.background {
 	color: #64992c;
 	border-color: #64992c;
 	background: #f9ffef;
 }
-span.w_tag.kind12,
-span.w_tag.kind12 > div.background {
+span.w_tagedit.kind12,
+span.w_tagedit.kind12 > div.background {
 	color: #063;
 	border-color: #063;
 	background: #f1f5ec;
 }
-span.w_tag.kind13,
-span.w_tag.kind13 > div.background {
+span.w_tagedit.kind13,
+span.w_tagedit.kind13 > div.background {
 	color: #dee5f2;
 	border-color: #dee5f2;
 	background: #5a6986;
 }
-span.w_tag.kind14,
-span.w_tag.kind14 > div.background {
+span.w_tagedit.kind14,
+span.w_tagedit.kind14 > div.background {
 	color: #e0ecff;
 	border-color: #e0ecff;
 	background: #206cff;
 }
-span.w_tag.kind15,
-span.w_tag.kind15 > div.background {
+span.w_tagedit.kind15,
+span.w_tagedit.kind15 > div.background {
 	color: #dfe2ff;
 	border-color: #dfe2ff;
 	background: #00c;
 }
-span.w_tag.kind16,
-span.w_tag.kind16 > div.background {
+span.w_tagedit.kind16,
+span.w_tagedit.kind16 > div.background {
 	color: #e0d5f9;
 	border-color: #e0d5f9;
 	background: #5229a3;
 }
-span.w_tag.kind17,
-span.w_tag.kind17 > div.background {
+span.w_tagedit.kind17,
+span.w_tagedit.kind17 > div.background {
 	color: #fde9f4;
 	border-color: #fde9f4;
 	background: #854f61;
 }
-span.w_tag.kind18,
-span.w_tag.kind18 > div.background {
+span.w_tagedit.kind18,
+span.w_tagedit.kind18 > div.background {
 	color: #ffe3e3;
 	border-color: #ffe3e3;
 	background: #c00;
 }
-span.w_tag.kind19,
-span.w_tag.kind19 > div.background {
+span.w_tagedit.kind19,
+span.w_tagedit.kind19 > div.background {
 	color: #fff0e1;
 	border-color: #fff0e1;
 	background: #ec7000;
 }
-span.w_tag.kind20,
-span.w_tag.kind20 > div.background {
+span.w_tagedit.kind20,
+span.w_tagedit.kind20 > div.background {
 	color: #fadcb3;
 	border-color: #fadcb3;
 	background: #b36d00;
 }
-span.w_tag.kind21,
-span.w_tag.kind21 > div.background {
+span.w_tagedit.kind21,
+span.w_tagedit.kind21 > div.background {
 	color: #f3e7b3;
 	border-color: #f3e7b3;
 	background: #ab8b00;
 }
-span.w_tag.kind22,
-span.w_tag.kind22 > div.background {
+span.w_tagedit.kind22,
+span.w_tagedit.kind22 > div.background {
 	color: #ffffd4;
 	border-color: #ffffd4;
 	background: #636330;
 }
-span.w_tag.kind23,
-span.w_tag.kind23 > div.background {
+span.w_tagedit.kind23,
+span.w_tagedit.kind23 > div.background {
 	color: #f9ffef;
 	border-color: #f9ffef;
 	background: #64992c;
 }
-span.w_tag.kind24,
-span.w_tag.kind24 > div.background {
+span.w_tagedit.kind24,
+span.w_tagedit.kind24 > div.background {
 	color: #f1f5ec;
 	border-color: #f1f5ec;
 	background: #063;
 }
 
 /* content alignment */
-span.w_tag > span,
-span.w_tag > a,
-span.w_tag > input,
-span.w_tag > label {
+span.w_tagedit > span,
+span.w_tagedit > a,
+span.w_tagedit > input,
+span.w_tagedit > label {
 	margin: 0;
 	padding: 0;
 	vertical-align: middle;
@@ -195,7 +197,7 @@ span.w_tag > label {
 }
 
 /* buttons in tag */
-span.w_tag > a.button {
+span.w_tagedit > a.button {
 	display: inline-block; *zoom: 1;
 	width: 16px;
 	height: 16px;
@@ -205,11 +207,11 @@ span.w_tag > a.button {
 	color: transparent;
 }
 
-span.w_tag > a.button.remove {
+span.w_tagedit > a.button.remove {
 	background: url('/image/sprites.png') no-repeat -20px -140px;
 }
 
-span.w_tag > a.button.explode {
+span.w_tagedit > a.button.explode {
 	background: url('/image/sprites.png') no-repeat -40px -140px;
 }
 
@@ -218,13 +220,14 @@ EDIT - EDIT STATE
 ******************************/
 
 /* tag editor */
-span.w_tag.edit {
+span.w_tagedit.edit {
 	position: relative;
 	width: 122px;
 	height: 14px;
+	padding: 0;
 }
 
-span.w_tag.edit > div.background {
+span.w_tagedit.edit > div.background {
 	position: absolute;
 	bottom: -5px;
 	left: -5px;
@@ -234,7 +237,7 @@ span.w_tag.edit > div.background {
 	border-radius: 3px; -moz-border-radius: 3px;
 }
 
-span.w_tag.edit > input {
+span.w_tagedit.edit > input {
 	position: absolute;
 	width: 120px;
 	height: 13px;
@@ -243,13 +246,13 @@ span.w_tag.edit > input {
 	font-size: 10px;
 }
 
-span.w_tag.edit > a.remove {
+span.w_tagedit.edit > a.remove {
 	position: absolute;
 	top: -20px;
 	right: 0px;
 }
 
-span.w_tag.edit > a.explode {
+span.w_tagedit.edit > a.explode {
 	position: absolute;
 	top: -20px;
 	left: 0px;

@@ -49,25 +49,27 @@ app.widgets = function (widgets, $, wraith, model, services) {
 		};
 		
 		self.html = function () {
-			var row = model.media.getRow(mediaid),
-					i,
-			
-			result = [
-				'<div id="', self.id, '" class="w_rater">'
-			];
-			
-			for (i = 0; i < row.rating || 0; i++) {
-				result.push('<a href="#" class="star"></a>');
-			}
-			for (; i < 5; i++) {
-				result.push('<a href="#"></a>');
-			}
-			result.push('</div>');
-			
-			return result.join('');
+			var row = model.media.getRow(mediaid);
+			return widgets.rater.html(row.rating, self.id);
 		};
 
 		return self;
+	};
+	
+	// static view generator
+	widgets.rater.html = function (rating, id) {
+		var	result = ['<div ', id ? 'id="' + id + '" ' : '', 'class="w_rater">'],
+				i;
+		
+		for (i = 0; i < rating || 0; i++) {
+			result.push('<a href="#" class="star"></a>');
+		}
+		for (; i < 5; i++) {
+			result.push('<a href="#"></a>');
+		}
+		result.push('</div>');
+		
+		return result.join('');
 	};
 	
 	return widgets;
