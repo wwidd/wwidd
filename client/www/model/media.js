@@ -298,7 +298,8 @@ app.model = function (model, jOrder, flock, cache, services) {
 		setRating: function (row, rating) {
 			var mediaid = row.mediaid,
 					rate_path = ['media', mediaid, 'rating'],
-					current = cache.get(rate_path);
+					current = cache.get(rate_path),
+					ref;
 
 			// new rating value
 			rating = rating || row.rating;
@@ -307,9 +308,29 @@ app.model = function (model, jOrder, flock, cache, services) {
 				// on media node
 				cache.set(rate_path, rating);
 				
-				// rating lookup
-				cache.unset(['rating', current.rating, mediaid]);
-				cache.set(['rating', rating, mediaid], row);
+				// removing entry from old rating on index
+				if (current.rating) {
+					ref = cache.get(['rating', current.rating]);
+					delete ref.media[mediaid];
+					ref.count--;
+					
+					// removing rating altogether
+					if (ref.count === 0) {
+						cache.unset(['rating', current.rating]);
+					}
+				}
+				
+				// adding  entry to new rating on index
+				ref = cache.get(['rating', rating]);
+				if (typeof ref === 'undefined') {
+					ref = {
+						count: 0,
+						media: {}
+					};
+					cache.set(['rating', rating], ref);
+				}
+				ref.media[mediaid] = row;
+				ref.count++;
 			}
 		},
 		

@@ -54,15 +54,16 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		case 2:
 			switch (path[0]) {
 			case 'rating':
-				return {
+				text = {
 					'1': "*",
 					'2': "**",
 					'3': "***",
 					'4': "****",
 					'5': "*****"
-				}[text] || "unrated";
+				}[text] || "[unrated]";
+				break;
 			case 'kind':
-				return text || "uncategorized";
+				return text || "[uncategorized]";
 			}
 			break;
 		default:
