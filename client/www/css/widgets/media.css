@@ -35,6 +35,7 @@ MEDIA ENTRY
 ******************************/
 
 div.w_media {
+	min-height: 200px;
 	padding: 5px;
 }
 
