@@ -131,10 +131,6 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 			widgets.checker
 				.render();
 
-			widgets.discovery
-				.build()
-				.render();
-				
 			// removing busy state
 			widgets.library
 				.busy(false)
@@ -159,7 +155,16 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 			model.media.init(function () {
 				// setting active library in page title
 				$document.attr('title', title + ' - ' + widgets.library.name());
+				
+				// applying search text
 				model.media.search(widgets.search.text());
+				
+				// re-building discovery widget
+				widgets.discovery
+					.build()
+					.render();
+				
+				// redrawing media
 				self.refresh();
 			});
 			return self;

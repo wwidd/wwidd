@@ -102,6 +102,27 @@ app.model = function (model, jOrder, flock, cache, services) {
 			return model.media;
 		},
 
+		// filters stack using a given path
+		filter: function (path) {
+			// clearing search
+			model.media.search('');
+			
+			var hits = cache.mget(path.concat(['', 'media', '*']), {mode: flock.both});
+			
+			// adding search hits to stack
+			stack.unshift({
+				path: path,
+				data: {
+					cache: flock({
+						media: hits
+					}),
+					table: jOrder(jOrder.values(hits))
+						.index('id', ['mediaid'])
+						.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string})
+				}
+			});
+		},
+		
 		// filters current state further
 		// - expression: filter expression, comma-separated
 		// returns a flag indicating if the result set changed
