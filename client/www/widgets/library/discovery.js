@@ -59,27 +59,26 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		case 2:
 			switch (path[0]) {
 			case 'rating':
-				text = {
-					'1': "*",
-					'2': "**",
-					'3': "***",
-					'4': "****",
-					'5': "*****"
-				}[text] || "[unrated]";
+				text = text ? widgets.rater.html(text) : "[unrated]";
 				break;
 			case 'kind':
-				return text || "[uncategorized]";
+				return text ? widgets.tagedit.html(text, text) : "[uncategorized]";
 			}
 			break;
-		default:
-			// third or lower level
-			// cutting branches
-			if (depth > 2 && path[0] === 'rating' ||
-				depth > 3 && path[0] === 'kind') {
-				return false;
+		case 3:
+			if (path[0] === 'kind') {
+				text = widgets.tagedit.html(text, path[1]);
 			}
+			break;
 		}
 
+		// third or lower level
+		// cutting branches
+		if (depth > 2 && path[0] === 'rating' ||
+			depth > 3 && path[0] === 'kind') {
+			return false;
+		}
+		
 		// assessing count
 		count = cache.get(path.concat(['count']));
 		if (typeof count === 'number') {

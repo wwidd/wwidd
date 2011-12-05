@@ -33,47 +33,9 @@ div.w_tree > table.status span.selected {
 	background: white;
 }
 
-div.w_tree ul {
-	margin: 0;
-	padding: 0 0 0 10px;
-	list-style: none;
-}
-
 div.w_tree > ul.root {
+	margin: 0;
 	padding: 0;
-}
-
-div.w_tree li > span {
-	white-space: nowrap;
-}
-
-div.w_tree li > span > span {
-	line-height: 16px;
-	vertical-align: middle;
-}
-
-div.w_tree li > span > span.name {
-	cursor: pointer;
-}
-
-div.w_tree li.selected > span > span.name {
-	font-weight: bold;
-}
-
-div.w_tree li > span > span.toggle {
-	display: inline-block; *zoom: 1;
-	height: 16px;
-	width: 16px;
-	cursor: pointer;
-	background: url('/image/sprites.png') no-repeat 0 -160px;
-}
-
-div.w_tree li.expanded > span > span.toggle {
-	background: url('/image/sprites.png') no-repeat -20px -160px;
-}
-
-div.w_tree li.dead > span > span.toggle {
-	cursor: inherit;
-	background: none;
+	list-style: none;
 }
 
