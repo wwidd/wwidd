@@ -14,3 +14,7 @@ div.w_discovery li.w_node.selected {
 	background: white;
 }
 
+div.w_discovery li.w_node span.count {
+	margin-left: 3px;
+}
+

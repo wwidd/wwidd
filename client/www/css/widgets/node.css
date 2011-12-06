@@ -24,6 +24,11 @@ li.w_node li.selected > span > span.name {
 	font-weight: bold;
 }
 
+li.w_node span.name > span {
+	line-height: 16px;
+	vertical-align: middle;
+}
+
 li.w_node span.toggle {
 	height: 16px;
 	width: 16px;

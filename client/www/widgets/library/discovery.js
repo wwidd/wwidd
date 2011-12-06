@@ -82,7 +82,7 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		// assessing count
 		count = cache.get(path.concat(['count']));
 		if (typeof count === 'number') {
-			return text + ' (' + count + ')';
+			return text + '<span class="count">(' + count + ')</span>';
 		}
 	}
 	
