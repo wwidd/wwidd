@@ -13,9 +13,9 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 				depth = path.length,
 				main = path[0];
 				
-		if (depth === 0 ||
-			depth < 2 && path[0] === 'rating' ||
-			depth < 2 && path[0] === 'kind') {
+		if (depth < 2 && path[0] === 'rating' ||
+			depth < 2 && path[0] === 'kind' ||
+			depth < 2 && path[0] === 'field') {
 			return false;
 		} else {
 			model.media.filter(path);
@@ -54,7 +54,8 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 			// first-level node "by ..."
 			return {
 				'rating': "by rating",
-				'kind': "by tags"
+				'kind': "by tags",
+				'field': "by metadata"
 			}[text] || false;
 		case 2:
 			switch (path[0]) {
@@ -75,7 +76,8 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		// third or lower level
 		// cutting branches
 		if (depth > 2 && path[0] === 'rating' ||
-			depth > 3 && path[0] === 'kind') {
+			depth > 3 && path[0] === 'kind' ||
+			depth > 3 && path[0] === 'field') {
 			return false;
 		}
 		

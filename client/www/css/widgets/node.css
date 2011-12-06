@@ -8,6 +8,10 @@ li.w_node > ul {
 	list-style: none;
 }
 
+li.w_node > span {
+	white-space: nowrap;
+}
+
 li.w_node span.toggle,
 li.w_node span.name {
 	display: inline-block; *zoom: 1;
