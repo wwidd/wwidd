@@ -55,7 +55,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 				
 				var i, row,
 						j, tag,
-						tags,
+						tags, keywords,
 						table;
 				
 				// setting up datastore roots
@@ -71,8 +71,14 @@ app.model = function (model, jOrder, flock, cache, services) {
 				// loading media data into cache
 				for (i = 0; i < json.length; i++) {
 					row = json[i];		// quick reference
-					tags = row.tags;	// backup of flat tags
-					row.tags = {};		// tags field will be rewritten
+					
+					// backing up original tags & keywords arrays
+					tags = row.tags;
+					keywords = row.keywords;
+					
+					// resetting tags & keywords array
+					row.tags = {};
+					row.keywords = {};
 					
 					// storing media node in cache
 					cache.set(['media', row.mediaid], row);
@@ -80,6 +86,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 					// setting properties
 					model.media.setRating(row);
 					model.media.addTags(row, tags);
+					model.media.addKeywords(row, keywords);
 				}
 				
 				// setting up jOrder table
@@ -237,6 +244,30 @@ app.model = function (model, jOrder, flock, cache, services) {
 			for (i = 0; i < stack.length; i++) {
 				stack[i].data.table.remove(media.root(), {indexName: 'id'});
 				stack[i].data.cache.munset(['media', mediaids]);
+			}
+		},
+		
+		addKeywords: function (mediaid, keywords) {
+			var media, i, keyword, ref;
+			
+			if (typeof mediaid === 'object') {
+				media = mediaid;
+				mediaid = media.mediaid;
+			} else {
+				media = cache.get(['media', mediaid]);
+			}
+			
+			for (i = 0; i < keywords.length; i++) {
+				keyword = keywords[i];
+				ref = model.keyword.get(keyword);
+				if (!media.keywords.hasOwnProperty(keyword)) {
+					// adding tag reference to media
+					media.keywords[keyword] = ref;
+					
+					// adding media reference to tag
+					ref.media[mediaid] = media;
+					ref.count++;
+				}
 			}
 		},
 		

@@ -10,7 +10,7 @@ var app = app || {};
 app.widgets = function (widgets, $, wraith, model) {
 	widgets.keywords = function (mediaid) {
 		var self = wraith.widget.create(),
-				keywords = [],
+				keywords,
 				special = {},
 				rest = {},
 				compact = true;
@@ -28,12 +28,13 @@ app.widgets = function (widgets, $, wraith, model) {
 
 		// initializes lookup buffers
 		function prepare() {
-			keywords = (model.media.getRow(mediaid) || {keywords: []}).keywords;
-			var i, keyword, key;
-			for (i = 0; i < keywords.length; i++) {
-				keyword = keywords[i].split(':');
-				key = keyword.shift();
-				rest[key] = keyword.join(':');
+			keywords = model.media.getRow(mediaid).keywords || {};
+			var key, keyword;
+			for (key in keywords) {
+				if (keywords.hasOwnProperty(key)) {
+					keyword = key.split(':');
+					rest[keyword.shift()] = keyword.join(':');
+				}
 			}
 			special = {
 				duration: rest.duration,
