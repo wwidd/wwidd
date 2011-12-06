@@ -109,8 +109,25 @@ app.model = function (model, jOrder, flock, cache, services) {
 			return model.media;
 		},
 
+		// resets search stack
+		reset: function () {
+			if (stack.length > 1) {
+				// clearing stack
+				stack.splice(0, stack.length - 1);
+				return true;
+			} else {
+				// stack was already empty, nothing happens
+				return false;
+			}
+		},
+		
 		// filters stack using a given path
+		// - path: array representing tree cache path
 		filter: function (path) {
+			if (!path.length) {
+				model.media.reset();
+			}
+			
 			// clearing search
 			model.media.search('');
 			
@@ -136,14 +153,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 		search: function (expression) {
 			// handling empty search expression
 			if (!expression.length) {
-				if (stack.length > 1) {
-					// clearing stack
-					stack.splice(0, stack.length - 1);
-					return true;
-				} else {
-					// stack was already empty, nothing happens
-					return false;
-				}
+				return model.media.reset();
 			}
 			
 			var terms = (',' + expression).split(','), term,
