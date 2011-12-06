@@ -37,8 +37,8 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		} else if (depth === 1) {
 			return {
 				'rating': 1,
-				'field': 2,
-				'tag': 3
+				'kind': 2,
+				'field': 3
 			}[key] || 10;
 		} else {
 			// ordering by node key in any other case
