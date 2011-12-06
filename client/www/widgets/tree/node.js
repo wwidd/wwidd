@@ -183,8 +183,8 @@ app.widgets = function (widgets, $, wraith) {
 
 	// any non-dead folder can be expanded
 	// any folder can be selected
-	$('li.w_node:not(.dead) span.toggle').live('click', onExpandCollapse);
-	$('li.w_node span.name').live('click', onSelect);
+	$('.w_node:not(.dead) span.toggle').live('click', onExpandCollapse);
+	$('.w_node span.name').live('click', onSelect);
 	
 	return widgets;
 }(app.widgets,

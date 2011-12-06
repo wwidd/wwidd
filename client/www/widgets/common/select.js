@@ -95,7 +95,7 @@ app.widgets = function (widgets, $, services) {
 			.onChange()(i, event);
 	}
 	
-	$('ul.w_select > li:not(.selected) > .caption').live('click', onSelect);
+	$('.w_select > li:not(.selected) > .caption').live('click', onSelect);
 	
 	return widgets;
 }(app.widgets || {},

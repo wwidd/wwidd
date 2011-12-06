@@ -216,7 +216,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
 	//////////////////////////////
 	// Event bindings
 
-	$('div.thumb, div.file, div.play', $('div.w_medium'))
+	$('div.thumb, div.file, div.play', $('.w_medium'))
 		.live('click', onClick);
 	$('div.check > :checkbox')
 		.live('click', onChecked);

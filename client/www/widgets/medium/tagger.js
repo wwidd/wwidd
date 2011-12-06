@@ -100,7 +100,7 @@ app.widgets = function (widgets, $, wraith, jOrder, model) {
 
 	// resizes tagger widgets to fit screen width
 	widgets.tagger.resize = function (force, elem) {
-		var $list = $('div.w_media.list'),
+		var $list = $('.w_media.list'),
 				$tagger = elem || $list.find('div.tagger'),
 				width, full = $list.width(),
 				$model,
