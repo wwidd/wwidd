@@ -20,7 +20,7 @@ app.model = function (model, flock, cache) {
 		// - path: relative node path
 		get: function (term, path) {
 			var full = term.toLowerCase();
-			return cache.mget(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat(['']).concat(path || ['tag']));
+			return cache.mget(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat([null]).concat(path || ['tag']));
 		},
 		
 		// gets words that fit the search term
@@ -28,7 +28,7 @@ app.model = function (model, flock, cache) {
 		// - orig: whether matching tags should be returned (or just matching words)
 		word: function (term, orig) {
 			var full = term.toLowerCase(),
-					path = ROOT_WORD.concat(full.split(RE_SPLIT_CHAR)).concat(['', 'word', '*']);
+					path = ROOT_WORD.concat(full.split(RE_SPLIT_CHAR)).concat([null, 'word', '*']);
 			if (typeof orig === 'undefined') {
 				return cache.mget(path, {mode: flock.both});
 			} else {

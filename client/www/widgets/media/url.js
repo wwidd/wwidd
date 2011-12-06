@@ -29,7 +29,7 @@ app.widgets = (function (widgets) {
 		},
 		
 		set: function () {
-			refresh(['', widgets.search.text() || '', (parseInt(widgets.pager.page(), 10) || 0) + 1]);
+			refresh([null, widgets.search.text() || '', (parseInt(widgets.pager.page(), 10) || 0) + 1]);
 		}
 	};
 	

@@ -131,7 +131,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 			// clearing search
 			model.media.search('');
 			
-			var hits = cache.mget(path.concat(['', 'media', '*']), {mode: flock.both});
+			var hits = cache.mget(path.concat([null, 'media', '*']), {mode: flock.both});
 			
 			// adding search hits to stack
 			stack.unshift({
