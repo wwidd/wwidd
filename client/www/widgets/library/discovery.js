@@ -34,6 +34,12 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		if (typeof count === 'number') {
 			// ordering by count desc when node has count
 			return 0 - count;
+		} else if (depth === 1) {
+			return {
+				'rating': 1,
+				'field': 2,
+				'tag': 3
+			}[key] || 10;
 		} else {
 			// ordering by node key in any other case
 			return key;
