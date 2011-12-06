@@ -125,7 +125,10 @@ app.model = function (model, jOrder, flock, cache, services) {
 		// - path: array representing tree cache path
 		filter: function (path) {
 			if (!path.length) {
-				model.media.reset();
+				return model.media.reset();
+			} else if (path.join('.') === stack[0].path) {
+				// filter is same as before
+				return false;
 			}
 			
 			// clearing search
@@ -135,7 +138,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 			
 			// adding search hits to stack
 			stack.unshift({
-				path: path,
+				path: path.join('.'),
 				data: {
 					cache: flock({
 						media: hits
@@ -145,6 +148,8 @@ app.model = function (model, jOrder, flock, cache, services) {
 						.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string})
 				}
 			});
+			
+			return true;
 		},
 		
 		// filters current state further

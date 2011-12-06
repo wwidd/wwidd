@@ -18,10 +18,11 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 			depth < 2 && path[0] === 'field') {
 			return false;
 		} else {
-			model.media.filter(path);
-			widgets.pager.reset();
-			widgets.media.refresh();
-			widgets.url.set();
+			if (model.media.filter(path)) {
+				widgets.pager.reset();
+				widgets.media.refresh();
+				widgets.url.set();
+			}
 		}
 	}
 	
