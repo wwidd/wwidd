@@ -75,7 +75,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	widgets.tagedit.html = function (name, kind, id, hit) {
 		hit = hit ? 'hit' : null;
 		return [
-			'<span ', id ? 'id="' + id + '" ' : '', 'class="', ['w_tagedit background', model.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
+			'<span ', id ? 'id="' + id + '" ' : '', 'class="', ['w_tag', 'w_tagedit', 'background', model.kind.getNumber(kind), hit].join(' '), '" title="', kind, '">',
 			'<span>', name.replace(' ', '&nbsp;'), '</span>',
 			'</span>'
 		].join('');
