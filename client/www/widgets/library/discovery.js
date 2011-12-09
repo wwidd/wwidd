@@ -5,6 +5,8 @@
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, model, cache) {
+	var ORGANIZED_FIELDS = {'bitrate': 1, 'dimensions': 1, 'duration': 1};
+	
 	// selection event handler
 	// prohibits selection of non-filtering nodes
 	// TODO: filtering library on filtering nodes
@@ -82,9 +84,13 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 
 		// third or lower level
 		// cutting branches
-		if (depth > 2 && path[0] === 'rating' ||
-			depth > 3 && path[0] === 'kind' ||
-			depth > 3 && path[0] === 'field') {
+		if (
+			path[0] === 'rating' && depth > 2 ||
+			path[0] === 'kind' && depth > 3 ||
+			path[0] === 'field' && (
+				path[1] in ORGANIZED_FIELDS && depth > 4 ||
+				!(path[1] in ORGANIZED_FIELDS) && depth > 3)
+		) {
 			return false;
 		}
 		
