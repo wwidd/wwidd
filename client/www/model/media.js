@@ -55,7 +55,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 				
 				var i, row,
 						j, tag,
-						tags, keywords,
+						tags, keywords, rating,
 						table;
 				
 				// setting up datastore roots
@@ -75,16 +75,18 @@ app.model = function (model, jOrder, flock, cache, services) {
 					// backing up original tags & keywords arrays
 					tags = row.tags;
 					keywords = row.keywords;
+					rating = row.rating || '';
 					
 					// resetting tags & keywords array
 					row.tags = {};
 					row.keywords = {};
+					delete row.rating;
 					
 					// storing media node in cache
 					cache.set(['media', row.mediaid], row);
 					
 					// setting properties
-					model.media.setRating(row);
+					model.media.setRating(row, rating);
 					model.media.addTags(row, tags);
 					model.media.addKeywords(row, keywords);
 				}
@@ -367,23 +369,22 @@ app.model = function (model, jOrder, flock, cache, services) {
 					rate_path = ['media', mediaid, 'rating'],
 					current = cache.get(rate_path),
 					ref;
-
-			// new rating value
-			rating = rating || row.rating;
 			
-			if (rating !== current.rating) {
+			if (rating !== current) {
 				// on media node
 				cache.set(rate_path, rating);
 				
 				// removing entry from old rating on index
-				if (current.rating) {
-					ref = cache.get(['rating', current.rating]);
-					delete ref.media[mediaid];
-					ref.count--;
+				if (typeof current !== 'undefined') {
+					ref = cache.get(['rating', current]);
+					if (typeof ref !== 'undefined') {
+						delete ref.media[mediaid];
+						ref.count--;
 					
-					// removing rating altogether
-					if (ref.count === 0) {
-						cache.unset(['rating', current.rating]);
+						// removing rating altogether
+						if (ref.count === 0) {
+							cache.unset(['rating', current]);
+						}
 					}
 				}
 				

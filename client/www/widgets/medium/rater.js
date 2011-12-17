@@ -31,6 +31,7 @@ app.widgets = function (widgets, $, wraith, model, services) {
 			services.media.rate(mediaid, rating, function () {
 				model.media.setRating(model.media.getRow(mediaid), rating);
 				self.render();
+				widgets.discovery.refreshRatings();
 			});
 			return false;
 		}

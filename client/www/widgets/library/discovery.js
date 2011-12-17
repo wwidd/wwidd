@@ -69,7 +69,7 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		case 2:
 			switch (path[0]) {
 			case 'rating':
-				text = text ? widgets.rater.html(text) : "[unrated]";
+				text = text.length ? widgets.rater.html(text) : "[unrated]";
 				break;
 			case 'kind':
 				return text ? widgets.tagedit.html(text, text) : "[uncategorized]";
@@ -109,6 +109,28 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 					.order(order)
 					.simple(true);
 			
+		//////////////////////////////
+		// Control
+
+		// rebuilds the "by tag" branch of the tree
+		self.refreshTags = function () {
+		};
+		
+		// rebuilds the "by rating" branch of the tree
+		self.refreshRatings = function () {
+			var root = tree.children[0],
+					node;
+					
+			if (typeof root !== 'undefined') {
+				node = root.children[0];
+				if (typeof node !== 'undefined') {
+					node
+						.build()
+						.render();
+				}
+			}
+		};
+
 		//////////////////////////////
 		// Overrides
 
