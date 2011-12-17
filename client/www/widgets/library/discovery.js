@@ -112,23 +112,37 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 		//////////////////////////////
 		// Control
 
-		// rebuilds the "by tag" branch of the tree
-		self.refreshTags = function () {
-		};
-		
-		// rebuilds the "by rating" branch of the tree
-		self.refreshRatings = function () {
+		// rebuilds one of the main branches of the tree
+		// - type: id of branch (either 'kinds' or 'ratings')
+		function refreshBranch(type) {
 			var root = tree.children[0],
 					node;
-					
+			
+			// whether discovery tree exists
 			if (typeof root !== 'undefined') {
-				node = root.children[0];
+				// obtining reference to branch node
+				node = root.children[{
+					'ratings': 0,
+					'kinds': 1
+				}[type] || 0];
+				
 				if (typeof node !== 'undefined') {
+					// re-building and re-rendering node
 					node
 						.build()
 						.render();
 				}
 			}
+		}
+
+		// rebuilds the "by tag" branch of the tree
+		self.refreshTags = function () {
+			refreshBranch('kinds');
+		};
+		
+		// rebuilds the "by rating" branch of the tree
+		self.refreshRatings = function () {
+			refreshBranch('ratings');
 		};
 
 		//////////////////////////////

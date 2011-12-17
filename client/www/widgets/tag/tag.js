@@ -40,6 +40,8 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 			widgets.kinds
 				.build()
 				.render();
+			widgets.discovery
+				.refreshTags();
 		};
 		
 		// changes tag to one or more tags
