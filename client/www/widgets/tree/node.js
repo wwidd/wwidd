@@ -87,6 +87,7 @@ app.widgets = function (widgets, $, wraith) {
 				});
 				
 				// adding child widgets according to node names
+				self.clear();
 				for (i = 0; i < keys.length; i++) {
 					key = keys[i];
 					tmp = lookup[key];

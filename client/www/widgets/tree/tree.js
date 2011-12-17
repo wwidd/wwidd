@@ -93,6 +93,7 @@ app.widgets = function (widgets, $, wraith) {
 		// Overrides
 
 		self.build = function () {
+			self.clear();
 			rootNode = widgets.node(display ? display([]) || '/' : '/', self)
 				.json(json)
 				.appendTo(self);
