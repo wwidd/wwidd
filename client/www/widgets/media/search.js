@@ -16,11 +16,11 @@ app.widgets = function (widgets, $, wraith, services, model) {
 		// Getters, setters
 
 		self.text = function (value) {
-			if (typeof value === 'undefined') {
-				return text;
-			} else {
+			if (typeof value === 'string') {
 				text = value;
 				return self;
+			} else {
+				return text;
 			}
 		};
 		
@@ -51,11 +51,11 @@ app.widgets = function (widgets, $, wraith, services, model) {
 			}
 			
 			// filtreing out leading and trailing commas and spaces
-			term = (RE_FILTER_CROP.exec(tmp) || [''])[0];
+			text = (RE_FILTER_CROP.exec(tmp) || [''])[0];
 			
-			if (model.media.search(term)) {
+			if (model.media.search(text)) {
 				// result set changed
-				elem.siblings('.backdrop').val('');				
+				elem.siblings('.backdrop').val('');
 				widgets.pager.reset();
 				widgets.media.refresh();
 				widgets.url.set();
