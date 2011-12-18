@@ -21,6 +21,7 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 			return false;
 		} else {
 			if (model.media.filter(path)) {
+				widgets.search.reset();
 				widgets.pager.reset();
 				widgets.media.refresh();
 				widgets.url.set();

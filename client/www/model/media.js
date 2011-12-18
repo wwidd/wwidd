@@ -33,12 +33,37 @@ app.model = function (model, jOrder, flock, cache, services) {
 	}
 	
 	var
-		
+	
+	// container for unfiltered data
+	unfiltered = {
+		cache: null,
+		json: null
+	},
+	
 	// FIFO stack search results
 	stack = [{
 		term: '',
 		data: {}
 	}];
+
+	function stackInit(cache, json) {
+		json = json || jOrder.values(cache.root().media);
+		
+		// setting up jOrder table
+		// required for paging
+		var table = jOrder(preprocess(json))
+			.index('id', ['mediaid'])
+			.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string});
+
+		// initializing stack
+		stack = [{
+			term: '',
+			data: {
+				cache: cache,
+				table: table
+			}
+		}];
+	}
 	
 	model.media = {
 		stack: function () {
@@ -47,16 +72,13 @@ app.model = function (model, jOrder, flock, cache, services) {
 
 		// initializes data object: calls service, populates cache
 		init: function (handler) {
-			handler = handler || function () {};
-			
 			// calling service
 			services.media.get('', function (json) {
 				json = preprocess(json.data);
 				
 				var i, row,
 						j, tag,
-						tags, keywords, rating,
-						table;
+						tags, keywords, rating;
 				
 				// setting up datastore roots
 				cache.set('tag');
@@ -91,22 +113,18 @@ app.model = function (model, jOrder, flock, cache, services) {
 					model.media.addKeywords(row, keywords);
 				}
 				
-				// setting up jOrder table
-				// required for paging
-				table = jOrder(preprocess(json))
-					.index('id', ['mediaid'])
-					.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string});
-					
-				// initializing stack
-				stack = [{
-					term: '',
-					data: {
-						cache: cache,
-						table: table
-					}
-				}];
+				// storing unfiltered data for quick access
+				unfiltered = {
+					cache: cache,
+					json: json
+				};
 				
-				handler();
+				// initializing stack with original cache & orig. flat json
+				stackInit(cache, json);
+				
+				if (typeof handler === 'function') {
+					handler();
+				}
 			});
 			return model.media;
 		},
@@ -127,29 +145,20 @@ app.model = function (model, jOrder, flock, cache, services) {
 		// - path: array representing tree cache path
 		filter: function (path) {
 			if (!path.length) {
-				return model.media.reset();
+				// re-initializing stack w/ unfiltered data
+				stackInit(unfiltered.cache, unfiltered.json);
+				return true;
 			} else if (path.join('.') === stack[0].path) {
 				// filter is same as before
 				return false;
 			}
 			
-			// clearing search
-			model.media.search('');
-			
 			var hits = cache.mget(path.concat([null, 'media', '*']), {mode: flock.both});
-			
-			// adding search hits to stack
-			stack.unshift({
-				path: path.join('.'),
-				data: {
-					cache: flock({
-						media: hits
-					}),
-					table: jOrder(jOrder.values(hits))
-						.index('id', ['mediaid'])
-						.index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string})
-				}
-			});
+
+			// initializing stack with filtered values
+			stackInit(flock({
+				media: hits
+			}));
 			
 			return true;
 		},
@@ -198,17 +207,11 @@ app.model = function (model, jOrder, flock, cache, services) {
 				// acquiring tags matching the entered string
 				tags = model.search.word(term, true);
 				
-				// acquiring search hits
-				if (stack.length === 1) {
-					// performing direct query on first search term
-					hits = cache.mget(['tag', tags, 'media', '*'], {mode: flock.both});
-				} else {
-					// performing two-stage query on subsequent terms
-					// first, taking _all_ media ids where tags match, then
-					// matching them against previous search results
-					matches = cache.mget(['tag', tags, 'media', '*'], {mode: flock.keys});
-					hits = stack[0].data.cache.mget(['media', matches], {mode: flock.both});
-				}
+				// taking _all_ media ids where tags match, then
+				matches = cache.mget(['tag', tags, 'media', '*'], {mode: flock.keys});
+
+				// matching media ids against previous search results
+				hits = stack[0].data.cache.mget(['media', matches], {mode: flock.both});
 
 				// adding search hits to stack
 				stack.unshift({
