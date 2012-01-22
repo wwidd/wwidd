@@ -112,7 +112,6 @@ app.widgets = function (widgets, $, wraith, services) {
 		};
 		
 		self.init = function (elem) {
-			base_init.call(self, elem);
 			elem
 				.addClass('w_dirsel')
 				.find('div.spinner')
@@ -120,6 +119,10 @@ app.widgets = function (widgets, $, wraith, services) {
 				.end()
 				.find('table.status')
 					.insertAfter(elem.find('ul.root'));
+					
+			// calling base init at the END
+			// because base init relies on final dimensions
+			base_init.apply(self, arguments);
 		};
 		
 		self.contents = function () {
