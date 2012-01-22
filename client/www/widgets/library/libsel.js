@@ -3,10 +3,33 @@
 //
 // Lists available libraries, with download link
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, window, flock, jOrder */
+/*global document, jQuery, wraith, window, flock, jOrder */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
+	//////////////////////////////
+	// Static event handlers
+
+	function onAdd(event, options) {
+		var $button = options.elem,
+				self = wraith.lookup($(this));
+		
+		self.select($button.siblings('input.new').val(), function () {
+			self.reload();
+		});
+		
+		return false;
+	}
+	
+	//////////////////////////////
+	// Static event bindings
+	
+	$(document)
+		.on('buttonClick', '.w_libsel', onAdd);
+	
+	//////////////////////////////
+	// Class
+	
 	widgets.libsel = function () {
 		var	self = wraith.widget.create(widgets.select()),
 				button = widgets.button("Add"),
@@ -15,7 +38,7 @@ app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
 		
 		// selects library and reloads its contents
 		// - name: name of the library to select
-		function select(name, handler) {
+		self.select = function (name, handler) {
 			services.lib.select(name, function () {
 				// resetting widget
 				widgets.pager.reset();
@@ -36,10 +59,10 @@ app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
 					handler();
 				}
 			});
-		}
+		};
 		
 		// retrieving list of libraries
-		function reload() {
+		self.reload = function () {
 			services.lib.getall(function (json) {
 				var processes = json.data.processes,
 						progress = processes.thumbnails.progress,
@@ -79,17 +102,17 @@ app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
 					.collapse()
 					.render();
 			});
-		}
+		};
 
 		//////////////////////////////
 		// Initialization
 
 		// loading library list
-		reload();
+		self.reload();
 			
 		// setting change handler for list
 		self.onChange(function (i) {
-			select(self.options()[i]);
+			self.select(self.options()[i]);
 		});
 		
 		//////////////////////////////
@@ -102,17 +125,9 @@ app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
 		//////////////////////////////
 		// Overrides
 
-		// called on adding a new library
-		function onAdd() {
-			select($(this).siblings('input.new').val(), function () {
-				reload();
-			});
-		}
-		
 		self.build = function () {
 			button
 				.disabled({libsel: true})
-				.onClick(onAdd)
 				.appendTo(self);
 		
 			return self;

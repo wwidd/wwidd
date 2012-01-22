@@ -1,12 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // General Button Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, window */
+/*global document, jQuery, wraith, window */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
-	widgets.button = function (caption, onClick) {
-		var self = wraith.widget.create();
+	widgets.button = function (caption) {
+		var self = wraith.widget.create(),
+				idle = false;
 			
 		//////////////////////////////
 		// Getters / setters
@@ -20,12 +21,12 @@ app.widgets = function (widgets, $, wraith) {
 			}
 		};
 
-		self.onClick = function (value) {
-			if (typeof value !== 'undefined') {
-				onClick = value;
+		self.idle = function (value) {
+			if (typeof value === 'boolean') {
+				idle = value;
 				return this;
 			} else {
-				return onClick;
+				return idle;
 			}
 		};
 		
@@ -36,7 +37,7 @@ app.widgets = function (widgets, $, wraith) {
 		
 		self.html = function () {
 			return [
-				'<span id="', self.id, '" class="w_button ', onClick ? '' : 'idle', '" ', self.disabled() ? 'disabled="disabled"' : '', '>',
+				'<span id="', self.id, '" class="w_button ', idle ? 'idle' : '', '" ', self.disabled() ? 'disabled="disabled"' : '', '>',
 				this.contents ?
 					this.contents() :
 					'<span class="caption">' + (caption || '') + '</span>',
@@ -48,18 +49,29 @@ app.widgets = function (widgets, $, wraith) {
 	};
 	
 	//////////////////////////////
+	// Static event handlers
+
+	function onClick() {
+		var $this = $(this),
+				$button = $this.closest('.w_button'),
+				self = wraith.lookup($button);
+
+		// triggering custom event
+		if (!self.disabled()) {
+			$button.trigger('buttonClick', {
+				elem: $button,
+				button: self
+			});
+		}
+		
+		return false;
+	}
+	
+	//////////////////////////////
 	// Static event bindings
 	
-	$('.w_button').live('click', function (event, popup) {
-		var $this = $(this).closest('.w_button'),
-				self = wraith.lookup($this),
-				onClick = self.onClick();
-
-		// calling handler
-		if (onClick && !self.disabled()) {
-			return onClick.call(this);
-		}
-	});
+	$(document)
+		.on('click', '.w_button', onClick);
 	
 	return widgets;
 }(app.widgets || {},

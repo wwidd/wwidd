@@ -1,14 +1,34 @@
 ////////////////////////////////////////////////////////////////////////////////
 // General Dropdown Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, window */
+/*global document, jQuery, wraith, window */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
-	var
+	//////////////////////////////
+	// Static event handlers
 	
-	// static event handlers
-	onClick;
+	function onClick() {
+		var self = wraith.lookup($(this));
+		
+		// checking if popup is already up
+		if (self.expanded()) {
+			self.collapse();
+		} else {
+			self.expand();
+		}
+		
+		return false;
+	}
+	
+	//////////////////////////////
+	// Static event bindings
+	
+	$(document)
+		.on('buttonClick', '.w_dropdown', onClick);
+	
+	//////////////////////////////
+	// Class
 	
 	widgets.dropdown = function (caption, popup) {
 		var self = wraith.widget.create(widgets.button(caption)),
@@ -16,25 +36,19 @@ app.widgets = function (widgets, $, wraith) {
 				expanded = false;
 		
 		//////////////////////////////
-		// Initialization
-
-		self.onClick(function (event) {
-			if (popup) {
-				onClick.call(this, event, popup);
-			}
-			return false;
-		});
-
-		//////////////////////////////
 		// Getters / setters
 
 		self.popup = function (value) {
-			popup = value;
-			return self;
+			if (typeof value === 'object') {
+				popup = value;
+				return self;
+			} else {
+				return popup;
+			}
 		};
 
 		self.expanded = function (value) {
-			if (typeof value !== 'undefined') {
+			if (typeof value === 'boolean') {
 				expanded = value;
 				return self;
 			} else {
@@ -115,21 +129,6 @@ app.widgets = function (widgets, $, wraith) {
 		};
 		
 		return self;
-	};
-	
-	//////////////////////////////
-	// Static event handlers
-	
-	onClick = function (event, popup) {
-		var $this = $(this).closest('.w_dropdown'),
-				self = wraith.lookup($this);
-		
-		// checking if popup is already up
-		if (self.expanded()) {
-			self.collapse();
-		} else {
-			self.expand();
-		}
 	};
 	
 	return widgets;

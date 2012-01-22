@@ -1,58 +1,88 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Root Adder Control
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith */
+/*global document, jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, services) {
-	widgets.rootadd = function () {
-		var self = wraith.widget.create(widgets.button()),
+	//////////////////////////////
+	// Static event handlers
+		
+	// called on clicking the add button
+	function onAdd(event, options) {
+		var self = options.button,
+				$document = $(document),
 				dirsel;
 
-		//////////////////////////////
-		// Events
-		
-		function collapse() {
-			// removing dialog
-			dirsel
-				.remove()
-				.render();
-			
-			// re-enabling button
-			self
-				.disabled({'import': false})
-				.render();
+		function onCancel() {
+			// releasing import button
+			self.release();
 		}
-		
-		// called on clicking the add button
-		function onAdd() {
+				
+		function onOk() {
+			// initiating folder import
+			services.root.add(dirsel.selected(), function () {
+				// releasing import button
+				self.release();
+				
+				// reloading library
+				widgets.media.load();
+			});
+		}
+
+		// preparing import button for folder selector dialog
+		self.prepare(onOk, onCancel);		
+			
+		// creating and displaying folder selector dialog
+		dirsel = widgets.dirsel();
+		dirsel
+			.render($('body'));
+	}
+
+	//////////////////////////////
+	// Static event bindings
+	
+	var $document = $(document);
+	
+	$document
+		.on('buttonClick', '.w_rootadd', onAdd);
+
+	//////////////////////////////
+	// Class
+	
+	widgets.rootadd = function () {
+		var self = wraith.widget.create(widgets.button());
+
+		//////////////////////////////
+		// Control
+
+		// prepares button for displaying folder selection dialog
+		self.prepare = function (onOk, onCancel) {
 			// disabling 'add folder' button
 			// preventing multiple directory selection windows
 			self
 				.disabled({'import': true})
 				.render();
-
-			// creating directory selection dialog
-			dirsel = widgets.dirsel();
-			dirsel
-				.onCancel(collapse)
-				.onOk(function () {
-					// initiating folder import on 'ok' button
-					services.root.add(dirsel.selected(), function () {
-						// collapsing folder selection window
-						collapse();
-						
-						// reloading library
-						widgets.media.load();
-					});
-				})
-				.render($('body'));
-		}
-
-		//////////////////////////////
-		// Initialization
-
-		self.onClick(onAdd);
+	
+			// adding temporary event listeners
+			$document
+				.on('buttonCancel', '.w_dirsel', onCancel)
+				.on('buttonOk', '.w_dirsel', onOk);
+		};
+		
+		// releases button restrictions applied
+		// beacuse of folder selection dialog
+		self.release = function () {
+			// re-enabling button
+			self
+				.disabled({'import': false})
+				.render();
+			
+			// removing event handlers
+			$document
+				.off('buttonCancel', '.w_dirsel')
+				.off('buttonOk', '.w_dirsel');
+		};
 		
 		//////////////////////////////
 		// Overrides

@@ -69,12 +69,37 @@ app.widgets = function (widgets, $, wraith, services) {
 		}
 	}
 
+	// button click handler
+	// delegates event further 
+	function onButton(event, options) {
+		var $this = $(this),
+				self = wraith.lookup($this);
+		
+		// determining which button was clicked
+		switch (options.button.id) {
+		case self.btnOk().id:
+			$this.trigger('buttonOk', options);
+			break;
+		case self.btnCancel().id:
+			$this.trigger('buttonCancel', options);
+			break;
+		}
+
+		// removing dialog
+		self
+			.remove()
+			.render();
+
+		return false;
+	}
+
 	//////////////////////////////
 	// Static event bindings
 
 	$(document)
 		.on('nodeExpandCollapse', '.w_dirsel', onExpandCollapse)
-		.on('nodeSelected', '.w_dirsel', onSelected);
+		.on('nodeSelected', '.w_dirsel', onSelected)
+		.on('buttonClick', '.w_dirsel', onButton);
 	
 	//////////////////////////////
 	// Class
@@ -103,18 +128,12 @@ app.widgets = function (widgets, $, wraith, services) {
 		//////////////////////////////
 		// Setters / getters
 
-		self.onCancel = function (value) {
-			btnCancel.onClick(value);
-			return self;
-		};
-		
 		self.btnOk = function () {
 			return btnOk;
 		};
-		
-		self.onOk = function (value) {
-			btnOk.onClick(value);
-			return self;
+
+		self.btnCancel = function () {
+			return btnCancel;
 		};
 		
 		self.selected = function () {

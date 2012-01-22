@@ -6,7 +6,7 @@ var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
 	widgets.checker = function () {
-		var self = wraith.widget.create(widgets.button()),
+		var self = wraith.widget.create(widgets.button()).idle(true),
 				state = 'none';	// checked, mixed, none
 				
 		//////////////////////////////
