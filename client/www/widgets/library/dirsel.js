@@ -3,10 +3,13 @@
 //
 // Tree widget designed specifically to display directories
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith */
+/*global document, jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, services) {
+	//////////////////////////////
+	// Static helper functions
+
 	// tells whether an object has any own propertes
 	function hasOwnProperties(obj) {
 		var prop;
@@ -18,9 +21,15 @@ app.widgets = function (widgets, $, wraith, services) {
 		return false;
 	}
 
+	//////////////////////////////
+	// Static event handlers
+
 	// directory selection handler
-	function onSelect($node, node) {
-		var self = wraith.lookup($node, '.w_popup');
+	function onSelected(event, options) {
+		var $node = options.elem,
+				node = options.node,
+				self = wraith.lookup($node, '.w_popup');
+				
 		self.btnOk()
 			.disabled({self: false})
 			.render();
@@ -28,8 +37,10 @@ app.widgets = function (widgets, $, wraith, services) {
 	
 	// directory expand / collapse handler
 	// loads child directories on demand
-	function onExpandCollapse($node, node) {
-		var expanded = node.expanded(),
+	function onExpandCollapse(event, options) {
+		var $node = options.elem,
+				node = options.node,
+				expanded = node.expanded(),
 				empty = !hasOwnProperties(node.json()),
 				$spinner;
 	
@@ -58,12 +69,20 @@ app.widgets = function (widgets, $, wraith, services) {
 		}
 	}
 
+	//////////////////////////////
+	// Static event bindings
+
+	$(document)
+		.on('nodeExpandCollapse', '.w_dirsel', onExpandCollapse)
+		.on('nodeSelected', '.w_dirsel', onSelected);
+	
+	//////////////////////////////
+	// Class
+
 	widgets.dirsel = function () {		
 		var self = wraith.widget.create(widgets.popup('centered')),
 				base_init = self.init,
-				tree = widgets.tree()
-					.onSelect(onSelect)
-					.onExpandCollapse(onExpandCollapse),
+				tree = widgets.tree(),
 				btnCancel = widgets.button("Cancel"),
 				btnOk = widgets.button("OK").disabled({self: true});
 		

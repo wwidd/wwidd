@@ -1,24 +1,29 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Discovery Widget
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, flock */
+/*global document, jQuery, wraith, flock */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, model, cache) {
 	var ORGANIZED_FIELDS = {'bitrate': 1, 'dimensions': 1, 'duration': 1};
 	
+	//////////////////////////////
+	// Static event handlers
+
 	// selection event handler
 	// prohibits selection of non-filtering nodes
 	// TODO: filtering library on filtering nodes
-	function onSelect($node, node) {
-		var path = node.path(),
+	function onSelected(event, options) {
+		var $node = options.elem,
+				node = options.node,		
+				path = node.path(),
 				depth = path.length,
 				main = path[0];
 				
 		if (depth < 2 && path[0] === 'rating' ||
 			depth < 2 && path[0] === 'kind' ||
 			depth < 2 && path[0] === 'field') {
-			return false;
+			//return false;
 		} else {
 			if (model.media.filter(path)) {
 				widgets.search.reset();
@@ -28,6 +33,12 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 			}
 		}
 	}
+	
+	//////////////////////////////
+	// Static event bindings
+
+	$(document)
+		.on('nodeSelected', '.w_discovery', onSelected);
 	
 	// specifies how sub-nodes should be ordered
 	function order(path) {
@@ -105,7 +116,6 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 	widgets.discovery = function () {
 		var self = wraith.widget.create(),
 				tree = widgets.tree()
-					.onSelect(onSelect)
 					.display(display)
 					.order(order)
 					.simple(true);

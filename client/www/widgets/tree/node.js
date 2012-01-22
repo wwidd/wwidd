@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tree node in a tree widget
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith */
+/*global document, jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
@@ -108,22 +108,24 @@ app.widgets = function (widgets, $, wraith) {
 		
 		self.html = function () {
 			return [
+				/*jslint white:false */
 				'<li id="', self.id, '" class="', ['w_node', expanded ? 'expanded' : '', selected() ? 'selected' : ''].join(' '), '">',
-				'<span>',
-				'<span class="toggle"></span>',
-				'<span class="name">', text, '</span>',
-				'</span>',
-				'<ul>',
-				function () {
-					var result = [],
-							i;
-					for (i = 0; i < self.children.length; i++) {
-						result.push(self.children[i].html());
-					}
-					return result.join('');
-				}(),
-				'</ul>',
+					'<span>',
+						'<span class="toggle"></span>',
+						'<span class="name">', text, '</span>',
+					'</span>',
+					'<ul>',
+						function () {
+							var result = [],
+									i;
+							for (i = 0; i < self.children.length; i++) {
+								result.push(self.children[i].html());
+							}
+							return result.join('');
+						}(),
+					'</ul>',
 				'</li>'
+				/*jslint white:true */
 			].join('');
 		};
 		
@@ -135,17 +137,18 @@ app.widgets = function (widgets, $, wraith) {
 
 	// expand / collapse button handler
 	function onExpandCollapse() {
-		// obtaining necessary objects (current node & tree)
-		var	$node = $(this).closest('.w_node'),
-				node = wraith.lookup($node),
-				$tree = $node.closest('.w_tree'),
-				tree = wraith.lookup($tree);
+		var	$this = $(this),
+				$node = $(this).closest('.w_node'),
+				node = wraith.lookup($node);
 		
-		// toggling expanded state of current node
+		// toggling expanded state of node
 		$node = node.toggle();
 		
-		// calling tree's handler on expand / collapse event
-		tree.onExpandCollapse($node, node);
+		// triggering custom event on node
+		$node.trigger('nodeExpandCollapse', {
+			elem: $node,
+			node: node
+		});
 		
 		return false;
 	}
@@ -154,28 +157,14 @@ app.widgets = function (widgets, $, wraith) {
 	function onSelect() {
 		// obtaining necessary objects (current node & tree)
 		var	$node = $(this).closest('.w_node'),
-				node = wraith.lookup($node),
-				$tree = $node.closest('.w_tree'),
-				tree = wraith.lookup($tree),
-				path = '/' + node.path().join('/');
-
-		// calling custom handler
-		if (tree.onSelect($node, node) !== false) {
-			// setting selected status on current node
-			$tree
-				.find('span.selected')
-					.text(path)
-					.attr('title', path)
-				.end()
-				.find('li')
-					.removeClass('selected')
-				.end();
-			$node.addClass('selected');
+				node = wraith.lookup($node);
 		
-			// storing selected path
-			tree.selected(node.path());
-		}
-
+		// triggering custom event on node
+		$node.trigger('nodeSelected', {
+			elem: $node,
+			node: node
+		});
+			
 		return false;
 	}
 	
@@ -184,8 +173,9 @@ app.widgets = function (widgets, $, wraith) {
 
 	// any non-dead folder can be expanded
 	// any folder can be selected
-	$('.w_node:not(.dead) span.toggle').live('click', onExpandCollapse);
-	$('.w_node span.name').live('click', onSelect);
+	$(document)
+		.on('click', '.w_node:not(.dead) span.toggle', onExpandCollapse)
+		.on('click', '.w_node span.name', onSelect);
 	
 	return widgets;
 }(app.widgets,
