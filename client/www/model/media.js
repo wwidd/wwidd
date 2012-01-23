@@ -266,7 +266,10 @@ app.model = function (model, jOrder, flock, cache, services) {
 				stack[i].data.cache.munset(['media', mediaids]);
 			}
 		},
-		
+
+		// adds keywords to cache
+		// - mediaid: media id to add keywords to
+		// - keywords: array of keywords in original (server) format
 		addKeywords: function (mediaid, keywords) {
 			var media, i, keyword, ref;
 			
@@ -444,9 +447,14 @@ app.model = function (model, jOrder, flock, cache, services) {
 					diff = diffs[mediaid];
 					for (key in diff) {
 						if (diff.hasOwnProperty(key)) {
-							// WARNING: diff[key] can be object or array,
-							// requiring cross-references to be created
-							cache.set(['media', mediaid, key], diff[key]);
+							switch (key) {
+							case 'keywords':
+								model.media.addKeywords(mediaid, diff[key]);
+								break;
+							case 'hash':
+								cache.set(['media', mediaid, key], diff[key]);
+								break;
+							}
 						}
 					}
 				}
