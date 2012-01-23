@@ -3,7 +3,7 @@
 //
 // Displays and edits one tag.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, jOrder, window */
+/*global document, jQuery, wraith, jOrder, window */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, jOrder, services, model) {
@@ -239,11 +239,14 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 			}
 		}
 	}
+
+	//////////////////////////////
+	// Static event bindings
 	
-	var context = $('.w_tagedit.edit');
-	$('.remove', context).live('click', onRemove);
-	$('.explode', context).live('click', onExplode);
-	$('input', context).live('keyup', onChange);
+	$(document)
+		.on('click', '.w_tagedit.edit .remove', onRemove)
+		.on('click', '.w_tagedit.edit .explode', onExplode)
+		.on('keyup', '.w_tagedit.edit input', onChange);
 
 	return widgets;
 }(app.widgets || {},

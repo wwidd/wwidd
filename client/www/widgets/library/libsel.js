@@ -197,9 +197,9 @@ app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
 			.render();
 	}
 	
-	var context = $('.w_libsel');
-	$('a.save', context).live('click', onSave);
-	$('input.new', context).live('keyup', onChange);
+	$(document)
+		.on('click', '.w_libsel a.save', onSave)
+		.on('keyup', '.w_libsel input.new', onChange);
 	
 	return widgets;
 }(app.widgets || {},

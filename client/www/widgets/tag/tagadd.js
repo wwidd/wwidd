@@ -3,7 +3,7 @@
 //
 // Adds tags to a video
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, jOrder, confirm */
+/*global document, jQuery, wraith, jOrder, confirm */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, jOrder, services, model) {
@@ -134,8 +134,12 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		}
 	}
 
-	$('.w_tagadd.display a').live('click', onAdd);
-	$('.w_tagadd.edit input.focus').live('keyup', onChange);
+	//////////////////////////////
+	// Static event bindings
+
+	$(document)
+		.on('click', '.w_tagadd.display a', onAdd)
+		.on('keyup', '.w_tagadd.edit input.focus', onChange);
 
 	return widgets;
 }(app.widgets || {},

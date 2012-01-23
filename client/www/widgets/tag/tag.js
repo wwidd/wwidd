@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Tag Control Base (Abstract)
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, jOrder, escape */
+/*global document, jQuery, wraith, jOrder, escape */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, jOrder, services, model) {
@@ -86,7 +86,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 	};
 	
 	//////////////////////////////
-	// Common static event handlers
+	// Static event handlers
 
 	function getSelf(elem) {
 		return wraith.lookup(elem, '.w_tag');
@@ -114,7 +114,11 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 		}
 	}
 	
-	$('.w_tag.edit input.focus').live('keydown', onNav);
+	//////////////////////////////
+	// Static event bindings
+
+	$(document)
+		.on('keydown', '.w_tag.edit input.focus', onNav);
 
 	return widgets;
 }(app.widgets || {},

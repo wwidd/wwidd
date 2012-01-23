@@ -7,7 +7,7 @@
 // - thumb: checker, thumbnail, filename, and rater overlayed
 // - expanded: all widgets (checkbox, thumbnail, filename, rater, keywords, tagger)
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, window */
+/*global document, jQuery, wraith, window */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, services, model) {
@@ -216,10 +216,9 @@ app.widgets = function (widgets, $, wraith, services, model) {
 	//////////////////////////////
 	// Event bindings
 
-	$('div.thumb, div.file, div.play', $('.w_medium'))
-		.live('click', onClick);
-	$('div.check > :checkbox')
-		.live('click', onChecked);
+	$(document)
+		.on('click', '.w_medium div.thumb, .w_medium div.file, .w_medium div.play', onClick)
+		.on('click', '.w_medium div.check > :checkbox', onChecked);
 	
 	return widgets;
 }(app.widgets || {},

@@ -3,7 +3,7 @@
 //
 // Displays and switches one tag kind on and off
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith */
+/*global document, jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, model) {
@@ -57,8 +57,12 @@ app.widgets = function (widgets, $, wraith, model) {
 		}
 	}
 
-	$('.w_kind').live('click', onClick);
-	$('.w_kind :checkbox').live('click', onChecked);
+	//////////////////////////////
+	// Static event bindings
+	
+	$(document)
+		.on('click', '.w_kind', onClick)
+		.on('click', '.w_kind :checkbox', onChecked);
 
 	return widgets;
 }(app.widgets || {},

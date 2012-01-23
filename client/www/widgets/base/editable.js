@@ -5,7 +5,7 @@
 // displaying (default) and one for editing its value. The latter becomes
 // available when clicking on the display state.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, app */
+/*global document, jQuery, wraith, app */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
@@ -133,9 +133,9 @@ app.widgets = function (widgets, $, wraith) {
 		return false;
 	};
 
-	$('.w_editable')
-		.live('click', onClick)
-		.live('touchend', onClick);
+	$(document)
+		.on('click', '.w_editable', onClick)
+		.on('touchend', '.w_editable', onClick);
 	
 	return widgets;
 }(app.widgets || {},

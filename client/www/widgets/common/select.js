@@ -9,7 +9,7 @@
 // - Widget can be stateful or stateless. When stateful, it
 //	 preserves information about the selected item.
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith */
+/*global document, jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, services) {
@@ -95,7 +95,8 @@ app.widgets = function (widgets, $, services) {
 			.onChange()(i, event);
 	}
 	
-	$('.w_select > li:not(.selected) > .caption').live('click', onSelect);
+	$(document)
+		.on('click', '.w_select > li:not(.selected) > .caption', onSelect);
 	
 	return widgets;
 }(app.widgets || {},
