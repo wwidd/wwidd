@@ -5,66 +5,66 @@ GENERAL
 div.w_medium > div.thumb,
 div.w_medium > div.file,
 div.w_medium > div.play {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 div.w_medium > div.file {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 div.w_medium > div.file > span {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 div.w_medium > div.overlay {
-	width: 128px;
-	height: 24px;
-	background: black;
-	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
-	z-index: 3;
+    width: 128px;
+    height: 24px;
+    background: black;
+    opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
+    z-index: 3;
 }
 
 div.w_medium > div.play {
-	top: 0;
-	left: 0;
-	width: 128px;
-	height: 96px;
-	opacity: 0.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; *filter:alpha(opacity=0);
-	z-index: 2;
+    top: 0;
+    left: 0;
+    width: 128px;
+    height: 96px;
+    opacity: 0.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; *filter:alpha(opacity=0);
+    z-index: 2;
 }
 
 div.w_medium > div.play > div.image {
-	position: absolute;
-	top: 0;
-	left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 div.w_medium.playing > div.play {
-	opacity: 1.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; *filter:alpha(opacity=100);
+    opacity: 1.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; *filter:alpha(opacity=100);
 }
 
 div.w_medium > div.thumb {
-	width: 128px;
-	height: 96px;
-	z-index: 1;
+    width: 128px;
+    height: 96px;
+    z-index: 1;
 }
 
 div.w_medium > div.thumb > span.spinner {
-	position: absolute;
-	top: 34px;
-	left: 40px;
-	display: inline-block; *zoom: 1;
-	width: 48px;
-	height: 48px;
-	margin: 0 auto;
+    position: absolute;
+    top: 34px;
+    left: 40px;
+    display: inline-block; *zoom: 1;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
 }
 
 div.w_medium > div.w_rater {
-	z-index: 4;
+    z-index: 4;
 }
 
 div.w_medium > div.check {
-	z-index: 4;
+    z-index: 4;
 }
 
 /******************************
@@ -72,27 +72,27 @@ FULL VIEW
 ******************************/
 
 div.w_medium.expanded > div {
-	position: absolute;
+    position: absolute;
 }
 
 div.w_medium.expanded > div.file > span {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 div.w_medium.expanded > div.play:hover {
-	opacity: 0.6; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)"; *filter:alpha(opacity=60);
+    opacity: 0.6; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)"; *filter:alpha(opacity=60);
 }
 
 div.w_medium.expanded.playing > div.play:hover {
-	opacity: 1.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; *filter:alpha(opacity=100);
+    opacity: 1.0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; *filter:alpha(opacity=100);
 }
 
 div.w_medium.expanded > div.w_keywords {
-	height: 96px;
+    height: 96px;
 }
 
 div.w_medium.expanded > div.w_keywords > .details {
-	height: 76px;
+    height: 76px;
 }
 
 /******************************
@@ -101,83 +101,83 @@ TILE / THUMBNAIL VIEW
 
 div.w_medium.thumb,
 div.w_media.tile > div.w_medium.expanded {
-	position: relative;
-	display: inline-block; *display: inline; *zoom: 1;
-	height: 115px;
-	margin: 0 5px 5px 0;
-	border: 5px solid transparent;
-	border-radius: 3px; -moz-border-radius: 3px;
-	vertical-align: top;
+    position: relative;
+    display: inline-block; *display: inline; *zoom: 1;
+    height: 115px;
+    margin: 0 5px 5px 0;
+    border: 5px solid transparent;
+    border-radius: 3px; -moz-border-radius: 3px;
+    vertical-align: top;
 }
 
 div.w_medium.thumb {
-	width: 128px;
+    width: 128px;
 }
 
 div.w_media.tile > div.w_medium.expanded {
-	width: 558px;
+    width: 558px;
 }
 
 div.w_medium.thumb > div {
-	position: absolute;
+    position: absolute;
 }
 
 div.w_medium.thumb > div.file,
 div.w_media.tile > div.w_medium.expanded > div.file {
-	top: 96px;
-	left: 0;
-	margin: 3px 0 1px;
+    top: 96px;
+    left: 0;
+    margin: 3px 0 1px;
 }
 
 div.w_medium.thumb > div.file {
-	width: 124px;
+    width: 124px;
 }
 
 div.w_media.tile > div.w_medium.expanded > div.file {
-	width: 278px;
+    width: 278px;
 }
 
 div.w_medium.thumb > div.overlay,
 div.w_media.tile > div.w_medium.expanded > div.overlay {
-	top: 0;
-	left: 0;
+    top: 0;
+    left: 0;
 }
 
 div.w_medium.thumb > div.play,
 div.w_media.tile > div.w_medium.expanded > div.play {
-	top: 24px;
-	left: 0;
-	height: 72px;
+    top: 24px;
+    left: 0;
+    height: 72px;
 }
 
 div.w_medium.thumb > div.thumb,
 div.w_media.tile > div.w_medium.expanded > div.thumb {
-	top: 0;
-	left: 0;
+    top: 0;
+    left: 0;
 }
 
 div.w_medium.thumb > div.w_rater,
 div.w_media.tile > div.w_medium.expanded > div.w_rater {
-	top: 3px;
-	left: 3px; 
+    top: 3px;
+    left: 3px; 
 }
 
 div.w_medium.thumb > div.check,
 div.w_media.tile > div.w_medium.expanded > div.check {
-	top: 2px;
-	left: 105px;
+    top: 2px;
+    left: 105px;
 }
 
 div.w_media.tile > div.w_medium.expanded > div.w_keywords {
-	top: 0;
-	left: 138px;
-	width: 140px;
+    top: 0;
+    left: 138px;
+    width: 140px;
 }
 
 div.w_media.tile > div.w_medium.expanded > div.tagger {
-	top: 0;
-	left: 288px;
-	height: 115px;
+    top: 0;
+    left: 288px;
+    height: 115px;
 }
 
 /******************************
@@ -186,109 +186,109 @@ LIST / COMPACT VIEW
 
 div.w_medium.compact,
 div.w_media.list > div.w_medium.expanded {
-	margin: 0 0 5px 0;
-	border-radius: 3px; -moz-border-radius: 3px;
+    margin: 0 0 5px 0;
+    border-radius: 3px; -moz-border-radius: 3px;
 }
 
 div.w_media.list > div.w_medium.expanded {
-	position: relative;
-	padding: 2px 0;
-	height: 122px;
+    position: relative;
+    padding: 2px 0;
+    height: 122px;
 }
 
 div.w_medium.compact > div {
-	display: inline-block; *display: inline; *zoom: 1;
-	height: 16px;
-	padding: 1px 5px 1px 0;
-	vertical-align: middle;	
+    display: inline-block; *display: inline; *zoom: 1;
+    height: 16px;
+    padding: 1px 5px 1px 0;
+    vertical-align: middle; 
 }
 
 div.w_medium.compact > div.check,
 div.w_media.list > div.w_medium.expanded > div.check {
-	padding: 1px 5px;
-	border-left: 1px solid transparent;
-	border-right: 1px solid transparent;
+    padding: 1px 5px;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
 }
 
 div.w_media.list > div.w_medium.expanded > div.check {
-	top: 2px;
-	left: 0;
+    top: 2px;
+    left: 0;
 }
 
 div.w_medium.compact > div.check > input,
 div.w_media.list > div.w_medium.expanded > div.check > input {
-	height: 14px;
-	margin: 1px 0;
-	padding: 0;
+    height: 14px;
+    margin: 1px 0;
+    padding: 0;
 }
 
 div.w_medium.compact > div.file {
-	width: 300px;
+    width: 300px;
 }
 
 div.w_media.list > div.w_medium.expanded > div.file {
-	top: 2px;
-	left: 25px;
-	padding: 1px 5px 1px 0;
+    top: 2px;
+    left: 25px;
+    padding: 1px 5px 1px 0;
 }
 
 div.w_medium.compact > div.file > span,
 div.w_media.list > div.w_medium.expanded > div.file > span {
-	display: inline-block; *zoom: 1;
-	line-height: 16px;
-	padding: 0 20px 0 0;
-	text-decoration: none;
+    display: inline-block; *zoom: 1;
+    line-height: 16px;
+    padding: 0 20px 0 0;
+    text-decoration: none;
 }
 
 div.w_medium.compact.playing > div.file > span {
-	padding: 0 0 0 20px;
-	background: url('/image/sprites.png') no-repeat -20px -80px;
+    padding: 0 0 0 20px;
+    background: url('/image/sprites.png') no-repeat -20px -80px;
 }
 
 div.w_media.list > div.w_medium.expanded > div.w_keywords {
-	top: 24px;
-	left: 163px;
-	width: 257px; /* 420 - 163 */
+    top: 24px;
+    left: 163px;
+    width: 257px; /* 420 - 163 */
 }
 
 div.w_media.list > div.w_medium.expanded > div.w_keywords > span.dimensions {
-	left: 100px;
+    left: 100px;
 }
 
 div.w_media.list > div.w_medium.expanded > div.overlay {
-	display: none;
+    display: none;
 }
 
 div.w_media.list > div.w_medium.expanded > div.play {
-	top: 24px;
-	left: 25px;
+    top: 24px;
+    left: 25px;
 }
 
 div.w_media.list > div.w_medium.expanded > div.thumb {
-	top: 24px;
-	left: 25px;
+    top: 24px;
+    left: 25px;
 }
 
 div.w_medium.compact > div.w_rater,
 div.w_media.list > div.w_medium.expanded > div.w_rater {
-	width: 85px;
-	height: 16px;
+    width: 85px;
+    height: 16px;
 }
 
 div.w_media.list > div.w_medium.expanded > div.w_rater {
-	top: 24px;
-	left: 330px;
+    top: 24px;
+    left: 330px;
 }
 
 div.w_medium.compact > div.tagger,
 div.w_media.list > div.w_medium.expanded > div.tagger {
-	min-width: 200px;
-	height: auto;
-	margin: 0 0 0 5px;
+    min-width: 200px;
+    height: auto;
+    margin: 0 0 0 5px;
 }
 
 div.w_media.list > div.w_medium.expanded > div.tagger {
-	top: 24px;
-	left: 420px;
+    top: 24px;
+    left: 420px;
 }
 

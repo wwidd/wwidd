@@ -3,57 +3,57 @@ GENERAL
 ******************************/
 
 span.w_search {
-	display: inline-block; *zoom: 1;
-	position: relative;
-	width: 440px;
-	height: 32px;
-	text-align: right;
-	vertical-align: middle;
+    display: inline-block; *zoom: 1;
+    position: relative;
+    width: 440px;
+    height: 32px;
+    text-align: right;
+    vertical-align: middle;
 }
 
 span.w_search > span.icon,
 span.w_search > a.clear {
-	display: inline-block; *zoom: 1;
-	position: absolute;
-	top: 6px;
-	width: 16px;
-	height: 16px;
-	border: 1px solid transparent;
-	z-index: 3;
+    display: inline-block; *zoom: 1;
+    position: absolute;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border: 1px solid transparent;
+    z-index: 3;
 }
 
 span.w_search > span.icon {
-	left: 3px;
-	background: transparent url('/image/sprites.png') no-repeat 0 -20px;
+    left: 3px;
+    background: transparent url('/image/sprites.png') no-repeat 0 -20px;
 }
 
 span.w_search > a.clear {
-	right: 1px;
-	background: url('/image/sprites.png') no-repeat -20px -20px;
+    right: 1px;
+    background: url('/image/sprites.png') no-repeat -20px -20px;
 }
 
 /* identical input boxes for input & backdrop */
 span.w_search > input {
-	display: inline-block; *zoom: 1;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 400px;
-	height: 28px;
-	padding: 0 20px;
-	font-size: 24px;
+    display: inline-block; *zoom: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 28px;
+    padding: 0 20px;
+    font-size: 24px;
 }
 
 /* search input box */
 span.w_search > input.focus {
-	z-index: 2;
-	background: transparent;
+    z-index: 2;
+    background: transparent;
 }
 
 /* search backdrop displaying best match */
 span.w_search > input.backdrop {
-	z-index: 1;
-	color: silver;
-	background: white;
+    z-index: 1;
+    color: silver;
+    background: white;
 }
 

@@ -3,19 +3,19 @@ DISCOVERY WIDGET
 ******************************/
 
 div.w_discovery {
-	height: 100%;
+    height: 100%;
 }
 
 div.w_discovery div.w_tree {
-	padding: 5px;
+    padding: 5px;
 }
 
 div.w_discovery li.w_node.selected {
-	background: white;
+    background: white;
 }
 
 div.w_discovery li.w_node span.count {
-	color: #444;
-	margin-left: 3px;
+    color: #444;
+    margin-left: 3px;
 }
 

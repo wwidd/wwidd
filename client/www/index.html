@@ -1,81 +1,81 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Wwidd</title>
-	<link rel="stylesheet" href="/pack?type=css&files=
-		css/brand,
-		css/common,
-		css/page,
-		css/widgets/button,
-		css/widgets/dirsel,
-		css/widgets/discovery,
-		css/widgets/dropdown,
-		css/widgets/keywords,
-		css/widgets/libsel,
-		css/widgets/media,
-		css/widgets/medium,
-		css/widgets/node,
-		css/widgets/pager,
-		css/widgets/popup,
-		css/widgets/rater,
-		css/widgets/search,
-		css/widgets/select,
-		css/widgets/tag,
-		css/widgets/tagadd,
-		css/widgets/tagedit,
-		css/widgets/tree,
-	"/>
-	<script src="/pack?type=js&files=
-		jquery/jquery-1.7.min,				jorder/jorder-1.2.1-min,
-		wraith/widget,								common/flock/flock-0.1.5,
-		base/create,
-		ajax/service,					ajax/poll,					ajax/services,
-		model/cookie,					model/media,				model/keyword,
-		model/tag,
-		model/tags,						model/kind,					model/search,
-		model/pagestate,
-		widgets/base/control,					widgets/base/editable,
-		widgets/base/popup,
-		widgets/common/button,				widgets/common/dropdown,
-		widgets/common/select,
-		widgets/tag/tag,							widgets/tag/tagadd,
-		widgets/tag/tagedit,					
-		widgets/medium/rater, 				widgets/medium/tagger,
-		widgets/medium/keywords,			widgets/medium/medium,
-		widgets/tree/node,						widgets/tree/tree,						
-		widgets/library/libsel,				widgets/library/library,
-		widgets/library/dirsel,				widgets/library/rootadd,
-		widgets/library/discovery,
-		widgets/view/kind,						widgets/view/kinds,
-		widgets/view/view,
-		widgets/media/search, 				widgets/media/checker,
-		widgets/media/actions,				widgets/media/pager,
-		widgets/media/url,						widgets/media/media,
-		widgets/page/progress, 				widgets/page/hints,
-		widgets/page/page">
-	</script>
-	<script>
-		/*global jOrder, jQuery, app */
-		jOrder.logging = false;
-		(function ($, widgets) {
-			$(function () {
-				widgets.page.init();
-			});
-		})(jQuery, app.widgets);
-	</script>
+    <title>Wwidd</title>
+    <link rel="stylesheet" href="/pack?type=css&files=
+        css/brand,
+        css/common,
+        css/page,
+        css/widgets/button,
+        css/widgets/dirsel,
+        css/widgets/discovery,
+        css/widgets/dropdown,
+        css/widgets/keywords,
+        css/widgets/libsel,
+        css/widgets/media,
+        css/widgets/medium,
+        css/widgets/node,
+        css/widgets/pager,
+        css/widgets/popup,
+        css/widgets/rater,
+        css/widgets/search,
+        css/widgets/select,
+        css/widgets/tag,
+        css/widgets/tagadd,
+        css/widgets/tagedit,
+        css/widgets/tree,
+    "/>
+    <script src="/pack?type=js&files=
+        jquery/jquery-1.7.min,              jorder/jorder-1.2.1-min,
+        wraith/widget,                              common/flock/flock-0.1.5,
+        base/create,
+        ajax/service,                   ajax/poll,                  ajax/services,
+        model/cookie,                   model/media,                model/keyword,
+        model/tag,
+        model/tags,                     model/kind,                 model/search,
+        model/pagestate,
+        widgets/base/control,                   widgets/base/editable,
+        widgets/base/popup,
+        widgets/common/button,              widgets/common/dropdown,
+        widgets/common/select,
+        widgets/tag/tag,                            widgets/tag/tagadd,
+        widgets/tag/tagedit,                    
+        widgets/medium/rater,               widgets/medium/tagger,
+        widgets/medium/keywords,            widgets/medium/medium,
+        widgets/tree/node,                      widgets/tree/tree,                      
+        widgets/library/libsel,             widgets/library/library,
+        widgets/library/dirsel,             widgets/library/rootadd,
+        widgets/library/discovery,
+        widgets/view/kind,                      widgets/view/kinds,
+        widgets/view/view,
+        widgets/media/search,               widgets/media/checker,
+        widgets/media/actions,              widgets/media/pager,
+        widgets/media/url,                      widgets/media/media,
+        widgets/page/progress,              widgets/page/hints,
+        widgets/page/page">
+    </script>
+    <script>
+        /*global jOrder, jQuery, app */
+        jOrder.logging = false;
+        (function ($, widgets) {
+            $(function () {
+                widgets.page.init();
+            });
+        })(jQuery, app.widgets);
+    </script>
 </head>
 <body>
-	<span id="search"></span>
-	<div id="library" class="tab">
-		<div id="header">
-			<span id="checker"></span>
-			<span id="switcher"></span>
-			<span id="views"></span>
-			<span id="pager"></span>
-		</div>
-		<div id="discovery"></div>
-		<div id="media"></div>
-		<div id="footer"></div>
-	</div>
+    <span id="search"></span>
+    <div id="library" class="tab">
+        <div id="header">
+            <span id="checker"></span>
+            <span id="switcher"></span>
+            <span id="views"></span>
+            <span id="pager"></span>
+        </div>
+        <div id="discovery"></div>
+        <div id="media"></div>
+        <div id="footer"></div>
+    </div>
 </body>
 </html>

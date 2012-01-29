@@ -5,20 +5,20 @@ p,
 input,
 select,
 button {
-	font: normal 12px arial, sans; 
+    font: normal 12px arial, sans; 
 }
 
 select,
 button {
-	margin: 0;
+    margin: 0;
 }
 
 button {
-	padding: 0 5px;
+    padding: 0 5px;
 }
 
 input[type="text"] {
-	border: 1px solid;
-	border-radius: 3px; -moz-border-radius: 3px;
+    border: 1px solid;
+    border-radius: 3px; -moz-border-radius: 3px;
 }
 

@@ -3,31 +3,31 @@ EMPTY LIBRARY
 ******************************/
 
 span.warning {
-	display: inline-block; *zoom: 1;
-	margin: 0 0 0 5px;
+    display: inline-block; *zoom: 1;
+    margin: 0 0 0 5px;
 }
 
 span.warning > span {
-	display: inline-block; *zoom: 1;
-	height: 20px;
-	line-height: 20px;
-	margin: 0 4px 0 0;
-	vertical-align: middle;
-	font-weight: bold;
-	color: yellow;
+    display: inline-block; *zoom: 1;
+    height: 20px;
+    line-height: 20px;
+    margin: 0 4px 0 0;
+    vertical-align: middle;
+    font-weight: bold;
+    color: yellow;
 }
 
 span.warning > span.icon {
-	width: 16px;
-	height: 16px;
+    width: 16px;
+    height: 16px;
 }
 
 span.warning > span.icon {
-	background: url('/image/sprites.png') no-repeat -20px -60px;
+    background: url('/image/sprites.png') no-repeat -20px -60px;
 }
 
 span.empty > span.icon {
-	background: url('/image/sprites.png') no-repeat 0 -100px;
+    background: url('/image/sprites.png') no-repeat 0 -100px;
 }
 
 /******************************
@@ -35,7 +35,7 @@ MEDIA ENTRY
 ******************************/
 
 div.w_media {
-	min-height: 200px;
-	padding: 5px;
+    min-height: 200px;
+    padding: 5px;
 }
 

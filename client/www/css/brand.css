@@ -9,18 +9,18 @@ GENERAL
 ******************************/
 
 body {
-	background-color: #f3f3f3;
-	background-image: url('/image/wwidd_bg.png');
-	background-position: 0 0;
+    background-color: #f3f3f3;
+    background-image: url('/image/wwidd_bg.png');
+    background-position: 0 0;
 }
 
 a {
-	color: #003e55;
+    color: #003e55;
 }
 
 input[type="text"] {
-	color: #444;
-	border-color: #003e55;
+    color: #444;
+    border-color: #003e55;
 }
 
 /******************************
@@ -28,8 +28,8 @@ LIBRARY
 ******************************/
 
 #library {
-	border-color: #303030;
-	background: #303030;
+    border-color: #303030;
+    background: #303030;
 }
 
 /******************************
@@ -39,23 +39,23 @@ CONTROLS
 #kinds,
 #header,
 #footer {
-	background: #c4d2d7;
+    background: #c4d2d7;
 }
 
 #footer div.progress > div.bar {
-	background: #9ab0b7;
+    background: #9ab0b7;
 }
 
 #header {
-	border-color: #303030;
+    border-color: #303030;
 }
 
 #discovery {
-	background: #f0f0f0;
+    background: #f0f0f0;
 }
 
 #switcher span.spinner {
-	background: url('/image/wwidd_spinners.gif') no-repeat -60px -20px;
+    background: url('/image/wwidd_spinners.gif') no-repeat -60px -20px;
 }
 
 /******************************
@@ -63,16 +63,16 @@ GENERAL POPUP
 ******************************/
 
 div.w_popup {
-	border-color: #616c71;
-	background: #f3f3f3;
+    border-color: #616c71;
+    background: #f3f3f3;
 }
 
 div.w_popup > div.w_tree li > span.name {
-	color: #444;
+    color: #444;
 }
 
 div.w_popup > div.spinner {
-	background: url('/image/wwidd_spinners.gif') no-repeat -60px 0;
+    background: url('/image/wwidd_spinners.gif') no-repeat -60px 0;
 }
 
 /******************************
@@ -80,7 +80,7 @@ LIB SELECTOR POPUP
 ******************************/
 
 div.w_popup > ul.libs > li.lib:hover {
-	background: #e0e0e0;
+    background: #e0e0e0;
 }
 
 /******************************
@@ -89,68 +89,68 @@ MEDIA ENTRY
 
 div.w_media,
 div.w_medium {
-	background: #f8f8f8;
+    background: #f8f8f8;
 }
 
 div.w_medium.thumb:hover { 
-	border-color: #e0e0e0;
-	background: #e0e0e0;
+    border-color: #e0e0e0;
+    background: #e0e0e0;
 }
 
 div.w_medium.thumb > div.thumb { 
-	background: #f8f8f8;
+    background: #f8f8f8;
 }
 
 div.w_medium.expanded {
-	border-color: #f0f0f0;
-	background: #f0f0f0;
+    border-color: #f0f0f0;
+    background: #f0f0f0;
 }
 
 div.w_medium.compact:hover {
-	background: #f0f0f0;
+    background: #f0f0f0;
 }
 
 div.w_medium.thumb.playing,
 div.w_medium.expanded.playing {
-	border-color: #b1c3c9;
-	background: #b1c3c9;
+    border-color: #b1c3c9;
+    background: #b1c3c9;
 }
 
 div.w_medium.compact.playing {
-	background: #b1c3c9;
+    background: #b1c3c9;
 }
 
 div.w_medium > div.file > span {
-	color: #444;
+    color: #444;
 }
 
 div.w_medium.playing > div.file > span,
 div.w_medium.playing > div.w_keywords span {
-	color: #181818;
+    color: #181818;
 }
 
 div.w_medium > div.play > div.image {
-	top: 0px;
-	left: 28px;
-	width: 72px;
-	height: 72px;
-	background: url('/image/wwidd_sprites.png') no-repeat 0 0;
+    top: 0px;
+    left: 28px;
+    width: 72px;
+    height: 72px;
+    background: url('/image/wwidd_sprites.png') no-repeat 0 0;
 }
 
 div.w_media.list > div.w_medium.expanded > div.play > div.image {
-	top: 12px;
+    top: 12px;
 }
 
 div.w_medium.compact.playing > div.file > span {
-	background: url('/image/wwidd_sprites.png') no-repeat -80px 0;
+    background: url('/image/wwidd_sprites.png') no-repeat -80px 0;
 }
 
 div.w_medium.thumb > div.thumb > span.spinner,
 div.w_medium.expanded > div.thumb > span.spinner {
-	background: url('/image/wwidd_spinners.gif') no-repeat 0 0;
+    background: url('/image/wwidd_spinners.gif') no-repeat 0 0;
 }
 
 div.w_medium > div.w_keywords {
-	color: #444;
+    color: #444;
 }
 

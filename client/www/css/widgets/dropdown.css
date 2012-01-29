@@ -3,21 +3,21 @@ GENERAL
 ******************************/
 
 span.w_button.w_dropdown {
-	position: relative;
-	padding-right: 22px;
+    position: relative;
+    padding-right: 22px;
 }
 
 span.w_button.w_dropdown span.indicator {
-	display: inline-block; *zoom: 1;
-	position: absolute;
-	top: 3px;
-	right: 3px;
-	width: 16px;
-	height: 16px;
-	background: url('/image/sprites.png') no-repeat -20px -180px;
+    display: inline-block; *zoom: 1;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 16px;
+    height: 16px;
+    background: url('/image/sprites.png') no-repeat -20px -180px;
 }
 
 span.w_button.w_dropdown.open span.indicator {
-	background: url('/image/sprites.png') no-repeat 0 -180px;
+    background: url('/image/sprites.png') no-repeat 0 -180px;
 }
 

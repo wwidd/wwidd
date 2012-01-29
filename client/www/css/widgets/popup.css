@@ -3,14 +3,14 @@ GENERAL POPUP
 ******************************/
 
 div.w_popup {
-	position: absolute;
-	z-index: 100;
-	margin: 5px;
-	padding: 3px;
-	overflow: hidden;
-	text-align: center;
-	border: 2px solid;
-	border-radius: 5px; -moz-border-radius: 5px;
+    position: absolute;
+    z-index: 100;
+    margin: 5px;
+    padding: 3px;
+    overflow: hidden;
+    text-align: center;
+    border: 2px solid;
+    border-radius: 5px; -moz-border-radius: 5px;
 }
 
 /******************************
@@ -18,9 +18,9 @@ CENTERED POPUP
 ******************************/
 
 div.w_popup.centered {
-	position: fixed;
-	width: 300px;
-	box-shadow: 0 0 10px #444; -moz-box-shadow: 0 0 10px #444;
+    position: fixed;
+    width: 300px;
+    box-shadow: 0 0 10px #444; -moz-box-shadow: 0 0 10px #444;
 }
 
 /******************************
@@ -28,10 +28,10 @@ DROPDOWN POPUP
 ******************************/
 
 div.w_popup.dropdown {
-	margin: 0;
-	border-width: 1px;
-	border-radius: 2px; -moz-border-radius: 2px;
-	text-align: left;
+    margin: 0;
+    border-width: 1px;
+    border-radius: 2px; -moz-border-radius: 2px;
+    text-align: left;
 }
 
 /******************************
@@ -39,12 +39,12 @@ KINDS (CATEGORIES) POPUP
 ******************************/
 
 div.w_popup > div.kinds {
-	width: 200px;
-	overflow-x: hidden;
-	overflow-y: auto;
+    width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 div.w_popup > div.kinds span.tag.display > input {
-	margin: 0 3px 0 0;
+    margin: 0 3px 0 0;
 }
 

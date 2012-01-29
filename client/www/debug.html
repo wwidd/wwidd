@@ -1,97 +1,97 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Wwidd</title>
-	<link rel="stylesheet" href="css/widgets/button.css" />
-	<link rel="stylesheet" href="css/widgets/dirsel.css" />
-	<link rel="stylesheet" href="css/widgets/discovery.css" />
-	<link rel="stylesheet" href="css/widgets/dropdown.css" />
-	<link rel="stylesheet" href="css/widgets/keywords.css" />
-	<link rel="stylesheet" href="css/widgets/libsel.css" />
-	<link rel="stylesheet" href="css/widgets/media.css" />
-	<link rel="stylesheet" href="css/widgets/medium.css" />
-	<link rel="stylesheet" href="css/widgets/node.css" />
-	<link rel="stylesheet" href="css/widgets/pager.css" />
-	<link rel="stylesheet" href="css/widgets/popup.css" />
-	<link rel="stylesheet" href="css/widgets/rater.css" />
-	<link rel="stylesheet" href="css/widgets/search.css" />
-	<link rel="stylesheet" href="css/widgets/select.css" />
-	<link rel="stylesheet" href="css/widgets/tag.css" />
-	<link rel="stylesheet" href="css/widgets/tagadd.css" />
-	<link rel="stylesheet" href="css/widgets/tagedit.css" />
-	<link rel="stylesheet" href="css/widgets/tree.css" />
-	<link rel="stylesheet" href="css/common.css" />
-	<link rel="stylesheet" href="css/page.css" />
-	<link rel="stylesheet" href="css/brand.css" />
-	<script src="jquery/jquery-1.7.min.js"></script>
-	<script src="jorder/jorder-1.2.1-min.js"></script>
-	<script src="common/flock/flock-0.1.5.js"></script>
-	<script src="base/create.js"></script>
-	<script src="ajax/service.js"></script>
-	<script src="ajax/poll.js"></script>
-	<script src="ajax/services.js"></script>
-	<script src="model/cookie.js"></script>
-	<script src="model/media.js"></script>
-	<script src="model/keyword.js"></script>
-	<script src="model/tag.js"></script>
-	<script src="model/tags.js"></script>
-	<script src="model/kind.js"></script>
-	<script src="model/search.js"></script>
-	<script src="model/pagestate.js"></script>
-	<script src="wraith/widget.js"></script>
-	<script src="widgets/base/editable.js"></script>
-	<script src="widgets/base/popup.js"></script>
-	<script src="widgets/common/button.js"></script>
-	<script src="widgets/common/dropdown.js"></script>
-	<script src="widgets/common/select.js"></script>
-	<script src="widgets/tag/tag.js"></script>
-	<script src="widgets/tag/tagadd.js"></script>
-	<script src="widgets/tag/tagedit.js"></script>
-	<script src="widgets/medium/rater.js"></script>
-	<script src="widgets/medium/tagger.js"></script>
-	<script src="widgets/medium/keywords.js"></script>
-	<script src="widgets/medium/medium.js"></script>
-	<script src="widgets/tree/node.js"></script>
-	<script src="widgets/tree/tree.js"></script>
-	<script src="widgets/library/libsel.js"></script>
-	<script src="widgets/library/library.js"></script>
-	<script src="widgets/library/dirsel.js"></script>
-	<script src="widgets/library/rootadd.js"></script>
-	<script src="widgets/library/discovery.js"></script>
-	<script src="widgets/view/kind.js"></script>
-	<script src="widgets/view/kinds.js"></script>
-	<script src="widgets/view/view.js"></script>
-	<script src="widgets/media/checker.js"></script>
-	<script src="widgets/media/actions.js"></script>
-	<script src="widgets/media/search.js"></script>
-	<script src="widgets/media/pager.js"></script>
-	<script src="widgets/media/url.js"></script>
-	<script src="widgets/media/media.js"></script>
-	<script src="widgets/page/progress.js"></script>
-	<script src="widgets/page/hints.js"></script>
-	<script src="widgets/page/page.js"></script>
-	<script>
-		/*global jOrder, jQuery, app */
-		jOrder.logging = false;
-		(function ($, widgets) {
-			$(function () {
-				widgets.page.init();
-			});
-		})(jQuery, app.widgets);
-	</script>
+    <title>Wwidd</title>
+    <link rel="stylesheet" href="css/widgets/button.css" />
+    <link rel="stylesheet" href="css/widgets/dirsel.css" />
+    <link rel="stylesheet" href="css/widgets/discovery.css" />
+    <link rel="stylesheet" href="css/widgets/dropdown.css" />
+    <link rel="stylesheet" href="css/widgets/keywords.css" />
+    <link rel="stylesheet" href="css/widgets/libsel.css" />
+    <link rel="stylesheet" href="css/widgets/media.css" />
+    <link rel="stylesheet" href="css/widgets/medium.css" />
+    <link rel="stylesheet" href="css/widgets/node.css" />
+    <link rel="stylesheet" href="css/widgets/pager.css" />
+    <link rel="stylesheet" href="css/widgets/popup.css" />
+    <link rel="stylesheet" href="css/widgets/rater.css" />
+    <link rel="stylesheet" href="css/widgets/search.css" />
+    <link rel="stylesheet" href="css/widgets/select.css" />
+    <link rel="stylesheet" href="css/widgets/tag.css" />
+    <link rel="stylesheet" href="css/widgets/tagadd.css" />
+    <link rel="stylesheet" href="css/widgets/tagedit.css" />
+    <link rel="stylesheet" href="css/widgets/tree.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/page.css" />
+    <link rel="stylesheet" href="css/brand.css" />
+    <script src="jquery/jquery-1.7.min.js"></script>
+    <script src="jorder/jorder-1.2.1-min.js"></script>
+    <script src="common/flock/flock-0.1.5.js"></script>
+    <script src="base/create.js"></script>
+    <script src="ajax/service.js"></script>
+    <script src="ajax/poll.js"></script>
+    <script src="ajax/services.js"></script>
+    <script src="model/cookie.js"></script>
+    <script src="model/media.js"></script>
+    <script src="model/keyword.js"></script>
+    <script src="model/tag.js"></script>
+    <script src="model/tags.js"></script>
+    <script src="model/kind.js"></script>
+    <script src="model/search.js"></script>
+    <script src="model/pagestate.js"></script>
+    <script src="wraith/widget.js"></script>
+    <script src="widgets/base/editable.js"></script>
+    <script src="widgets/base/popup.js"></script>
+    <script src="widgets/common/button.js"></script>
+    <script src="widgets/common/dropdown.js"></script>
+    <script src="widgets/common/select.js"></script>
+    <script src="widgets/tag/tag.js"></script>
+    <script src="widgets/tag/tagadd.js"></script>
+    <script src="widgets/tag/tagedit.js"></script>
+    <script src="widgets/medium/rater.js"></script>
+    <script src="widgets/medium/tagger.js"></script>
+    <script src="widgets/medium/keywords.js"></script>
+    <script src="widgets/medium/medium.js"></script>
+    <script src="widgets/tree/node.js"></script>
+    <script src="widgets/tree/tree.js"></script>
+    <script src="widgets/library/libsel.js"></script>
+    <script src="widgets/library/library.js"></script>
+    <script src="widgets/library/dirsel.js"></script>
+    <script src="widgets/library/rootadd.js"></script>
+    <script src="widgets/library/discovery.js"></script>
+    <script src="widgets/view/kind.js"></script>
+    <script src="widgets/view/kinds.js"></script>
+    <script src="widgets/view/view.js"></script>
+    <script src="widgets/media/checker.js"></script>
+    <script src="widgets/media/actions.js"></script>
+    <script src="widgets/media/search.js"></script>
+    <script src="widgets/media/pager.js"></script>
+    <script src="widgets/media/url.js"></script>
+    <script src="widgets/media/media.js"></script>
+    <script src="widgets/page/progress.js"></script>
+    <script src="widgets/page/hints.js"></script>
+    <script src="widgets/page/page.js"></script>
+    <script>
+        /*global jOrder, jQuery, app */
+        jOrder.logging = false;
+        (function ($, widgets) {
+            $(function () {
+                widgets.page.init();
+            });
+        })(jQuery, app.widgets);
+    </script>
 </head>
 <body>
-	<span id="search"></span>
-	<div id="library" class="tab">
-		<div id="header">
-			<span id="checker"></span>
-			<span id="switcher"></span>
-			<span id="views"></span>
-			<span id="pager"></span>
-		</div>
-		<div id="discovery"></div>
-		<div id="media"></div>
-		<div id="footer"></div>
-	</div>
+    <span id="search"></span>
+    <div id="library" class="tab">
+        <div id="header">
+            <span id="checker"></span>
+            <span id="switcher"></span>
+            <span id="views"></span>
+            <span id="pager"></span>
+        </div>
+        <div id="discovery"></div>
+        <div id="media"></div>
+        <div id="footer"></div>
+    </div>
 </body>
 </html>

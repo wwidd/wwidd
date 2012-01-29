@@ -3,23 +3,23 @@ LIBRARY SELECTOR POPUP
 ******************************/
 
 div.w_libsel > ul {
-	min-width: 100px;
+    min-width: 100px;
 }
 
 div.w_libsel > ul > li {
-	padding-right: 48px;
+    padding-right: 48px;
 }
 
 div.w_libsel > ul > li.selected {
-	background: transparent;
+    background: transparent;
 }
 
 div.w_libsel > ul a {
-	display: inline-block; *zoom: 1;
-	height: 16px;
-	white-space: nowrap;
-	text-decoration: none;
-	vertical-align: middle;
+    display: inline-block; *zoom: 1;
+    height: 16px;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: middle;
 }
 
 /******************************
@@ -27,18 +27,18 @@ SAVE BUTTON
 ******************************/
 
 div.w_libsel > ul a.save {
-	position: absolute;
-	top: 4px;
-	width: 16px;
+    position: absolute;
+    top: 4px;
+    width: 16px;
 }
 
 div.w_libsel > ul > li:hover a.save {
-	display: inline-block; *zoom: 1;
+    display: inline-block; *zoom: 1;
 }
 
 div.w_libsel > ul a.save {
-	right: 4px;
-	background: url('/image/sprites.png') no-repeat -60px -140px;
+    right: 4px;
+    background: url('/image/sprites.png') no-repeat -60px -140px;
 }
 
 /******************************
@@ -46,7 +46,7 @@ DISABLED ENTRY
 ******************************/
 
 div.w_libsel > ul > li.selected span {
-	color: grey;
+    color: grey;
 }
 
 /******************************
@@ -54,24 +54,24 @@ NEW LIBRARY ENTRY
 ******************************/
 
 div.w_libsel > ul > li.new {
-	background: transparent;
+    background: transparent;
 }
 
 div.w_libsel > ul input {
-	width: 100%;
-	height: 16px;
-	margin: 0;
-	padding: 0;
+    width: 100%;
+    height: 16px;
+    margin: 0;
+    padding: 0;
 }
 
 div.w_libsel > ul .w_button {
-	position: absolute;
-	top: 4px;
-	right: 2px;
-	height: 16px;
+    position: absolute;
+    top: 4px;
+    right: 2px;
+    height: 16px;
 }
 
 div.w_libsel > ul .w_button > span.caption {
-	line-height: 16px;
+    line-height: 16px;
 }
 

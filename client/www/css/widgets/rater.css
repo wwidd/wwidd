@@ -3,23 +3,23 @@ RATER
 ******************************/
 
 div.w_rater {
-	display: inline-block; *zoom: 1;
-	width: 80px;
-	height: 16px;
+    display: inline-block; *zoom: 1;
+    width: 80px;
+    height: 16px;
 }
 
 div.w_rater > a {
-	display: inline-block; *zoom: 1;
-	width: 16px;
-	height: 16px;
-	margin: 0;
-	padding: 0;
-	color: transparent;
-	text-decoration: none;
-	background: url('/image/sprites.png') no-repeat -20px -120px;
+    display: inline-block; *zoom: 1;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    color: transparent;
+    text-decoration: none;
+    background: url('/image/sprites.png') no-repeat -20px -120px;
 }
 
 div.w_rater > a.star {
-	background: url('/image/sprites.png') no-repeat 0 -120px;
+    background: url('/image/sprites.png') no-repeat 0 -120px;
 }
 

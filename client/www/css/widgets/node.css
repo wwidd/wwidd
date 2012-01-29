@@ -3,50 +3,50 @@ NODES
 ******************************/
 
 li.w_node > ul {
-	margin: 0;
-	padding: 0 0 0 10px;
-	list-style: none;
+    margin: 0;
+    padding: 0 0 0 10px;
+    list-style: none;
 }
 
 li.w_node > span {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 li.w_node span.toggle,
 li.w_node span.name {
-	display: inline-block; *zoom: 1;
-	line-height: 16px;
-	white-space: nowrap;
-	vertical-align: middle;
+    display: inline-block; *zoom: 1;
+    line-height: 16px;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 li.w_node span.name {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 li.w_node li.selected > span > span.name {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 li.w_node span.name > span {
-	line-height: 16px;
-	vertical-align: middle;
+    line-height: 16px;
+    vertical-align: middle;
 }
 
 li.w_node span.toggle {
-	height: 16px;
-	width: 16px;
-	cursor: pointer;
-	background: url('/image/sprites.png') no-repeat 0 -160px;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    background: url('/image/sprites.png') no-repeat 0 -160px;
 }
 
 li.w_node li.expanded > span > span.toggle {
-	background: url('/image/sprites.png') no-repeat -20px -160px;
+    background: url('/image/sprites.png') no-repeat -20px -160px;
 }
 
 li.w_node li.dead > span > span.toggle {
-	cursor: inherit;
-	background: none;
+    cursor: inherit;
+    background: none;
 }
 
 /******************************
@@ -54,7 +54,7 @@ SPECIAL TREE WIDGETS
 ******************************/
 
 li.w_node div.w_rater {
-	padding: 2px 0;
-	vertical-align: middle;
+    padding: 2px 0;
+    vertical-align: middle;
 }
 

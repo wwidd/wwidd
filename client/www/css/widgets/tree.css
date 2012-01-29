@@ -9,33 +9,33 @@ GENERAL
 ******************************/
 
 div.w_tree {
-	text-align: left;
+    text-align: left;
 }
 
 div.w_tree > table.status {
-	width: 100%;
-	margin: 0 auto;
-	border-collapse: separate;
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: separate;
 }
 
 div.w_tree > table.status col.key {
-	width: auto;
+    width: auto;
 }
 
 div.w_tree > table.status col.value {
-	width: 100%;
+    width: 100%;
 }
 
 div.w_tree > table.status span.selected {
-	display: inline-block; *zoom: 1;
-	width: 100%;
-	font-weight: bold;
-	background: white;
+    display: inline-block; *zoom: 1;
+    width: 100%;
+    font-weight: bold;
+    background: white;
 }
 
 div.w_tree > ul.root {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 

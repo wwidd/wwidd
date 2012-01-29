@@ -3,14 +3,14 @@ GENERAL
 ******************************/
 
 span.w_pager {
-	display: inline-block; *zoom: 1;
-	margin: 0 5px;
+    display: inline-block; *zoom: 1;
+    margin: 0 5px;
 }
 
 /* alignment */
 span.w_pager > a,
 span.w_pager > select {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 /******************************
@@ -18,28 +18,28 @@ BUTTONS
 ******************************/
 
 span.w_pager > a {
-	display: inline-block; *zoom: 1;
-	width: 16px;
-	height: 16px;
-	margin: 0;
-	padding: 0;
-	color: transparent;
+    display: inline-block; *zoom: 1;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    color: transparent;
 }
 
 span.w_pager > a.first {
-	background: url('/image/sprites.png') no-repeat 0 -40px;
+    background: url('/image/sprites.png') no-repeat 0 -40px;
 }
 
 span.w_pager > a.prev {
-	background: url('/image/sprites.png') no-repeat -20px -40px;
+    background: url('/image/sprites.png') no-repeat -20px -40px;
 }
 
 span.w_pager > a.next {
-	background: url('/image/sprites.png') no-repeat -40px -40px;
+    background: url('/image/sprites.png') no-repeat -40px -40px;
 }
 
 span.w_pager > a.last {
-	background: url('/image/sprites.png') no-repeat -60px -40px;
+    background: url('/image/sprites.png') no-repeat -60px -40px;
 }
 
 /******************************
@@ -47,6 +47,6 @@ DROPDOWN
 ******************************/
 
 span.w_pager > span.w_dropdown {
-	width: 80px;
+    width: 80px;
 }
 

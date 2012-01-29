@@ -3,39 +3,39 @@ GENERAL
 ******************************/
 
 span.w_button {
-	display: inline-block; *zoom: 1;
-	height: 22px;
-	margin: 0;
-	padding: 0 5px;
-	cursor: pointer;
-	color: #444;
-	background-color: #e0e0e0;
-	background-image: -moz-linear-gradient(bottom, #E0E0E0, #F3F3F3);
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#E0E0E0), to(#F3F3F3));
-	border: 1px solid #808080;
-	border-radius: 2px; -moz-border-radius: 2px;
-	overflow: hidden;
+    display: inline-block; *zoom: 1;
+    height: 22px;
+    margin: 0;
+    padding: 0 5px;
+    cursor: pointer;
+    color: #444;
+    background-color: #e0e0e0;
+    background-image: -moz-linear-gradient(bottom, #E0E0E0, #F3F3F3);
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#E0E0E0), to(#F3F3F3));
+    border: 1px solid #808080;
+    border-radius: 2px; -moz-border-radius: 2px;
+    overflow: hidden;
 }
 
 /* button that has no click event handler */
 span.w_button.idle {
-	cursor: default;
+    cursor: default;
 }
 
 /* button text */
 span.w_button span.caption {
-	vertical-align: middle;
-	line-height: 22px;
-	white-space: nowrap;
+    vertical-align: middle;
+    line-height: 22px;
+    white-space: nowrap;
 }
 
 /* disabled button */
 span.w_button[disabled="disabled"] {
-	cursor: default;
-	border: 1px solid #c0c0c0;
+    cursor: default;
+    border: 1px solid #c0c0c0;
 }
 
 span.w_button[disabled="disabled"] span.caption {
-	color: #808080;
+    color: #808080;
 }
 

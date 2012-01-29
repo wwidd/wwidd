@@ -3,37 +3,37 @@ GENERAL
 ******************************/
 
 ul.w_select {
-	width: 120px;
-	max-height: 200px;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	overflow-x: hidden;
-	overflow-y: auto;
+    width: 120px;
+    max-height: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 ul.w_select > li {
-	position: relative;
-	height: 16px;
-	padding: 4px;
-	cursor: default;
-	color: #003E55;
+    position: relative;
+    height: 16px;
+    padding: 4px;
+    cursor: default;
+    color: #003E55;
 }
 
 ul.w_select > li > .caption {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 ul.w_select > li:hover {
-	background: #E0E0E0;
+    background: #E0E0E0;
 }
 
 ul.w_select > li.selected {
-	color: white;
-	background: #003E55;
+    color: white;
+    background: #003E55;
 }
 
 ul.w_select > li.selected .caption {
-	cursor: default;
+    cursor: default;
 }
 
