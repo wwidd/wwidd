@@ -81,19 +81,6 @@ CONTROLS
 }
 
 /******************************
-CHECKER
-******************************/
-
-#checker .w_checker > input {
-	margin: 0;
-	padding: 0;
-}
-
-#checker .w_checker > input.mixed {
-	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
-}
-
-/******************************
 LIBRARY SWITCHER
 ******************************/
 

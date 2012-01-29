@@ -1,0 +1,39 @@
+/******************************
+CHECKBOX
+******************************/
+
+span.w_checkbox {
+    display: inline-block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+	background-color: #fff;
+	background-image: -moz-linear-gradient(bottom, #f0f0f0, #ffffff);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#f0f0f0), to(#ffffff));
+	border: 1px solid #404040;
+	border-radius: 2px; -moz-border-radius: 2px;
+	cursor: default;
+}
+
+span.w_checkbox.checked > div.check,
+span.w_checkbox.mixed > div.check {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 16px;
+    height: 16px;
+    background: url('/image/sprites.png') no-repeat -40px -20px;
+}
+
+span.w_checkbox.mixed {
+	opacity: 0.5; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; *filter:alpha(opacity=50);
+}
+
+/******************************
+Checkbox within BUTTON
+******************************/
+
+span.w_button span.w_checkbox {
+    margin: 5px auto;
+}
+
