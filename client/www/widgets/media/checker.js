@@ -1,65 +1,72 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Select All - Select None widget
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith */
+/*global document, jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
+    //////////////////////////////
+    // Static event handlers
+
+    function onCheck(event, data) {
+        // selecting / deselecting all items on page
+        if (data.state === 'checked') {
+            widgets.media.selectAll();
+        } else {
+            widgets.media.selectNone();
+        }
+        
+        // controlling actions dropdown state
+        widgets.actions
+            .disabled({checker: data.state === 'unchecked'})
+            .render();
+    }
+    
+    //////////////////////////////
+    // Static event bindings
+
+    $(document)
+        .on('checkboxCheck', '.w_checker', onCheck);
+
+    //////////////////////////////
+    // Class
+
     widgets.checker = function () {
         var self = wraith.widget.create(widgets.button()).idle(true),
-                state = 'none'; // checked, mixed, none
-                
+            checkbox = widgets.checkbox();
+
         //////////////////////////////
         // Overrides
 
-        function onClick(event) {
-            var $this = $(this),
-                    checked = $this.is(':checked') && state !== 'mixed';
-                    
-            if (checked) {
-                widgets.media.selectAll();
-            } else {
-                widgets.media.selectNone();
-            }
-            
-            self.render();
-        }
+        self.build = function () {
+            checkbox.appendTo(self);
+            return self;
+        };
         
         self.init = function (elem) {
-            // positions checkbox in the middle of its parent vertically
-            function adjustMargin() {
-                return (elem.height() - $(this).outerHeight(false)) / 2;
-            }
-            
-            elem
-                .addClass('w_checker')
-                .find('input')
-                    .css('margin-top', adjustMargin)
-                    .click(onClick)
-                .end();
+            elem.addClass('w_checker');
             
             // controlling actions dropdown state
+            // must be controlled when widget is re-drawn
             widgets.actions
-                .disabled({checker: state === 'none'})
+                .disabled({checker: checkbox.state() === 'unchecked'})
                 .render();
         };
 
         self.contents = function () {
             var $media = $('#' + widgets.media.id + ' .w_medium'),
-                    count = $media.find(':checked').length;
+                count = $media.find(':checked').length;
                     
-            // determining widget state
+            // determining widget state based on 
             if (count === $media.length && count > 0) {
-                state = 'checked';
+                checkbox.state('checked');
             } else if (count === 0) {
-                state = 'none';
+                checkbox.state('unchecked');
             } else {
-                state = 'mixed';
+                checkbox.state('mixed');
             }
             
-            return [
-                '<input type="checkbox" ', state !== 'none' ? 'checked="checked"' : '', ' class="', state, '"/>'
-            ].join('');
+            return checkbox.html();
         };
         
         return self;
