@@ -1,44 +1,33 @@
-////////////////////////////////////////////////////////////////////////////////
-// Video Library
-//
-// Displays a set of media entries.
-// Available views:
-// - tile: grid of thumbnails
-// - list: list of compact rows
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Video Library
+ *
+ * Displays a set of media entries.
+ * Available views:
+ * - tile: grid of thumbnails
+ * - list: list of compact rows
+ *
+ * Dispatches:
+ * - mediaInvalidated: When contents of the media window have changed
+ */
 /*global jQuery, wraith, document */
 var app = app || {};
 
 app.widgets = (function (widgets, $, wraith, model, services) {
-    var
-    
+    //////////////////////////////
+    // Class
+
     // association between library views and entry views
-    VIEW_ASSOC = {
-        'list': 'compact',
-        'tile': 'thumb'
-    };
+    var VIEW_ASSOC = {
+            'list': 'compact',
+            'tile': 'thumb'
+        };
         
-    widgets.media = function () {
+    widgets.media = (function () {
         var self = wraith.widget.create(),
-                view = model.cookie.get('view') || 'list',
-                lookup = {},
-                onChange;
+            view = model.cookie.get('view') || 'list',
+            lookup = {};
                 
         self.selected = {};
-        
-        //////////////////////////////
-        // Getters, setters
-        
-        self.onChange = function (value) {
-            if (typeof value === 'function') {
-                onChange = value;
-                return self;
-            } else if (typeof onChange === 'function') {
-                return onChange();
-            } else {
-                return onChange;
-            }
-        };
 
         //////////////////////////////
         // Control
@@ -101,9 +90,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
             widgets.tagger
                 .render();
 
-            if (typeof onChange === 'function') {
-                onChange();
-            }
+            self.ui().trigger('mediaInvalidated');
         };
         
         self.refresh = function () {
@@ -136,15 +123,13 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                 .busy(false)
                 .render();
                 
-            if (typeof onChange === 'function') {
-                onChange();
-            }
+            self.ui().trigger('mediaInvalidated');
         };
         
         // (re-)loads library contents
         self.load = function () {
             var $document = $(document),
-                    title = $document.attr('title').split(' - ')[0];
+                title = $document.attr('title').split(' - ')[0];
 
             // indicating busy state
             widgets.library
@@ -244,7 +229,8 @@ app.widgets = (function (widgets, $, wraith, model, services) {
         // initiates acquiring of video metadata (keywords, thumbnails, etc.)
         function thumbnails(page) {
             var mediaids = [],
-                    i, entry;
+                i,
+                entry;
             
             // collecting entries with no hash
             // only previously processed media entries have hash
@@ -267,7 +253,8 @@ app.widgets = (function (widgets, $, wraith, model, services) {
         
         self.build = function () {
             var page = model.media.getPage(widgets.pager.page(), widgets.pager.items()),
-                    i, control;
+                i,
+                control;
 
             // generating thumbnails if necessary
             thumbnails(page);
@@ -288,10 +275,8 @@ app.widgets = (function (widgets, $, wraith, model, services) {
             return self;
         };
 
-        self.init = function () {
-            if (typeof onChange === 'function') {
-                onChange();
-            }
+        self.init = function ($elem) {
+            $elem.trigger("mediaInvalidated");
         };
         
         self.html = function () {
@@ -321,12 +306,12 @@ app.widgets = (function (widgets, $, wraith, model, services) {
         };
 
         return self;
-    }();
+    }());
     
     return widgets;
-})(app.widgets || {},
+}(app.widgets || {},
     jQuery,
     wraith,
     app.model,
-    app.services);
+    app.services));
 

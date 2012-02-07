@@ -1,39 +1,105 @@
-////////////////////////////////////////////////////////////////////////////////
-// Media Entry
-//
-// Single video entry.
-// Available views:
-// - compact: checkbox, filename, rater, and tagger widgets as a row
-// - thumb: checker, thumbnail, filename, and rater overlayed
-// - expanded: all widgets (checkbox, thumbnail, filename, rater, keywords, tagger)
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Media Entry
+ *
+ * Single video entry.
+ * Available views:
+ * - compact: checkbox, filename, rater, and tagger widgets as a row
+ * - thumb: checker, thumbnail, filename, and rater overlayed
+ * - expanded: all widgets (checkbox, thumbnail, filename, rater, keywords, tagger)
+ *
+ * Dispatches:
+ * - mediumExpanded: when medium was expanded
+ * - mediumPlaybackStarted: when media playback has started
+ */
 /*global document, jQuery, wraith, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, services, model) {
-    var
+app.widgets = (function (widgets, $, wraith, services, model) {
+    var VIEWS = {
+            'thumb': 'thumb',
+            'compact': 'compact',
+            'expanded': 'expanded'
+        },
     
-    VIEWS = {
-        'thumb': 'thumb',
-        'compact': 'compact',
-        'expanded': 'expanded'
-    },
-    
-    // static properties
-    lastOpen,               // widget reference to the last opened medium (thumb or compact to expanded)
-    
-    // static event handlers
-    onClick,
-    onChecked,
-    onResize;
+        // static properties
+        lastOpen;               // widget reference to the last opened medium (thumb or compact to expanded)
+
+    //////////////////////////////
+    // Static event handlers
+
+    function onClick() {
+        var $elem = $(this).closest('.w_medium'),
+            self = wraith.lookup($elem),
+            expanded = self.expanded();
+
+        if (expanded) {
+            // starting playback
+            self.play($elem);
+
+            // triggering custom event
+            $elem.trigger('meduimPlaybackStarted', {
+                elem: $elem,
+                widget: self
+            });
+        } else {
+            // closing last opened entry
+            if (lastOpen) {
+                lastOpen
+                    .expanded(false)
+                    .render();
+            }
+
+            // flipping full state and re-rendering widget
+            $elem = self
+                .expanded(!expanded)
+                .render();
+
+            // saving reference to last opened entry
+            lastOpen = self;
+
+            // triggering custom event
+            $elem.trigger('mediumExpanded', {
+                elem: $elem,
+                widget: self
+            });
+        }
+
+        return false;
+    }
+
+    function onChecked() {
+        var $this = $(this),
+            $medium = $this.closest('.w_medium'),
+            self = wraith.lookup($medium);
+
+        // registering (un)checked item
+        if ($this.is(':checked')) {
+            widgets.media.selected[self.data.mediaid] = true;
+        } else {
+            delete widgets.media.selected[self.data.mediaid];
+        }
+
+        // refreshing main checker widget
+        widgets.checker.render();
+    }
+
+    //////////////////////////////
+    // Event bindings
+
+    $(document)
+        .on('click', '.w_medium div.thumb, .w_medium div.file, .w_medium div.play', onClick)
+        .on('click', '.w_medium div.check > :checkbox', onChecked);
+
+    //////////////////////////////
+    // Class
     
     widgets.medium = function (mediaid) {
         var self = wraith.widget.create(),
         
-        // flags
-        view = 'thumb',
-        expanded = null;
-        
+            // flags
+            view = 'thumb',
+            expanded = null;
+
         self.data.mediaid = mediaid;
 
         // child widgets
@@ -66,7 +132,10 @@ app.widgets = function (widgets, $, wraith, services, model) {
         //////////////////////////////
         // Business functions
 
-        // calls playback service           
+        /**
+         * Calls playback service
+         * @param elem Medium DOM element
+         */
         self.play = function (elem) {
             elem
                 .siblings().removeClass('playing').end()
@@ -76,7 +145,9 @@ app.widgets = function (widgets, $, wraith, services, model) {
             return self;
         };
 
-        // tells whether this media entry is selected
+        /**
+         * Tells whether this media entry is selected
+         */
         self.selected = function () {
             return $('#' + self.id).find(':checked').length > 0;
         };
@@ -103,9 +174,9 @@ app.widgets = function (widgets, $, wraith, services, model) {
             return self;
         };
         
+        /*jslint white: true */
         self.html = function () {
-            var parent, child,
-                    row = model.media.getRow(mediaid);
+            var row = model.media.getRow(mediaid);
 
             return [
                 '<div id="', self.id, '" class="', 
@@ -116,12 +187,12 @@ app.widgets = function (widgets, $, wraith, services, model) {
                     
                 // checkbox
                 '<div class="check">',
-                '<input type="checkbox" ', mediaid in widgets.media.selected ? 'checked="checked" ' : '', '/>',
+                    '<input type="checkbox" ', widgets.media.selected.hasOwnProperty(mediaid) ? 'checked="checked" ' : '', '/>',
                 '</div>',
                 
                 // file name
                 '<div class="file">',
-                '<span title="', row.file, '">', row.file, '</span>',
+                    '<span title="', row.file, '">', row.file, '</span>',
                 '</div>',
                 
                 // thumbnail
@@ -149,81 +220,25 @@ app.widgets = function (widgets, $, wraith, services, model) {
                 '</div>'
             ].join('');
         };
-        
+        /*jslint white: false */
+
         return self;
     };
     
     //////////////////////////////
     // Static methods
-    
-    // resets medium memory
+
+    /**
+     * Resets medium memory
+     */
     widgets.medium.reset = function () {
         lastOpen = null;
     };
 
-    //////////////////////////////
-    // Static event handlers
-    
-    onClick = function () {
-        var media = $(this).closest('.w_medium'),
-                self = wraith.lookup(media),
-                expanded = self.expanded();
-
-        if (expanded) {
-            // starting playback
-            self.play(media);
-        } else {
-            // closing last opened entry
-            if (lastOpen) {
-                lastOpen
-                    .expanded(false)
-                    .render();
-                lastOpen = null;
-            }
-            
-            // flipping full state and re-rendering widget
-            self
-                .expanded(!expanded)
-                .render();
-            
-            // notifying media collection of change
-            widgets.media
-                .onChange();
-                
-            // saving reference to last opened entry
-            lastOpen = self;
-        }
-            
-        return false;
-    };
-    
-    onChecked = function () {
-        var $this = $(this),
-                $medium = $this.closest('.w_medium'),
-                self = wraith.lookup($medium);
-        
-        // registering (un)checked item
-        if ($this.is(':checked')) {
-            widgets.media.selected[self.data.mediaid] = true;
-        } else {
-            delete widgets.media.selected[self.data.mediaid];
-        }
-
-        // refreshing main checker widget
-        widgets.checker.render();
-    };
-    
-    //////////////////////////////
-    // Event bindings
-
-    $(document)
-        .on('click', '.w_medium div.thumb, .w_medium div.file, .w_medium div.play', onClick)
-        .on('click', '.w_medium div.check > :checkbox', onChecked);
-    
     return widgets;
 }(app.widgets || {},
     jQuery,
     wraith,
     app.services,
-    app.model);
+    app.model));
 

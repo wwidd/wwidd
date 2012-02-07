@@ -1,19 +1,66 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Video Library - Page
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, window */
+/*global document, jQuery, wraith, window */
 var app = app || {};
 
-app.widgets = (function (widgets, $, wraith) {
-    var
-    
-    // static event handlers
-    recalcDims;
-        
-    widgets.page = function () {
+app.widgets = (function (widgets, $) {
+    //////////////////////////////
+    // Static event handlers
+
+    var recalcDims;
+
+    $(function () {
+        var $header = $('#header'),
+            $footer = $('#footer'),
+            $library = $('#library'),
+            $media = $('#media'),
+            $discovery = $('#discovery'),
+
+            // volatile dimensions
+            headerHeight = $header.outerHeight(),
+            footerHeight = $footer.outerHeight(),
+            headerPadding = $header.outerWidth() - $header.width();
+
+        // re-calculates and applies container dimensions
+        recalcDims = function () {
+            var fullWidth = $library.width(),
+                sideBarWidth = $discovery.width(),
+                mediaHeight = $media.outerHeight(true);
+
+            $media.css({
+                top: headerHeight,
+                left: sideBarWidth,
+                width: fullWidth - sideBarWidth
+            });
+
+            $discovery.css({
+                top: headerHeight,
+                height: mediaHeight
+            });
+
+            $header.add($footer)
+                .width(fullWidth - headerPadding);
+
+            $library.css('height', headerHeight + mediaHeight + footerHeight);
+            $footer.css('top', headerHeight + mediaHeight);
+        };
+
+        // reacts to window resizing
+        $(window).resize(recalcDims);
+
+        // reacting to media expansion
+        $(document)
+            .on('mediumExpanded', recalcDims)
+            .on('mediaInvalidated', recalcDims);
+    });
+
+    //////////////////////////////
+    // Class
+
+    widgets.page = (function () {
         var self = {},
-                pager,
-                kinds;
+            pager;
 
         // initializes page
         self.init = function () {
@@ -61,7 +108,6 @@ app.widgets = (function (widgets, $, wraith) {
             
             // initializing and adding library to page
             widgets.media
-                .onChange(recalcDims)
                 .load()
                 .render($('#media').empty());
 
@@ -69,49 +115,9 @@ app.widgets = (function (widgets, $, wraith) {
         };
 
         return self;
-    }();
-    
-    $(function () {
-        var $header = $('#header'),
-                $footer = $('#footer'),
-                $library = $('#library'),
-                $media = $('#media'),
-                $discovery = $('#discovery'),
-    
-                // volatile dimensions
-                headerHeight = $header.outerHeight(),
-                footerHeight = $footer.outerHeight(),
-                headerPadding = $header.outerWidth() - $header.width();
-                
-        // re-calculates and applies container dimensions
-        recalcDims = function () {
-            var fullWidth = $library.width(),
-                    sideBarWidth = $discovery.width(),
-                    mediaHeight = $media.outerHeight(true);
-            
-            $media.css({
-                top: headerHeight,
-                left: sideBarWidth,
-                width: fullWidth - sideBarWidth
-            });
-            
-            $discovery.css({
-                top: headerHeight,
-                height: mediaHeight
-            });
+    }());
 
-            $header.add($footer)
-                .width(fullWidth - headerPadding);
-            
-            $library.css('height', headerHeight + mediaHeight + footerHeight);
-            $footer.css('top', headerHeight + mediaHeight);
-        };
-        
-        $(window).resize(recalcDims);
-    });
-        
     return widgets;
-})(app.widgets || {},
-    jQuery,
-    wraith);
+}(app.widgets || {},
+    jQuery));
 
