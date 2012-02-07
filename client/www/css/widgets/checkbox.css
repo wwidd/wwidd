@@ -10,7 +10,7 @@ span.w_checkbox {
     background-color: #fff;
     background-image: -moz-linear-gradient(bottom, #f0f0f0, #ffffff);
     background-image: -webkit-gradient(linear, left bottom, left top, from(#f0f0f0), to(#ffffff));
-    border: 1px solid #404040;
+    border: 1px solid #606060;
     border-radius: 2px; -moz-border-radius: 2px;
     cursor: default;
 }
