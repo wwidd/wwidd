@@ -9,6 +9,7 @@
  *
  * Dispatches:
  * - mediumExpanded: when medium was expanded
+ * - mediumChecked: when medium was checked
  * - mediumPlaybackStarted: when media playback has started
  */
 /*global document, jQuery, wraith, window */
@@ -59,28 +60,24 @@ app.widgets = (function (widgets, $, wraith, services, model) {
 
             // triggering custom event
             $elem.trigger('mediumExpanded', {
-                elem: $elem,
-                widget: self
+                widget: self,
+                mediaid: self.mediaid()
             });
         }
 
         return false;
     }
 
-    function onChecked() {
-        var $this = $(this),
-            $medium = $this.closest('.w_medium'),
-            self = wraith.lookup($medium);
+    function onChecked(event, data) {
+        var self = wraith.lookup($(this));
 
-        // registering (un)checked item
-        if ($this.is(':checked')) {
-            widgets.media.selected[self.data.mediaid] = true;
-        } else {
-            delete widgets.media.selected[self.data.mediaid];
-        }
-
-        // refreshing main checker widget
-        widgets.checker.render();
+        // triggering custom event
+        $(this)
+            .trigger('mediumChecked', {
+                widget: self,
+                state: data.state,
+                mediaid: self.mediaid()
+            });
     }
 
     //////////////////////////////
@@ -88,27 +85,28 @@ app.widgets = (function (widgets, $, wraith, services, model) {
 
     $(document)
         .on('click', '.w_medium div.thumb, .w_medium div.file, .w_medium div.play', onClick)
-        .on('click', '.w_medium div.check > :checkbox', onChecked);
+        .on('checkboxChecked', '.w_medium', onChecked);
 
     //////////////////////////////
     // Class
     
     widgets.medium = function (mediaid) {
         var self = wraith.widget.create(),
-        
-            // flags
             view = 'thumb',
             expanded = null;
-
-        self.data.mediaid = mediaid;
 
         // child widgets
         self.rater = null;
         self.tagger = null;
         self.keywords = null;
+        self.checkbox = null;
         
         //////////////////////////////
         // Getters / setters
+
+        self.mediaid = function () {
+            return mediaid;
+        };
 
         self.view = function (value) {
             if (typeof value !== 'undefined') {
@@ -134,11 +132,12 @@ app.widgets = (function (widgets, $, wraith, services, model) {
 
         /**
          * Calls playback service
-         * @param elem Medium DOM element
+         * @param $elem Medium DOM element
          */
-        self.play = function (elem) {
-            elem
-                .siblings().removeClass('playing').end()
+        self.play = function ($elem) {
+            $elem
+                .siblings().removeClass('playing')
+                .end()
                 .addClass('playing');
             services.media.play(mediaid);
             model.pagestate.lastPlayed = mediaid;
@@ -162,7 +161,10 @@ app.widgets = (function (widgets, $, wraith, services, model) {
             // adding rater widget
             self.rater = widgets.rater(mediaid)
                 .appendTo(self);
-            
+
+            self.checkbox = widgets.checkbox()
+                .appendTo(self);
+
             // adding tagger widget to non-thumb views
             self.tagger = widgets.tagger(mediaid)
                 .appendTo(self);
@@ -187,7 +189,7 @@ app.widgets = (function (widgets, $, wraith, services, model) {
                     
                 // checkbox
                 '<div class="check">',
-                    '<input type="checkbox" ', widgets.media.selected.hasOwnProperty(mediaid) ? 'checked="checked" ' : '', '/>',
+                    self.checkbox.html(),
                 '</div>',
                 
                 // file name

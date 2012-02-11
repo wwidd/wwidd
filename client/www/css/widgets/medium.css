@@ -164,8 +164,8 @@ div.w_media.tile > div.w_medium.expanded > div.w_rater {
 
 div.w_medium.thumb > div.check,
 div.w_media.tile > div.w_medium.expanded > div.check {
-    top: 2px;
-    left: 105px;
+    top: 6px;
+    left: 108px;
 }
 
 div.w_media.tile > div.w_medium.expanded > div.w_keywords {
@@ -205,13 +205,14 @@ div.w_medium.compact > div {
 
 div.w_medium.compact > div.check,
 div.w_media.list > div.w_medium.expanded > div.check {
+    height: 12px;
     padding: 1px 5px;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
 }
 
 div.w_media.list > div.w_medium.expanded > div.check {
-    top: 2px;
+    top: 4px;
     left: 0;
 }
 

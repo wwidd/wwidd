@@ -4,34 +4,31 @@
 /*global document, jQuery, wraith */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith) {
+app.widgets = (function (widgets, $, wraith) {
     //////////////////////////////
     // Static event handlers
 
     function onCheck(event, data) {
-        // selecting / deselecting all items on page
-        if (data.state === 'checked') {
-            widgets.media.selectAll();
-        } else {
-            widgets.media.selectNone();
-        }
-        
-        // controlling actions dropdown state
-        widgets.actions
-            .disabled({checker: data.state === 'unchecked'})
-            .render();
+        var $this = $(this),
+            self = wraith.lookup($this);
+
+        $this
+            .trigger('checkerChecked', {
+                widget: self,
+                state: data.state
+            });
     }
     
     //////////////////////////////
     // Static event bindings
 
     $(document)
-        .on('checkboxCheck', '.w_checker', onCheck);
+        .on('checkboxChecked', '.w_checker', onCheck);
 
     //////////////////////////////
     // Class
 
-    widgets.checker = function () {
+    widgets.checker = (function () {
         var self = wraith.widget.create(widgets.button()).idle(true),
             checkbox = widgets.checkbox();
 
@@ -54,26 +51,14 @@ app.widgets = function (widgets, $, wraith) {
         };
 
         self.contents = function () {
-            var $media = $('#' + widgets.media.id + ' .w_medium'),
-                count = $media.find(':checked').length;
-                    
-            // determining widget state based on 
-            if (count === $media.length && count > 0) {
-                checkbox.state('checked');
-            } else if (count === 0) {
-                checkbox.state('unchecked');
-            } else {
-                checkbox.state('mixed');
-            }
-            
             return checkbox.html();
         };
         
         return self;
-    }();
+    }());
     
     return widgets;
 }(app.widgets || {},
     jQuery,
-    wraith);
+    wraith));
 

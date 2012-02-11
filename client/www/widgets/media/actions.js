@@ -1,20 +1,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Actions Widget
 ////////////////////////////////////////////////////////////////////////////////
-/*global jQuery, wraith, jOrder, window */
+/*global window, jQuery, wraith, jOrder, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, jOrder, model, services) {
-    widgets.actions = function () {
+app.widgets = (function (widgets, $, wraith, jOrder, model, services) {
+    widgets.actions = (function () {
         var popup = widgets.select(["Refresh thumbnail", "Delete"]).stateful(false),
-                self = wraith.widget.create(widgets.dropdown("Actions", popup));
+            base = widgets.dropdown("Actions", popup),
+            self = wraith.widget.create(base);
 
-        // deletes video entries
+        /**
+         * Deletes video entries
+         * @param mediaids Array of media ids
+         */
         function remove(mediaids) {
-            if (window.confirm([
-                "You're about to delete", mediaids.length, (mediaids.length > 1 ? "entries" : "entry"), "from your library.",
-                "This cannot be undone. Proceed?"
-            ].join(' '))) {
+            if (
+                window.confirm([
+                    "You're about to delete", mediaids.length, (mediaids.length > 1 ? "entries" : "entry"), "from your library.",
+                    "This cannot be undone. Proceed?"
+                ].join(' '))
+            ) {
                 // calling deletion service
                 // then reloading entire library
                 services.media.del(mediaids.join(','), function () {
@@ -23,36 +29,48 @@ app.widgets = function (widgets, $, wraith, jOrder, model, services) {
                 });
             }
         }
-        
-        // extracts thumbnails and keywords for media entries
+
+        /**
+         * extracts thumbnails and keywords for media entries
+         * @param mediaids Array of media ids
+         */
         function extract(mediaids) {
             services.media.extract(mediaids.join(','), true, function () {
                 widgets.media.poll();
             });
         }
-        
-        popup.onChange(function (i, item, selected) {
+
+        // specifying callback for popup
+        popup.onChange(function (i) {
             // obtaining selected media ids
             var mediaids = jOrder.keys(widgets.media.selected);
-            
-            action:
+
             switch (i) {
             case 0:
                 // extracting from video entries
                 extract(mediaids);
-                break action;
+                break;
             case 1:
                 // deleting video entries
                 remove(mediaids);
-                break action;
+                break;
             default:
-            case 1000:
-                break action;
+            //case 1000:
+                break;
             }
         });
-        
+
+        //////////////////////////////
+        // Overrides
+
+        self.init = function ($elem) {
+            base.init.apply(self, arguments);
+            $elem
+                .addClass('w_actions');
+        };
+
         return self;
-    }();
+    }());
     
     return widgets;
 }(app.widgets || {},
@@ -60,5 +78,5 @@ app.widgets = function (widgets, $, wraith, jOrder, model, services) {
     wraith,
     jOrder,
     app.model,
-    app.services);
+    app.services));
 

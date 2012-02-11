@@ -1,6 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////
-// Video Library - Page
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Wwidd Page
+ *
+ * Despatches:
+ * - selectAll: targeted to widgets.media, selects or deselects all media entries
+ *
+ * Captures:
+ * - mediumExpanded: for recalculating page dimensions
+ * - mediaInvalidated: for recalculating page dimensions
+ */
 /*global document, jQuery, wraith, window */
 var app = app || {};
 
@@ -54,6 +61,50 @@ app.widgets = (function (widgets, $) {
             .on('mediumExpanded', recalcDims)
             .on('mediaInvalidated', recalcDims);
     });
+
+    /**
+     * Fires when an individual media item is checked
+     */
+    function onMediumChecked() {
+        var $this = $(this),
+            $checkboxes = $this.find('.w_media .w_checkbox'),
+            $checked = $checkboxes.filter('.checked'),
+            $checker = $this.find('.w_checker .w_checkbox');
+
+        // refreshing main checker widget
+        $checker
+            .trigger('checkboxCheck', {
+                state: {0: 'unchecked', 1: 'checked'}[$checked.length / $checkboxes.length] || 'mixed'
+            });
+
+        // updating actions widget state
+        widgets.actions
+            .disabled({checker: $checked.length === 0})
+            .render();
+    }
+
+    /**
+     * Fires when checker widget is checked or unchecked
+     * @param event jQuery event object
+     * @param data custome event data {state: 'checked'/'unchecked'}
+     */
+    function onCheckerChecked(event, data) {
+        // triggering select all on media items
+        $(this).find('.w_media')
+            .trigger('selectAll', {mode: {'checked': 'select'}[data.state] || 'deselect'});
+
+        // updating actions widget state
+        widgets.actions
+            .disabled({checker: data.state !== 'checked'})
+            .render();
+    }
+
+    //////////////////////////////
+    // Static event bindings
+
+    $(document)
+        .on('mediumChecked', onMediumChecked)
+        .on('checkerChecked', onCheckerChecked);
 
     //////////////////////////////
     // Class

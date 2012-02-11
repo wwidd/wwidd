@@ -1,5 +1,5 @@
 /**
- * Video Library
+ * Media List
  *
  * Displays a set of media entries.
  * Available views:
@@ -7,12 +7,59 @@
  * - list: list of compact rows
  *
  * Dispatches:
- * - mediaInvalidated: When contents of the media window have changed
+ * - mediaInvalidated: when contents of the media window have changed
+ * - checkboxCheck: to select or deselect all media entries
+ *
+ * Captures:
+ * - mediumChecked: for updating checked media registry
+ * - selectAll: for selecting / deselecting all media entries
  */
 /*global jQuery, wraith, document */
 var app = app || {};
 
 app.widgets = (function (widgets, $, wraith, model, services) {
+    //////////////////////////////
+    // Static event handlers
+
+    /**
+     * Selects or deselects all media entries
+     * @param event jQuery event object
+     * @param data custom event data {mode: 'select' / 'deselect'}
+     */
+    function onSelectAll(event, data) {
+        var self = wraith.lookup($(this));
+
+        // selecting / deselecting all items on page
+        if (data.mode === 'select') {
+            self.selectAll();
+        } else {
+            self.selectNone();
+        }
+    }
+
+    /**
+     * Fires when a media item has been checked
+     * @param event jQuery event object
+     * @param data custom event data {mediaid: id, mode: 'select' / 'deselect'}
+     */
+    function onMediumChecked(event, data) {
+        var self = wraith.lookup($(this));
+
+        // registering (un)checked item
+        if (data.state === 'checked') {
+            self.selected[data.mediaid] = true;
+        } else {
+            delete self.selected[data.mediaid];
+        }
+    }
+
+    //////////////////////////////
+    // Static event bindings
+
+    $(document)
+        .on('selectAll', '.w_media', onSelectAll)
+        .on('mediumChecked', '.w_media', onMediumChecked);
+
     //////////////////////////////
     // Class
 
@@ -32,21 +79,30 @@ app.widgets = (function (widgets, $, wraith, model, services) {
         //////////////////////////////
         // Control
 
-        // returns a jQuery object with ALL checkboxes
-        function checkboxes() {
-            return $('#' + self.id + ' .check > :checkbox');
-        }
-        
+        /**
+         * Returns 'medium' widgets found inside the current widget
+         */
         function media() {
-            return $('#' + self.id + ' .w_medium');
-        }
-        
-        // returns a jQuery object with CHECKED checkboxes
-        function checked() {
-            return $('#' + self.id + ' .check > :checked');
+            return self.ui().find('.w_medium');
         }
 
-        // resets registry of selected entries
+        /**
+         * Returns a jQuery object with ALL checkboxes
+         */
+        function checkboxes() {
+            return self.ui().find('.w_checkbox');
+        }
+
+        /**
+         * Returns a jQuery object with CHECKED checkboxes
+         */
+        function checked() {
+            return self.ui().find('.w_checkbox.checked');
+        }
+
+        /**
+         * Resets registry of selected entries
+         */
         function resetSelected() {
             self.selected = {};
         }
@@ -65,18 +121,28 @@ app.widgets = (function (widgets, $, wraith, model, services) {
         // selects all elements in visible library
         self.selectAll = function () {
             resetSelected();
-            checkboxes().prop('checked', true);
+
+            // marking all medium widgets as selected
             media().each(function () {
                 var medium = wraith.lookup($(this));
-                self.selected[medium.data.mediaid] = true;
+                self.selected[medium.mediaid()] = true;
             });
+
+            // checking all related checkboxes
+            checkboxes()
+                .trigger('checkboxCheck', {state: 'checked'});
+
             return self;
         };
         
         // deselects all elements in visible library
         self.selectNone = function () {
             resetSelected();
-            checkboxes().removeAttr('checked', 'checked');
+
+            // unchceking all related checkboxes
+            checkboxes()
+                .trigger('checkboxCheck', {state: 'unchecked'});
+
             return self;
         };
         
@@ -222,7 +288,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                 return view;
             }
         };
-        
+
         //////////////////////////////
         // Overrides
 
