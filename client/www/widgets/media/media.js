@@ -318,7 +318,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
         }
         
         self.build = function () {
-            var page = model.media.getPage(widgets.pager.page(), widgets.pager.items()),
+            var page = model.media.getPage(widgets.pager.currentPage(), widgets.pager.items()),
                 i,
                 control;
 

@@ -16,20 +16,20 @@ app.widgets = (function (widgets) {
         get: function () {
             // obtaining URL hash values
             var tmp = decodeURI(window.location.hash).split('/'),
-                    library = '',       // placeholder for library name
-                    filter = tmp[2] || '',
-                    page = parseInt(tmp[3], 10) || 1;
+				library = '',       // placeholder for library name
+				filter = tmp[2] || '',
+				page = parseInt(tmp[3], 10) || 1;
             
             // updating widget state
             widgets.search.text(filter);
-            widgets.pager.page(page - 1);
+            widgets.pager.currentPage(page - 1);
             
             // sanitizing URL
             refresh([library, filter, page]);
         },
         
         set: function () {
-            refresh([null, widgets.search.text() || '', (parseInt(widgets.pager.page(), 10) || 0) + 1]);
+            refresh([null, widgets.search.text() || '', (parseInt(widgets.pager.currentPage(), 10) || 0) + 1]);
         }
     };
     
@@ -37,5 +37,5 @@ app.widgets = (function (widgets) {
     widgets.url.get();
     
     return widgets;
-})(app.widgets || {});
+}(app.widgets || {}));
 

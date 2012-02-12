@@ -1,205 +1,290 @@
-////////////////////////////////////////////////////////////////////////////////
-// Pager Control
-//
-// For switching between pages
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Pager Control
+ *
+ * For switching between pages
+ *
+ * Despatches:
+ * - pagerChanged: When new page was selected
+ *
+ * Captures:
+ * - pageChange: for changing pages by external widgets
+ */
 /*global jQuery, wraith, document */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, model) {
-    widgets.pager = function () {
+app.widgets = (function (widgets, $, wraith, model) {
+    //////////////////////////////
+    // Static event handlers
+
+    /**
+     * Modifies page number according to method.
+     * Returns false when page number was not changed.
+     * @param page Either string ('next', 'prev', 'first', or 'last') or a number
+     * representing the page to set
+     */
+    function setPage(page) {
+        if (typeof page === 'string') {
+            // could be written in a single line, but this way it's more readable
+            switch (page) {
+            case 'next':
+                return this.next();
+            case 'prev':
+                return this.prev();
+            case 'first':
+                return this.first();
+            case 'last':
+                return this.last();
+            }
+        } else if (typeof page === 'number') {
+            return this.currentPage(page);
+        }
+    }
+
+    /**
+     * Refreshes page to reflect the current state and finishes.
+     */
+    function changePage() {
+        // re-rendering pager widget
+        this
+            .render();
+
+        // triggering changed event
+        this.ui()
+            .trigger('pagerChanged', {
+                widget: this,
+                page: this.currentPage()
+            });
+
+        // TODO: these should be handled in their respecive classes
+        widgets.media
+            .build()
+            .render();
+        widgets.url.set();
+        widgets.checker
+            .render();
+    }
+
+    function onClick() {
+        var $this = $(this),
+            $pager = $this.closest('.w_pager'),
+            self = wraith.lookup($pager);
+
+        // turning pages based on which button was clicked
+        if (setPage.call(self, $this.attr('data-method'))) {
+            changePage.call(self);
+        }
+
+        return false;
+    }
+
+    /**
+     * External control for changing pages
+     * @param event jQuery event
+     * @param data Object containing method or page (number) parameter
+     */
+    function onPageChange(event, data) {
+        var $this = $(this),
+            self = wraith.lookup($this);
+
+        // turning pages
+        if (setPage.call(self, data.method || data.page)) {
+            changePage.call(self);
+        }
+    }
+
+    /**
+     * Fires when the user presses any of the page navigation buttons
+     * @param event jQuery event
+     */
+    function onKeyDown(event) {
+        // excluding input controls
+        if ($(event.target).is('input')) {
+            return;
+        }
+
+        // handling special keys
+        $('.w_pager')
+            .trigger('pageChange', {
+                method: {
+                    36: 'first',	// home
+                    34: 'next',		// next
+                    33: 'prev',		// prev
+                    35: 'last'      // end
+                }[event.which]
+            });
+    }
+
+    //////////////////////////////
+    // Static event bindings
+
+    $(document)
+        .on('click', '.w_pager .button', onClick)
+        .on('pageChange', '.w_pager', onPageChange)
+        .on('keydown', onKeyDown);
+
+    //////////////////////////////
+    // Class
+
+    widgets.pager = (function () {
         var self = wraith.widget.create(),
-                pages = widgets.dropdown(),
-                pagesel = widgets.select(),
-                page = 0,
-                items = 20,
-                max = 0;
+            button = widgets.dropdown(),
+            selector = widgets.select(),
+            currentPage = 0,
+            itemsPerPage = 20,
+            pageCount = 0;
 
         //////////////////////////////
         // Getters, setters
 
-        self.page = function (value) {
-            if (typeof value === 'undefined') {
-                return page;
+        self.currentPage = function (value) {
+            if (typeof value === 'number') {
+                if (currentPage !== value) {
+                    currentPage = value;
+                    return self;
+                } else {
+                    // page number was not set
+                    return false;
+                }
             } else {
-                page = value;
-                return self;
+                return currentPage;
             }
         };
-        
+
         self.items = function () {
-            return items;
+            return itemsPerPage;
         };
-        
+
         //////////////////////////////
         // Utility functions
 
+        /**
+         * Resets current page number.
+         */
         self.reset = function () {
-            page = 0;
-            pagesel.selected(page);
+            currentPage = 0;
+            selector.selected(currentPage);
             return self;
         };
-        
+
+        /**
+         * Assembles page list as options for pager dropdown
+         */
         function getOptions() {
             var result = [],
-                    row, i;
-            max = model.media.getPages(items);
-            for (i = 0; i < max; i++) {
-                row = model.media.getFirst(i, items)[0];
+                row,
+                i;
+            pageCount = model.media.getPages(itemsPerPage);
+            for (i = 0; i < pageCount; i++) {
+                row = model.media.getFirst(i, itemsPerPage)[0];
                 result.push((i + 1) + " - " + row.file.substr(0, 8) + "...");
             }
             return result;
         }
-        
-        function refresh() {
-            widgets.media
-                .build()
-                .render();
-            self.render();
-            pagesel
-                .selected(page)
-                .render();
-            widgets.url.set();
-            widgets.checker
-                .render();
-            return false;
-        }
-        
-        //////////////////////////////
-        // Event handlers
 
-        function onFirst() {
-            if (page === 0) {
-                return false;
-            }
-            page = 0;
-            return refresh();
-        }       
-        function onPrev() {
-            if (page === 0) {
-                return false;
-            }
-            page--;
-            return refresh();
-        }       
-        function onNext() {
-            if (page >= max - 1) {
-                return false;
-            }
-            page++;
-            return refresh();
-        }
-        function onLast() {
-            if (page >= max - 1) {
-                return false;
-            }
-            page = max - 1;
-            return refresh();
-        }
-        
         //////////////////////////////
         // External control
-        
-        self.first = onFirst;
-        self.next = onNext;
-        self.prev = onPrev;
-        self.last = onLast;
+
+        self.first = function () {
+            if (currentPage > 0) {
+                currentPage = 0;
+                return self;
+            } else {
+                return false;
+            }
+        };
+
+        self.prev = function () {
+            if (currentPage > 0) {
+                currentPage--;
+                return self;
+            } else {
+                return false;
+            }
+        };
+
+        self.next = function () {
+            if (currentPage < pageCount - 1) {
+                currentPage++;
+                return self;
+            } else {
+                return false;
+            }
+        };
+
+        self.last = function () {
+            if (currentPage < pageCount - 1) {
+                currentPage = pageCount - 1;
+                return self;
+            } else {
+                return false;
+            }
+        };
 
         //////////////////////////////
         // Overrides
 
         self.build = function () {
-            pagesel
+            selector
                 .onChange(function (i) {
                     // collapsing dropdown
-                    pages
+                    button
                         .collapse()
                         .render();
-                        
-                    // adjusting page number
-                    page = i;
-                    refresh();
+
+                    // triggering page change
+                    self.ui()
+                        .trigger('pageChange', {page: i});
                 })
-                .selected(page)
+                .selected(currentPage)
                 .appendTo(self);
-                
-            pages
-                .popup(pagesel)
+
+            button
+                .popup(selector)
                 .appendTo(self);
-                
+
             return self;
         };
-                
-        self.init = function (elem) {
-            elem
-                .find('a.first').click(onFirst).end()
-                .find('a.prev').click(onPrev).end()
-                .find('a.next').click(onNext).end()
-                .find('a.last').click(onLast).end();
-        };
-        
+
         self.html = function () {
             // re-rendering the select dropdown
-            pagesel
+            selector
                 .options(getOptions())
                 .render();
-            
+
             // returning empty widget on no data
-            if (pagesel.options().length <= 1) {
+            if (selector.options().length <= 1) {
                 return '<span id="' + self.id + '"></span>';
             }
 
-            pages
-                .caption(pagesel.options()[page]);
-            
+            button
+                .caption(selector.options()[currentPage]);
+
             // re-setting page in case pager is out of bounds
-            if (page > max) {
-                page = 0;
+            if (currentPage > pageCount) {
+                currentPage = 0;
             }
 
-            return [
+            /*jslint white: true */
+            var retval = [
                 '<span class="w_pager" id="' + self.id + '">',
-                '<a class="first" href="#" title="First"></a>',
-                '<a class="prev" href="#" title="Previous"></a>',
-                pages.html(),
-                '<a class="next" href="#" title="Next"></a>',
-                '<a class="last" href="#" title="Last"></a>',
+                    '<a class="button first" data-method="first" href="#" title="First"></a>',
+                    '<a class="button prev" data-method="prev" href="#" title="Previous"></a>',
+                    button.html(),
+                    '<a class="button next" data-method="next" href="#" title="Next"></a>',
+                    '<a class="button last" data-method="last" href="#" title="Last"></a>',
                 '</span>'
             ].join('');
-        };
-    
-        return self;
-    }();
-    
-    //////////////////////////////
-    // Keyboard controls
+            /*jslint white: false */
 
-    $(document).keydown(function (event) {
-        // excluding input controls 
-        if ($(event.target).is('input')) {
-            return;
-        }
-        
-        // handling special keys  
-        switch (event.which) {
-        case 36:    // home
-            widgets.pager.first();
-            return false;
-        case 34:    // pg down
-            widgets.pager.next();
-            return false;
-        case 33:    // pg up
-            widgets.pager.prev();
-            return false;
-        case 35:    // end
-            widgets.pager.last();
-            return false;
-        }
-    });
-    
+            return retval;
+        };
+
+        return self;
+    }());
+
     return widgets;
 }(app.widgets || {},
     jQuery,
     wraith,
-    app.model);
+    app.model));
 
