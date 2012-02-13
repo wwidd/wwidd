@@ -1,17 +1,20 @@
-////////////////////////////////////////////////////////////////////////////////
-// Kind Selector Control
-//
-// Lets the user control what kind of tags are visible
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Kind Selector Control
+ *
+ * Lets the user control what kind of tags are visible
+ *
+ * Despatches:
+ * - mediaInvalidated: when kinds are selected or deselected
+ */
 /*global jQuery, wraith, flock */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, flock, model, cache) {
+app.widgets = (function (widgets, $, wraith, flock, model, cache) {
     var KIND_PREFIX = 'k';
     
-    widgets.kinds = function () {
+    widgets.kinds = (function () {
         var self = wraith.widget.create(widgets.popup('dropdown')),
-                hidden;
+            hidden;
         
         //////////////////////////////
         // Utility functions
@@ -54,8 +57,9 @@ app.widgets = function (widgets, $, wraith, flock, model, cache) {
                 .render();
             
             // notifying media collection of change
-            widgets.media
-                .onChange();
+            // so it can re-calculate dimensions
+            self.ui()
+                .trigger('mediaInvalidated');
                 
             return self;
         }
@@ -79,7 +83,8 @@ app.widgets = function (widgets, $, wraith, flock, model, cache) {
 
         self.build = function () {
             var kinds = cache.mget(['kind', '*'], {mode: flock.keys}).sort(),
-                    i, kind;
+                i,
+                kind;
             self.clear();
             for (i = 0; i < kinds.length; i++) {
                 kind = kinds[i];
@@ -90,7 +95,7 @@ app.widgets = function (widgets, $, wraith, flock, model, cache) {
 
         self.contents = function () {
             var result = ['<div class="kinds">'],
-                    i;
+                i;
             for (i = 0; i < self.children.length; i++) {
                 result.push(self.children[i].html());
             }
@@ -99,7 +104,7 @@ app.widgets = function (widgets, $, wraith, flock, model, cache) {
         };
 
         return self;
-    }();
+    }());
     
     return widgets;
 }(app.widgets || {},
@@ -107,5 +112,5 @@ app.widgets = function (widgets, $, wraith, flock, model, cache) {
     wraith,
     flock,
     app.model,
-    app.cache || (app.cache = flock()));
+    app.cache));
 
