@@ -66,7 +66,15 @@ app.widgets = (function (widgets, $, wraith) {
 
         //////////////////////////////
         // Control
-        
+
+        function setHints($elem, hints) {
+            $elem
+                .trigger('hintsData', {
+                    widget: self,
+                    hints: hints
+                });
+        }
+
         // expands the dropdown widget
         self.expand = function () {
             // re-rendering UI
@@ -80,19 +88,14 @@ app.widgets = (function (widgets, $, wraith) {
                 .build()
                 .render($('body'));
                 
-            // showing hints
-            // TODO: use events
-            widgets.hints
-                .hints(self.hints || [])
-                .render();
+            // sending hint messages
+            setHints($this, self.hints || []);
         };
         
         // collapses the dropdown widget
         self.collapse = function () {
-            // hiding hints
-            widgets.hints
-                .clear()
-                .render();
+            // clearing hints
+            setHints(self.ui(), null);
                 
             // hiding dropdown window
             popup

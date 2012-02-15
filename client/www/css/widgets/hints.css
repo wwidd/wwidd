@@ -1,0 +1,28 @@
+/******************************
+HINTS
+******************************/
+
+div.w_hints {
+    position: relative;
+    padding: 0 0 0 20px;
+    z-index: 2;
+}
+
+div.w_hints > span.icon,
+div.w_hints > a.next {
+    display: inline-block; *zoom: 1;
+    position: absolute;
+    top: 0;
+    width: 16px;
+    height: 16px;
+}
+
+div.w_hints > span.icon {
+    left: 0;
+    background: url('/image/sprites.png') no-repeat 0 -60px;
+}
+
+div.w_hints > a.next {
+    right: 0;
+    background: url('/image/sprites.png') no-repeat -20px -100px;
+}

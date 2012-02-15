@@ -7,6 +7,9 @@
  * Captures:
  * - mediumExpanded: for recalculating page dimensions
  * - mediaInvalidated: for recalculating page dimensions
+ *
+ * Delegates:
+ * - hintsData: for displaying hint messages, to 'hints' widget
  */
 /*global document, jQuery, wraith, window */
 var app = app || {};
@@ -99,12 +102,24 @@ app.widgets = (function (widgets, $) {
             .render();
     }
 
+    /**
+     * Fires when a widget on the page wants to display its hints.
+     * Delegates event to hints widget for processing.
+     * @param event jQuery event object
+     * @param data {Object} Contains sender widget reference and hint text tarray (hints).
+     */
+    function onHintsData(event, data) {
+        $('.w_hints')
+            .trigger(event.type, data);
+    }
+
     //////////////////////////////
     // Static event bindings
 
     $(document)
         .on('mediumChecked', onMediumChecked)
-        .on('checkerChecked', onCheckerChecked);
+        .on('checkerChecked', onCheckerChecked)
+        .on('hintsData', onHintsData);
 
     //////////////////////////////
     // Class

@@ -157,7 +157,7 @@ MEDIA
 }
 
 /******************************
-HINTS
+FOOTER
 ******************************/
 
 #footer {
@@ -165,31 +165,6 @@ HINTS
     border-top: 1px solid;
     border-bottom-left-radius: 3px; -moz-border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px;
-}
-
-#footer > div.hints {
-    position: relative;
-    padding: 0 0 0 20px;
-    z-index: 2;
-}
-
-#footer > div.hints > span.icon,
-#footer > div.hints > a.next {
-    display: inline-block; *zoom: 1;
-    position: absolute;
-    top: 0;
-    width: 16px;
-    height: 16px;
-}
-
-#footer > div.hints > span.icon {
-    left: 0;
-    background: url('/image/sprites.png') no-repeat 0 -60px;    
-}
-
-#footer > div.hints > a.next {
-    right: 0;
-    background: url('/image/sprites.png') no-repeat -20px -100px;
 }
 
 /******************************
