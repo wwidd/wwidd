@@ -1,34 +1,19 @@
-////////////////////////////////////////////////////////////////////////////////
-// Directory Selector Control
-//
-// Tree widget designed specifically to display directories
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Directory Selector Widget
+ *
+ * Encompasses a tree widget designed specifically to display directories
+ */
 /*global document, jQuery, wraith */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, services) {
-    //////////////////////////////
-    // Static helper functions
-
-    // tells whether an object has any own propertes
-    function hasOwnProperties(obj) {
-        var prop;
-        for (prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+app.widgets = (function (widgets, $, wraith, services) {
     //////////////////////////////
     // Static event handlers
 
     // directory selection handler
     function onSelected(event, options) {
         var $node = options.elem,
-                node = options.node,
-                self = wraith.lookup($node, '.w_popup');
+            self = wraith.lookup($node, '.w_popup');
                 
         self.btnOk()
             .disabled({self: false})
@@ -39,20 +24,23 @@ app.widgets = function (widgets, $, wraith, services) {
     // loads child directories on demand
     function onExpandCollapse(event, options) {
         var $node = options.elem,
-                node = options.node,
-                expanded = node.expanded(),
-                empty = !hasOwnProperties(node.json()),
-                $spinner;
+            node = options.node,
+            expanded = node.expanded(),
+            empty = Object.isEmpty(node.json()),
+            $spinner;
     
         // acquiring sub-nodes when expanding an empty node
         if (expanded && empty) {
+            /*jslint white: true */
             $spinner = $node
                 .closest('.w_popup')
                     .find('.spinner')
                         .show();
+            /*jslint white: false */
+
             services.sys.dirlist(node.path().join('/'), function (json) {
                 $spinner.hide();
-                empty = !hasOwnProperties(json.data);
+                empty = Object.isEmpty(json.data);
                 if (empty) {
                     // no subdirs, removing expand button
                     $node
@@ -73,7 +61,7 @@ app.widgets = function (widgets, $, wraith, services) {
     // delegates event further 
     function onButton(event, options) {
         var $this = $(this),
-                self = wraith.lookup($this);
+            self = wraith.lookup($this);
         
         // determining which button was clicked
         switch (options.button.id) {
@@ -105,11 +93,11 @@ app.widgets = function (widgets, $, wraith, services) {
     // Class
 
     widgets.dirsel = function () {      
-        var self = wraith.widget.create(widgets.popup('centered')),
-                base_init = self.init,
-                tree = widgets.tree(),
-                btnCancel = widgets.button("Cancel"),
-                btnOk = widgets.button("OK").disabled({self: true});
+        var base = widgets.popup('centered'),
+            self = wraith.widget.create(base),
+            tree = widgets.tree(),
+            btnCancel = widgets.button("Cancel"),
+            btnOk = widgets.button("OK").disabled({self: true});
         
         // initial service call for root dirs
         services.sys.dirlist(null, function (json) {
@@ -119,10 +107,12 @@ app.widgets = function (widgets, $, wraith, services) {
                 .appendTo(self);
                 
             // re-rendering entire widget
+            /*jslint white: true */
             self
                 .render()
                 .find('div.spinner')
                     .hide();
+            /*jslint white: false */
         });
 
         //////////////////////////////
@@ -150,6 +140,7 @@ app.widgets = function (widgets, $, wraith, services) {
         };
         
         self.init = function (elem) {
+            /*jslint white: true */
             elem
                 .addClass('w_dirsel')
                 .find('div.spinner')
@@ -157,10 +148,11 @@ app.widgets = function (widgets, $, wraith, services) {
                 .end()
                 .find('table.status')
                     .insertAfter(elem.find('ul.root'));
+            /*jslint white: false */
                     
             // calling base init at the END
             // because base init relies on final dimensions
-            base_init.apply(self, arguments);
+            base.init.apply(self, arguments);
         };
         
         self.contents = function () {
@@ -180,5 +172,5 @@ app.widgets = function (widgets, $, wraith, services) {
 }(app.widgets,
     jQuery,
     wraith,
-    app.services);
+    app.services));
 

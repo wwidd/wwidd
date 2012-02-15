@@ -1,10 +1,10 @@
-////////////////////////////////////////////////////////////////////////////////
-// General Popup Control
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * General Popup Widget
+ */
 /*global jQuery, wraith, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith) {
+app.widgets = (function (widgets, $, wraith) {
     var TYPES = {
         'centered': 'centered',     // always centered, like a modal dialog
         'context': 'context',           // positions near mouse mask, stays there
@@ -16,9 +16,10 @@ app.widgets = function (widgets, $, wraith) {
         type = type || 'context';
         
         var self = wraith.widget.create(),
-                $window = $(window),        // frequently used window object
-                anchor;                                 // position anchor object for dropdown
-            
+            $window = $(window),    // frequently used window object
+            anchor,                 // position anchor object for dropdown
+            relatedWidget;          // related widget (usually the one that triggered the select)
+
         //////////////////////////////
         // Getters, setters
 
@@ -27,7 +28,16 @@ app.widgets = function (widgets, $, wraith) {
             anchor = value;
             return this;
         };
-        
+
+        self.relatedWidget = function (value) {
+            if (typeof value === 'object') {
+                relatedWidget = value;
+                return this;
+            } else {
+                return relatedWidget;
+            }
+        };
+
         //////////////////////////////
         // Event handlers
 
@@ -35,7 +45,7 @@ app.widgets = function (widgets, $, wraith) {
         // - dims: dimensions of elem(Height / Width) and window(Height / Width)
         function onMouseMove(event, elem, dims) {
             var offset, pos,
-                    pageX, pageY;
+                pageX, pageY;
             
             // obtaining element position
             if (!event && typeof anchor !== 'undefined') {
@@ -98,7 +108,8 @@ app.widgets = function (widgets, $, wraith) {
 
         self.init = function (elem) {
             var dims,
-                    that = this;
+                that = this;
+
             switch (type) {
             case 'centered':
                 onResize(elem);
@@ -106,6 +117,7 @@ app.widgets = function (widgets, $, wraith) {
                     onResize(elem);
                 });
                 break;
+
             case 'follow':
                 dims = getDims(elem);
                 onMouseMove(null, elem, dims);
@@ -113,6 +125,7 @@ app.widgets = function (widgets, $, wraith) {
                     onMouseMove(event, elem, dims);
                 });
                 break;
+
             case 'dropdown':
                 dims = getDims(elem);
                 onMouseMove(null, elem, dims);
@@ -120,8 +133,9 @@ app.widgets = function (widgets, $, wraith) {
                     onMouseMove(null, elem, dims);
                 });
                 break;
+
             default:
-            case 'context':
+            //case 'context':
                 dims = getDims(elem);
                 onMouseMove(null, elem, dims);
                 $('body').one('mousedown', function (event) {
@@ -131,13 +145,15 @@ app.widgets = function (widgets, $, wraith) {
             }
         };
 
+        /*jslint white: true */
         self.html = function () {
             return [
                 '<div id="', self.id, '" class="', ['w_popup', TYPES[type] || 'follow'].join(' '), '">',
-                this.contents(),
+                    this.contents(),
                 '</div>'
             ].join('');
         };
+        /*jslint white: true */
         
         return self;
     };
@@ -145,5 +161,5 @@ app.widgets = function (widgets, $, wraith) {
     return widgets;
 }(app.widgets || {},
     jQuery,
-    wraith);
+    wraith));
 

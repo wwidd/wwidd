@@ -1,23 +1,24 @@
-////////////////////////////////////////////////////////////////////////////////
-// Library Control Panel
-//
-// Encloses widgets that have to do with libraries:
-// - library switcher
-// - root folder adder
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Library Control Panel
+ *
+ * Encloses widgets that have to do with libraries:
+ * - library switcher
+ * - root folder adder
+ */
 /*global jQuery, wraith */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, services) {
+app.widgets = (function (widgets, $, wraith, services) {
     var hints = [
         "Save a backup copy of your library before extensive changes.",
         "Delete a library by deleting its database file."
     ];
     
-    widgets.library = function () {
+    widgets.library = (function () {
         var self = wraith.widget.create(),
-                dropdown = widgets.dropdown(),
-                busy = false;
+            dropdown = widgets.dropdown()
+                .popup(widgets.libsel),
+            busy = false;
         
         //////////////////////////////
         // Initialization
@@ -53,12 +54,8 @@ app.widgets = function (widgets, $, wraith, services) {
         // Overrides
 
         self.build = function () {
-            widgets.rootadd
-                .appendTo(self);
-
-            dropdown
-                .popup(widgets.libsel)
-                .appendTo(self);
+            widgets.rootadd.appendTo(self);
+            dropdown.appendTo(self);
 
             return self;
         };
@@ -94,11 +91,11 @@ app.widgets = function (widgets, $, wraith, services) {
         };
         
         return self;
-    }();
+    }());
     
     return widgets;
 }(app.widgets || {},
     jQuery,
     wraith,
-    app.services);
+    app.services));
 

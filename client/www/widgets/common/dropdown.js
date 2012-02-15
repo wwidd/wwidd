@@ -1,10 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////
-// General Dropdown Control
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * General Dropdown Widget
+ *
+ * Captures:
+ * - buttonClick: for controlling dropdown state (expanded / collapsed)
+ */
 /*global document, jQuery, wraith, window */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith) {
+app.widgets = (function (widgets, $, wraith) {
     //////////////////////////////
     // Static event handlers
     
@@ -30,10 +33,11 @@ app.widgets = function (widgets, $, wraith) {
     //////////////////////////////
     // Class
     
-    widgets.dropdown = function (caption, popup) {
-        var self = wraith.widget.create(widgets.button(caption)),
-                base_disabled = self.disabled,
-                expanded = false;
+    widgets.dropdown = function (caption) {
+        var base = widgets.button(caption),
+            self = wraith.widget.create(base),
+            expanded = false,
+            popup;
         
         //////////////////////////////
         // Getters / setters
@@ -41,6 +45,10 @@ app.widgets = function (widgets, $, wraith) {
         self.popup = function (value) {
             if (typeof value === 'object') {
                 popup = value;
+
+                // setting dropdown as related widget for popup
+                // so the popup's events may be fired on the dropdown, too
+                popup.relatedWidget(this === window ? self : this);
                 return self;
             } else {
                 return popup;
@@ -73,6 +81,7 @@ app.widgets = function (widgets, $, wraith) {
                 .render($('body'));
                 
             // showing hints
+            // TODO: use events
             widgets.hints
                 .hints(self.hints || [])
                 .render();
@@ -101,14 +110,15 @@ app.widgets = function (widgets, $, wraith) {
         // Overrides
 
         self.disabled = function (value) {
-            var before = base_disabled.call(self),
-                    result = base_disabled.call(self, value),
-                    after = base_disabled.call(self);
+            var before = base.disabled.call(self),
+                result = base.disabled.call(self, value),
+                after = base.disabled.call(self);
             
             // collapsing widget when just got disabled
             if (after && !before) {
                 self.collapse();
             }
+
             return result;
         };
         
@@ -134,5 +144,5 @@ app.widgets = function (widgets, $, wraith) {
     return widgets;
 }(app.widgets || {},
     jQuery,
-    wraith);
+    wraith));
 

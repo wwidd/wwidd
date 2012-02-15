@@ -1,102 +1,144 @@
-////////////////////////////////////////////////////////////////////////////////
-// Library Selector Control
-//
-// Lists available libraries, with download link
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Library Selector Control
+ *
+ * Lists available libraries, with download link
+ *
+ * Captures:
+ * - buttonClick: for adding new library item
+ * - selectSelected: for switching to another library
+ */
 /*global document, jQuery, wraith, window, flock, jOrder */
 var app = app || {};
 
-app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
+app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
     //////////////////////////////
     // Static event handlers
 
-    function onAdd(event, options) {
+    function onAddButtonClick(event, options) {
         var $button = options.elem,
-                self = wraith.lookup($(this));
-        
+            self = wraith.lookup($(this));
+
         self.select($button.siblings('input.new').val(), function () {
             self.reload();
         });
-        
+
         return false;
     }
-    
+
+    function onSelectSelected(event, data) {
+        var self = wraith.lookup($(this));
+        self.select(self.options()[data.item]);
+    }
+
+    function onClick(event) {
+        var $this = $(this),
+            self = wraith.lookup($this, '.w_libsel');
+
+        // saving library
+        services.lib.save(
+            self.options()[self.selectedItem()],
+            $this.closest('.w_libsel')
+                .find('iframe.download')
+        );
+
+        return false;
+    }
+
+    function onKeyUp() {
+        var $this = $(this),
+            self = wraith.lookup($this, '.w_libsel'),
+            data = widgets.libsel.data,
+            name = $this.val();
+
+        // enabling add button
+        self.button()
+            .disabled({libsel: name.length <= 0 || data.hasOwnProperty(name)})
+            .render();
+    }
+
     //////////////////////////////
     // Static event bindings
-    
+
     $(document)
-        .on('buttonClick', '.w_libsel', onAdd);
-    
+        .on('click', '.w_libsel a.save', onClick)
+        .on('keyup', '.w_libsel input.new', onKeyUp)
+        .on('buttonClick', '.w_libsel', onAddButtonClick)
+        .on('selectSelected', '.w_libsel', onSelectSelected);
+
     //////////////////////////////
     // Class
-    
-    widgets.libsel = function () {
-        var self = wraith.widget.create(widgets.select()),
-                button = widgets.button("Add"),
-                base_contents = self.contents,
-                base_init = self.init;
-        
+
+    widgets.libsel = (function () {
+        var base = widgets.select(),
+            self = wraith.widget.create(base),
+            button = widgets.button("Add");
+
         // selects library and reloads its contents
         // - name: name of the library to select
         self.select = function (name, handler) {
             services.lib.select(name, function () {
+                // TODO: use events
+
                 // resetting widget
                 widgets.pager.reset();
                 widgets.search.reset();
                 widgets.url.set();
-    
+
                 // loading new library contents
                 widgets.media.load();
-                
+
                 // setting caption
                 widgets.library.dropdown()
                     .caption(name)
                     .collapse()
                     .render();
-                
+
                 // calling custom handler
                 if (typeof handler === 'function') {
                     handler();
                 }
             });
         };
-        
+
         // retrieving list of libraries
         self.reload = function () {
             services.lib.getall(function (json) {
                 var processes = json.data.processes,
-                        progress = processes.thumbnails.progress,
-                        options = flock(json).mget('data.names.*').sort(),
-                        selected, i;
-    
+                    progress = processes.thumbnails.progress,
+                    options = flock(json).mget('data.names.*').sort(),
+                    selected,
+                    i;
+
                 // preserving library name lookup
+                // TODO: use app level state object
                 widgets.libsel.data = jOrder.join(options, {});
-                
-                indexOf:
+
                 for (i = 0; i < options.length; i++) {
                     if (options[i] === json.data.selected) {
                         selected = i;
-                        break indexOf;
+                        break;
                     }
                 }
-                
+
                 // detecting in-progress processes
                 if (progress > 0) {
+                    // TODO: use events
                     widgets.media
                         .poll();
                 } else {
                     self.render();
                 }
-    
+
                 // adding placeholder for new library
                 options.push(null);
-                
+
                 // initializing list
                 self
                     .options(options)
-                    .selected(selected);
-                    
+                    .selectedItem(selected);
+
                 // setting caption
+                // TODO: use events
                 widgets.library.dropdown()
                     .caption(self.options()[selected])
                     .collapse()
@@ -109,19 +151,14 @@ app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
 
         // loading library list
         self.reload();
-            
-        // setting change handler for list
-        self.onChange(function (i) {
-            self.select(self.options()[i]);
-        });
-        
+
         //////////////////////////////
         // Getters, setters
 
         self.button = function () {
             return button;
         };
-        
+
         //////////////////////////////
         // Overrides
 
@@ -129,10 +166,10 @@ app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
             button
                 .disabled({libsel: true})
                 .appendTo(self);
-        
+
             return self;
         };
-        
+
         self.item = function (i, item, selected) {
             if (item) {
                 return [
@@ -148,64 +185,34 @@ app.widgets = function (widgets, $, wraith, flock, jOrder, services) {
                 ].join('');
             }
         };
-        
+
         self.init = function (elem) {
-            base_init.call(self, elem);
-            
+            base.init.apply(self, arguments);
+
             // decorating class
+            /*jslint white: true */
             elem
                 .addClass('w_libsel')
                 .find('input.new').closest('li')
                     .addClass('new');
+            /*jslint white: false */
         };
-        
+
         self.contents = function () {
             return [
                 '<iframe class="download" style="display:none;"></iframe>',
-                base_contents.call(self)
+                base.contents.apply(self, arguments)
             ].join('');
         };
 
         return self;
-    }();
-    
-    //////////////////////////////
-    // Static event handlers
-    
-    function onSave(event) {
-        var $this = $(this),
-                self = wraith.lookup($this, '.w_libsel');
-        
-        // saving library
-        services.lib.save(
-            self.options()[self.selected()],
-            $this.closest('.w_libsel')
-                .find('iframe.download'));
-        
-        return false;
-    }
-    
-    function onChange() {
-        var $this = $(this),
-                self = wraith.lookup($this, '.w_libsel'),
-                data = widgets.libsel.data,
-                name = $this.val();
-                
-        // enabling add button
-        self.button()
-            .disabled({libsel: name.length <= 0 || data.hasOwnProperty(name)})
-            .render();
-    }
-    
-    $(document)
-        .on('click', '.w_libsel a.save', onSave)
-        .on('keyup', '.w_libsel input.new', onChange);
-    
+    }());
+
     return widgets;
 }(app.widgets || {},
     jQuery,
     wraith,
     flock,
     jOrder,
-    app.services);
+    app.services));
 

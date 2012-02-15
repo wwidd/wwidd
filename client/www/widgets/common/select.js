@@ -1,24 +1,57 @@
-////////////////////////////////////////////////////////////////////////////////
-// General Selector Popup Widget
-//
-// Selector list part of a dropdown.
-// Behavior:
-// - There must be a .caption element inside each item.
-//   That will intercept select events.
-// - Selected items don't trigger events.
-// - Widget can be stateful or stateless. When stateful, it
-//   preserves information about the selected item.
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * General Selector Popup Widget
+ *
+ * Selector list part of a dropdown.
+ *
+ * Behavior:
+ * - There must be a .caption element inside each item.
+ *   That will intercept select events.
+ * - Selected items don't trigger events.
+ * - Widget can be stateful or stateless. When stateful, it
+ *   preserves information about the selected item.
+ *
+ * Dispatches:
+ * - selectSelected: when an item is selected
+ */
 /*global document, jQuery, wraith */
 var app = app || {};
 
-app.widgets = function (widgets, $, services) {
+app.widgets = (function (widgets, $, wraith) {
+    //////////////////////////////
+    // Static event handlers
+
+    function onClick(event) {
+        var $this = $(this),
+            $item = $this.closest('li'),
+            $popup = $item.closest('.w_popup'),
+            i = $item.index(),
+            self = wraith.lookup($popup);
+
+        // setting selected item on widget
+        self.selectedItem(i);
+
+        // firing custom event saying an item was selected
+        $popup.add(self.relatedWidget().ui())
+            .trigger('selectSelected', {
+                widget: self,
+                item: i
+            });
+    }
+
+    //////////////////////////////
+    // Static event bindings
+
+    $(document)
+        .on('click', '.w_select > li:not(.selected) > .caption', onClick);
+
+    //////////////////////////////
+    // Class
+
     widgets.select = function (options) {
         var self = wraith.widget.create(widgets.popup('dropdown')),
-                stateful = true,    // whether widget remembers last selected item
-                selected = 0,           // selected index
-                onChange;                   // custom event
-        
+            stateful = true,    // whether widget remembers last selected item
+            selectedItem = 0;   // selected index
+
         //////////////////////////////
         // Getters, setters
 
@@ -26,27 +59,18 @@ app.widgets = function (widgets, $, services) {
             stateful = value;
             return self;
         };
-        
-        self.onChange = function (value) {
-            if (typeof value !== 'undefined') {
-                onChange = value;
+
+        self.selectedItem = function (value) {
+            if (typeof value === 'number') {
+                selectedItem = value;
                 return self;
             } else {
-                return onChange || function () {};
+                return selectedItem;
             }
         };
-        
-        self.selected = function (value) {
-            if (typeof value !== 'undefined') {
-                selected = value;
-                return self;
-            } else {
-                return selected;
-            }
-        };
-        
+
         self.options = function (value) {
-            if (typeof value !== 'undefined') {
+            if (typeof value === 'object') {
                 options = value;
                 return self;
             } else {
@@ -58,48 +82,32 @@ app.widgets = function (widgets, $, services) {
         // Overrides
 
         self.item = null;
-        
+
         self.contents = function () {
-            var i,
-                    result = ['<ul class="w_select">'];
-                    
+            var result, i;
+
+            result = ['<ul class="w_select">'];
             if (options) {
                 for (i = 0; i < options.length; i++) {
                     result.push([
-                        '<li', stateful && i === selected ? ' class="selected"' : '', '>',
+                        '<li', stateful && i === selectedItem ? ' class="selected"' : '', '>',
                         typeof this.item === 'function' ?
-                            this.item(i, options[i], stateful && i === selected) :
+                            this.item(i, options[i], stateful && i === selectedItem) :
                             '<span class="caption">' + options[i] + '</span>',
                         '</li>'
                     ].join(''));
                 }
             }
             result.push('</ul>');
+            
             return result.join('');
         };
 
         return self;
     };
-    
-    //////////////////////////////
-    // Static event handlers
 
-    function onSelect(event) {
-        var $this = $(this),
-                $item = $this.closest('li'),
-                i = $item.index(),
-                self = wraith.lookup($item, '.w_popup');
-
-        return self
-            .selected(i)
-            .onChange()(i, event);
-    }
-    
-    $(document)
-        .on('click', '.w_select > li:not(.selected) > .caption', onSelect);
-    
     return widgets;
 }(app.widgets || {},
     jQuery,
-    wraith);
+    wraith));
 

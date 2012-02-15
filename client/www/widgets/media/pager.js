@@ -114,21 +114,41 @@ app.widgets = (function (widgets, $, wraith, model) {
             });
     }
 
+    /**
+     * Fires when a page is selected from the page selector dropdown
+     * @param event jQuery event object
+     * @param data Custom data object {item: number}
+     */
+    function onSelectSelected(event, data) {
+        var self = wraith.lookup($(this));
+
+        // collapsing dropdown
+        self.button()
+            .collapse()
+            .render();
+
+        // triggering page change
+        self.ui()
+            .trigger('pageChange', {page: data.item});
+    }
+
     //////////////////////////////
     // Static event bindings
 
     $(document)
         .on('click', '.w_pager .button', onClick)
         .on('pageChange', '.w_pager', onPageChange)
-        .on('keydown', onKeyDown);
+        .on('keydown', onKeyDown)
+        .on('selectSelected', '.w_pager', onSelectSelected);
 
     //////////////////////////////
     // Class
 
     widgets.pager = (function () {
         var self = wraith.widget.create(),
-            button = widgets.dropdown(),
-            selector = widgets.select(),
+            select = widgets.select(),
+            button = widgets.dropdown()
+                .popup(select),
             currentPage = 0,
             itemsPerPage = 20,
             pageCount = 0;
@@ -154,6 +174,10 @@ app.widgets = (function (widgets, $, wraith, model) {
             return itemsPerPage;
         };
 
+        self.button = function () {
+            return button;
+        };
+
         //////////////////////////////
         // Utility functions
 
@@ -162,7 +186,7 @@ app.widgets = (function (widgets, $, wraith, model) {
          */
         self.reset = function () {
             currentPage = 0;
-            selector.selected(currentPage);
+            select.selectedItem(currentPage);
             return self;
         };
 
@@ -224,22 +248,10 @@ app.widgets = (function (widgets, $, wraith, model) {
         // Overrides
 
         self.build = function () {
-            selector
-                .onChange(function (i) {
-                    // collapsing dropdown
-                    button
-                        .collapse()
-                        .render();
-
-                    // triggering page change
-                    self.ui()
-                        .trigger('pageChange', {page: i});
-                })
-                .selected(currentPage)
+            select
+                .selectedItem(currentPage)
                 .appendTo(self);
-
             button
-                .popup(selector)
                 .appendTo(self);
 
             return self;
@@ -247,17 +259,17 @@ app.widgets = (function (widgets, $, wraith, model) {
 
         self.html = function () {
             // re-rendering the select dropdown
-            selector
+            select
                 .options(getOptions())
                 .render();
 
             // returning empty widget on no data
-            if (selector.options().length <= 1) {
+            if (select.options().length <= 1) {
                 return '<span id="' + self.id + '"></span>';
             }
 
             button
-                .caption(selector.options()[currentPage]);
+                .caption(select.options()[currentPage]);
 
             // re-setting page in case pager is out of bounds
             if (currentPage > pageCount) {

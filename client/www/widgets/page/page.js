@@ -132,6 +132,7 @@ app.widgets = (function (widgets, $) {
                 
             // adding actions
             widgets.actions
+                .build()
                 .render($('#checker'));
 
             // adding select all
