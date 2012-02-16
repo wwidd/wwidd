@@ -54,14 +54,6 @@ app.widgets = (function (widgets, $, wraith, model) {
                 widget: this,
                 page: this.currentPage()
             });
-
-        // TODO: these should be handled in their respecive classes
-        widgets.media
-            .build()
-            .render();
-        widgets.url.set();
-        widgets.checker
-            .render();
     }
 
     function onClick() {

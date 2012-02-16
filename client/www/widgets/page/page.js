@@ -138,6 +138,25 @@ app.widgets = (function (widgets, $, services, model) {
         }
     }
 
+    /**
+     * Fires when page was changed.
+     * @param event jQuery event object
+     * @param data {Object} Custom data containing new page number.
+     */
+    function onPagerChanged(event, data) {
+        // re-building media
+        widgets.media
+            .build()
+            .render();
+
+        // setting URL
+        widgets.url.set();
+
+        // re-rendering
+        widgets.checker
+            .render();
+    }
+
     //////////////////////////////
     // Static event bindings
 
@@ -145,7 +164,8 @@ app.widgets = (function (widgets, $, services, model) {
         .on('mediumChecked', onMediumChecked)
         .on('checkerChecked', onCheckerChecked)
         .on('hintsData', onHintsData)
-        .on('actionsOptionSelected', onActionsOptionSelected);
+        .on('actionsOptionSelected', onActionsOptionSelected)
+        .on('pagerChanged', onPagerChanged);
 
     //////////////////////////////
     // Class
