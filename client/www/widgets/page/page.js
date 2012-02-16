@@ -14,7 +14,7 @@
 /*global document, jQuery, wraith, window */
 var app = app || {};
 
-app.widgets = (function (widgets, $) {
+app.widgets = (function (widgets, $, services, model) {
     //////////////////////////////
     // Static event handlers
 
@@ -113,13 +113,39 @@ app.widgets = (function (widgets, $) {
             .trigger(event.type, data);
     }
 
+    /**
+     * Fires when an option was clicked in the actions dropdown.
+     * @param event jQuery event object
+     * @param data {Object} Custom event data containing widget reference and mediaids
+     */
+    function onActionsOptionSelected(event, data) {
+        var mediaids = data.mediaids;
+
+        switch (data.option) {
+        case 'extract':
+            services.media.extract(mediaids.join(','), true, function () {
+                widgets.media.poll();
+            });
+            break;
+        case 'remove':
+            // calling deletion service
+            // then reloading entire library
+            services.media.del(mediaids.join(','), function () {
+                model.media.unset(mediaids);
+                widgets.media.refresh();
+            });
+            break;
+        }
+    }
+
     //////////////////////////////
     // Static event bindings
 
     $(document)
         .on('mediumChecked', onMediumChecked)
         .on('checkerChecked', onCheckerChecked)
-        .on('hintsData', onHintsData);
+        .on('hintsData', onHintsData)
+        .on('actionsOptionSelected', onActionsOptionSelected);
 
     //////////////////////////////
     // Class
@@ -186,5 +212,7 @@ app.widgets = (function (widgets, $) {
 
     return widgets;
 }(app.widgets || {},
-    jQuery));
+    jQuery,
+    app.services,
+    app.model));
 
