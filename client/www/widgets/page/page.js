@@ -7,6 +7,7 @@
  * Captures:
  * - mediumExpanded: for recalculating page dimensions
  * - mediaInvalidated: for recalculating page dimensions
+ * - libselSelected: when new library is selected
  *
  * Delegates:
  * - hintsData: for displaying hint messages, to 'hints' widget
@@ -157,6 +158,21 @@ app.widgets = (function (widgets, $, services, model) {
             .render();
     }
 
+    /**
+     * Fires when current library has changed
+     * @param event jQuery event object
+     * @param data {Object} Custom event data with name of new library
+     */
+    function onLibselSelected(event, data) {
+        // resetting widget
+        widgets.pager.reset();
+        widgets.search.reset();
+        widgets.url.set();
+
+        // loading new library contents
+        widgets.media.load();
+    }
+
     //////////////////////////////
     // Static event bindings
 
@@ -165,7 +181,8 @@ app.widgets = (function (widgets, $, services, model) {
         .on('checkerChecked', onCheckerChecked)
         .on('hintsData', onHintsData)
         .on('actionsOptionSelected', onActionsOptionSelected)
-        .on('pagerChanged', onPagerChanged);
+        .on('pagerChanged', onPagerChanged)
+        .on('libselSelected', onLibselSelected);
 
     //////////////////////////////
     // Class

@@ -78,6 +78,10 @@ app.widgets = (function (widgets, $, wraith) {
             }
         };
 
+        self.option = function (index) {
+            return options[index];
+        };
+
         //////////////////////////////
         // Overrides
 

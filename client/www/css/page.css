@@ -84,11 +84,11 @@ CONTROLS
 LIBRARY SWITCHER
 ******************************/
 
-#switcher > span.switcher > span.caption {
+#switcher > span.w_switcher > span.caption {
     margin: 0 5px 0 0;
 }
 
-#switcher span.spinner {
+#switcher > span.w_switcher > span.spinner {
     margin: 0 0 0 5px;
     height: 16px;
     width: 16px;

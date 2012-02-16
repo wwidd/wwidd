@@ -4,16 +4,75 @@
  * Encloses widgets that have to do with libraries:
  * - library switcher
  * - root folder adder
+ *
+ * Despatches:
+ * - libselSelected: when a library is selected from the list
+ *
+ * Captures:
+ * - selectSelected: for switching to another library
  */
-/*global jQuery, wraith */
+/*global document, jQuery, wraith */
 var app = app || {};
 
 app.widgets = (function (widgets, $, wraith, services) {
+    //////////////////////////////
+    // Static event handlers
+
+    /**
+     * Fires when user selected a library from dropdown.
+     * @param event jQuery event object
+     * @param data {Object} Custom event data holding item number
+     */
+    function onSelectSelected(event, data) {
+        var $this = $(this),
+            self = wraith.lookup($this),
+            select = self.dropdown().popup(),
+
+            // library name
+            name = data.name || select.option(data.item);
+
+        // calling service that selects new library
+        services.lib.select(name, function () {
+            // setting caption
+            self.dropdown()
+                .caption(name)
+                .collapse()
+                .render();
+
+            // item is null when adding library
+            if (data.item === null) {
+                // library was added, reloading library list
+                self.dropdown().popup()
+                    .reload();
+            }
+
+            // triggering custom event telling that
+            // library was changed
+            self.ui()
+                .trigger('libselSelected', {
+                    widget: self,
+                    item: data.item,
+                    name: name
+                });
+        });
+
+        return false;
+    }
+
+    //////////////////////////////
+    // Static event bindings
+
+    $(document)
+        .on('selectSelected', '.w_switcher', onSelectSelected);
+
+    //////////////////////////////
+    // Class
+
     var hints = [
         "Save a backup copy of your library before extensive changes.",
         "Delete a library by deleting its database file."
     ];
-    
+
     widgets.library = (function () {
         var self = wraith.widget.create(),
             dropdown = widgets.dropdown()
@@ -79,16 +138,18 @@ app.widgets = (function (widgets, $, wraith, services) {
             }
         };
 
+        /*jslint white: true */
         self.html = function () {
             return [
-                '<span class="switcher" id="', self.id, '">',
-                '<span class="caption">Library:</span>',
-                dropdown.html(),
-                widgets.rootadd.html(),
-                '<span class="spinner"></span>',
+                '<span id="', self.id, '" class="w_switcher">',
+                    '<span class="caption">Library:</span>',
+                    dropdown.html(),
+                    widgets.rootadd.html(),
+                    '<span class="spinner"></span>',
                 '</span>'
             ].join('');
         };
+        /*jslint white: false */
         
         return self;
     }());

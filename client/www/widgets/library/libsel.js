@@ -3,9 +3,11 @@
  *
  * Lists available libraries, with download link
  *
+ * Despatches:
+ * - selectSelected: when a new library is being added
+ *
  * Captures:
  * - buttonClick: for adding new library item
- * - selectSelected: for switching to another library
  */
 /*global document, jQuery, wraith, window, flock, jOrder */
 var app = app || {};
@@ -14,23 +16,30 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
     //////////////////////////////
     // Static event handlers
 
+    /**
+     * Fires when user clicks on 'Add library' button
+     * @param event
+     * @param options
+     */
     function onAddButtonClick(event, options) {
         var $button = options.elem,
             self = wraith.lookup($(this));
 
-        self.select($button.siblings('input.new').val(), function () {
-            self.reload();
-        });
+        // triggering event that selects
+        self.relatedWidget().ui()
+            .trigger('selectSelected', {
+                widget: self,
+                item: null,
+                name: $button.siblings('input.new').val()
+            });
 
         return false;
     }
 
-    function onSelectSelected(event, data) {
-        var self = wraith.lookup($(this));
-        self.select(self.options()[data.item]);
-    }
-
-    function onClick(event) {
+    /**
+     * Fires when user clicks on 'Save library' button
+     */
+    function onSaveClick() {
         var $this = $(this),
             self = wraith.lookup($this, '.w_libsel');
 
@@ -44,7 +53,11 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
         return false;
     }
 
-    function onKeyUp() {
+    /**
+     * Fires when user enters text into 'new library name' field.
+     * Controls disabled state of 'add library' button.
+     */
+    function onNewKeyUp() {
         var $this = $(this),
             self = wraith.lookup($this, '.w_libsel'),
             data = widgets.libsel.data,
@@ -60,10 +73,9 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
     // Static event bindings
 
     $(document)
-        .on('click', '.w_libsel a.save', onClick)
-        .on('keyup', '.w_libsel input.new', onKeyUp)
-        .on('buttonClick', '.w_libsel', onAddButtonClick)
-        .on('selectSelected', '.w_libsel', onSelectSelected);
+        .on('click', '.w_libsel a.save', onSaveClick)
+        .on('keyup', '.w_libsel input.new', onNewKeyUp)
+        .on('buttonClick', '.w_libsel', onAddButtonClick);
 
     //////////////////////////////
     // Class
@@ -72,33 +84,6 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
         var base = widgets.select(),
             self = wraith.widget.create(base),
             button = widgets.button("Add");
-
-        // selects library and reloads its contents
-        // - name: name of the library to select
-        self.select = function (name, handler) {
-            services.lib.select(name, function () {
-                // TODO: use events
-
-                // resetting widget
-                widgets.pager.reset();
-                widgets.search.reset();
-                widgets.url.set();
-
-                // loading new library contents
-                widgets.media.load();
-
-                // setting caption
-                widgets.library.dropdown()
-                    .caption(name)
-                    .collapse()
-                    .render();
-
-                // calling custom handler
-                if (typeof handler === 'function') {
-                    handler();
-                }
-            });
-        };
 
         // retrieving list of libraries
         self.reload = function () {
@@ -138,12 +123,13 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
                     .selectedItem(selected);
 
                 // setting caption
-                // TODO: use events
-                widgets.library.dropdown()
-                    .caption(self.options()[selected])
+                self.relatedWidget()
+                    .caption(self.option(selected))
                     .collapse()
                     .render();
             });
+
+            return self;
         };
 
         //////////////////////////////
