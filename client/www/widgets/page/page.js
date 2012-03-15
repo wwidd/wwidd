@@ -173,6 +173,14 @@ app.widgets = (function (widgets, $, services, model) {
         widgets.media.load();
     }
 
+    /**
+     * Fires when in-progress server processes are detected
+     */
+    function onInProgress() {
+        // starting media polling
+        widgets.media.poll();
+    }
+
     //////////////////////////////
     // Static event bindings
 
@@ -182,7 +190,8 @@ app.widgets = (function (widgets, $, services, model) {
         .on('hintsData', onHintsData)
         .on('actionsOptionSelected', onActionsOptionSelected)
         .on('pagerChanged', onPagerChanged)
-        .on('libselSelected', onLibselSelected);
+        .on('libselSelected', onLibselSelected)
+        .on('inProgress', onInProgress);
 
     //////////////////////////////
     // Class

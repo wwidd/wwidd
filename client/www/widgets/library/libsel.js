@@ -5,6 +5,7 @@
  *
  * Despatches:
  * - selectSelected: when a new library is being added
+ * - inProgress: when in-progress server processes are detected
  *
  * Captures:
  * - buttonClick: for adding new library item
@@ -107,9 +108,9 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
 
                 // detecting in-progress processes
                 if (progress > 0) {
-                    // TODO: use events
-                    widgets.media
-                        .poll();
+                    // broadcasting message to initiate polling
+                    self.relatedWidget().ui()
+                        .trigger('inProgress');
                 } else {
                     self.render();
                 }
