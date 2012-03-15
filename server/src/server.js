@@ -5,27 +5,28 @@
 require.paths.unshift('server/src');
 
 var	$http = require('http'),
-		$url = require('url'),
-		$path = require('path'),
-		browser = require('tools/browser').browser,	
-		ifconfig = require('tools/ifconfig').ifconfig,		
-		file = require('ajax/file'),
-		
-		// modlules
-		library = require('ajax/library'),
-		media = require('ajax/media'),
-		tag = require('ajax/tag'),
-		root = require('ajax/root'),
-		system = require('ajax/system'),
-		
-		// environmental variables
-		PORT = 8124,
-		DEBUG = false;
+    $url = require('url'),
+    $path = require('path'),
+    $strings = require('utils/strings').strings,
+    browser = require('tools/browser').browser,
+    ifconfig = require('tools/ifconfig').ifconfig,
+    file = require('ajax/file'),
+
+    // modlules
+    library = require('ajax/library'),
+    media = require('ajax/media'),
+    tag = require('ajax/tag'),
+    root = require('ajax/root'),
+    system = require('ajax/system'),
+
+    // environmental variables
+    PORT = 8124,
+    DEBUG = false;
 		
 // processing command line arguments
 (function () {
 	var argv = process.argv,
-			i;
+        i;
 	for (i = 0; i < argv.length; i++) {
 		switch (argv[i]) {
 		case 'debug':
@@ -44,9 +45,9 @@ var	$http = require('http'),
 function createServer() {
 	return $http.createServer(function (req, res) {
 		var	url = $url.parse(req.url, true),
-				endpoint = url.pathname,
-				query = url.query,
-				ok;
+            endpoint = url.pathname,
+            query = url.query,
+            ok;
 	
 		// executing command
 		switch (endpoint.split('/')[1]) {
@@ -74,15 +75,19 @@ function createServer() {
 			// packs css of js files together in one request
 			(function () {
 				var type = {'css': 'css', 'js': 'js'}[query.type] || 'js',
-						ext = '.' + type,
-						files = query.files.split(/\s*,\s*/),
-						i, filePath;
+                    ext = '.' + type,
+                    files = $strings.split($strings.trim(query.files)),
+                    i,
+                    filePath;
 				res.writeHead(200, {"Content-Type": "text/" + {'css': 'css', 'js': 'javascript'}[type]});
 				for (i = 0; i < files.length; i++) {
-					if (files[i].split('/')[0] === 'common') {
+					if (type === 'js' &&
+                        files[i].split('/')[0] === 'common'
+                        ) {
 						filePath = $path.join(process.cwd(), files[i] + ext);
 					} else {
-						filePath = $path.join(process.cwd(), 'client/www/' + files[i] + ext);
+                        console.log(['client/www', type, files[i] + ext].join('/'));
+						filePath = $path.join(process.cwd(), ['client/www', type, files[i] + ext].join('/'));
 					}
 					file.add(filePath, res);
 				}
@@ -137,4 +142,3 @@ ifconfig.exec(function (ip) {
 		}
 	}
 });
-
