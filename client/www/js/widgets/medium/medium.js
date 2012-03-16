@@ -17,11 +17,11 @@ var app = app || {};
 
 app.widgets = (function (widgets, $, wraith, services, model) {
     var VIEWS = {
-            'thumb': 'thumb',
-            'compact': 'compact',
-            'expanded': 'expanded'
-        },
-    
+        'thumb': 'thumb',
+        'compact': 'compact',
+        'expanded': 'expanded'
+    },
+
         // static properties
         lastOpen;               // widget reference to the last opened medium (thumb or compact to expanded)
 
@@ -89,7 +89,7 @@ app.widgets = (function (widgets, $, wraith, services, model) {
 
     //////////////////////////////
     // Class
-    
+
     widgets.medium = function (mediaid) {
         var self = wraith.widget.create(),
             view = 'thumb',
@@ -100,7 +100,7 @@ app.widgets = (function (widgets, $, wraith, services, model) {
         self.tagger = null;
         self.keywords = null;
         self.checkbox = null;
-        
+
         //////////////////////////////
         // Getters / setters
 
@@ -116,7 +116,7 @@ app.widgets = (function (widgets, $, wraith, services, model) {
                 return view;
             }
         };
-        
+
         // true or false
         self.expanded = function (value) {
             if (typeof value !== 'undefined') {
@@ -126,7 +126,7 @@ app.widgets = (function (widgets, $, wraith, services, model) {
                 return expanded ? true : false;
             }
         };
-        
+
         //////////////////////////////
         // Business functions
 
@@ -150,14 +150,14 @@ app.widgets = (function (widgets, $, wraith, services, model) {
         self.selected = function () {
             return $('#' + self.id).find(':checked').length > 0;
         };
-        
+
         //////////////////////////////
         // Overrides
 
         // builds widget structure
         self.build = function () {
             self.clear();
-            
+
             // adding rater widget
             self.rater = widgets.rater(mediaid)
                 .appendTo(self);
@@ -168,35 +168,34 @@ app.widgets = (function (widgets, $, wraith, services, model) {
             // adding tagger widget to non-thumb views
             self.tagger = widgets.tagger(mediaid)
                 .appendTo(self);
-            
+
             // adding keywords widget
             self.keywords = widgets.keywords(mediaid)
                 .appendTo(self);
-            
+
             return self;
         };
-        
-        /*jslint white: true */
+
         self.html = function () {
-            var row = model.media.getRow(mediaid);
+            var row = model.media.getById(mediaid);
 
             return [
-                '<div id="', self.id, '" class="', 
+                '<div id="', self.id, '" class="',
                 ['w_medium']
                     .concat(model.pagestate.lastPlayed === mediaid ? ['playing'] : [])
                     .concat(VIEWS[expanded || view] || [])
-                .join(' '), '">',
-                    
+                    .join(' '), '">',
+
                 // checkbox
                 '<div class="check">',
                     self.checkbox.html(),
                 '</div>',
-                
+
                 // file name
                 '<div class="file">',
                     '<span title="', row.file, '">', row.file, '</span>',
                 '</div>',
-                
+
                 // thumbnail
                 expanded || view === 'thumb' ? [
                     '<div class="overlay"></div>',
@@ -207,26 +206,25 @@ app.widgets = (function (widgets, $, wraith, services, model) {
                         '<span class="spinner"></span>',
                     '</div>'
                 ].join('') : '',
-                
+
                 // rater
                 self.rater.html(),
-                
+
                 // keywords
                 expanded ? self.keywords
                     .compact(view !== 'compact')
                     .html() : '',
-                
+
                 // tagger
                 expanded || view === 'compact' ? self.tagger.html() : '',
-                
+
                 '</div>'
             ].join('');
         };
-        /*jslint white: false */
 
         return self;
     };
-    
+
     //////////////////////////////
     // Static methods
 

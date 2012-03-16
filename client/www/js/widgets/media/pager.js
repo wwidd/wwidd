@@ -19,8 +19,9 @@ app.widgets = (function (widgets, $, wraith, model) {
     /**
      * Modifies page number according to method.
      * Returns false when page number was not changed.
-     * @param page Either string ('next', 'prev', 'first', or 'last') or a number
-     * representing the page to set
+     * @this {object} Pager widget.
+     * @param page {string|number} Which page to switch to. "next", "prev", "first", or "last", or page number.
+     * @returns {object|boolean} Page widget, or false when specified page doesn't exist.
      */
     function setPage(page) {
         if (typeof page === 'string') {
@@ -38,6 +39,8 @@ app.widgets = (function (widgets, $, wraith, model) {
         } else if (typeof page === 'number') {
             return this.currentPage(page);
         }
+
+        return false;
     }
 
     /**
@@ -70,9 +73,12 @@ app.widgets = (function (widgets, $, wraith, model) {
     }
 
     /**
-     * External control for changing pages
-     * @param event jQuery event
-     * @param data Object containing method or page (number) parameter
+     * External control for changing pages.
+     * Specified method has precedence over page number.
+     * @param event {object} jQuery event
+     * @param data {object} Custom event data.
+     * @param data.method {string} "next", "prev", "first", or "last".
+     * @param data.page {number} Page number to switch to.
      */
     function onPageChange(event, data) {
         var $this = $(this),
@@ -86,7 +92,7 @@ app.widgets = (function (widgets, $, wraith, model) {
 
     /**
      * Fires when the user presses any of the page navigation buttons
-     * @param event jQuery event
+     * @param event {object} jQuery event
      */
     function onKeyDown(event) {
         // excluding input controls
@@ -98,20 +104,21 @@ app.widgets = (function (widgets, $, wraith, model) {
         $('.w_pager')
             .trigger('pageChange', {
                 method: {
-                    36: 'first',	// home
-                    34: 'next',		// next
-                    33: 'prev',		// prev
+                    36: 'first', // home
+                    34: 'next', // next
+                    33: 'prev', // prev
                     35: 'last'      // end
                 }[event.which]
             });
     }
 
     /**
-     * Fires when a page is selected from the page selector dropdown
-     * @param event jQuery event object
-     * @param data Custom data object {item: number}
+     * Fires when a page is selected from the page selector dropdown.
+     * @param event {object} jQuery event.
+     * @param data {object} Custom event data.
+     * @param data.item {number} Selected page index.
      */
-    function onSelectSelected(event, data) {
+    function onPagerSelected(event, data) {
         var self = wraith.lookup($(this));
 
         // collapsing dropdown
@@ -131,7 +138,7 @@ app.widgets = (function (widgets, $, wraith, model) {
         .on('click', '.w_pager .button', onClick)
         .on('pageChange', '.w_pager', onPageChange)
         .on('keydown', onKeyDown)
-        .on('selectSelected', '.w_pager', onSelectSelected);
+        .on('selectSelected', '.w_pager', onPagerSelected);
 
     //////////////////////////////
     // Class
@@ -268,7 +275,6 @@ app.widgets = (function (widgets, $, wraith, model) {
                 currentPage = 0;
             }
 
-            /*jslint white: true */
             var retval = [
                 '<span class="w_pager" id="' + self.id + '">',
                     '<a class="button first" data-method="first" href="#" title="First"></a>',
@@ -278,7 +284,6 @@ app.widgets = (function (widgets, $, wraith, model) {
                     '<a class="button last" data-method="last" href="#" title="Last"></a>',
                 '</span>'
             ].join('');
-            /*jslint white: false */
 
             return retval;
         };

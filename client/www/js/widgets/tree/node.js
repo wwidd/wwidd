@@ -1,20 +1,20 @@
-////////////////////////////////////////////////////////////////////////////////
-// Tree node in a tree widget
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Tree Node Widget
+ */
 /*global document, jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
     widgets.node = function (text, tree, path) {
         path = path || [];
-        
+
         var self = wraith.widget.create(),
-                json,
-                expanded = false;
-                
+            json,
+            expanded = false;
+
         //////////////////////////////
         // Getters, setters
-        
+
         self.path = function () {
             return path;
         };
@@ -22,11 +22,11 @@ app.widgets = function (widgets, $, wraith) {
         self.text = function () {
             return text;
         };
-        
+
         self.expanded = function () {
             return expanded;
         };
-        
+
         self.json = function (value) {
             if (typeof value !== 'undefined') {
                 json = value;
@@ -35,11 +35,13 @@ app.widgets = function (widgets, $, wraith) {
                 return json;
             }
         };
-        
+
         //////////////////////////////
         // Control
-        
-        // toggles expanded / collapsed state
+
+        /**
+         * Toggles expanded / collapsed state.
+         */
         self.toggle = function () {
             expanded = !expanded;
             return self
@@ -47,15 +49,15 @@ app.widgets = function (widgets, $, wraith) {
                 .build()
                 .render();
         };
-        
+
         //////////////////////////////
         // Overrides
 
         // builds the node with subnodes as specified by json
         self.build = function () {
             var keys, i, key,
-                    lookup, order,      // temp buffers
-                    tmp;
+                lookup, order, // temp buffers
+                tmp;
 
             if (json && expanded) {
                 // obtaining sorted array of node names
@@ -65,7 +67,7 @@ app.widgets = function (widgets, $, wraith) {
                         keys.push(key);
                     }
                 }
-                
+
                 // adding child widgets according to node names
                 lookup = {};
                 order = {};
@@ -79,13 +81,13 @@ app.widgets = function (widgets, $, wraith) {
                         lookup[key] = tmp;
                     }
                 }
-                
+
                 keys.sort(function (a, b) {
                     a = order[a];
                     b = order[b];
-                    return a > b ? 1 : a < b ? -1 : 0; 
+                    return a > b ? 1 : a < b ? -1 : 0;
                 });
-                
+
                 // adding child widgets according to node names
                 self.clear();
                 for (i = 0; i < keys.length; i++) {
@@ -101,15 +103,19 @@ app.widgets = function (widgets, $, wraith) {
             return self;
         };
 
-        // returns whether the current node is selected
+        /**
+         * Tells whether the current node is selected.
+         * @returns {boolean}
+         */
         function selected() {
             return tree.selected().join('/') === path.join('/');
         }
-        
+
         self.html = function () {
             return [
                 /*jslint white:false */
-                '<li id="', self.id, '" class="', ['w_node', expanded ? 'expanded' : '', selected() ? 'selected' : ''].join(' '), '">',
+                '<li id="', self.id, '" class="',
+                ['w_node', expanded ? 'expanded' : '', selected() ? 'selected' : ''].join(' '), '">',
                     '<span>',
                         '<span class="toggle"></span>',
                         '<span class="name">', text, '</span>',
@@ -117,7 +123,7 @@ app.widgets = function (widgets, $, wraith) {
                     '<ul>',
                         function () {
                             var result = [],
-                                    i;
+                                i;
                             for (i = 0; i < self.children.length; i++) {
                                 result.push(self.children[i].html());
                             }
@@ -128,55 +134,52 @@ app.widgets = function (widgets, $, wraith) {
                 /*jslint white:true */
             ].join('');
         };
-        
+
         return self;
     };
-    
+
     //////////////////////////////
     // Static event handlers
 
-    // expand / collapse button handler
-    function onExpandCollapse() {
-        var $this = $(this),
-                $node = $(this).closest('.w_node'),
-                node = wraith.lookup($node);
-        
+    function onExpandCollapseClicked() {
+        var $node = $(this).closest('.w_node'),
+            node = wraith.lookup($node);
+
         // toggling expanded state of node
         $node = node.toggle();
-        
+
         // triggering custom event on node
         $node.trigger('nodeExpandCollapse', {
             elem: $node,
             node: node
         });
-        
+
         return false;
     }
-    
-    // directory selection button
-    function onSelect() {
+
+    function onDirectorySelect() {
         // obtaining necessary objects (current node & tree)
         var $node = $(this).closest('.w_node'),
-                node = wraith.lookup($node);
-        
+            node = wraith.lookup($node);
+
         // triggering custom event on node
         $node.trigger('nodeSelected', {
             elem: $node,
             node: node
         });
-            
+
         return false;
     }
-    
+
     //////////////////////////////
     // Static event bindings
 
     // any non-dead folder can be expanded
     // any folder can be selected
     $(document)
-        .on('click', '.w_node:not(.dead) span.toggle', onExpandCollapse)
-        .on('click', '.w_node span.name', onSelect);
-    
+        .on('click', '.w_node:not(.dead) span.toggle', onExpandCollapseClicked)
+        .on('click', '.w_node span.name', onDirectorySelect);
+
     return widgets;
 }(app.widgets,
     jQuery,

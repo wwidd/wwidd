@@ -1,6 +1,6 @@
-////////////////////////////////////////////////////////////////////////////////
-// Select All - Select None widget
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * "Check / Uncheck All" Widget
+ */
 /*global document, jQuery, wraith */
 var app = app || {};
 
@@ -8,17 +8,23 @@ app.widgets = (function (widgets, $, wraith) {
     //////////////////////////////
     // Static event handlers
 
+    /**
+     * Handler for checked / unchecked event.
+     * @param event {object} jQuery event.
+     * @param data {object} Custom event data.
+     * @param data.state {string} Checkbox state. "checked", "unchecked", or "mixed".
+     */
     function onCheck(event, data) {
         var $this = $(this),
             self = wraith.lookup($this);
 
         $this
             .trigger('checkerChecked', {
-                widget: self,
-                state: data.state
-            });
+            widget: self,
+            state: data.state
+        });
     }
-    
+
     //////////////////////////////
     // Static event bindings
 
@@ -39,10 +45,10 @@ app.widgets = (function (widgets, $, wraith) {
             checkbox.appendTo(self);
             return self;
         };
-        
+
         self.init = function (elem) {
             elem.addClass('w_checker');
-            
+
             // controlling actions dropdown state
             // must be controlled when widget is re-drawn
             widgets.actions
@@ -53,10 +59,10 @@ app.widgets = (function (widgets, $, wraith) {
         self.contents = function () {
             return checkbox.html();
         };
-        
+
         return self;
     }());
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

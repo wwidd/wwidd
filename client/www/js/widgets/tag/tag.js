@@ -1,6 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-// Tag Control Base (Abstract)
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Base Tag Widget
+ * (Abstract)
+ */
 /*global document, jQuery, wraith, jOrder, escape */
 var app = app || {};
 
@@ -8,21 +9,21 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
     // - mediaid: media identifier
     widgets.tag = function (mediaid) {
         var self = wraith.widget.create(widgets.editable()),
-                base_init = self.init;
-        
+            base_init = self.init;
+
         self.hints = widgets.tag.hints;
 
         //////////////////////////////
         // Control
 
-        // removes tag from media entry
+        /** Removes tag from media entry */
         function remove(before) {
             if (before) {
                 model.media.removeTag([mediaid], before);
             }
         }
-        
-        // adds tag to media entry
+
+        /** Adds tag to media entry */
         function add(after) {
             var names, i;
             if (after) {
@@ -30,37 +31,42 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
                 model.media.addTags(mediaid, names);
             }
         }
-        
-        // refreshes UI
+
+        /** Refreshes tag UI */
         self.refresh = function () {
             // redrawing tags for media entry
             this.parent
                 .build()
                 .render();
+
             widgets.kinds
                 .build()
                 .render();
+
             widgets.discovery
                 .refreshTags();
         };
-        
-        // changes tag to one or more tags
-        // - before: value before change, either a string or null (insertion)
-        // - after: value after change, comma separated string or null (deletion)
+
+        /**
+         * Changes tag to one or more tags.
+         * @param before {string} Current tag value. When null, addition is assumed.
+         * @param after {string} New tag value. Comma separated list of tags in "name:kind" format.
+         * When null, deletion is assumed.
+         */
         self.changetag = function (before, after) {
             // deleting old tag if there was one
             remove(before);
-            
+
             // adding new value(s) to buffer
             add(after);
-            
+
             // integrity & UI
             this.refresh();
         };
-                
+
         //////////////////////////////
         // Overrides
-        
+
         self.init = function (elem) {
             base_init.call(self, elem);
             elem.addClass('w_tag');
@@ -77,14 +83,14 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
         "Press ESC to exit edit mode.",
         "Use TAB and SHIFT + TAB to move between tags."
     ];
-    
+
     //////////////////////////////
     // Static methods
 
     widgets.tag.scope = function (event) {
         return event.shiftKey ? !Object.isEmpty(widgets.media.selected) ? 'selected' : 'all' : event.ctrlKey ? 'search' : 'single';
     };
-    
+
     //////////////////////////////
     // Static event handlers
 
@@ -92,10 +98,10 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
         return wraith.lookup(elem, '.w_tag');
     }
 
-    // handles navigation events
+    /** Handles navigation events */
     function onNav(event) {
         var $this = $(this),
-                $next;
+            $next;
         switch (event.which) {
         case 9:
             // tab - jump to next tag
@@ -113,7 +119,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
             return false;
         }
     }
-    
+
     //////////////////////////////
     // Static event bindings
 

@@ -23,8 +23,9 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 
     /**
      * Selects or deselects all media entries
-     * @param event jQuery event object
-     * @param data custom event data {mode: 'select' / 'deselect'}
+     * @param event {object} jQuery event.
+     * @param data {object} Custom event data
+     * @param data.mode {string} Selection mode. "select" or "deselect".
      */
     function onSelectAll(event, data) {
         var self = wraith.lookup($(this));
@@ -39,8 +40,10 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 
     /**
      * Fires when a media item has been checked
-     * @param event jQuery event object
-     * @param data custom event data {mediaid: id, mode: 'select' / 'deselect'}
+     * @param event {object} jQuery event.
+     * @param data {object} Custom event data
+     * @param data.mediaid {string} Identifier of affected media entry.
+     * @param data.state {string} Checkbox state. "checked", "unchecked", or "mixed".
      */
     function onMediumChecked(event, data) {
         var self = wraith.lookup($(this));
@@ -65,60 +68,63 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 
     // association between library views and entry views
     var VIEW_ASSOC = {
-            'list': 'compact',
-            'tile': 'thumb'
-        };
-        
+        'list': 'compact',
+        'tile': 'thumb'
+    };
+
     widgets.media = (function () {
         var self = wraith.widget.create(),
             view = model.cookie.get('view') || 'list',
             lookup = {};
-                
+
         self.selected = {};
 
         //////////////////////////////
         // Control
 
         /**
-         * Returns 'medium' widgets found inside the current widget
+         * Retrieves UI of 'medium' widgets found inside current widget.
+         * @returns {object} jQuery object.
          */
         function media() {
             return self.ui().find('.w_medium');
         }
 
         /**
-         * Returns a jQuery object with ALL checkboxes
+         * Retrieves UI of all checkboxes found inside current widget.
+         * @returns {object} jQuery object.
          */
         function checkboxes() {
             return self.ui().find('.w_checkbox');
         }
 
         /**
-         * Returns a jQuery object with CHECKED checkboxes
+         * Retrieves UI of checked checkboxes found inside current widget.
+         * @returns {object} jQuery object.
          */
         function checked() {
             return self.ui().find('.w_checkbox.checked');
         }
 
         /**
-         * Resets registry of selected entries
+         * Resets registry of selected entries.
          */
         function resetSelected() {
             self.selected = {};
         }
-        
-        // resets media state
+
+        /** Resets media state */
         self.reset = function () {
             // emptying registry of selected entries
             resetSelected();
-            
+
             // re-setting common medium state
             widgets.medium.reset();
-            
+
             return self;
         };
-        
-        // selects all elements in visible library
+
+        /** Selects all visible media entries. */
         self.selectAll = function () {
             resetSelected();
 
@@ -134,8 +140,8 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 
             return self;
         };
-        
-        // deselects all elements in visible library
+
+        /** Deselects all visible media entries. */
         self.selectNone = function () {
             resetSelected();
 
@@ -145,20 +151,20 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 
             return self;
         };
-        
-        // redraws tags and kinds only
+
+        /** Redraws tags and kinds only. */
         self.refreshTags = function () {
             // finalizing kinds
             widgets.kinds
                 .build()
                 .render();
-                
+
             widgets.tagger
                 .render();
 
             self.ui().trigger('mediaInvalidated');
         };
-        
+
         self.refresh = function () {
             // indicating busy state
             widgets.library
@@ -179,7 +185,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
             widgets.kinds
                 .build()
                 .render();
-                
+
             // redrawing checker
             widgets.checker
                 .render();
@@ -188,11 +194,14 @@ app.widgets = (function (widgets, $, wraith, model, services) {
             widgets.library
                 .busy(false)
                 .render();
-                
+
             self.ui().trigger('mediaInvalidated');
         };
-        
-        // (re-)loads library contents
+
+        /**
+         * (Re-)loads library contents.
+         * TODO: should be evented
+         */
         self.load = function () {
             var $document = $(document),
                 title = $document.attr('title').split(' - ')[0];
@@ -201,27 +210,27 @@ app.widgets = (function (widgets, $, wraith, model, services) {
             widgets.library
                 .busy(true)
                 .render();
-            
+
             // loading video data
             model.media.init(function () {
                 // setting active library in page title
                 $document.attr('title', title + ' - ' + widgets.library.name());
-                
+
                 // applying search text
                 model.media.search(widgets.search.text());
-                
+
                 // re-building discovery widget
                 widgets.discovery
                     .build()
                     .render();
-                
+
                 // redrawing media
                 self.refresh();
             });
             return self;
         };
-        
-        // sets disabled state of db widgets
+
+        /** Sets disabled state of db widgets. */
         function disabled(value) {
             widgets.library
                 .disabled({library: value})
@@ -230,12 +239,14 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                 .disabled({library: value})
                 .render();
         }
-        
-        // polls thumbnail generation process
+
+        /**
+         * Initiates polling of thumbnail generation process.
+         */
         self.poll = function () {
             // disabling db widgets
             disabled(true);
-            
+
             // polling background processes
             services.sys.poll('thumbnails', function (json) {
                 // updating progress indicator
@@ -245,19 +256,19 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 
                 // updating media data
                 model.media.update(json.load);
-                
+
                 // updating thumbnails
                 var mediaid, medium;
                 for (mediaid in json.load) {
                     if (json.load.hasOwnProperty(mediaid) && lookup.hasOwnProperty(mediaid)) {
                         // looking up widget
                         medium = lookup[mediaid];
-                        
+
                         // rendering media entry
                         medium.render();
                     }
                 }
-                
+
                 // updating UI if necessary
                 if (json.progress === -1) {
                     // re-enabling db widgets
@@ -265,7 +276,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                 }
             });
         };
-        
+
         //////////////////////////////
         // Getters / setters
 
@@ -274,7 +285,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
             if (typeof value !== 'undefined') {
                 // setting view for library (self)
                 view = value;
-                
+
                 // setting view for media widgets (children)                
                 for (i = 0; i < self.children.length; i++) {
                     child = self.children[i];
@@ -282,7 +293,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                         child.view(VIEW_ASSOC[value]);
                     }
                 }
-                
+
                 return self;
             } else {
                 return view;
@@ -297,7 +308,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
             var mediaids = [],
                 i,
                 entry;
-            
+
             // collecting entries with no hash
             // only previously processed media entries have hash
             for (i = 0; i < page.length; i++) {
@@ -306,17 +317,17 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                     mediaids.push(entry.mediaid);
                 }
             }
-            
+
             // calling thumbnail service
             if (mediaids.length) {
                 services.media.extract(mediaids.join(','), false, function () {
                     self.poll();
                 });
             }
-            
+
             return self;
         }
-        
+
         self.build = function () {
             var page = model.media.getPage(widgets.pager.currentPage(), widgets.pager.items()),
                 i,
@@ -324,7 +335,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 
             // generating thumbnails if necessary
             thumbnails(page);
-            
+
             // attaching new widgets to cleaned library
             self.clear();
             lookup = {};
@@ -333,18 +344,18 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                 control = widgets.medium(page[i].mediaid)
                     .view(VIEW_ASSOC[view]);
                 control.appendTo(self);
-                
+
                 // storing widget reference for lookup by id
                 lookup[page[i].mediaid] = control;
             }
-            
+
             return self;
         };
 
         self.init = function ($elem) {
             $elem.trigger("mediaInvalidated");
         };
-        
+
         self.html = function () {
             var result, i;
             if (self.children.length) {
@@ -356,15 +367,15 @@ app.widgets = (function (widgets, $, wraith, model, services) {
             } else if (widgets.search.text().length) {
                 result = [
                     '<span id="', self.id, '" class="warning nohits">',
-                    '<span class="icon"></span>',
-                    '<span>', "No videos match the criteria.", '</span>',
+                        '<span class="icon"></span>',
+                        '<span>', "No videos match the criteria.", '</span>',
                     '</span>'
                 ];
             } else {
                 result = [
                     '<span id="', self.id, '" class="warning empty">',
-                    '<span>', "This library is empty. Import a folder above with [+].", '</span>',
-                    '<span class="icon"></span>',
+                        '<span>', "This library is empty. Import a folder above with [+].", '</span>',
+                        '<span class="icon"></span>',
                     '</span>'
                 ];
             }
@@ -373,7 +384,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
 
         return self;
     }());
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

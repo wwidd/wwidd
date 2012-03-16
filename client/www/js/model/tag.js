@@ -1,48 +1,58 @@
-////////////////////////////////////////////////////////////////////////////////
-// Tag List
-//
-// Performs certain operations on a comma separated list of tags.
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Tag Model
+ */
 /*global flock */
 var app = app || {};
 
 app.model = function (model, flock, cache) {
     var RE_SPLIT_NONTAG = /\s*[^A-Za-z0-9:\s]+\s*/; // non-tag characters with padding
-    
-    // adds tag to cache
-    function add(tag, ref) {
+
+    /**
+     * Adds tag entry to cache.
+     * @param tag {string} Tag in "name:kind" format.
+     * @param entry {object} Tag entry.
+     */
+    function add(tag, entry) {
         // adding node to cache
-        cache.set(['tag', tag], ref);
-        
+        cache.set(['tag', tag], entry);
+
         // adding node to kinds index
-        model.kind.get(ref.kind)[ref.name] = ref;
-        
+        model.kind.get(entry.kind)[entry.name] = entry;
+
         // adding node to basic indexes
-        cache.set(['name', ref.name, ref.kind], ref);
+        cache.set(['name', entry.name, entry.kind], entry);
 
         // adding node to search index
-        model.search.set(tag, ref, ['tag']);
+        model.search.set(tag, entry, ['tag']);
     }
-    
-    // tag collection
+
     model.tag = {
-        // splits string along non-word parts
+        /**
+         * Splits string along non-tag sections.
+         * @param names {string} Comma separated list of tags in "name:kind" format.
+         */
         split: function (names) {
             return names.split(RE_SPLIT_NONTAG);
         },
-        
-        // removes separators from string
+
+        /**
+         * Removes non-tag sections (ie. separators) from string.
+         * @param names {string} Comma separated list of tags in "name:kind" format.
+         */
         sanitize: function (names) {
             return names.split(RE_SPLIT_NONTAG).join('');
         },
-        
-        // gets or creates a new tag node and adds it to the index
-        // - tag: complete tag string ("name:kind")
+
+        /**
+         * Retrieves a tag entry (or creates a new one and adds it to the index).
+         * @param tag {string} Tag in "name:kind" format.
+         * @returns {object} Tag entry.
+         */
         get: function (tag) {
             var path_tag = ['tag', tag],
-                    ref = cache.get(path_tag),
-                    tmp;
-    
+                ref = cache.get(path_tag),
+                tmp;
+
             if (typeof ref === 'undefined') {
                 // creating node
                 tmp = tag.split(':');
@@ -53,61 +63,69 @@ app.model = function (model, flock, cache) {
                     media: {},
                     count: 0
                 };
-                
+
                 // adding node to cache
                 add(tag, ref);
             }
-            
+
             return ref;
         },
-        
-        // changes a tag across the entire library, updates indexes
-        // - before: current tag value (string)
-        // - after: new tag value (string)
+
+        /**
+         * Changes a tag and updates lookups and indexes accordingly.
+         * @param before {string} Current tag value in "name:kind" format.
+         * @param after {string} New tag value in "name:kind" format.
+         * TODO: index and lookup updates should be done in their respective classes
+         * responding to events triggered here.
+         */
         set: function (before, after) {
             if (before === after) {
                 return;
             }
-            
+
             var ref = cache.get(['tag', before]),
-                    tag = flock(ref),
-                    tmp = after.split(':');
-            
+                tag = flock(ref),
+                tmp = after.split(':');
+
             // updating basic tag data
             ref.tag = after;
             ref.name = tmp[0];
             ref.kind = tmp[1];
-            
+
             // removing reference from old tag
             model.tag.unset(before);
-    
+
             // adding reference to new tag
             add(after, ref);
-            
+
             // moving tag reference to new key under affected media entries
             tag.mset(['media', '*', 'tags', after], ref);
         },
-        
-        // removes tag from cache altogether, updating indexes
-        // - before: current tag value (string)
+
+        /**
+         * Removes tag completely and updates lookups and indexes.
+         * @param before {string} Current tag value in "name:kind" format.
+         * TODO: index and lookup updates should be done in their respective classes
+         * responding to events triggered here.
+         */
         unset: function (before) {
             var ref = cache.get(['tag', before]),
-                    tag = flock(ref),
-                    tmp = before.split(':');
-            
+                tag = flock(ref),
+                tmp = before.split(':');
+
             // removing references from affected media entries
             tag.munset(['media', '*', 'tags', before]);
-            
+
             // removing tag from cache
             cache.unset(['tag', before]);
 
             // removing references from indexes
             cache.unset(['name', tmp[0], tmp[1]]);
             cache.unset(['kind', tmp[1], tmp[0]]);
-            
+
             // removing references from search index
             model.search.unset(before, ['tag']);
-    
+
             // removing name altogether
             if (Object.isEmpty(cache.get(['name', tmp[0]]))) {
                 cache.unset(['name', tmp[0]]);
@@ -115,10 +133,10 @@ app.model = function (model, flock, cache) {
             // removing kind altogether
             if (Object.isEmpty(cache.get(['kind', tmp[1]]))) {
                 model.kind.unset(tmp[1]);
-            }                       
+            }
         }
     };
-    
+
     return model;
 }(app.model || {},
     flock,

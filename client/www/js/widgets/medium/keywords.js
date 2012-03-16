@@ -1,23 +1,22 @@
-////////////////////////////////////////////////////////////////////////////////
-// Keywords Control
-//
-// Displays video metadata such as duration, dimensions, codecs, etc.
-// Read only.
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Keywords Widget
+ *
+ * Displays video metadata such as duration, dimensions, codecs, etc.
+ */
 /*global jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, model) {
     widgets.keywords = function (mediaid) {
         var self = wraith.widget.create(),
-                keywords,
-                special = {},
-                rest = {},
-                compact = true;
+            keywords,
+            special = {},
+            rest = {},
+            compact = true;
 
         //////////////////////////////
         // Setters / getters
-        
+
         self.compact = function (value) {
             compact = value;
             return self;
@@ -28,7 +27,7 @@ app.widgets = function (widgets, $, wraith, model) {
 
         // initializes lookup buffers
         function prepare() {
-            keywords = model.media.getRow(mediaid).keywords || {};
+            keywords = model.media.getById(mediaid).keywords || {};
             var key, keyword;
             for (key in keywords) {
                 if (keywords.hasOwnProperty(key)) {
@@ -44,20 +43,21 @@ app.widgets = function (widgets, $, wraith, model) {
             delete rest.dimensions;
             return self;
         }
-        
+
         self.html = function () {
             var result = ['<div id="' + self.id + '" class="w_keywords">'],
-                    key;
+                key;
 
             // initializing buffers
             prepare();
-                    
+
             // adding duration and dimensions
             result.push([
                 '<span class="duration" title="', "duration", '">', special.duration || "N/A", '</span>'
             ].join(''));
             result.push([
-                '<span class="dimensions" title="', "dimensions", '">', (/\d+[x:]\d+/).exec(special.dimensions) || "N/A", '</span>'
+                '<span class="dimensions" title="', "dimensions", '">',
+                (/\d+[x:]\d+/).exec(special.dimensions) || "N/A", '</span>'
             ].join(''));
 
             // adding all else
@@ -86,10 +86,10 @@ app.widgets = function (widgets, $, wraith, model) {
 
         return self;
     };
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,
-    wraith, 
+    wraith,
     app.model);
 

@@ -14,8 +14,9 @@ app.widgets = (function (widgets, $, wraith) {
     /**
      * Fires when widget receives hints to display.
      * Array of hint text is stored in the 'hints' property of the 'data' argument.
-     * @param event jQuery event object
-     * @param data {Object} Custom event data (widget + hint messages)
+     * @param event {object} jQuery event.
+     * @param data {object} Custom event data.
+     * @param data.hints {string[]} Hint messages.
      */
     function onHintsData(event, data) {
         var self = wraith.lookup($(this));
@@ -99,7 +100,6 @@ app.widgets = (function (widgets, $, wraith) {
             }
         };
 
-        /*jslint white: true */
         self.html = function () {
             return [
                 '<div id="', self.id, '" class="w_hints">',
@@ -109,7 +109,6 @@ app.widgets = (function (widgets, $, wraith) {
                 '</div>'
             ].join('');
         };
-        /*jslint white: false */
 
         return self;
     }());

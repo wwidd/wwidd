@@ -1,14 +1,17 @@
-////////////////////////////////////////////////////////////////////////////////
-// Tag Kinds Data
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Tag Kind
+ */
 /*global flock, jOrder */
 var app = app || {};
 
 app.model = function (model, jOrder, cache, services) {
     var kinds,
-            lookup;
-    
-    function refresh() {
+        lookup;
+
+    /**
+     * Refreshes tag kind lookup.
+     */
+    function refreshLookup() {
         kinds = jOrder.keys(cache.get(['kind'])).sort();
         lookup = {};
         var i;
@@ -16,44 +19,54 @@ app.model = function (model, jOrder, cache, services) {
             lookup[kinds[i]] = i % 12 + 1;
         }
     }
-    
+
     model.kind = function () {
-        var self = {
-            // gets or creates a new entry in the kind index
+        return {
+            /**
+             * Gets or creates a new entry in the kind index.
+             * @param kind {string} Kind name.
+             */
             get: function (kind) {
                 var path = ['kind', kind],
-                        ref = cache.get(path);
+                    ref = cache.get(path);
                 if (!ref) {
                     ref = {};
                     cache.set(path, ref);
-                    refresh();
+                    refreshLookup();
                 }
                 return ref;
             },
 
-            // removes kind from cache
+            /**
+             * Removes kind from cache.
+             * @param before
+             */
             unset: function (before) {
                 cache.unset(['kind', before]);
-                refresh();
+                refreshLookup();
             },
-            
-            // retrieves the number assigned to the kind
+
+            /**
+             * Retrieves numeric representation associated with kind.
+             * Each kind has a numeric representation for
+             * distinguishing CSS classes, etc.
+             * @param kind {string} Kind name.
+             * @returns {string} Unique kind ID in "kind##" format.
+             */
             getNumber: function (kind) {
                 // making sure the default color is not used again
                 if (kind === '') {
                     return 'kind0';
                 } else {
                     if (!lookup) {
-                        refresh();
+                        refreshLookup();
                     }
                     return 'kind' + lookup[kind];
                 }
             }
         };
-
-        return self;
     }();
-    
+
     return model;
 }(app.model || {},
     jOrder,

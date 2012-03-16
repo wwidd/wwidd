@@ -1,15 +1,23 @@
-////////////////////////////////////////////////////////////////////////////////
-// Service
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Service Core Functionality
+ */
 /*global jQuery, window, alert */
 var app = app || {};
 
 app.service = function ($) {
     var url = window.location.protocol + '//' + window.location.host;
-    
+
+    /**
+     * Creates a service with the specified endpoint.
+     * @param endpoint {string} Service endpoint name.
+     */
     return function (endpoint) {
         var self = {
-            // calls a service
+            /**
+             * Calls a service.
+             * @param data {object} Data to be passed to service.
+             * @param handler {function} Success handler.
+             */
             call: function (data, handler) {
                 $.ajax(url + '/' + endpoint, {
                     data: data,
@@ -25,8 +33,15 @@ app.service = function ($) {
                     }
                 });
             },
-            
-            // calls a unary tag transformation service
+
+            /**
+             * Calls a unary tag transformation service.
+             * @param mediaid {string} Media identifier.
+             * @param tag {string} Tag being affected.
+             * @param mediaids {string[]}
+             * @param handler {function} Success handler.
+             * TODO: more detailed explanation needed
+             */
             unary: function (mediaid, tag, mediaids, handler) {
                 var data = {
                     tag: tag
@@ -40,7 +55,7 @@ app.service = function ($) {
                 self.call(data, handler);
             }
         };
-        
+
         return self;
     };
 }(jQuery);

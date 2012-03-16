@@ -11,15 +11,19 @@ var app = app || {};
 
 app.widgets = (function (widgets, $, wraith, flock, model, cache) {
     var KIND_PREFIX = 'k';
-    
+
     widgets.kinds = (function () {
         var self = wraith.widget.create(widgets.popup('dropdown')),
             hidden;
-        
+
         //////////////////////////////
         // Utility functions
 
-        // converts array to lookup
+        /**
+         * Converts array to lookup.
+         * @param array {string[]} List of kind identifiers (format "k##") to be converted to lookup.
+         * @returns {object} Lookup object.
+         */
         function toLookup(array) {
             var i, result = {};
             for (i = 0; i < array.length; i++) {
@@ -29,8 +33,12 @@ app.widgets = (function (widgets, $, wraith, flock, model, cache) {
             }
             return result;
         }
-        
-        // converts lookup to array
+
+        /**
+         * Converts lookup to array.
+         * @param lookup {object} Lookup to be converted to array.
+         * @returns {string[]} List of kind identifiers (format "k##").
+         */
         function toArray(lookup) {
             var result = [], key;
             for (key in lookup) {
@@ -40,9 +48,12 @@ app.widgets = (function (widgets, $, wraith, flock, model, cache) {
             }
             return result;
         }
-                
-        // adjusts the hidden state of a particular kind
-        function handler(kind, state) {
+
+        /**
+         * Adjusts the hidden state of a particular kind.
+         * TODO: make evented
+         */
+        function hiddenHandler(kind, state) {
             if (state) {
                 delete hidden[kind];
             } else {
@@ -51,16 +62,16 @@ app.widgets = (function (widgets, $, wraith, flock, model, cache) {
 
             // saving cookie
             model.cookie.set('hiddenkinds', toArray(hidden).join(','));
-            
+
             // custom callback
             widgets.tagger
                 .render();
-            
+
             // notifying media collection of change
             // so it can re-calculate dimensions
             self.ui()
                 .trigger('mediaInvalidated');
-                
+
             return self;
         }
 
@@ -69,7 +80,7 @@ app.widgets = (function (widgets, $, wraith, flock, model, cache) {
 
         // initializing hidden kinds
         hidden = toLookup((model.cookie.get('hiddenkinds') || '').split(','));
-                
+
         //////////////////////////////
         // Getters / setters
 
@@ -77,7 +88,7 @@ app.widgets = (function (widgets, $, wraith, flock, model, cache) {
         self.hidden = function (kind) {
             return hidden[kind];
         };
-            
+
         //////////////////////////////
         // Overrides
 
@@ -88,7 +99,7 @@ app.widgets = (function (widgets, $, wraith, flock, model, cache) {
             self.clear();
             for (i = 0; i < kinds.length; i++) {
                 kind = kinds[i];
-                widgets.kind(kind, handler).appendTo(self);
+                widgets.kind(kind, hiddenHandler).appendTo(self);
             }
             return self;
         };
@@ -105,7 +116,7 @@ app.widgets = (function (widgets, $, wraith, flock, model, cache) {
 
         return self;
     }());
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

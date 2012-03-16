@@ -1,18 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////
-// View Selector Control
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * View Selector Widget
+ */
 /*global jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith, model) {
-    var
-    
-    // static event handlers
-    onClick;
-    
     widgets.view = function () {
         var self = wraith.widget.create(),
-                kinds = widgets.dropdown();
+            kinds = widgets.dropdown();
 
         //////////////////////////////
         // Overrides
@@ -22,10 +17,10 @@ app.widgets = function (widgets, $, wraith, model) {
                 .caption("Categories")
                 .popup(widgets.kinds)
                 .appendTo(self);
-            
+
             return self;
         };
-        
+
         self.init = function (elem) {
             elem
                 .find('.tile').click(function () {
@@ -55,16 +50,16 @@ app.widgets = function (widgets, $, wraith, model) {
         self.html = function () {
             return [
                 '<span id="', self.id, '">',
-                '<a href="#" class="tile" title="', "Tile View", '"></a>',
-                '<a href="#" class="list" title="', "List View", '"></a>',
-                kinds.html(),
+                    '<a href="#" class="tile" title="', "Tile View", '"></a>',
+                    '<a href="#" class="list" title="', "List View", '"></a>',
+                    kinds.html(),
                 '</span>'
             ].join('');
         };
-        
+
         return self;
     }();
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

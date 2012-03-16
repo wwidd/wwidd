@@ -10,33 +10,40 @@ app.widgets = (function (widgets, $, wraith, services) {
     //////////////////////////////
     // Static event handlers
 
-    // directory selection handler
+    /**
+     * Directory selection handler
+     * @param event {object} jQuery object.
+     * @param options {object}
+     * @param options.elem {object} Directory node jQuery object.
+     */
     function onSelected(event, options) {
         var $node = options.elem,
             self = wraith.lookup($node, '.w_popup');
-                
+
         self.btnOk()
             .disabled({self: false})
             .render();
     }
-    
-    // directory expand / collapse handler
-    // loads child directories on demand
+
+    /**
+     * Directory expand / collapse handler. Loads child directories on demand.
+     * @param event {object} jQuery object.
+     * @param options {object}
+     * @param options.elem {object} Directory node jQuery object.
+     */
     function onExpandCollapse(event, options) {
         var $node = options.elem,
             node = options.node,
             expanded = node.expanded(),
             empty = Object.isEmpty(node.json()),
             $spinner;
-    
+
         // acquiring sub-nodes when expanding an empty node
         if (expanded && empty) {
-            /*jslint white: true */
             $spinner = $node
                 .closest('.w_popup')
                     .find('.spinner')
                         .show();
-            /*jslint white: false */
 
             services.sys.dirlist(node.path().join('/'), function (json) {
                 $spinner.hide();
@@ -57,12 +64,15 @@ app.widgets = (function (widgets, $, wraith, services) {
         }
     }
 
-    // button click handler
-    // delegates event further 
+    /**
+     * Click button handler. Triggers cursom event according to button type,
+     * @param event {object} jQuery object.
+     * @param options {object} Event options.
+     */
     function onButton(event, options) {
         var $this = $(this),
             self = wraith.lookup($this);
-        
+
         // determining which button was clicked
         switch (options.button.id) {
         case self.btnOk().id:
@@ -88,30 +98,30 @@ app.widgets = (function (widgets, $, wraith, services) {
         .on('nodeExpandCollapse', '.w_dirsel', onExpandCollapse)
         .on('nodeSelected', '.w_dirsel', onSelected)
         .on('buttonClick', '.w_dirsel', onButton);
-    
+
     //////////////////////////////
     // Class
 
-    widgets.dirsel = function () {      
+    widgets.dirsel = function () {
         var base = widgets.popup('centered'),
             self = wraith.widget.create(base),
             tree = widgets.tree(),
             btnCancel = widgets.button("Cancel"),
             btnOk = widgets.button("OK").disabled({self: true});
-        
+
         // initial service call for root dirs
         services.sys.dirlist(null, function (json) {
             // initial tree contents
             tree
                 .json(json.data)
                 .appendTo(self);
-                
+
             // re-rendering entire widget
             /*jslint white: true */
             self
                 .render()
                 .find('div.spinner')
-                    .hide();
+                .hide();
             /*jslint white: false */
         });
 
@@ -125,11 +135,11 @@ app.widgets = (function (widgets, $, wraith, services) {
         self.btnCancel = function () {
             return btnCancel;
         };
-        
+
         self.selected = function () {
             return '/' + tree.selected().join('/');
         };
-        
+
         //////////////////////////////
         // Overrides
 
@@ -138,9 +148,8 @@ app.widgets = (function (widgets, $, wraith, services) {
             btnCancel.appendTo(self);
             return self;
         };
-        
+
         self.init = function (elem) {
-            /*jslint white: true */
             elem
                 .addClass('w_dirsel')
                 .find('div.spinner')
@@ -148,13 +157,12 @@ app.widgets = (function (widgets, $, wraith, services) {
                 .end()
                 .find('table.status')
                     .insertAfter(elem.find('ul.root'));
-            /*jslint white: false */
-                    
+
             // calling base init at the END
             // because base init relies on final dimensions
             base.init.apply(self, arguments);
         };
-        
+
         self.contents = function () {
             return [
                 '<div class="spinner"></div>',
@@ -164,10 +172,10 @@ app.widgets = (function (widgets, $, wraith, services) {
                 btnCancel.html()
             ].join('');
         };
-        
+
         return self;
     };
-    
+
     return widgets;
 }(app.widgets,
     jQuery,

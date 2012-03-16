@@ -1,14 +1,17 @@
-////////////////////////////////////////////////////////////////////////////////
-// Tags Data
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * Basic Tag Operations
+ */
 var app = app || {};
 
 app.model = function (model, services) {
-    // selects best hit from an array of hits passed
-    // simple maximum search
+    /**
+     * Selects best hit from an array of tag entries passed.
+     * @param hits {object[]} List of tag entries.
+     * @returns {object} Tag entry with the highest 'count' property.
+     */
     function bestHit(hits) {
         var max = Number.MIN_VALUE, pos,
-                i, tmp;
+            i, tmp;
         for (i = 0; i < hits.length; i++) {
             tmp = hits[i].count;
             if (tmp > max) {
@@ -18,33 +21,49 @@ app.model = function (model, services) {
         }
         return hits[pos];
     }
-    
-    // searches for a tag entry associated with the term
-    // start-of-word search
-    function search(term) {
-        return bestHit(model.search.get(term, ['tag']));
+
+    /**
+     * Finds single tag entry matching the submitted prefix.
+     * @param prefix {string} Search term prefix.
+     * @returns {object} Tag entry best matching the prefix.
+     */
+    function search(prefix) {
+        return bestHit(model.search.get(prefix, ['tag']));
     }
-                    
+
     model.tags = function () {
-        var self = {
-            // retrieves the first matching tag to a search term
-            searchTag: function (term) {
-                return (search(term) || {tag: ''}).tag;
+        return {
+            /**
+             * Retrieves single tag entry best matching the prefix.
+             * @param prefix {string} Search term prefix.
+             * @returns {string} Tag in "name:kind" format.
+             */
+            searchTag: function (prefix) {
+                return (search(prefix) || {tag: ''}).tag;
             },
-            
+
+            /**
+             * Retrieves single tag name best matching the prefix.
+             * @param prefix {string} Search term prefix.
+             * @returns {string} Tag name only.
+             */
             // retrieves the first matching name (kind is ignored)
-            searchName: function (term) {
-                return (search(term) || {name: ''}).name;
+            searchName: function (prefix) {
+                return (search(prefix) || {name: ''}).name;
             },
-            
-            // searches matching words in order of the tags they're a part of
-            // NOTE: should be re-written when flock supports mget() with callback
-            searchWord: function (term) {
+
+            /**
+             * Searches for matching words in order of the tags they're in.
+             * @param prefix {string} Search term prefix.
+             * @returns {string} Tag name only.
+             * TODO: should be re-written when flock supports .query() with callback
+             */
+            searchWord: function (prefix) {
                 // obtaining matching tags
-                var hits = model.search.word(term),
-                        word,
-                        result = [],
-                        tag, count;
+                var hits = model.search.word(prefix),
+                    word,
+                    result = [],
+                    tag, count;
                 for (word in hits) {
                     if (hits.hasOwnProperty(word)) {
                         // counting tags for word
@@ -60,10 +79,8 @@ app.model = function (model, services) {
                 return (bestHit(result) || {name: ''}).name;
             }
         };
-
-        return self;
     }();
-    
+
     return model;
 }(app.model,
     app.services);

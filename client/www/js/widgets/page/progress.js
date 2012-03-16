@@ -1,29 +1,34 @@
-////////////////////////////////////////////////////////////////////////////////
-// General Progress Indicator Control
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * General Progress Indicator Widget
+ */
 /*global jQuery, wraith */
 var app = app || {};
 
 app.widgets = function (widgets, $, wraith) {
     widgets.progress = function () {
         var self = wraith.widget.create(),
-                progress = 0;
+            progress = 0;
 
         //////////////////////////////
         // Getters / setters
 
-        // sets the progress bar to a given value
-        // - progress: normalized progress value between 0 and 1 (float)
+        /**
+         * Sets the progress bar to a given value.
+         * @param value {number} normalized progress value between 0 and 1
+         */
         self.progress = function (value) {
             progress = value;
             return self;
         };
-        
+
+        /**
+         * Resets progress.
+         */
         self.reset = function () {
             progress = -1;
             return self;
         };
-        
+
         //////////////////////////////
         // Overrides
 
@@ -41,14 +46,14 @@ app.widgets = function (widgets, $, wraith) {
         self.html = function () {
             return [
                 '<div id="', self.id, '" class="progress">',
-                '<div class="bar"></div>',
+                    '<div class="bar"></div>',
                 '</div>'
             ].join('');
         };
-        
+
         return self;
     }();
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

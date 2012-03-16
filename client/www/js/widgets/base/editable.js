@@ -12,7 +12,7 @@
 var app = app || {};
 
 app.widgets = (function (widgets, $, wraith) {
-    var click = 'click';    // event.type for clicking ('click' or 'touchend')
+    var click = 'click'; // event.type for clicking ('click' or 'touchend')
 
     //////////////////////////////
     // Static utility functions
@@ -20,21 +20,20 @@ app.widgets = (function (widgets, $, wraith) {
     /**
      * Triggers hint data sender event on editable widget.
      * Must be called passing 'this', too.
-     * @param $elem DOM element for the widget
-     * @param hints {Array} Hint messages
+     * @param $elem {object} DOM element for the widget
+     * @param hints {string[]} Hint messages
      */
     function setHints($elem, hints) {
         $elem
             .trigger('hintsData', {
-                widget: this,
-                hints: hints
-            });
+            widget: this,
+            hints: hints
+        });
     }
 
     //////////////////////////////
     // Static event handlers
 
-    // 'click outside' handler
     function onClickOutside(event, self, elem) {
         if (!elem.find(event.target).length) {
             // handling actual click outside event
@@ -85,7 +84,7 @@ app.widgets = (function (widgets, $, wraith) {
         //////////////////////////////
         // Utility functions
 
-        // switches to mode / between modes
+        /** switches to mode / between modes */
         self.toggle = function (value) {
             mode = value || {'display': 'edit', 'edit': 'display'}[mode];
 
@@ -118,10 +117,10 @@ app.widgets = (function (widgets, $, wraith) {
         //////////////////////////////
         // Overrides
 
-        // constructs display representation
+        /** constructs display representation */
         self.display = null;
 
-        // constructs editable representation
+        /** constructs editable representation */
         self.edit = null;
 
         self.init = function (elem) {

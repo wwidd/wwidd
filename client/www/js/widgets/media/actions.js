@@ -16,8 +16,8 @@ app.widgets = (function (widgets, $, wraith, jOrder) {
 
     /**
      * Selects an option by propagating the event.
-     * @param option {String} One of the action options ('extract', 'remove')
-     * @param mediaids {Array} List of affected media IDs
+     * @param option {string} One of the action options ('extract', 'remove')
+     * @param mediaids {string[]} List of affected media IDs
      */
     function selected(option, mediaids) {
         this.ui()
@@ -31,7 +31,7 @@ app.widgets = (function (widgets, $, wraith, jOrder) {
     /**
      * Fires when an option in the select window was selected.
      * @param event jQuery event object
-     * @param data {Object} Custom event data containing index of selected item.
+     * @param data {object} Custom event data containing index of selected item.
      */
     function onSelectSelected(event, data) {
         // obtaining selected media ids
@@ -49,10 +49,11 @@ app.widgets = (function (widgets, $, wraith, jOrder) {
             // deleting video entries
             if (
                 window.confirm([
-                    "You're about to delete", mediaids.length, (mediaids.length > 1 ? "entries" : "entry"), "from your library.",
+                    "You're about to delete", mediaids.length, (mediaids.length > 1 ? "entries" : "entry"),
+                    "from your library.",
                     "This cannot be undone. Proceed?"
                 ].join(' '))
-            ) {
+                ) {
                 selected.call(self, 'remove', mediaids);
             }
             break;
@@ -70,7 +71,7 @@ app.widgets = (function (widgets, $, wraith, jOrder) {
 
     widgets.actions = (function () {
         var select = widgets.select(["Refresh thumbnail", "Delete"])
-                .stateful(false),
+            .stateful(false),
             dropdown = widgets.dropdown("Actions")
                 .popup(select),
             self = wraith.widget.create();

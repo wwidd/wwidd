@@ -36,7 +36,7 @@ app.widgets = (function (widgets, $, wraith) {
     widgets.button = function (caption) {
         var self = wraith.widget.create(),
             idle = false;
-            
+
         //////////////////////////////
         // Getters / setters
 
@@ -57,25 +57,26 @@ app.widgets = (function (widgets, $, wraith) {
                 return idle;
             }
         };
-        
+
         //////////////////////////////
         // Overrides
 
         self.contents = null;
-        
+
         self.html = function () {
             return [
-                '<span id="', this.id, '" class="w_button ', idle ? 'idle' : '', '" ', this.disabled() ? 'disabled="disabled"' : '', '>',
+                '<span id="', this.id, '" class="w_button ', idle ? 'idle' : '', '" ',
+                this.disabled() ? 'disabled="disabled"' : '', '>',
                 this.contents ?
                     this.contents() :
                     '<span class="caption">' + (caption || '') + '</span>',
                 '</span>'
             ].join('');
         };
-        
+
         return self;
     };
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

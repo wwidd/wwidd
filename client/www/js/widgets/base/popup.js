@@ -6,15 +6,15 @@ var app = app || {};
 
 app.widgets = (function (widgets, $, wraith) {
     var TYPES = {
-        'centered': 'centered',     // always centered, like a modal dialog
-        'context': 'context',           // positions near mouse mask, stays there
-        'dropdown': 'dropdown',     // same as context but doesn't bind 'click outside'
+        'centered': 'centered', // always centered, like a modal dialog
+        'context': 'context', // positions near mouse mask, stays there
+        'dropdown': 'dropdown', // same as context but doesn't bind 'click outside'
         'follow': 'follow'              // follows mouse mask
     };
-    
+
     widgets.popup = function (type) {
         type = type || 'context';
-        
+
         var self = wraith.widget.create(),
             $window = $(window),    // frequently used window object
             anchor,                 // position anchor object for dropdown
@@ -23,7 +23,7 @@ app.widgets = (function (widgets, $, wraith) {
         //////////////////////////////
         // Getters, setters
 
-        // sets anchor jQuery elem for dropdown popup
+        /** Sets anchor jQuery elem for dropdown popup */
         self.anchor = function (value) {
             anchor = value;
             return this;
@@ -41,12 +41,16 @@ app.widgets = (function (widgets, $, wraith) {
         //////////////////////////////
         // Event handlers
 
-        // mouse move event handler
-        // - dims: dimensions of elem(Height / Width) and window(Height / Width)
+        /**
+         * Mouse move event handler.
+         * @param event {object} jQuery event object
+         * @param elem {object} DOM element.
+         * @param dims {object} Dimensions of element (or window).
+         */
         function onMouseMove(event, elem, dims) {
             var offset, pos,
                 pageX, pageY;
-            
+
             // obtaining element position
             if (!event && typeof anchor !== 'undefined') {
                 offset = anchor.offset();
@@ -57,20 +61,20 @@ app.widgets = (function (widgets, $, wraith) {
             } else {
                 pos = event;
             }
-            
+
             if (pos) {
                 // we need the top left of the mouse cursor
                 pageX = pos.pageX - 8;
                 pageY = pos.pageY - 8;
-                
+
                 elem.css({
                     top: dims.windowHeight > pageY + dims.elemHeight ? pageY : pageY - dims.elemHeight,
                     left: dims.windowWidth > pageX + dims.elemWidth ? pageX : pageX - dims.elemWidth
                 });
             }
         }
-        
-        // resize handler for centered popup
+
+        /** Resize handler for centered popup */
         function onResize(elem) {
             var $window = $(window);
             elem.css({top: ($window.height() - elem.height()) / 2, left: ($window.width() - elem.width()) / 2});
@@ -79,10 +83,15 @@ app.widgets = (function (widgets, $, wraith) {
         //////////////////////////////
         // Overrides
 
-        // constructs the specific contents of the popup
+        /** Constructs the specific contents of the popup */
         self.contents = null;
-        
-        // acquires element and window dimensions
+
+        /**
+         * Acquires element and window dimensions.
+         * @param elem {object} jQuery object.
+         * @param elem.outerHeight {function}
+         * @param elem.outerWidth {function}
+         */
         function getDims(elem) {
             return {
                 elemHeight: elem.outerHeight(true),
@@ -91,7 +100,7 @@ app.widgets = (function (widgets, $, wraith) {
                 windowWidth: $window.width()
             };
         }
-        
+
         function onClickOutside(event, popup) {
             // checking whether user actually clicked outside of popup
             if (!$(event.target).closest('#' + self.id).length) {
@@ -135,7 +144,7 @@ app.widgets = (function (widgets, $, wraith) {
                 break;
 
             default:
-            //case 'context':
+                //case 'context':
                 dims = getDims(elem);
                 onMouseMove(null, elem, dims);
                 $('body').one('mousedown', function (event) {
@@ -145,19 +154,17 @@ app.widgets = (function (widgets, $, wraith) {
             }
         };
 
-        /*jslint white: true */
         self.html = function () {
             return [
                 '<div id="', self.id, '" class="', ['w_popup', TYPES[type] || 'follow'].join(' '), '">',
-                    this.contents(),
+                this.contents(),
                 '</div>'
             ].join('');
         };
-        /*jslint white: true */
-        
+
         return self;
     };
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

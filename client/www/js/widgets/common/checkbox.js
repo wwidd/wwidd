@@ -11,12 +11,12 @@
 var app = app || {};
 
 app.widgets = (function (widgets, $, wraith) {
-    var STATE_VALUES = {
+    var
+        STATE_VALUES = {
             'checked': 'checked',
             'mixed': 'mixed',
             'unchecked': 'unchecked'
         },
-
         STATE_CHANGES = {
             'checked': 'unchecked',
             'mixed': 'unchecked',
@@ -82,10 +82,10 @@ app.widgets = (function (widgets, $, wraith) {
     widgets.checkbox = function () {
         var self = wraith.widget.create(),
             state = STATE_VALUES.unchecked;
-        
+
         //////////////////////////////
         // Getters, setters
-        
+
         self.state = function (value) {
             if (STATE_VALUES.hasOwnProperty(value)) {
                 state = value;
@@ -98,7 +98,6 @@ app.widgets = (function (widgets, $, wraith) {
         //////////////////////////////
         // Overrides
 
-        /*jslint white:true */
         self.html = function () {
             return [
                 '<span id="', self.id, '" class="w_checkbox ', state, '">',
@@ -106,11 +105,10 @@ app.widgets = (function (widgets, $, wraith) {
                 '</span>'
             ].join('');
         };
-        /*jslint white:false */
 
         return self;
     };
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

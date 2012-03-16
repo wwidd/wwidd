@@ -19,8 +19,9 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
 
     /**
      * Fires when user clicks on 'Add library' button
-     * @param event
-     * @param options
+     * @param event {object} jQuery event.
+     * @param options {object}
+     * @param options.elem {object} jQuery object for button.
      */
     function onAddButtonClick(event, options) {
         var $button = options.elem,
@@ -86,7 +87,10 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
             self = wraith.widget.create(base),
             button = widgets.button("Add");
 
-        // retrieving list of libraries
+        /**
+         * Reloads library list and updates other widgets.
+         * TODO: investigate going evented
+         */
         self.reload = function () {
             services.lib.getall(function (json) {
                 var processes = json.data.processes,
@@ -161,7 +165,7 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
             if (item) {
                 return [
                     selected ?
-                        '<span class="caption">' + item + '</span>' :                   
+                        '<span class="caption">' + item + '</span>' :
                         '<a href="#!" class="caption">' + item + '</a>',
                     '<a href="#!" class="save" title="' + "Download" + '"></a>'
                 ].join('');
@@ -177,12 +181,10 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
             base.init.apply(self, arguments);
 
             // decorating class
-            /*jslint white: true */
             elem
                 .addClass('w_libsel')
                 .find('input.new').closest('li')
                     .addClass('new');
-            /*jslint white: false */
         };
 
         self.contents = function () {

@@ -49,7 +49,7 @@ app.widgets = (function (widgets, $, wraith) {
 
     widgets.select = function (options) {
         var self = wraith.widget.create(widgets.popup('dropdown')),
-            stateful = true,    // whether widget remembers last selected item
+            stateful = true, // whether widget remembers last selected item
             selectedItem = 0;   // selected index
 
         //////////////////////////////
@@ -103,7 +103,7 @@ app.widgets = (function (widgets, $, wraith) {
                 }
             }
             result.push('</ul>');
-            
+
             return result.join('');
         };
 

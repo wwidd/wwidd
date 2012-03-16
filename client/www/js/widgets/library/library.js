@@ -20,8 +20,10 @@ app.widgets = (function (widgets, $, wraith, services) {
 
     /**
      * Fires when user selected a library from dropdown.
-     * @param event jQuery event object
-     * @param data {Object} Custom event data holding item number
+     * @param event {object} jQuery event object
+     * @param data {object} Custom event data
+     * @param data.item {number} Item index.
+     * @param data.name {string} Item name.
      */
     function onSelectSelected(event, data) {
         var $this = $(this),
@@ -78,37 +80,37 @@ app.widgets = (function (widgets, $, wraith, services) {
             dropdown = widgets.dropdown()
                 .popup(widgets.libsel),
             busy = false;
-        
+
         //////////////////////////////
         // Initialization
-        
+
         dropdown.hints = hints;
-                
+
         //////////////////////////////
         // Routing
-        
-        // disabled method is passed on to dropdown
+
         self.disabled = function (value) {
+            // disabled state is passed on to dropdown
             dropdown.disabled(value);
             return self;
         };
-        
+
         //////////////////////////////
         // Getters, setters
-        
+
         self.dropdown = function () {
             return dropdown;
         };
-        
+
         self.name = function () {
             return dropdown.caption();
         };
-        
+
         self.busy = function (value) {
             busy = value;
             return self;
         };
-        
+
         //////////////////////////////
         // Overrides
 
@@ -118,7 +120,7 @@ app.widgets = (function (widgets, $, wraith, services) {
 
             return self;
         };
-        
+
         self.init = function (elem) {
             // setting state
             if (busy || self.disabled()) {
@@ -128,7 +130,7 @@ app.widgets = (function (widgets, $, wraith, services) {
                 elem.find('button')
                     .prop('disabled', false);
             }
-            
+
             if (busy) {
                 elem.find('.spinner')
                     .show();
@@ -138,7 +140,6 @@ app.widgets = (function (widgets, $, wraith, services) {
             }
         };
 
-        /*jslint white: true */
         self.html = function () {
             return [
                 '<span id="', self.id, '" class="w_switcher">',
@@ -149,11 +150,10 @@ app.widgets = (function (widgets, $, wraith, services) {
                 '</span>'
             ].join('');
         };
-        /*jslint white: false */
-        
+
         return self;
     }());
-    
+
     return widgets;
 }(app.widgets || {},
     jQuery,

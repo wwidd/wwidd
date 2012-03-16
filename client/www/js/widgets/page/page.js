@@ -33,7 +33,7 @@ app.widgets = (function (widgets, $, services, model) {
             footerHeight = $footer.outerHeight(),
             headerPadding = $header.outerWidth() - $header.width();
 
-        // re-calculates and applies container dimensions
+        /** Re-calculates and applies container dimensions. */
         recalcDims = function () {
             var fullWidth = $library.width(),
                 sideBarWidth = $discovery.width(),
@@ -78,8 +78,8 @@ app.widgets = (function (widgets, $, services, model) {
         // refreshing main checker widget
         $checker
             .trigger('checkboxCheck', {
-                state: {0: 'unchecked', 1: 'checked'}[$checked.length / $checkboxes.length] || 'mixed'
-            });
+            state: {0: 'unchecked', 1: 'checked'}[$checked.length / $checkboxes.length] || 'mixed'
+        });
 
         // updating actions widget state
         widgets.actions
@@ -89,8 +89,9 @@ app.widgets = (function (widgets, $, services, model) {
 
     /**
      * Fires when checker widget is checked or unchecked
-     * @param event jQuery event object
-     * @param data custome event data {state: 'checked'/'unchecked'}
+     * @param event {object} jQuery event.
+     * @param data {object} Custom event data
+     * @param data.state {string} Checked state. 'checked' or 'unchecked'.
      */
     function onCheckerChecked(event, data) {
         // triggering select all on media items
@@ -106,9 +107,9 @@ app.widgets = (function (widgets, $, services, model) {
     /**
      * Fires when a widget on the page wants to display its hints.
      * Delegates event to hints widget for processing.
-     * @param event jQuery event object
-     * @param data {Object} Contains sender widget reference and hint text tarray (hints).
-     */
+     * @param event {object} jQuery event.
+     * @param data {object} Custom event data
+      */
     function onHintsData(event, data) {
         $('.w_hints')
             .trigger(event.type, data);
@@ -116,8 +117,10 @@ app.widgets = (function (widgets, $, services, model) {
 
     /**
      * Fires when an option was clicked in the actions dropdown.
-     * @param event jQuery event object
-     * @param data {Object} Custom event data containing widget reference and mediaids
+     * @param event {object} jQuery event.
+     * @param data {object} Custom event data
+     * @param data.mediaids {string[]} List of selected mediaids.
+     * @param data.option {string} Action identifier. "extract" or "remove".
      */
     function onActionsOptionSelected(event, data) {
         var mediaids = data.mediaids;
@@ -141,10 +144,8 @@ app.widgets = (function (widgets, $, services, model) {
 
     /**
      * Fires when page was changed.
-     * @param event jQuery event object
-     * @param data {Object} Custom data containing new page number.
      */
-    function onPagerChanged(event, data) {
+    function onPagerChanged() {
         // re-building media
         widgets.media
             .build()
@@ -160,10 +161,8 @@ app.widgets = (function (widgets, $, services, model) {
 
     /**
      * Fires when current library has changed
-     * @param event jQuery event object
-     * @param data {Object} Custom event data with name of new library
      */
-    function onLibselSelected(event, data) {
+    function onLibselSelected() {
         // resetting widget
         widgets.pager.reset();
         widgets.search.reset();
@@ -206,17 +205,17 @@ app.widgets = (function (widgets, $, services, model) {
             widgets.pager
                 .build()
                 .render($('#pager').empty());
-            
+
             // adding search box to page
             widgets.search
                 .render($('#search')
-                    .empty()
-                    .append('&nbsp;')); // helps vertical alignment
-            
+                .empty()
+                .append('&nbsp;')); // helps vertical alignment
+
             // adding select all
             widgets.checker
                 .render($('#checker').empty());
-                
+
             // adding actions
             widgets.actions
                 .build()
@@ -226,7 +225,7 @@ app.widgets = (function (widgets, $, services, model) {
             widgets.view
                 .build()
                 .render($('#views').empty());
-                
+
             // adding library switcher
             widgets.discovery
                 .build()
@@ -236,15 +235,15 @@ app.widgets = (function (widgets, $, services, model) {
             widgets.library
                 .build()
                 .render($('#switcher').empty());
-                
+
             // adding hints container to page
             widgets.hints
                 .render($('#footer').empty());
-            
+
             // adding progress indicator to page
             widgets.progress
                 .render($('#footer'));
-            
+
             // initializing and adding library to page
             widgets.media
                 .load()
