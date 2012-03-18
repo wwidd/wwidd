@@ -110,7 +110,6 @@ app.model = function (model, jOrder, flock, cache, services) {
                 cache.set('name');
                 cache.set('rating');
                 cache.set('field');
-                cache.set('search');
 
                 // loading media data into cache
                 for (i = 0; i < json.length; i++) {

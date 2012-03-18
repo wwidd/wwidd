@@ -6,14 +6,25 @@
 /*global flock */
 var app = app || {};
 
-app.model = function (model, flock, cache) {
-    var ROOT_FULL = ['search', 'full'], // cache root for string prefix search
-        ROOT_WORD = ['search', 'word'], // cache root for word prefix search
+app.model = function (model) {
+    var ROOT_FULL = ['full'],           // cache root for string prefix search
+        ROOT_WORD = ['word'],           // cache root for word prefix search
         RE_SPLIT_COLON = /\s*:\s*/,     // regex that splits along padded colons
         RE_SPLIT_CHAR = '',             // regex that splits along each character
-        RE_SPLIT_WHITE = /\s+/;         // regex that splits along whitespace
+        RE_SPLIT_WHITE = /\s+/,         // regex that splits along whitespace
+
+        // search cache must not be evented
+        cache = flock({}, {nolive: true, nochaining: true});
 
     model.search = {
+        //////////////////////////////
+        // Exposed privates
+
+        cache: cache,
+
+        //////////////////////////////
+        // Control
+
         /**
          * Gets nodes matching search criteria.
          * @param prefix {string} Search term prefix.
@@ -98,7 +109,7 @@ app.model = function (model, flock, cache) {
 
             // removing word prefix nodes
             for (i = 0; i < names.length; i++) {
-                cache.unset(ROOT_WORD
+                cache.cleanup(ROOT_WORD
                     .concat(names[i].split(RE_SPLIT_CHAR))
                     .concat(['word', names[i], term])
                     .concat(path));
@@ -107,7 +118,5 @@ app.model = function (model, flock, cache) {
     };
 
     return model;
-}(app.model || {},
-    flock,
-    app.cache);
+}(app.model || {});
 
