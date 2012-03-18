@@ -99,7 +99,7 @@ app.model = function (model, flock, cache) {
             add(after, ref);
 
             // moving tag reference to new key under affected media entries
-            tag.mset(['media', '*', 'tags', after], ref);
+            tag.query(['media', '*', 'tags', after], {value: ref});
         },
 
         /**
@@ -114,7 +114,7 @@ app.model = function (model, flock, cache) {
                 tmp = before.split(':');
 
             // removing references from affected media entries
-            tag.munset(['media', '*', 'tags', before]);
+            tag.query(['media', '*', 'tags', before], {mode: flock.DEL});
 
             // removing tag from cache
             cache.unset(['tag', before]);
@@ -140,5 +140,5 @@ app.model = function (model, flock, cache) {
     return model;
 }(app.model || {},
     flock,
-    app.cache || (app.cache = flock()));
+    app.cache);
 

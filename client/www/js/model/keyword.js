@@ -99,5 +99,5 @@ app.model = function (model, flock, cache) {
     return model;
 }(app.model || {},
     flock,
-    app.cache || (app.cache = flock()));
+    app.cache);
 

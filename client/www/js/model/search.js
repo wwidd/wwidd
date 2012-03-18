@@ -22,7 +22,7 @@ app.model = function (model, flock, cache) {
          */
         get: function (prefix, path) {
             var full = prefix.toLowerCase();
-            return cache.mget(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat([null]).concat(path || ['tag']));
+            return cache.query(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat([null]).concat(path || ['tag']));
         },
 
         /**
@@ -35,10 +35,10 @@ app.model = function (model, flock, cache) {
             var full = prefix.toLowerCase(),
                 path = ROOT_WORD.concat(full.split(RE_SPLIT_CHAR)).concat([null, 'word', '*']);
             if (typeof includeTags === 'undefined') {
-                return cache.mget(path, {mode: flock.both});
+                return cache.query(path, {mode: flock.BOTH});
             } else {
                 path.push('*');
-                return cache.mget(path, {mode: flock.keys});
+                return cache.query(path, {mode: flock.KEYS});
             }
         },
 
@@ -109,5 +109,5 @@ app.model = function (model, flock, cache) {
     return model;
 }(app.model || {},
     flock,
-    app.cache || (app.cache = flock()));
+    app.cache);
 

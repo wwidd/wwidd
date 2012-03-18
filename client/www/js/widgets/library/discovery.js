@@ -187,7 +187,7 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 
         self.build = function () {
             tree
-                .json(cache.root())
+                .json(cache.node())
                 .appendTo(self);
 
             return self;
@@ -209,5 +209,5 @@ app.widgets = function (widgets, $, wraith, model, cache) {
     jQuery,
     wraith,
     app.model,
-    app.cache || (app.cache = flock()));
+    app.cache);
 

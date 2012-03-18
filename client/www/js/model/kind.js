@@ -70,6 +70,6 @@ app.model = function (model, jOrder, cache, services) {
     return model;
 }(app.model || {},
     jOrder,
-    app.cache || (app.cache = flock()),
+    app.cache,
     app.services);
 
