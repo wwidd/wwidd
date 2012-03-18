@@ -23,7 +23,7 @@ app.model = function (model, flock, cache) {
         cache.set(['name', entry.name, entry.kind], entry);
 
         // adding node to search index
-        model.search.set(tag, entry, ['tag']);
+        model.search.addExpression(tag, ['tag'], entry);
     }
 
     model.tag = {

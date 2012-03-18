@@ -28,7 +28,7 @@ app.model = function (model, services) {
      * @returns {object} Tag entry best matching the prefix.
      */
     function search(prefix) {
-        return bestHit(model.search.get(prefix, ['tag']));
+        return bestHit(model.search.matchingNodes(prefix, ['tag']));
     }
 
     model.tags = function () {
@@ -60,7 +60,7 @@ app.model = function (model, services) {
              */
             searchWord: function (prefix) {
                 // obtaining matching tags
-                var hits = model.search.word(prefix),
+                var hits = model.search.matchingWords(prefix),
                     word,
                     result = [],
                     tag, count;

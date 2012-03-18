@@ -29,11 +29,16 @@ app.model = function (model) {
          * Gets nodes matching search criteria.
          * @param prefix {string} Search term prefix.
          * @param [path] {string[]} Custom path between search term and affected cache node.
-         * @returns {object[]} List of media entries.
+         * @returns {object[]} List of tag entries.
          */
-        get: function (prefix, path) {
+        matchingNodes: function (prefix, path) {
             var full = prefix.toLowerCase();
-            return cache.query(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat([null]).concat(path || ['tag']));
+            return cache.query(
+                ROOT_FULL
+                    .concat(full.split(RE_SPLIT_CHAR))
+                    .concat([null])
+                    .concat(path || ['tag'])
+            );
         },
 
         /**
@@ -42,9 +47,12 @@ app.model = function (model) {
          * @param [includeTags] {boolean} Whether matching tags should be returned (or just matching words).
          * @returns {object[]|string[]}
          */
-        word: function (prefix, includeTags) {
+        matchingWords: function (prefix, includeTags) {
             var full = prefix.toLowerCase(),
-                path = ROOT_WORD.concat(full.split(RE_SPLIT_CHAR)).concat([null, 'word', '*']);
+                path = ROOT_WORD
+                    .concat(full.split(RE_SPLIT_CHAR))
+                    .concat([null, 'word', '*']);
+
             if (typeof includeTags === 'undefined') {
                 return cache.query(path, {mode: flock.BOTH});
             } else {
@@ -56,10 +64,10 @@ app.model = function (model) {
         /**
          * Adds search terms to the search index.
          * @param term {string} Exact search term.
-         * @param node {object} Custom cache node associated with search term.
          * @param path {string[]} Custom path between search term and affected cache node.
+         * @param node {object} Custom cache node associated with search term.
          */
-        set: function (term, node, path) {
+        addExpression: function (term, path, node) {
             path = path || ['tag'];
 
             var full = term.toLowerCase(),
@@ -69,7 +77,12 @@ app.model = function (model) {
                 i;
 
             // adding string prefix index
-            cache.set(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat(path), node);
+            cache.set(
+                ROOT_FULL
+                    .concat(full.split(RE_SPLIT_CHAR))
+                    .concat(path),
+                node
+            );
 
             // inclusion of full tag (w/o kind)
             if (names.length > 1) {
@@ -78,10 +91,13 @@ app.model = function (model) {
 
             // adding word prefix index
             for (i = 0; i < names.length; i++) {
-                cache.set(ROOT_WORD
-                    .concat(names[i].split(RE_SPLIT_CHAR))
-                    .concat(['word', names[i], term])
-                    .concat(path), node);
+                cache.set(
+                    ROOT_WORD
+                        .concat(names[i].split(RE_SPLIT_CHAR))
+                        .concat(['word', names[i], term])
+                        .concat(path),
+                    node
+                );
             }
         },
 
@@ -109,10 +125,11 @@ app.model = function (model) {
 
             // removing word prefix nodes
             for (i = 0; i < names.length; i++) {
-                cache.cleanup(ROOT_WORD
-                    .concat(names[i].split(RE_SPLIT_CHAR))
-                    .concat(['word', names[i], term])
-                    .concat(path));
+                cache.cleanup(
+                    ROOT_WORD
+                        .concat(names[i].split(RE_SPLIT_CHAR))
+                        .concat(['word', names[i], term])
+                        .concat(path));
             }
         }
     };
