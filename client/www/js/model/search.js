@@ -2,138 +2,149 @@
  * Search Index
  *
  * Builds and queries search tree.
+ * Unit is self-contained, Flock being its sole dependency. Has its own cache,
+ * which is exposed on the object for direct access.
+ *
+ * (c) 2011-2012 by Dan Stocker, under MIT license.
  */
 /*global flock */
 var app = app || {};
 
 app.model = function (model) {
-    var ROOT_FULL = ['full'],           // cache root for string prefix search
-        ROOT_WORD = ['word'],           // cache root for word prefix search
-        RE_SPLIT_COLON = /\s*:\s*/,     // regex that splits along padded colons
-        RE_SPLIT_CHAR = '',             // regex that splits along each character
+    var RE_SPLIT_CHAR = '',             // regex that splits along each character
         RE_SPLIT_WHITE = /\s+/,         // regex that splits along whitespace
 
         // search cache must not be evented
-        cache = flock({}, {nolive: true, nochaining: true});
+        cache = flock({}, {nolive: true, nochaining: true}),
 
-    model.search = {
-        //////////////////////////////
-        // Exposed privates
+        // method shortcut
+        keys = flock.utils.keys;
 
-        cache: cache,
+    /**
+     * Processes terms.
+     * Calls handler on each individual word and each complete term.
+     * @param terms {string[]|string} Term(s).
+     * @param handler {function} Called on each word.
+     */
+    function processTerms(terms, handler) {
+        if (typeof terms === 'string') {
+            terms = [terms];
+        }
 
-        //////////////////////////////
-        // Control
+        var i, term, words,
+            j;
 
-        /**
-         * Gets nodes matching search criteria.
-         * @param prefix {string} Search term prefix.
-         * @param [path] {string[]} Custom path between search term and affected cache node.
-         * @returns {object[]} List of tag entries.
-         */
-        matchingNodes: function (prefix, path) {
-            var full = prefix.toLowerCase();
-            return cache.query(
-                ROOT_FULL
-                    .concat(full.split(RE_SPLIT_CHAR))
-                    .concat([null])
-                    .concat(path || ['tag'])
-            );
-        },
+        for (i = 0; i < terms.length; i++) {
+            term = terms[i].toLowerCase();
+            words = term.split(RE_SPLIT_WHITE);
 
-        /**
-         * Gets words from the search index matching the search term as prefix.
-         * @param prefix {string} Search term prefix.
-         * @param [includeTags] {boolean} Whether matching tags should be returned (or just matching words).
-         * @returns {object[]|string[]}
-         */
-        matchingWords: function (prefix, includeTags) {
-            var full = prefix.toLowerCase(),
-                path = ROOT_WORD
-                    .concat(full.split(RE_SPLIT_CHAR))
-                    .concat([null, 'word', '*']);
-
-            if (typeof includeTags === 'undefined') {
-                return cache.query(path, {mode: flock.BOTH});
-            } else {
-                path.push('*');
-                return cache.query(path, {mode: flock.KEYS});
-            }
-        },
-
-        /**
-         * Adds search terms to the search index.
-         * @param term {string} Exact search term.
-         * @param path {string[]} Custom path between search term and affected cache node.
-         * @param node {object} Custom cache node associated with search term.
-         */
-        addExpression: function (term, path, node) {
-            path = path || ['tag'];
-
-            var full = term.toLowerCase(),
-                tmp = full.split(RE_SPLIT_COLON),
-                name = tmp[0],
-                names = name.split(RE_SPLIT_WHITE),
-                i;
-
-            // adding string prefix index
-            cache.set(
-                ROOT_FULL
-                    .concat(full.split(RE_SPLIT_CHAR))
-                    .concat(path),
-                node
-            );
-
-            // inclusion of full tag (w/o kind)
-            if (names.length > 1) {
-                names.push(tmp[0]);
+            if (words.length > 1) {
+                // there are multiple words in term
+                // adding full term to list of words
+                words.push(term);
             }
 
-            // adding word prefix index
-            for (i = 0; i < names.length; i++) {
-                cache.set(
-                    ROOT_WORD
-                        .concat(names[i].split(RE_SPLIT_CHAR))
-                        .concat(['word', names[i], term])
-                        .concat(path),
-                    node
-                );
-            }
-        },
-
-        /**
-         * Removes search term from search index.
-         * @param term {string} Exact search term.
-         * @param [path] {string[]} Custom path between search term and affected cache node.
-         */
-        unset: function (term, path) {
-            path = path || ['tag'];
-
-            var full = term.toLowerCase(),
-                tmp = full.split(RE_SPLIT_COLON),
-                name = tmp[0],
-                names = name.split(RE_SPLIT_WHITE),
-                i;
-
-            // removing string prefix nodes
-            cache.unset(ROOT_FULL.concat(full.split(RE_SPLIT_CHAR)).concat(path));
-
-            // inclusion of full search term (w/o kind)
-            if (names.length > 1) {
-                names.push(tmp[0]);
-            }
-
-            // removing word prefix nodes
-            for (i = 0; i < names.length; i++) {
-                cache.cleanup(
-                    ROOT_WORD
-                        .concat(names[i].split(RE_SPLIT_CHAR))
-                        .concat(['word', names[i], term])
-                        .concat(path));
+            for (j = 0; j < words.length; j++) {
+                handler.call(this, terms[i], words[j]);
             }
         }
-    };
+    }
+
+    model.search = (function () {
+        var self = {
+            //////////////////////////////
+            // Exposed privates
+
+            cache: cache,
+
+            //////////////////////////////
+            // Control
+
+            /**
+             * Adds search terms to the search index.
+             * @param terms {string|string[]} Exact search term(s).
+             * @param path {string[]} Custom path identifying node type.
+             * @param [node] {object} Custom object to be added as leaf node.
+             */
+            addTerms: function (terms, path, node) {
+                processTerms.call(this, terms, function(term, word) {
+                    cache.set(
+                        word.split(RE_SPLIT_CHAR)
+                            .concat(path)
+                            .concat([word, term]),
+                        node || true
+                    );
+                });
+            },
+
+            /**
+             * Removes search terms from search index.
+             * @param terms {string} Exact search term.
+             * @param path {string[]} Custom path between search term and affected cache node.
+             */
+            removeTerms: function (terms, path) {
+                processTerms.call(this, terms, function(term, word) {
+                    cache.cleanup(
+                        word.split(RE_SPLIT_CHAR)
+                            .concat(path)
+                            .concat([word, term])
+                    );
+                });
+            },
+
+            /**
+             * Clears search index cache.
+             */
+            clear: function () {
+                self.cache = cache = flock({}, {nolive: true, nochaining: true});
+            },
+
+            /**
+             * Retrieves indexed words matching prefix.
+             * @param prefix {string} Search term prefix.
+             * @param path {string[]} Custom path identifying node type.
+             * @param [withLeafs] {boolean} Whether to include search index leaf nodes.
+             * @returns {string[]} Unique list of matches.
+             */
+            matchingWords: function (prefix, path, withLeafs) {
+                prefix = prefix.toLowerCase();
+
+                var hits = cache.query(
+                    prefix.split(RE_SPLIT_CHAR)
+                        .concat([null])
+                        .concat(path)
+                        .concat(['*']),
+                    {mode: flock.BOTH}
+                );
+
+                return withLeafs ?
+                    hits :
+                    keys(hits);
+            },
+
+            /**
+             * Retrieves full expressions (as added to index) that match the prefix.
+             * @param prefix {string} Search term prefix.
+             * @param path {string[]} Custom path identifying node type.
+             * @returns {string[]} Unique list of matches.
+             */
+            matchingTerms: function (prefix, path) {
+                prefix = prefix.toLowerCase();
+
+                var hits = cache.query(
+                    prefix.split(RE_SPLIT_CHAR)
+                        .concat([null])
+                        .concat(path)
+                        .concat(['*', '*']),
+                    {mode: flock.BOTH}
+                );
+
+                return keys(hits);
+            }
+        };
+
+        return self;
+    }());
 
     return model;
 }(app.model || {});
-

@@ -1,9 +1,10 @@
 /**
  * Basic Tag Operations
  */
+/*globals flock */
 var app = app || {};
 
-app.model = function (model, services) {
+app.model = function (model, cache) {
     /**
      * Selects best hit from an array of tag entries passed.
      * @param hits {object[]} List of tag entries.
@@ -28,7 +29,9 @@ app.model = function (model, services) {
      * @returns {object} Tag entry best matching the prefix.
      */
     function search(prefix) {
-        return bestHit(model.search.matchingNodes(prefix, ['tag']));
+        var expressions = model.search.matchingTerms(prefix, ['tag']),
+            hits = cache.query(['tag', expressions]);
+        return bestHit(hits);
     }
 
     model.tags = function () {
@@ -47,7 +50,6 @@ app.model = function (model, services) {
              * @param prefix {string} Search term prefix.
              * @returns {string} Tag name only.
              */
-            // retrieves the first matching name (kind is ignored)
             searchName: function (prefix) {
                 return (search(prefix) || {name: ''}).name;
             },
@@ -60,22 +62,24 @@ app.model = function (model, services) {
              */
             searchWord: function (prefix) {
                 // obtaining matching tags
-                var hits = model.search.matchingWords(prefix),
-                    word,
+                var hits = model.search.matchingWords(prefix, ['tag'], true),
+                    term,
                     result = [],
                     tag, count;
-                for (word in hits) {
-                    if (hits.hasOwnProperty(word)) {
+
+                for (term in hits) {
+                    if (hits.hasOwnProperty(term)) {
                         // counting tags for word
                         count = 0;
-                        for (tag in hits[word]) {
-                            if (hits[word].hasOwnProperty(tag)) {
-                                count += hits[word][tag].tag.count;
+                        for (tag in hits[term]) {
+                            if (hits[term].hasOwnProperty(tag)) {
+                                count += hits[term][tag].count;
                             }
                         }
-                        result.push({name: word, count: count});
+                        result.push({name: term, count: count});
                     }
                 }
+
                 return (bestHit(result) || {name: ''}).name;
             }
         };
@@ -83,5 +87,5 @@ app.model = function (model, services) {
 
     return model;
 }(app.model,
-    app.services);
+    app.cache);
 

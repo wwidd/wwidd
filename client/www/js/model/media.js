@@ -233,7 +233,7 @@ app.model = function (model, jOrder, flock, cache, services) {
                 term = terms[i];
 
                 // acquiring tags matching the entered string
-                tags = model.search.matchingWords(term, true);
+                tags = model.search.matchingTerms(term, ['tag']);
 
                 // taking _all_ media ids where tags match, then
                 matches = cache.query(['tag', tags, 'media', '*'], {mode: flock.KEYS});
