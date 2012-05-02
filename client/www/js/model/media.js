@@ -96,20 +96,13 @@ app.model = function (model, jOrder, flock, cache, services) {
         init: function (handler) {
             // calling service
             services.media.get('', function (json) {
+                app.model.mediaAlt.init(json.data);
+
                 json = preprocess(json.data);
 
                 var i, row,
                     j, tag,
                     tags, keywords, rating;
-
-                // setting up datastore roots
-                cache.set('tag', {});
-                cache.set('media', {});
-                cache.set('keyword', {});
-                cache.set('kind', {});
-                cache.set('name', {});
-                cache.set('rating', {});
-                cache.set('field', {});
 
                 // loading media data into cache
                 for (i = 0; i < json.length; i++) {
