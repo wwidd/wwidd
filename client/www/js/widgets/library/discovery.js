@@ -187,7 +187,7 @@ app.widgets = function (widgets, $, wraith, model, cache) {
 
         self.build = function () {
             tree
-                .json(cache.node())
+                .json(cache.root)
                 .appendTo(self);
 
             return self;

@@ -93,7 +93,7 @@ app.widgets = (function (widgets, $, wraith, flock, model, cache) {
         // Overrides
 
         self.build = function () {
-            var kinds = cache.query(['kind', '*'], {mode: flock.KEYS}).sort(),
+            var kinds = cache.mget(['kind', '*'], flock.KEYS).sort(),
                 i,
                 kind;
             self.clear();

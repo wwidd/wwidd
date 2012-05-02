@@ -84,7 +84,7 @@ app.model = function (model, flock, cache) {
             }
 
             var ref = cache.get(['tag', before]),
-                tag = flock(ref),
+                tag = flock(ref, flock.COMPAT),
                 tmp = after.split(':');
 
             // updating basic tag data
@@ -99,7 +99,7 @@ app.model = function (model, flock, cache) {
             add(after, ref);
 
             // moving tag reference to new key under affected media entries
-            tag.query(['media', '*', 'tags', after], {value: ref});
+            tag.mset(['media', '*', 'tags', after], ref);
         },
 
         /**
@@ -110,11 +110,11 @@ app.model = function (model, flock, cache) {
          */
         unset: function (before) {
             var ref = cache.get(['tag', before]),
-                tag = flock(ref),
+                tag = flock(ref, flock.COMPAT),
                 tmp = before.split(':');
 
             // removing references from affected media entries
-            tag.query(['media', '*', 'tags', before], {mode: flock.DEL});
+            tag.munset(['media', '*', 'tags', before], flock.DEL);
 
             // removing tag from cache
             cache.unset(['tag', before]);

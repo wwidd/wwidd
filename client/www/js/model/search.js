@@ -15,7 +15,7 @@ app.model = function (model) {
         RE_SPLIT_WHITE = /\s+/,         // regex that splits along whitespace
 
         // search cache must not be evented
-        cache = flock({}, {nolive: true, nochaining: true}),
+        cache = flock({}, flock.COMPAT),
 
         // method shortcut
         keys = flock.utils.keys;
@@ -96,7 +96,7 @@ app.model = function (model) {
              * Clears search index cache.
              */
             clear: function () {
-                self.cache = cache = flock({}, {nolive: true, nochaining: true});
+                self.cache = cache = flock({}, flock.COMPAT);
             },
 
             /**
@@ -109,12 +109,12 @@ app.model = function (model) {
             matchingWords: function (prefix, path, withLeafs) {
                 prefix = prefix.toLowerCase();
 
-                var hits = cache.query(
+                var hits = cache.mget(
                     prefix.split(RE_SPLIT_CHAR)
                         .concat([null])
                         .concat(path)
                         .concat(['*']),
-                    {mode: flock.BOTH}
+                    flock.BOTH
                 );
 
                 return withLeafs ?
@@ -131,12 +131,12 @@ app.model = function (model) {
             matchingTerms: function (prefix, path) {
                 prefix = prefix.toLowerCase();
 
-                var hits = cache.query(
+                var hits = cache.mget(
                     prefix.split(RE_SPLIT_CHAR)
                         .concat([null])
                         .concat(path)
                         .concat(['*', '*']),
-                    {mode: flock.BOTH}
+                    flock.BOTH
                 );
 
                 return keys(hits);

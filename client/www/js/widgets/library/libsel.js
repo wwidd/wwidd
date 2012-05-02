@@ -95,7 +95,7 @@ app.widgets = (function (widgets, $, wraith, flock, jOrder, services) {
             services.lib.getall(function (json) {
                 var processes = json.data.processes,
                     progress = processes.thumbnails.progress,
-                    options = flock(json).query('data.names.*').sort(),
+                    options = flock(json, flock.COMPAT).mget('data.names.*').sort(),
                     selected,
                     i;
 

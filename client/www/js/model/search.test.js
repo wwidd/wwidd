@@ -6,12 +6,12 @@
         var tmp;
 
         u_search.addTerms("hello", ['foo', 'bar'], {str: "hello"});
-        deepEqual(u_search.cache.node(), {
+        deepEqual(u_search.cache.root, {
             h: {e: {l: {l: {o: {foo: {bar: {hello: {hello: {str: "hello"}}}}}}}}}
         }, "Search string 'hello' added");
 
         u_search.clear();
-        deepEqual(u_search.cache.node(), {}, "Search index cleared");
+        deepEqual(u_search.cache.root, {}, "Search index cleared");
 
         // index contents after adding "hi all"
         tmp = {
@@ -27,10 +27,10 @@
         };
 
         u_search.addTerms("hi all", ['foo']);
-        deepEqual(u_search.cache.node(), tmp, "Term 'hi all' added");
+        deepEqual(u_search.cache.root, tmp, "Term 'hi all' added");
 
         u_search.removeTerms("hi", ['foo']);
-        deepEqual(u_search.cache.node(), tmp, "Invalid term attempted to remove");
+        deepEqual(u_search.cache.root, tmp, "Invalid term attempted to remove");
 
         // index contents after adding "hi all" and "hit"
         tmp = {
@@ -48,7 +48,7 @@
         };
 
         u_search.addTerms("hit", ['foo']);
-        deepEqual(u_search.cache.node(), tmp, "Additional term added");
+        deepEqual(u_search.cache.root, tmp, "Additional term added");
 
         // index contents after removing "hi all"
         tmp = {
@@ -58,10 +58,10 @@
         };
 
         u_search.removeTerms("hi all", ['foo']);
-        deepEqual(u_search.cache.node(), tmp, "Original term 'hi all' removed");
+        deepEqual(u_search.cache.root, tmp, "Original term 'hi all' removed");
 
         u_search.removeTerms("hit", ['foo']);
-        deepEqual(u_search.cache.node(), {}, "All terms removed from index");
+        deepEqual(u_search.cache.root, {}, "All terms removed from index");
     });
 
     test("Retrieval", function () {

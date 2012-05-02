@@ -30,7 +30,7 @@ app.model = function (model, cache) {
      */
     function search(prefix) {
         var expressions = model.search.matchingTerms(prefix, ['tag']),
-            hits = cache.query(['tag', expressions]);
+            hits = cache.mget(['tag', expressions]);
         return bestHit(hits);
     }
 
@@ -58,7 +58,7 @@ app.model = function (model, cache) {
              * Searches for matching words in order of the tags they're in.
              * @param prefix {string} Search term prefix.
              * @returns {string} Tag name only.
-             * TODO: should be re-written when flock supports .query() with callback
+             * TODO: should be re-written when flock supports .traverse() with callback
              */
             searchWord: function (prefix) {
                 // obtaining matching tags

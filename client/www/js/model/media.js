@@ -58,7 +58,7 @@ app.model = function (model, jOrder, flock, cache, services) {
      * @param [fileDescriptors] {string[]} List of file descriptios.
      */
     function stackInit(cache, fileDescriptors) {
-        fileDescriptors = fileDescriptors || jOrder.values(cache.node().media);
+        fileDescriptors = fileDescriptors || jOrder.values(cache.root.media);
 
         // setting up jOrder table
         // required for paging
@@ -103,13 +103,13 @@ app.model = function (model, jOrder, flock, cache, services) {
                     tags, keywords, rating;
 
                 // setting up datastore roots
-                cache.set('tag');
-                cache.set('media');
-                cache.set('keyword');
-                cache.set('kind');
-                cache.set('name');
-                cache.set('rating');
-                cache.set('field');
+                cache.set('tag', {});
+                cache.set('media', {});
+                cache.set('keyword', {});
+                cache.set('kind', {});
+                cache.set('name', {});
+                cache.set('rating', {});
+                cache.set('field', {});
 
                 // loading media data into cache
                 for (i = 0; i < json.length; i++) {
@@ -179,12 +179,12 @@ app.model = function (model, jOrder, flock, cache, services) {
                 return false;
             }
 
-            var hits = cache.query(path.concat([null, 'media', '*']), {mode: flock.BOTH});
+            var hits = cache.mget(path.concat([null, 'media', '*']), flock.BOTH);
 
             // initializing stack with filtered values
             stackInit(flock({
                 media: hits
-            }));
+            }, flock.COMPAT));
 
             return true;
         },
@@ -236,10 +236,10 @@ app.model = function (model, jOrder, flock, cache, services) {
                 tags = model.search.matchingTerms(term, ['tag']);
 
                 // taking _all_ media ids where tags match, then
-                matches = cache.query(['tag', tags, 'media', '*'], {mode: flock.KEYS});
+                matches = cache.mget(['tag', tags, 'media', '*'], flock.KEYS);
 
                 // matching media ids against previous search results
-                hits = stack[0].data.cache.query(['media', matches], {mode: flock.BOTH});
+                hits = stack[0].data.cache.mget(['media', matches], flock.BOTH);
 
                 // adding search hits to stack
                 stack.unshift({
@@ -248,7 +248,7 @@ app.model = function (model, jOrder, flock, cache, services) {
                     data: {
                         cache: flock({
                             media: hits
-                        }),
+                        }, flock.COMPAT),
                         table: jOrder(jOrder.values(hits))
                             .index('id', ['mediaid'])
                             .index('pager', ['lfile'], {ordered: true, grouped: true, type: jOrder.string})
@@ -264,7 +264,7 @@ app.model = function (model, jOrder, flock, cache, services) {
          * @returns {object[]} List of tag entries.
          */
         matchedTags: function () {
-            return flock(stack).query('*.tags.*');
+            return flock(stack, flock.COMPAT).mget('*.tags.*');
         },
 
         /**
@@ -272,7 +272,7 @@ app.model = function (model, jOrder, flock, cache, services) {
          * @returns {string[]} List of media identifiers.
          */
         matchedMedia: function () {
-            return stack[0].data.cache.query(['media', '*'], {mode: flock.KEYS});
+            return stack[0].data.mget.query(['media', '*'],  flock.KEYS);
         },
 
         /**
@@ -281,7 +281,7 @@ app.model = function (model, jOrder, flock, cache, services) {
          * @returns {string[]} List of media identifiers.
          */
         getByTag: function (tag) {
-            return cache.query(['tag', tag, 'media', '*'], {mode: flock.KEYS});
+            return cache.mget(['tag', tag, 'media', '*'], flock.KEYS);
         },
 
         /**
@@ -298,16 +298,16 @@ app.model = function (model, jOrder, flock, cache, services) {
          * @param mediaids {string[]} Identifiers of affected media entries.
          */
         unset: function (mediaids) {
-            var media = flock(cache.query(['media', mediaids])),
+            var media = flock(cache.mget(['media', mediaids]), flock.COMPAT),
                 i;
 
             // removing media references from tags
-            media.query(['tag', '*', 'media', mediaids], {mode: flock.DEL});
+            media.munset(['tag', '*', 'media', mediaids]);
 
             // removing media entries
             for (i = 0; i < stack.length; i++) {
-                stack[i].data.table.remove(media.node(), {indexName: 'id'});
-                stack[i].data.cache.query(['media', mediaids], {mode: flock.DEL});
+                stack[i].data.table.remove(media.root, {indexName: 'id'});
+                stack[i].data.cache.munset(['media', mediaids]);
             }
         },
 
@@ -376,12 +376,12 @@ app.model = function (model, jOrder, flock, cache, services) {
          */
         addTag: function (mediaids, tag) {
             var path = ['media', mediaids, 'tags', tag], // path to this tag on all affected entries
-                media = cache.query(['media', mediaids]), // media entries affected
+                media = cache.mget(['media', mediaids]), // media entries affected
                 ref = model.tag.get(tag), // reference to tag
                 i, mediaid;
 
             // setting tag references on media
-            cache.query(path, {value: ref});
+            cache.mset(path, ref);
 
             // adding / updating media references on tag
             for (i = 0; i < mediaids.length; i++) {
@@ -400,7 +400,7 @@ app.model = function (model, jOrder, flock, cache, services) {
          */
         removeTag: function (mediaids, tag) {
             var path = ['media', mediaids, 'tags', tag], // path to this tag on all affected entries
-                tags = cache.query(path), // tags affected by removal
+                tags = cache.mget(path), // tags affected by removal
                 ref;
 
             // removing tag from medium if present
@@ -408,8 +408,8 @@ app.model = function (model, jOrder, flock, cache, services) {
                 ref = cache.get(['tag', tag]);
 
                 // removing direct references
-                cache.query(['media', mediaids, 'tags', tag], {mode: flock.DEL});
-                cache.query(['tag', tag, 'media', mediaids], {mode: flock.DEL});
+                cache.munset(['media', mediaids, 'tags', tag]);
+                cache.munset(['tag', tag, 'media', mediaids]);
 
                 // deducting the number of tags actually removed
                 ref.count -= tags.length;
