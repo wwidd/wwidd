@@ -4,56 +4,90 @@
 /*global flock */
 var app = app || {};
 
-app.model = (function (model, flock, input, lookup, services) {
+app.model = (function ($model, flock, $input, $lookup) {
     var ROOT = ['rating'];
 
     //////////////////////////////
     // Event handlers
 
+    function changeRating(before, after) {
+
+    }
+
     /**
      * Fires when a media entry is changed in the input cache.
      * Updates rating lookup when a media entry is changed.
      */
-    input.on('media', flock.CHANGE, function (event, data) {
-        if (event.target.split('.').length !== 2) {
-            // only full media entry changes are considered
-            return;
+    $input.on('media', flock.CHANGE, function (event, data) {
+        var path = flock.path.normalize(event.target),
+            ratingBefore, ratingAfter,
+            mediaBefore, mediaAfter;
+
+        if (flock.query.match(path, 'media.*.rating')) {
+            // saving ratings before and after change
+            ratingBefore = data.before;
+            ratingAfter = data.after;
+
+            // obtainig media entries
+            path.pop();
+            mediaBefore =
+                mediaAfter =
+                    $input.get(path, true);
+        } else if (flock.query.match(path, 'media.*')) {
+            mediaBefore = data.before;
+            mediaAfter = data.after;
+
+            // saving ratings before and after change
+            ratingBefore = mediaBefore ? mediaBefore.rating : undefined;
+            ratingAfter = mediaAfter ? mediaAfter.rating : undefined;
         }
 
-        if (data.before) {
+        if (mediaBefore) {
             // removing old entry
-            lookup
-                .unset(ROOT.concat([data.before.rating, 'items', data.before.mediaid]))
-                .add(ROOT.concat([data.before.rating, 'count']), -1);
+            $lookup
+                .unset(ROOT.concat([ratingBefore, 'items', mediaBefore.mediaid]))
+                .add(ROOT.concat([ratingBefore, 'count']), -1);
         }
-        if (data.after) {
+
+        if (mediaAfter) {
             // adding new entry
-            lookup
-                .set(ROOT.concat([data.after.rating, 'items', data.after.mediaid]), data.after)
-                .add(ROOT.concat([data.after.rating, 'count']), 1);
+            $lookup
+                .set(ROOT.concat([ratingAfter, 'items', mediaAfter.mediaid]), mediaAfter)
+                .add(ROOT.concat([ratingAfter, 'count']), 1);
         }
     });
 
     //////////////////////////////
     // Model interface
 
-    model.ratingAlt = {
+    $model.ratingAlt = flock.utils.extend(Object.prototype, {
         /**
          * Retrieves list of media associated with rating.
+         * @param rating {number|string} Media rating value.
          */
         getMedia: function (rating) {
-            return lookup.get(ROOT.concat([rating, 'items']), true);
+            return $lookup.get(ROOT.concat([rating, 'items']), true);
         },
 
         /**
          * Retrieves media enrty count associated with rating.
+         * @param rating {number|string} Media rating value.
          */
         getCount: function (rating) {
-            return lookup.get(ROOT.concat([rating, 'count']), true);
-        }
-    };
+            return $lookup.get(ROOT.concat([rating, 'count']), true);
+        },
 
-    return model;
+        /**
+         * Sets rating on media entry
+         * @param mediaid {string} Media entry ID.
+         * @param rating {number|string} Media rating value.
+         */
+        setRating: function (mediaid, rating) {
+           $input.set(['media', mediaid, 'rating'], rating);
+        }
+    });
+
+    return $model;
 }(
     app.model || {},
     flock,

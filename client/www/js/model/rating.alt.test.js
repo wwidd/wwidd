@@ -26,6 +26,24 @@
             },
             "Obtaining media entries associated with rating"
         );
+
+        // changing rating on existing media entry
+        $rating.setRating('1', 3);
+        equal($rating.getCount(5), 0, "Rating count decreased on before value");
+        deepEqual($rating.getMedia(5), {}, "Entry reference removed from under before value");
+        equal($rating.getCount(3), 1, "Rating count increased on after value");
+        deepEqual(
+            $rating.getMedia(3),
+            {
+                1: entry
+            },
+            "Entry reference added to after value"
+        );
+
+        // removing media entry
+        $input.unset('media.1');
+        equal($rating.getCount(3), 0, "Rating count decreased after removal");
+        deepEqual($rating.getMedia(3), {}, "Entry reference removed from under rating");
     });
 }(
     app.model.ratingAlt,
