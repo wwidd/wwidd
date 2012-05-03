@@ -15,10 +15,7 @@ app.model = function (model) {
         RE_SPLIT_WHITE = /\s+/,         // regex that splits along whitespace
 
         // search cache must not be evented
-        cache = flock({}, flock.COMPAT),
-
-        // method shortcut
-        keys = flock.utils.keys;
+        cache = flock({}, flock.COMPAT);
 
     /**
      * Processes terms.
@@ -119,7 +116,7 @@ app.model = function (model) {
 
                 return withLeafs ?
                     hits :
-                    keys(hits);
+                    Object.keys(hits);
             },
 
             /**
@@ -139,7 +136,7 @@ app.model = function (model) {
                     flock.BOTH
                 );
 
-                return keys(hits);
+                return Object.keys(hits);
             }
         };
 
