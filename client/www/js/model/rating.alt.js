@@ -10,52 +10,73 @@ app.model = (function ($model, flock, $input, $lookup) {
     //////////////////////////////
     // Event handlers
 
+    /**
+     * Changes rating lookup according to before and after values of media entries.
+     * @param before
+     * @param before.media {object} Before value of media entry.
+     * @param before.rating {boolean} Before value of media rating.
+     * @param after
+     * @param after.media {object} After value of media entry.
+     * @param after.rating {boolean} After value of media rating.
+     */
     function changeRating(before, after) {
+        if (before.media) {
+            // removing old entry
+            $lookup
+                .unset(ROOT.concat([before.rating, 'items', before.media.mediaid]))
+                .add(ROOT.concat([before.rating, 'count']), -1);
+        }
 
+        if (after.media) {
+            // adding new entry
+            $lookup
+                .set(ROOT.concat([after.rating, 'items', after.media.mediaid]), after.media)
+                .add(ROOT.concat([after.rating, 'count']), 1);
+        }
     }
 
     /**
-     * Fires when a media entry is changed in the input cache.
-     * Updates rating lookup when a media entry is changed.
+     * Triggered on changing of rating *values*.
      */
-    $input.on('media', flock.CHANGE, function (event, data) {
-        var path = flock.path.normalize(event.target),
-            ratingBefore, ratingAfter,
-            mediaBefore, mediaAfter;
+    $input.delegate(
+        'media',
+        flock.CHANGE,
+        'media.*.rating',
+        function (event, data) {
+            var path = flock.path.normalize(event.target),
+                mediaEntry;
 
-        if (flock.query.match(path, 'media.*.rating')) {
-            // saving ratings before and after change
-            ratingBefore = data.before;
-            ratingAfter = data.after;
-
-            // obtainig media entries
+            // obtainig affected media entry
             path.pop();
-            mediaBefore =
-                mediaAfter =
-                    $input.get(path, true);
-        } else if (flock.query.match(path, 'media.*')) {
-            mediaBefore = data.before;
-            mediaAfter = data.after;
+            mediaEntry = $input.get(path, true);
 
-            // saving ratings before and after change
-            ratingBefore = mediaBefore ? mediaBefore.rating : undefined;
-            ratingAfter = mediaAfter ? mediaAfter.rating : undefined;
+            changeRating({
+                rating: data.before,
+                media: mediaEntry
+            }, {
+                rating: data.after,
+                media: mediaEntry
+            });
         }
+    );
 
-        if (mediaBefore) {
-            // removing old entry
-            $lookup
-                .unset(ROOT.concat([ratingBefore, 'items', mediaBefore.mediaid]))
-                .add(ROOT.concat([ratingBefore, 'count']), -1);
+    /**
+     * Triggered on changing of entire media entries.
+     */
+    $input.delegate(
+        'media',
+        flock.CHANGE,
+        'media.*',
+        function (event, data) {
+            changeRating({
+                rating: data.before ? data.before.rating : undefined,
+                media: data.before
+            }, {
+                rating: data.after ? data.after.rating : undefined,
+                media: data.after
+            });
         }
-
-        if (mediaAfter) {
-            // adding new entry
-            $lookup
-                .set(ROOT.concat([ratingAfter, 'items', mediaAfter.mediaid]), mediaAfter)
-                .add(ROOT.concat([ratingAfter, 'count']), 1);
-        }
-    });
+    );
 
     //////////////////////////////
     // Model interface
@@ -83,7 +104,7 @@ app.model = (function ($model, flock, $input, $lookup) {
          * @param rating {number|string} Media rating value.
          */
         setRating: function (mediaid, rating) {
-           $input.set(['media', mediaid, 'rating'], rating);
+            $input.set(['media', mediaid, 'rating'], rating);
         }
     });
 
