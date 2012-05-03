@@ -42,14 +42,14 @@ app.model = (function (model, flock, input, lookup, services) {
          * Retrieves list of media associated with rating.
          */
         getMedia: function (rating) {
-            return lookup.get(ROOT.concat(['rating', rating, 'items']));
+            return lookup.get(ROOT.concat([rating, 'items']), true);
         },
 
         /**
          * Retrieves media enrty count associated with rating.
          */
         getCount: function (rating) {
-            return lookup.get(ROOT.concat(['rating', rating, 'count']));
+            return lookup.get(ROOT.concat([rating, 'count']), true);
         }
     };
 

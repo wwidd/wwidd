@@ -6,6 +6,14 @@
     <script type="text/javascript" src="../common/flock/flock-0.3.js"></script>
     <script type="text/javascript" src="www/js/lib/jorder/jorder-1.2.1-min.js"></script>
 
+    <script type="text/javascript">
+        var app = app || {};
+        app.input = flock();
+        app.lookup = flock({}, {noevent: true});
+    </script>
+
+    <script type="text/javascript" src="www/js/model/rating.alt.js"></script>
+    <script type="text/javascript" src="www/js/model/rating.alt.test.js"></script>
     <script type="text/javascript" src="www/js/model/search.js"></script>
     <script type="text/javascript" src="www/js/model/search.test.js"></script>
 </head>
