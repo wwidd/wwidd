@@ -4,7 +4,24 @@
 /*global flock */
 var app = app || {};
 
-app.model = (function (model, flock, input, lookup, services) {
+app.model = (function (model, flock, state, input, lookup, services) {
+    //////////////////////////////
+    // Event handlers
+
+    function onLibraryChange() {
+        // zapping media root
+        input.unset('media');
+    }
+
+    //////////////////////////////
+    // Event bindings
+
+    state.cache
+        .on('state.library', flock.CHANGE, onLibraryChange);
+
+    //////////////////////////////
+    // Model interface
+
     model.mediaAlt = {
         /**
          * Initializes media model.
@@ -24,6 +41,7 @@ app.model = (function (model, flock, input, lookup, services) {
 }(
     app.model || {},
     flock,
+    app.state,
     app.input,
     app.lookup
 ));

@@ -5,16 +5,13 @@
  * - library switcher
  * - root folder adder
  *
- * Despatches:
- * - libselSelected: when a library is selected from the list
- *
  * Captures:
  * - selectSelected: for switching to another library
  */
-/*global document, jQuery, wraith */
+/*global document, flock, jQuery, wraith */
 var app = app || {};
 
-app.widgets = (function (widgets, $, wraith, services) {
+app.widgets = (function (widgets, $, state, services) {
     //////////////////////////////
     // Static event handlers
 
@@ -48,14 +45,8 @@ app.widgets = (function (widgets, $, wraith, services) {
                     .reload();
             }
 
-            // triggering custom event telling that
-            // library was changed
-            self.ui()
-                .trigger('libselSelected', {
-                    widget: self,
-                    item: data.item,
-                    name: name
-                });
+            // setting library in cache (and thus triggering an event)
+            state.library(name);
         });
 
         return false;
@@ -157,6 +148,6 @@ app.widgets = (function (widgets, $, wraith, services) {
     return widgets;
 }(app.widgets || {},
     jQuery,
-    wraith,
+    app.state,
     app.services));
 

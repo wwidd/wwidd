@@ -4,7 +4,7 @@
 /*global flock */
 var app = app || {};
 
-app.model = (function ($model, flock, $input, $lookup) {
+app.model = (function ($model, flock, $state, $input, $lookup) {
     var ROOT = ['rating'];
 
     //////////////////////////////
@@ -36,47 +36,55 @@ app.model = (function ($model, flock, $input, $lookup) {
     }
 
     /**
+     * Triggered on changing libraries
+     */
+    function onLibraryChange() {
+        // zapping ratings root
+        $lookup.unset(ROOT);
+    }
+
+    /**
      * Triggered on changing of rating *values*.
      */
-    $input.delegate(
-        'media',
-        flock.CHANGE,
-        'media.*.rating',
-        function (event, data) {
-            var path = flock.path.normalize(event.target),
-                mediaEntry;
+    function onMediaRatingChanged(event, data) {
+        var path = flock.path.normalize(event.target),
+            mediaEntry;
 
-            // obtainig affected media entry
-            path.pop();
-            mediaEntry = $input.get(path, true);
+        // obtainig affected media entry
+        path.pop();
+        mediaEntry = $input.get(path, true);
 
-            changeRating({
-                rating: data.before,
-                media: mediaEntry
-            }, {
-                rating: data.after,
-                media: mediaEntry
-            });
-        }
-    );
+        changeRating({
+            rating: data.before,
+            media: mediaEntry
+        }, {
+            rating: data.after,
+            media: mediaEntry
+        });
+    }
 
     /**
      * Triggered on changing of entire media entries.
      */
-    $input.delegate(
-        'media',
-        flock.CHANGE,
-        'media.*',
-        function (event, data) {
-            changeRating({
-                rating: data.before ? data.before.rating : undefined,
-                media: data.before
-            }, {
-                rating: data.after ? data.after.rating : undefined,
-                media: data.after
-            });
-        }
-    );
+    function onMediaEntryChanged(event, data) {
+        changeRating({
+            rating: data.before ? data.before.rating : undefined,
+            media: data.before
+        }, {
+            rating: data.after ? data.after.rating : undefined,
+            media: data.after
+        });
+    }
+
+    //////////////////////////////
+    // Event bindings
+
+    $state.cache
+        .on('state.library', flock.CHANGE, onLibraryChange);
+
+    $input
+        .delegate('media', flock.CHANGE, 'media.*.rating', onMediaRatingChanged)
+        .delegate('media', flock.CHANGE, 'media.*', onMediaEntryChanged);
 
     //////////////////////////////
     // Model interface
@@ -112,6 +120,7 @@ app.model = (function ($model, flock, $input, $lookup) {
 }(
     app.model || {},
     flock,
+    app.state,
     app.input,
     app.lookup
 ));

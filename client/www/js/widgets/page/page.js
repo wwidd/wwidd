@@ -12,10 +12,10 @@
  * Delegates:
  * - hintsData: for displaying hint messages, to 'hints' widget
  */
-/*global document, jQuery, wraith, window */
+/*global document, flock, jQuery, wraith, window */
 var app = app || {};
 
-app.widgets = (function (widgets, $, services, model) {
+app.widgets = (function (widgets, $, state, services, model) {
     //////////////////////////////
     // Static event handlers
 
@@ -162,7 +162,7 @@ app.widgets = (function (widgets, $, services, model) {
     /**
      * Fires when current library has changed
      */
-    function onLibselSelected() {
+    function onLibraryChanged() {
         // resetting widget
         widgets.pager.reset();
         widgets.search.reset();
@@ -189,8 +189,10 @@ app.widgets = (function (widgets, $, services, model) {
         .on('hintsData', onHintsData)
         .on('actionsOptionSelected', onActionsOptionSelected)
         .on('pagerChanged', onPagerChanged)
-        .on('libselSelected', onLibselSelected)
         .on('inProgress', onInProgress);
+
+    state.cache
+        .on('state.library', flock.CHANGE, onLibraryChanged);
 
     //////////////////////////////
     // Class
@@ -258,6 +260,7 @@ app.widgets = (function (widgets, $, services, model) {
     return widgets;
 }(app.widgets || {},
     jQuery,
+    app.state,
     app.services,
     app.model));
 
