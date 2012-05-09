@@ -4,25 +4,11 @@
 /*global flock */
 var app = app || {};
 
-app.model = (function (model, flock, state, input, lookup, services) {
-    //////////////////////////////
-    // Event handlers
-
-    function onLibraryChange() {
-        // zapping media root
-        input.unset('media');
-    }
-
-    //////////////////////////////
-    // Event bindings
-
-    state.cache
-        .on('state.library', flock.CHANGE, onLibraryChange);
-
+app.model = (function ($model, $input) {
     //////////////////////////////
     // Model interface
 
-    model.mediaAlt = {
+    $model.mediaAlt = flock.utils.extend($model.modelAlt.create('media'), {
         /**
          * Initializes media model.
          * Fills input cache with entries.
@@ -32,16 +18,13 @@ app.model = (function (model, flock, state, input, lookup, services) {
             var i, row;
             for (i = 0; i < json.length; i++) {
                 row = json[i];
-                input.set(['media', row.mediaid], row);
+                $input.set(this.root.concat(row.mediaid), row);
             }
         }
-    };
+    });
 
-    return model;
+    return $model;
 }(
     app.model || {},
-    flock,
-    app.state,
-    app.input,
-    app.lookup
+    app.input
 ));

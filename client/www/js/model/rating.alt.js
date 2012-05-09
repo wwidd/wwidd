@@ -4,7 +4,7 @@
 /*global flock */
 var app = app || {};
 
-app.model = (function ($model, flock, $state, $input, $lookup) {
+app.model = (function ($model, $input, $lookup) {
     var ROOT = ['rating'];
 
     //////////////////////////////
@@ -33,14 +33,6 @@ app.model = (function ($model, flock, $state, $input, $lookup) {
                 .set(ROOT.concat([after.rating, 'items', after.media.mediaid]), after.media)
                 .add(ROOT.concat([after.rating, 'count']), 1);
         }
-    }
-
-    /**
-     * Triggered on changing libraries
-     */
-    function onLibraryChange() {
-        // zapping ratings root
-        $lookup.unset(ROOT);
     }
 
     /**
@@ -79,9 +71,6 @@ app.model = (function ($model, flock, $state, $input, $lookup) {
     //////////////////////////////
     // Event bindings
 
-    $state.cache
-        .on('state.library', flock.CHANGE, onLibraryChange);
-
     $input
         .delegate('media', flock.CHANGE, 'media.*.rating', onMediaRatingChanged)
         .delegate('media', flock.CHANGE, 'media.*', onMediaEntryChanged);
@@ -89,13 +78,13 @@ app.model = (function ($model, flock, $state, $input, $lookup) {
     //////////////////////////////
     // Model interface
 
-    $model.ratingAlt = flock.utils.extend(Object.prototype, {
+    $model.ratingAlt = flock.utils.extend($model.modelAlt.create(ROOT), {
         /**
          * Retrieves list of media associated with rating.
          * @param rating {number|string} Media rating value.
          */
         getMedia: function (rating) {
-            return $lookup.get(ROOT.concat([rating, 'items']), true);
+            return $lookup.get(this.root.concat([rating, 'items']), true);
         },
 
         /**
@@ -103,7 +92,7 @@ app.model = (function ($model, flock, $state, $input, $lookup) {
          * @param rating {number|string} Media rating value.
          */
         getCount: function (rating) {
-            return $lookup.get(ROOT.concat([rating, 'count']), true);
+            return $lookup.get(this.root.concat([rating, 'count']), true);
         },
 
         /**
@@ -112,15 +101,13 @@ app.model = (function ($model, flock, $state, $input, $lookup) {
          * @param rating {number|string} Media rating value.
          */
         setRating: function (mediaid, rating) {
-            $input.set(['media', mediaid, 'rating'], rating);
+            $input.set([$model.mediaAlt.root, mediaid, 'rating'], rating);
         }
     });
 
     return $model;
 }(
     app.model || {},
-    flock,
-    app.state,
     app.input,
     app.lookup
 ));
