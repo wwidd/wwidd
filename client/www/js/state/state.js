@@ -5,19 +5,36 @@
 var app = app || {};
 
 app.state = (function () {
-    var cache = flock({}, {nochaining: true});
+    var self = flock.utils.extend(Object.prototype, {
+        //////////////////////////////
+        // Constants
 
-    return flock.utils.extend(Object.prototype, {
-        cache: cache,
+        ROOT: ['state'],
 
+        //////////////////////////////
+        // Static properties
+
+        cache: flock({}, {nochaining: true}),
+
+        //////////////////////////////
+        // Model interface
+
+        /**
+         * Sets or gets library name.
+         * @param value {string} Library name.
+         * @return {*}
+         */
         library: function (value) {
-            var path = 'state.library';
-            if (typeof value === 'string') {
-                cache.set(path, value);
-            } else {
-                return cache.get(path);
+            var path = self.ROOT.concat('library');
+            switch (typeof value) {
+            case 'string':
+                self.cache.set(path, value);
+                break;
+            case 'undefined':
+                return self.cache.get(path);
             }
-            return this;
         }
-    }, true);
+    });
+
+    return self;
 }());
