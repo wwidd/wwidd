@@ -140,7 +140,7 @@ app.widgets = (function (widgets, $, wraith, services, model) {
                 .end()
                 .addClass('playing');
             services.media.play(mediaid);
-            model.pagestate.lastPlayed = mediaid;
+            model.State.lastPlayed(mediaid);
             return self;
         };
 
@@ -182,7 +182,7 @@ app.widgets = (function (widgets, $, wraith, services, model) {
             return [
                 '<div id="', self.id, '" class="',
                 ['w_medium']
-                    .concat(model.pagestate.lastPlayed === mediaid ? ['playing'] : [])
+                    .concat(model.State.lastPlayed() === mediaid ? ['playing'] : [])
                     .concat(VIEWS[expanded || view] || [])
                     .join(' '), '">',
 
