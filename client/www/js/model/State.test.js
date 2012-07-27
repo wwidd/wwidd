@@ -1,5 +1,5 @@
 /*global flock, app, module, test, ok, equal, deepEqual, raises */
-(function ($state) {
+(function ($state, $cache) {
     module("State");
 
     test("General", function () {
@@ -7,13 +7,14 @@
     });
 
     test("Library", function () {
-        equal(typeof $state.cache.get('state.library'), 'undefined', "No library is set before");
+        equal(typeof $cache.get($state.ROOT.concat('library'), true), 'undefined', "No library is set before");
 
         $state.library('test');
-        equal($state.cache.get('state.library'), 'test', "Library is set to 'test'");
+        equal($cache.get($state.ROOT.concat('library'), true), 'test', "Library is set to 'test'");
         equal($state.library(), 'test', "Library getter");
     });
 }(
-    app.model.State
+    app.model.State,
+    app.input
 ));
 

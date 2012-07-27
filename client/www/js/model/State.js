@@ -1,8 +1,10 @@
 /**
  * Application State
+ *
+ * TODO: common cache object with other model classes
  */
 /*global troop, app, flock */
-troop.promise(app.registerNameSpace('model'), 'State', function ($model, className, $input, $lookup) {
+troop.promise(app.registerNameSpace('model'), 'State', function ($model, className, $cache) {
     var base = $model.Model,
         self;
 
@@ -10,15 +12,9 @@ troop.promise(app.registerNameSpace('model'), 'State', function ($model, classNa
         .addConstant({
             ROOT: ['state']
         })
-        .addPublic({
-            /**
-             *
-             */
-            cache: flock({}, {nochaining: true})
-        })
         .addMethod({
             //////////////////////////////
-            // Model interface
+            // Setters, getters
 
             /**
              * Sets or gets library name.
@@ -29,10 +25,25 @@ troop.promise(app.registerNameSpace('model'), 'State', function ($model, classNa
                 var path = self.ROOT.concat('library');
                 switch (typeof value) {
                 case 'string':
-                    self.cache.set(path, value);
+                    $cache.set(path, value);
                     break;
                 case 'undefined':
-                    return self.cache.get(path);
+                    return $cache.get(path, true);
+                }
+            },
+
+            /**
+             * Sets or gets last played
+             * @param value
+             */
+            lastPlayed: function (value) {
+                var path = self.ROOT.concat('lastPlayed');
+                switch (typeof value) {
+                case 'string':
+                    $cache.set(path, value);
+                    break;
+                case 'undefined':
+                    return $cache.get(path, true);
                 }
             }
         })
@@ -52,9 +63,7 @@ troop.promise(app.registerNameSpace('model'), 'State', function ($model, classNa
                     if ($model.hasOwnProperty(model) &&
                         self.isPrototypeOf($model[model])
                         ) {
-                        root = $model[model].ROOT;
-                        $input.unset(root);
-                        $lookup.unset(root);
+                        $cache.unset($model[model].ROOT);
                     }
                 }
             }
@@ -63,8 +72,7 @@ troop.promise(app.registerNameSpace('model'), 'State', function ($model, classNa
     //////////////////////////////
     // Event bindings
 
-    self.cache
-        .on('state.library', flock.CHANGE, self._onLibraryChange);
+    self.on('library', flock.CHANGE, self._onLibraryChange);
 
     return self;
-}, app.input, app.lookup);
+}, app.input);

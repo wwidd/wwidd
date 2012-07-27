@@ -191,8 +191,8 @@ app.widgets = (function (widgets, $, state, services, model) {
         .on('pagerChanged', onPagerChanged)
         .on('inProgress', onInProgress);
 
-    state.cache
-        .on('state.library', flock.CHANGE, onLibraryChanged);
+    state
+        .on('library', flock.CHANGE, onLibraryChanged);
 
     //////////////////////////////
     // Class
