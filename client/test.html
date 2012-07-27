@@ -4,20 +4,22 @@
     <link rel="stylesheet" href="../common/qunit/qunit.css" type="text/css" media="screen" />
     <script type="text/javascript" src="../common/qunit/qunit.js"></script>
     <script type="text/javascript" src="../common/flock/flock-0.3.js"></script>
+    <script type="text/javascript" src="../common/troop/troop-0.1.5.js"></script>
     <script type="text/javascript" src="www/js/lib/jorder/jorder-1.2.1-min.js"></script>
 
+    <script type="text/javascript" src="www/js/app.js"></script>
     <script type="text/javascript">
-        var app = app || {};
+        /*global app */
         app.input = flock();
         app.lookup = flock({}, {noevent: true});
     </script>
 
-    <script type="text/javascript" src="www/js/state/state.js"></script>
-    <script type="text/javascript" src="www/js/state/state.test.js"></script>
-    <script type="text/javascript" src="www/js/model/model.alt.js"></script>
-    <script type="text/javascript" src="www/js/model/media.alt.js"></script>
-    <script type="text/javascript" src="www/js/model/rating.alt.js"></script>
-    <script type="text/javascript" src="www/js/model/rating.alt.test.js"></script>
+    <script type="text/javascript" src="www/js/model/Model.js"></script>
+    <script type="text/javascript" src="www/js/model/State.js"></script>
+    <script type="text/javascript" src="www/js/model/State.test.js"></script>
+    <script type="text/javascript" src="www/js/model/Media.js"></script>
+    <script type="text/javascript" src="www/js/model/Rating.js"></script>
+    <script type="text/javascript" src="www/js/model/Rating.test.js"></script>
     <script type="text/javascript" src="www/js/model/search.js"></script>
     <script type="text/javascript" src="www/js/model/search.test.js"></script>
 </head>

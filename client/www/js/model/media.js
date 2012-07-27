@@ -96,7 +96,7 @@ app.model = function (model, jOrder, flock, cache, services) {
         init: function (handler) {
             // calling service
             services.media.get('', function (json) {
-                app.model.mediaAlt.init(json.data);
+                app.model.Media.init(json.data);
 
                 json = preprocess(json.data);
 

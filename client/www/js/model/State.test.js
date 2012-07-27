@@ -14,6 +14,6 @@
         equal($state.library(), 'test', "Library getter");
     });
 }(
-    app.state
+    app.model.State
 ));
 

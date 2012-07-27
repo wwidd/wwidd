@@ -260,7 +260,7 @@ app.widgets = (function (widgets, $, state, services, model) {
     return widgets;
 }(app.widgets || {},
     jQuery,
-    app.state,
+    app.model.State,
     app.services,
     app.model));
 

@@ -148,6 +148,6 @@ app.widgets = (function (widgets, $, state, services) {
     return widgets;
 }(app.widgets || {},
     jQuery,
-    app.state,
+    app.model.State,
     app.services));
 
