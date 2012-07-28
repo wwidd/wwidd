@@ -350,7 +350,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 
             for (i = 0; i < tags.length; i++) {
                 tag = tags[i];
-                ref = model.tag.get(tag);
+                ref = model.Tag.get(tag);
                 if (!media.tags.hasOwnProperty(tag)) {
                     // adding tag reference to media
                     media.tags[tag] = ref;
@@ -370,7 +370,7 @@ app.model = function (model, jOrder, flock, cache, services) {
         addTag: function (mediaids, tag) {
             var path = ['media', mediaids, 'tags', tag], // path to this tag on all affected entries
                 media = cache.mget(['media', mediaids]), // media entries affected
-                ref = model.tag.get(tag), // reference to tag
+                ref = model.Tag.get(tag), // reference to tag
                 i, mediaid;
 
             // setting tag references on media
@@ -409,7 +409,7 @@ app.model = function (model, jOrder, flock, cache, services) {
 
                 // removing tag altogether
                 if (Object.isEmpty(ref.media)) {
-                    model.tag.unset(tag);
+                    model.Tag.unset(tag);
                 }
             }
         },

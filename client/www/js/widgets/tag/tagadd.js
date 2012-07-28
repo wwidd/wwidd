@@ -81,7 +81,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
         switch (event.which) {
         case 13:
             // enter - saving values
-            name = model.tag.sanitize(name);
+            name = model.Tag.sanitize(name);
             if (!name.length) {
                 return;
             }

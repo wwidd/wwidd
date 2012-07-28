@@ -27,7 +27,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
         function add(after) {
             var names, i;
             if (after) {
-                names = model.tag.split(after);
+                names = model.Tag.split(after);
                 model.media.addTags(mediaid, names);
             }
         }

@@ -210,7 +210,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
             mediaid = self.mediaid(),
             tag = self.tag(),
             before = tag,
-            after = model.tag.sanitize($this.val());
+            after = model.Tag.sanitize($this.val());
 
         if (event.which === 13) {
             // enter - saving values
@@ -224,7 +224,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
                 // running batch tag change
                 if (window.confirm("Apply change to ALL tags of this kind?")) {
                     services.tag.set(null, before, after, function () {
-                        model.tag.set(before, after);
+                        model.Tag.set(before, after);
                         widgets.media.refreshTags();
                     });
                 }
