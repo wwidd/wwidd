@@ -6,7 +6,7 @@
 /*global troop, app, flock */
 troop.promise(app.registerNameSpace('model'), 'Model', function ($model, className, $cache) {
     return app.model.Model = troop.base.extend()
-        .addConstant({
+        .addPublic({
             /**
              * Root path to data managed by model class
              */
