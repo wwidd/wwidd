@@ -15,14 +15,16 @@ troop.promise(app.registerNameSpace('model'), 'Model', function ($model, classNa
         .addMethod({
             /**
              * Event subscription.
-             * @param path {string|string[]} Datastore path.
+             * @param path {string|string[]} Datastore path relative to model root.
              * @param handler {function} Event handler callback. Receives arguments `event` and `data`.
              */
             on: function (path, eventName, handler) {
+                path = flock.query.normalize(path);
+
                 $cache.delegate(
                     this.ROOT,
                     eventName,
-                    path,
+                    this.ROOT.concat(path),
                     handler);
 
                 return this;

@@ -110,12 +110,18 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
             }
         });
 
-    //////////////////////////////
-    // Event bindings
-
-    $input
-        .delegate('media', flock.CHANGE, 'media.*.rating', self._onMediaRatingChanged)
-        .delegate('media', flock.CHANGE, 'media.*', self._onMediaEntryChanged);
-
     return self;
 }, app.input, app.lookup);
+
+//////////////////////////////
+// Static event bindings
+
+(function (Media, Rating) {
+    Media
+        .on('*.rating', flock.CHANGE, Rating._onMediaRatingChanged)
+        .on('*', flock.CHANGE, Rating._onMediaEntryChanged);
+
+}(
+    app.model.Media,
+    app.model.Rating
+));
