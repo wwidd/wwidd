@@ -27,7 +27,7 @@ app.widgets = function (widgets, $, wraith, model) {
 
         // initializes lookup buffers
         function prepare() {
-            keywords = model.media.getById(mediaid).keywords || {};
+            keywords = model.Media.getById(mediaid).keywords || {};
             var key, keyword;
             for (key in keywords) {
                 if (keywords.hasOwnProperty(key)) {

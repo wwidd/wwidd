@@ -212,12 +212,12 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                 .render();
 
             // loading video data
-            model.media.init(function () {
+            model.Media.init(function () {
                 // setting active library in page title
                 $document.attr('title', title + ' - ' + widgets.library.name());
 
                 // applying search text
-                model.media.search(widgets.search.text());
+                model.Media.search(widgets.search.text());
 
                 // re-building discovery widget
                 widgets.discovery
@@ -255,7 +255,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
                     .render();
 
                 // updating media data
-                model.media.update(json.load);
+                model.Media.update(json.load);
 
                 // updating thumbnails
                 var mediaid, medium;
@@ -329,7 +329,7 @@ app.widgets = (function (widgets, $, wraith, model, services) {
         }
 
         self.build = function () {
-            var page = model.media.getPage(widgets.pager.currentPage(), widgets.pager.items()),
+            var page = model.Media.getPage(widgets.pager.currentPage(), widgets.pager.items()),
                 i,
                 control;
 

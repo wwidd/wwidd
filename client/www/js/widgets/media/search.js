@@ -54,7 +54,7 @@ app.widgets = function (widgets, $, wraith, services, model) {
             // filtreing out leading and trailing commas and spaces
             text = (RE_FILTER_CROP.exec(tmp) || [''])[0];
 
-            if (model.media.search(text)) {
+            if (model.Media.search(text)) {
                 // result set changed
                 elem.siblings('.backdrop').val('');
                 widgets.pager.reset();

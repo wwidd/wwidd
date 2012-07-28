@@ -135,7 +135,7 @@ app.widgets = (function (widgets, $, state, services, model) {
             // calling deletion service
             // then reloading entire library
             services.media.del(mediaids.join(','), function () {
-                model.media.unset(mediaids);
+                model.Media.unset(mediaids);
                 widgets.media.refresh();
             });
             break;

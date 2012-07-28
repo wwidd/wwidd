@@ -177,7 +177,7 @@ app.widgets = (function (widgets, $, wraith, services, model) {
         };
 
         self.html = function () {
-            var row = model.media.getById(mediaid);
+            var row = model.Media.getById(mediaid);
 
             return [
                 '<div id="', self.id, '" class="',

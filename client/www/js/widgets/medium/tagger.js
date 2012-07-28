@@ -61,7 +61,7 @@ app.widgets = function (widgets, $, wraith, jOrder, model) {
             self.clear();
 
             // adding tag editor widgets in sorted tag order
-            var row = model.media.getById(mediaid),
+            var row = model.Media.getById(mediaid),
                 tags = jOrder.values(row.tags).sort(compare),
                 i;
             for (i = 0; i < tags.length; i++) {

@@ -46,7 +46,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
          */
         function isFilter(str) {
             // get tags matched by filter
-            var matched = model.media.matchedTags(),
+            var matched = model.Media.matchedTags(),
                 i;
             for (i = 0; i < matched.length; i++) {
                 if (str === matched[i]) {
@@ -128,14 +128,14 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
         case 'all':
             // affecting all tags like this one
             if (window.confirm(lang.all)) {
-                mediaids = model.media.getByTag(tag);
+                mediaids = model.Media.getByTag(tag);
                 service(null, tag, null, onSuccess);
             }
             break;
 
         case 'search':
             // affecting tags in search reaults
-            mediaids = model.media.matchedMedia();
+            mediaids = model.Media.matchedMedia();
             if (mediaids.length && window.confirm(lang.hits)) {
                 service(null, tag, mediaids.join(','), onSuccess);
             }
@@ -159,7 +159,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
             all: "Delete ALL tags of this kind?",
             hits: "Delete this tag from SEARCH results?"
         }, function (mediaids, tag) {
-            model.media.removeTag(mediaids, tag);
+            model.Media.removeTag(mediaids, tag);
             if (mediaids.length > 1) {
                 widgets.media.refreshTags();
             } else {
@@ -191,9 +191,9 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
         }, function (mediaids, tag) {
             var tmp = explode(tag),
                 i;
-            model.media.removeTag(mediaids, tag);
+            model.Media.removeTag(mediaids, tag);
             for (i = 0; i < tmp.length; i++) {
-                model.media.addTag(mediaids, tmp[i]);
+                model.Media.addTag(mediaids, tmp[i]);
             }
             if (mediaids.length > 1) {
                 widgets.media.refreshTags();

@@ -8,7 +8,7 @@ var app = app || {};
  * General purpose cache.
  * TODO: eliminate
  */
-app.cache = flock({}, flock.COMPAT);
+app.cache = flock({}, {nochaining: true});
 
 /**
  * Input cache. This is where services deliver data.

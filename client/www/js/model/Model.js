@@ -40,4 +40,4 @@ troop.promise(app.registerNameSpace('model'), 'Model', function ($model, classNa
                 return this;
             }
         });
-}, app.input);
+}, app.cache);

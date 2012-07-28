@@ -29,7 +29,7 @@ app.widgets = function (widgets, $, wraith, model, services) {
             var rating = $('#' + self.id).find('a').index(this) + 1;
             // calling rater service
             services.media.rate(mediaid, rating, function () {
-                model.media.setRating(model.media.getById(mediaid), rating);
+                model.Media.setRating(model.Media.getById(mediaid), rating);
                 self.render();
                 widgets.discovery.refreshRatings();
             });
@@ -50,7 +50,7 @@ app.widgets = function (widgets, $, wraith, model, services) {
         };
 
         self.html = function () {
-            var row = model.media.getById(mediaid);
+            var row = model.Media.getById(mediaid);
             return widgets.rater.html(row.rating, self.id);
         };
 
