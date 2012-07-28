@@ -23,7 +23,7 @@ app.model = function (model, flock, cache) {
         cache.set(['name', entry.name, entry.kind], entry);
 
         // adding tag to search index
-        model.search.addTerms(tag, ['tag'], entry);
+        model.Search.addTerms(tag, ['tag'], entry);
     }
 
     model.tag = {
@@ -124,7 +124,7 @@ app.model = function (model, flock, cache) {
             cache.unset(['kind', tmp[1], tmp[0]]);
 
             // removing references from search index
-            model.search.removeTerms(before, ['tag']);
+            model.Search.removeTerms(before, ['tag']);
 
             // removing name altogether
             if (Object.isEmpty(cache.get(['name', tmp[0]]))) {

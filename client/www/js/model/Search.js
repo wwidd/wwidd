@@ -2,58 +2,58 @@
  * Search Index
  *
  * Builds and queries search tree.
- * Unit is self-contained, Flock being its sole dependency. Has its own cache,
+ * Unit is that-contained, Flock being its sole dependency. Has its own cache,
  * which is exposed on the object for direct access.
  *
  * (c) 2011-2012 by Dan Stocker, under MIT license.
  */
-/*global flock */
-var app = app || {};
-
-app.model = function (model) {
-    var RE_SPLIT_CHAR = '',             // regex that splits along each character
-        RE_SPLIT_WHITE = /\s+/,         // regex that splits along whitespace
-
-        // search cache must not be evented
-        cache = flock({}, flock.COMPAT);
-
+/*global troop, app, flock */
+troop.promise(app.registerNameSpace('model'), 'Search', function () {
     /**
-     * Processes terms.
-     * Calls handler on each individual word and each complete term.
-     * @param terms {string[]|string} Term(s).
-     * @param handler {function} Called on each word.
+     * @class
+     * @static
      */
-    function processTerms(terms, handler) {
-        if (typeof terms === 'string') {
-            terms = [terms];
-        }
+    return app.model.Search = troop.base.extend()
+        .addConstant({
+            RE_SPLIT_CHAR: '', // regex that splits along each character
+            RE_SPLIT_WHITE: /\s+/ // regex that splits along whitespace
+        })
+        .addPublic({
+            // search cache must not be evented
+            cache: flock({}, flock.COMPAT)
+        })
+        .addPrivateMethod({
+            /**
+             * Processes terms.
+             * Calls handler on each individual word and each complete term.
+             * @param terms {string[]|string} Term(s).
+             * @param handler {function} Called on each word.
+             */
+            _processTerms: function (terms, handler) {
+                if (typeof terms === 'string') {
+                    terms = [terms];
+                }
 
-        var i, term, words,
-            j;
+                var i, term, words,
+                    j;
 
-        for (i = 0; i < terms.length; i++) {
-            term = terms[i].toLowerCase();
-            words = term.split(RE_SPLIT_WHITE);
+                for (i = 0; i < terms.length; i++) {
+                    term = terms[i].toLowerCase();
+                    words = term.split(this.RE_SPLIT_WHITE);
 
-            if (words.length > 1) {
-                // there are multiple words in term
-                // adding full term to list of words
-                words.push(term);
+                    if (words.length > 1) {
+                        // there are multiple words in term
+                        // adding full term to list of words
+                        words.push(term);
+                    }
+
+                    for (j = 0; j < words.length; j++) {
+                        handler.call(this, terms[i], words[j]);
+                    }
+                }
             }
-
-            for (j = 0; j < words.length; j++) {
-                handler.call(this, terms[i], words[j]);
-            }
-        }
-    }
-
-    model.search = (function () {
-        var self = {
-            //////////////////////////////
-            // Exposed privates
-
-            cache: cache,
-
+        })
+        .addMethod({
             //////////////////////////////
             // Control
 
@@ -64,9 +64,9 @@ app.model = function (model) {
              * @param [node] {object} Custom object to be added as leaf node.
              */
             addTerms: function (terms, path, node) {
-                processTerms.call(this, terms, function(term, word) {
-                    cache.set(
-                        word.split(RE_SPLIT_CHAR)
+                this._processTerms.call(this, terms, function (term, word) {
+                    this.cache.set(
+                        word.split(this.RE_SPLIT_CHAR)
                             .concat(path)
                             .concat([word, term]),
                         node || true
@@ -80,9 +80,9 @@ app.model = function (model) {
              * @param path {string[]} Custom path between search term and affected cache node.
              */
             removeTerms: function (terms, path) {
-                processTerms.call(this, terms, function(term, word) {
-                    cache.cleanup(
-                        word.split(RE_SPLIT_CHAR)
+                this._processTerms.call(this, terms, function (term, word) {
+                    this.cache.cleanup(
+                        word.split(this.RE_SPLIT_CHAR)
                             .concat(path)
                             .concat([word, term])
                     );
@@ -93,7 +93,7 @@ app.model = function (model) {
              * Clears search index cache.
              */
             clear: function () {
-                self.cache = cache = flock({}, flock.COMPAT);
+                this.cache = flock({}, flock.COMPAT);
             },
 
             /**
@@ -106,8 +106,8 @@ app.model = function (model) {
             matchingWords: function (prefix, path, withLeafs) {
                 prefix = prefix.toLowerCase();
 
-                var hits = cache.mget(
-                    prefix.split(RE_SPLIT_CHAR)
+                var hits = this.cache.mget(
+                    prefix.split(this.RE_SPLIT_CHAR)
                         .concat([null])
                         .concat(path)
                         .concat(['*']),
@@ -128,8 +128,8 @@ app.model = function (model) {
             matchingTerms: function (prefix, path) {
                 prefix = prefix.toLowerCase();
 
-                var hits = cache.mget(
-                    prefix.split(RE_SPLIT_CHAR)
+                var hits = this.cache.mget(
+                    prefix.split(this.RE_SPLIT_CHAR)
                         .concat([null])
                         .concat(path)
                         .concat(['*', '*']),
@@ -138,10 +138,5 @@ app.model = function (model) {
 
                 return Object.keys(hits);
             }
-        };
-
-        return self;
-    }());
-
-    return model;
-}(app.model || {});
+        });
+});

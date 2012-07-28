@@ -29,7 +29,7 @@ app.model = function (model, cache) {
      * @returns {object} Tag entry best matching the prefix.
      */
     function search(prefix) {
-        var expressions = model.search.matchingTerms(prefix, ['tag']),
+        var expressions = model.Search.matchingTerms(prefix, ['tag']),
             hits = cache.mget(['tag', expressions]);
         return bestHit(hits);
     }
@@ -62,7 +62,7 @@ app.model = function (model, cache) {
              */
             searchWord: function (prefix) {
                 // obtaining matching tags
-                var hits = model.search.matchingWords(prefix, ['tag'], true),
+                var hits = model.Search.matchingWords(prefix, ['tag'], true),
                     term,
                     result = [],
                     tag, count;

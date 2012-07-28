@@ -226,7 +226,7 @@ app.model = function (model, jOrder, flock, cache, services) {
                 term = terms[i];
 
                 // acquiring tags matching the entered string
-                tags = model.search.matchingTerms(term, ['tag']);
+                tags = model.Search.matchingTerms(term, ['tag']);
 
                 // taking _all_ media ids where tags match, then
                 matches = cache.mget(['tag', tags, 'media', '*'], flock.KEYS);
