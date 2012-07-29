@@ -19,7 +19,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
         /** Removes tag from media entry */
         function remove(before) {
             if (before) {
-                model.Media.removeTag([mediaid], before);
+                model.media.removeTag([mediaid], before);
             }
         }
 
@@ -28,7 +28,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
             var names, i;
             if (after) {
                 names = model.Tag.split(after);
-                model.Media.addTags(mediaid, names);
+                model.media.addTags(mediaid, names);
             }
         }
 

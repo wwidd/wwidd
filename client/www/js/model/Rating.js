@@ -4,7 +4,7 @@
  * Model class managing ratings
  */
 /*global troop, app, flock */
-troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, className, $input, $lookup) {
+troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, className, $cache) {
     var base = $model.Model,
         self;
 
@@ -27,7 +27,7 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
              * @static
              */
             getMedia: function (rating) {
-                return $lookup.get(self.ROOT.concat([rating, 'items']), true);
+                return $cache.get(self.ROOT.concat([rating, 'items']), true);
             },
 
             /**
@@ -35,7 +35,7 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
              * @param rating {number|string} Media rating value.
              */
             getCount: function (rating) {
-                return $lookup.get(self.ROOT.concat([rating, 'count']), true);
+                return $cache.get(self.ROOT.concat([rating, 'count']), true);
             },
 
             /**
@@ -44,7 +44,7 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
              * @param rating {number|string} Media rating value.
              */
             setRating: function (mediaId, rating) {
-                $input.set($model.Media.ROOT.concat([mediaId, 'rating']), rating);
+                $cache.set($model.Media.ROOT.concat([mediaId, 'rating']), rating);
             }
         })
         .addPrivateMethod({
@@ -63,15 +63,15 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
             _changeRating: function (before, after) {
                 if (before.media) {
                     // removing old entry
-                    $lookup
+                    $cache
                         .unset(self.ROOT.concat([before.rating, 'items', before.media.mediaid]))
                         .add(self.ROOT.concat([before.rating, 'count']), -1);
                 }
 
                 if (after.media) {
                     // adding new entry
-                    $lookup
-                        .set(self.ROOT.concat([after.rating, 'items', after.media.mediaid]), after.media)
+                    $cache
+                        .set(self.ROOT.concat([after.rating, 'items', after.media.mediaid]), true)
                         .add(self.ROOT.concat([after.rating, 'count']), 1);
                 }
             },
@@ -85,7 +85,7 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
 
                 // obtainig affected media entry
                 path.pop();
-                mediaEntry = $input.get(path, true);
+                mediaEntry = $cache.get(path, true);
 
                 self._changeRating({
                     rating: data.before,
@@ -111,7 +111,7 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
         });
 
     return self;
-}, app.input, app.lookup);
+}, app.input);
 
 //////////////////////////////
 // Static event bindings
@@ -120,7 +120,6 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
     Media
         .on('*.rating', flock.CHANGE, Rating._onMediaRatingChanged)
         .on('*', flock.CHANGE, Rating._onMediaEntryChanged);
-
 }(
     app.model.Media,
     app.model.Rating

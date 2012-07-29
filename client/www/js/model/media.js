@@ -2,11 +2,11 @@
  * Media Model
  */
 /*global troop, app, jOrder, flock, escape */
-troop.promise(app.registerNameSpace('model'), 'Media', function ($model, className, $cache, $services) {
+troop.promise(app.registerNameSpace('model'), 'media', function ($model, className, $cache, $services) {
     var base = $model.Model,
         self;
 
-    self = app.model.Media = base.extend()
+    self = app.model.media = base.extend()
         .addConstant({
             ROOT: ['media']
         })

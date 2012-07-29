@@ -31,7 +31,7 @@ app.widgets = function (widgets, $, wraith, model, cache) {
             depth < 2 && path[0] === 'field') {
             //return false;
         } else {
-            if (model.Media.filterStack(path)) {
+            if (model.media.filterStack(path)) {
                 widgets.search.reset();
                 widgets.pager.reset();
                 widgets.media.refresh();

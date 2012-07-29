@@ -196,9 +196,9 @@ app.widgets = (function (widgets, $, wraith, model) {
             var result = [],
                 row,
                 i;
-            pageCount = model.Media.getPages(itemsPerPage);
+            pageCount = model.media.getPages(itemsPerPage);
             for (i = 0; i < pageCount; i++) {
-                row = model.Media.getFirst(i, itemsPerPage)[0];
+                row = model.media.getFirst(i, itemsPerPage)[0];
                 result.push((i + 1) + " - " + row.file.substr(0, 8) + "...");
             }
             return result;

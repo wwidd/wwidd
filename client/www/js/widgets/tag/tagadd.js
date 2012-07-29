@@ -95,7 +95,7 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
                 if (self.parent.parent.selected() && confirm("Add this to SELECTED videos?")) {
                     mediaids = jOrder.keys(widgets.media.selected);
                     services.tag.add(null, name, mediaids.join(','), function () {
-                        model.Media.addTag(mediaids, name);
+                        model.media.addTag(mediaids, name);
                         widgets.media.refreshTags();
                     });
                 }
@@ -103,10 +103,10 @@ app.widgets = function (widgets, $, wraith, jOrder, services, model) {
 
             case 'search':
                 // adding tag(s) to multiple media
-                mediaids = model.Media.matchedMedia();
+                mediaids = model.media.matchedMedia();
                 if (mediaids.length && confirm("Add this to SEARCH results?")) {
                     services.tag.add(null, name, mediaids.join(','), function () {
-                        model.Media.addTag(mediaids, name);
+                        model.media.addTag(mediaids, name);
                         widgets.media.refreshTags();
                     });
                 }
