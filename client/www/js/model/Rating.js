@@ -26,8 +26,8 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
              * @return {object}
              * @static
              */
-            getMedia: function (rating) {
-                return $cache.get(self.ROOT.concat([rating, 'items']), true);
+            getMediaIds: function (rating) {
+                return Object.keys($cache.get(self.ROOT.concat([rating, 'items'])));
             },
 
             /**
@@ -35,7 +35,7 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
              * @param rating {number|string} Media rating value.
              */
             getCount: function (rating) {
-                return $cache.get(self.ROOT.concat([rating, 'count']), true);
+                return $cache.get(self.ROOT.concat([rating, 'count']));
             },
 
             /**
@@ -111,7 +111,7 @@ troop.promise(app.registerNameSpace('model'), 'Rating', function ($model, classN
         });
 
     return self;
-}, app.input);
+}, app.cache);
 
 //////////////////////////////
 // Static event bindings

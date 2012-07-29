@@ -10,13 +10,13 @@
     <script type="text/javascript" src="www/js/app.js"></script>
     <script type="text/javascript">
         /*global app */
-        app.cache = flock();
+        app.cache = flock({}, {nochaining: true});
         app.input = flock();
         app.lookup = flock({}, {noevent: true});
     </script>
 
     <script type="text/javascript" src="www/js/model/Model.js"></script>
-    <script type="text/javascript" src="www/js/model/Media_.js"></script>
+    <script type="text/javascript" src="www/js/model/Media.js"></script>
     <script type="text/javascript" src="www/js/model/State.js"></script>
     <script type="text/javascript" src="www/js/model/State.test.js"></script>
     <script type="text/javascript" src="www/js/model/Rating.js"></script>

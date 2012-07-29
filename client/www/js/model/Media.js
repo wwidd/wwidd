@@ -8,7 +8,7 @@ troop.promise(app.registerNameSpace('model'), 'Media', function ($model, classNa
 
     self = app.model.Media = base.extend()
         .addConstant({
-            EVENT_INPUT_FINISHED: 'eventInputFinished'
+            EVENT_MEDIA_FINISHED: 'eventMediaFinished'
         })
         .addPublic({
             /** @override */
@@ -63,7 +63,7 @@ troop.promise(app.registerNameSpace('model'), 'Media', function ($model, classNa
                 }
 
                 $cache
-                    .trigger(self.ROOT, self.EVENT_INPUT_FINISHED);
+                    .trigger(self.ROOT, self.EVENT_MEDIA_FINISHED);
             }
         });
-}, app.input, app.services);
+}, app.cache, app.services);
