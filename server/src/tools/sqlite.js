@@ -80,7 +80,7 @@ sqlite = function () {
 	// checks whether current database exists
 	self.exists = function () {
 		var fileName = path + db + '.sqlite',
-				exists = $path.existsSync(fileName) && $fs.statSync(fileName).size > 0;
+				exists = $fs.existsSync(fileName) && $fs.statSync(fileName).size > 0;
 		return exists;
 	};
 	

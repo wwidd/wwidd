@@ -8,14 +8,14 @@ var $path = require('path'),
 // adds the contents of a file to the response
 // sychronously
 add = function (filePath, res) {
-	if ($path.existsSync(filePath)) {
+	if ($fs.existsSync(filePath)) {
 		res.write($fs.readFileSync(filePath), "binary");
 	}
 },
 
 // fetches one file from disk as response
 fetch = function (filePath, res, debug) {
-	$path.exists(filePath, function (exists) {
+	$fs.exists(filePath, function (exists) {
 		if (!exists) {
 			res.writeHead(404, {"Content-Type": "text/plain"});
 			res.end("404 Not Found\n");

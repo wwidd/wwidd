@@ -2,8 +2,6 @@
 // Wwidd Application Server
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, process, console */
-require.paths.unshift('server/src');
-
 var	$http = require('http'),
 		$url = require('url'),
 		$path = require('path'),

@@ -25,7 +25,7 @@ ifconfig = function () {
 
 			// acquiring IP address
 			if (code === 0) {
-				tmp = stdout.match(IP4);
+				tmp = stdout.match(IP4) || [];
 				for (i = 0; i < tmp.length; i++) {
 					if (!IP4EX.test(tmp[i])) {
 						result = tmp[i];
