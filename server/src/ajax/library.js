@@ -3,9 +3,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, console, process, exports */
 var	$path = require('path'),
-		file = require('ajax/file'),
-		envelope = require('ajax/envelope').envelope,
-		library = require('logic/library').library;
+		file = require('./file'),
+		envelope = require('./envelope').envelope,
+		library = require('../logic/library').library;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"
@@ -42,7 +42,7 @@ function run(endpoint, query, res) {
 			throw "Missing parameters";
 		}
 		(function () {
-			var filePath = $path.join(process.cwd(), 'server/db/' + query.name + '.sqlite');
+			var filePath = $path.join(process.cwd(), './server/db/' + query.name + '.sqlite');
 			file.fetch(filePath, res);
 		}());
 		break;

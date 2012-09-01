@@ -2,9 +2,9 @@
 // Tag Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	envelope = require('ajax/envelope').envelope,
-		library = require('logic/library').library,
-		tag = require('db/tag').tag;
+var	envelope = require('./envelope').envelope,
+		library = require('../logic/library').library,
+		tag = require('../db/tag').tag;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"

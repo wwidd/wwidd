@@ -2,10 +2,10 @@
 // Media Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	envelope = require('ajax/envelope').envelope,
-		library = require('logic/library').library,
-		media = require('logic/media').media,
-		thumbs = require('logic/thumbs').thumbs;
+var	envelope = require('./envelope').envelope,
+		library = require('../logic/library').library,
+		media = require('../logic/media').media,
+		thumbs = require('../logic/thumbs').thumbs;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"

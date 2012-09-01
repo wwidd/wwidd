@@ -5,16 +5,16 @@
 var	$http = require('http'),
 		$url = require('url'),
 		$path = require('path'),
-		browser = require('tools/browser').browser,	
-		ifconfig = require('tools/ifconfig').ifconfig,		
-		file = require('ajax/file'),
-		
+		browser = require('./tools/browser').browser,
+		ifconfig = require('./tools/ifconfig').ifconfig,
+		file = require('./ajax/file'),
+
 		// modlules
-		library = require('ajax/library'),
-		media = require('ajax/media'),
-		tag = require('ajax/tag'),
-		root = require('ajax/root'),
-		system = require('ajax/system'),
+		library = require('./ajax/library'),
+		media = require('./ajax/media'),
+		tag = require('./ajax/tag'),
+		root = require('./ajax/root'),
+		system = require('./ajax/system'),
 		
 		// environmental variables
 		PORT = 8124,
@@ -80,9 +80,9 @@ server = $http.createServer(function (req, res) {
 			res.writeHead(200, {"Content-Type": "text/" + {'css': 'css', 'js': 'javascript'}[type]});
 			for (i = 0; i < files.length; i++) {
 				if (files[i].split('/')[0] === 'common') {
-					filePath = $path.join(process.cwd(), files[i] + ext);
+					filePath = $path.join(process.cwd(), '../../' + files[i] + ext);
 				} else {
-					filePath = $path.join(process.cwd(), 'client/www/' + files[i] + ext);
+					filePath = $path.join(process.cwd(), '../../client/www/' + files[i] + ext);
 				}
 				file.add(filePath, res);
 			}
@@ -97,16 +97,16 @@ server = $http.createServer(function (req, res) {
 				
 			switch (endpoint.split('/')[1]) {
 			case 'cache':
-				filePath = $path.join(process.cwd(), 'server' + endpoint);
+				filePath = $path.join(process.cwd(), '..' + endpoint);
 				break;
 			case 'common':
-				filePath = $path.join(process.cwd(), endpoint);
+				filePath = $path.join(process.cwd(), '../..' + endpoint);
 				break;
 			default:
-				filePath = $path.join(process.cwd(), 'client/www' + endpoint);
+				filePath = $path.join(process.cwd(), '../../client/www' + endpoint);
 				break;
 			}
-			
+
 			file.fetch(filePath, res, DEBUG);
 		}());
 	}

@@ -5,8 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 var	$os = require('os'),
-		walker = require('utils/walker').walker,
-            flock = require('flock/flock-0.1.3').flock,
+		walker = require('./walker').walker,
+            flock = require('flock-0.1.3').flock,
 
 os = $os.type().split(/[^A-Za-z0-9]+/)[0].toLowerCase(),
 		

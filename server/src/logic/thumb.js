@@ -10,7 +10,7 @@ var	$fs = require('fs'),
 		
 thumb = function () {
 	var self,
-			cachePath = 'server/cache/';
+			cachePath = '../cache/';
 			
 	// create cache dir if doesn't exist
 	if (!$fs.existsSync(cachePath)) {

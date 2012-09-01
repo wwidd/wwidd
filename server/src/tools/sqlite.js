@@ -7,13 +7,13 @@
 
 var	$fs = require('fs'),
 		$path = require('path'),
-		tool = require('../tools/tool').tool,
+		tool = require('./tool').tool,
 		parser = require('../utils/parser').parser,
 		tempFile = 'temp.sql',
 
 sqlite = function () {
 	var db = 'default',
-			path = 'server/db/',
+			path = '../db/',
 	
 	// constants
 	RETRY_COUNT = 3,
@@ -97,7 +97,7 @@ sqlite = function () {
 		if (statement.match(/^.+\.sql$/ig)) {
 			// reading statement from file
 			console.log("SQLITE - reading SQL command from file: " + statement);
-			statement = $fs.readFileSync('server/db/' + statement);
+			statement = $fs.readFileSync('../db/' + statement);
 		}
 		
 		if (!pipe) {

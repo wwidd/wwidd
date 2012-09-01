@@ -2,8 +2,8 @@
 // Root Path Service Endpoints
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports */
-var	envelope = require('ajax/envelope').envelope,
-		library = require('logic/library').library;
+var	envelope = require('./envelope').envelope,
+		library = require('../logic/library').library;
 
 // runs the endpoint
 // - endpoint: full path of endpoint e.g. "/lib/getall"
