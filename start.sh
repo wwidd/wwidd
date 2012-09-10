@@ -1,3 +1,3 @@
-NODE_PATH=common:server/src
-node server/src/server.js $* > error.txt
+cd server/src
+node server.js $* > error.txt
 
