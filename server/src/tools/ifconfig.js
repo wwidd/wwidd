@@ -7,7 +7,7 @@ var	system = require('../utils/system').system,
 		tool = require('../tools/tool').tool,
 
 ifconfig = function () {
-	var LOOPBACK = '127.0.0.1',
+	var LOOPBACK = '0.0.0.0',
 			IP4 = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/g,
 			IP4EX = /(127\.0\.0\.1|255\.\d{1,3}\.\d{1,3}\.\d{1,3}|\d{1,3}\.\d{1,3}\.\d{1,3}\.255)/,
 	
