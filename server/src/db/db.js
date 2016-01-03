@@ -37,7 +37,7 @@ db = function () {
 	// creates database
 	function create(handler) {
 		console.log("DB - creating DB: " + name);
-		sqlite.exec('create.sql', handler);
+		sqlite.exec('create.sql', handler, [], true);
 	}
 	
 	self = {
