@@ -48,7 +48,9 @@ tool = {
 		}
 
 		// avoiding null in args
-		if (args === null) {args = [];}
+		if (!args) {
+			args = [];
+		}
 
 		// starting tool
 		console.log(["TOOL - executing:", that.executable, args ? args.join(" ") : ""].join(" "));
