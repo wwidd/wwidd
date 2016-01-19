@@ -72,7 +72,7 @@ db = function () {
 		// feeds input to sqlite process with pipe
 		nonQueryPiped: function (statement, handler) {
 			console.log("DB/" + name + " - executing non-query with pipe");
-			sqlite.exec(statement, handler, null, true);
+			sqlite.exec(statement, handler, [], true);
 		}
 	};
 	
