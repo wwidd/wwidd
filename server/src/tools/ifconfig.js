@@ -19,7 +19,7 @@ ifconfig = function () {
 	});
 
 	self.exec = function (handler) {
-		tool.exec.call(self, null, function (code, stdout) {
+		tool.exec.call(self, [], function (code, stdout) {
 			var result = LOOPBACK,
 					i, ip, tmp;
 
