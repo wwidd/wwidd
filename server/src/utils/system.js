@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /*global require, exports, console */
 var	$os = require('os'),
+	$fs = require('fs'),
 		walker = require('./walker').walker,
             flock = require('flock-0.1.3').flock,
 
@@ -38,8 +39,17 @@ system = {
 		
 		// gathering directory structure
 		for (i = 0; i < paths.length; i++) {
-			root = '/' + paths[i];
-			walker(handler).walkSync(root, 2);
+			try {
+				stats = $fs.lstatSync('/' + paths[i]);
+
+				// Is it a directory?
+				if (stats.isDirectory()) {
+					root = '/' + paths[i];
+					walker(handler).walkSync(root, 2);
+				}
+			} catch (e_exist) {
+				console.log("Ignored path: " + '/' + paths[i]);
+			}
 		}
 		
 		if (empty) {
