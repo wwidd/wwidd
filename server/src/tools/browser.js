@@ -6,7 +6,7 @@ var	system = require('../utils/system').system,
 		tool = require('../tools/tool').tool,
 
 browser = function () {
-	var executable = {'cygwin': 'cmd', 'windows': 'cmd', 'linux': 'xdg-open'}[system.os] || 'open',
+	var executable = {'cygwin': 'cmd', 'windows': 'cmd', 'linux': 'xdg-open', 'freebsd': 'xdg-open'}[system.os] || 'open',
 			self = Object.create(tool, {executable: {value: executable}});
 			
 	self.exec = function (url, handler) {
